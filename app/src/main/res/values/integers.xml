@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="numeralarmowy_numery">
+        <item>112</item>
+        <item>997</item>
+        <item>998</item>
+        <item>999</item>
+        <item>992</item>
+        <item>993</item>
+        <item>981</item>
+        <item>996</item>
+        <item>986</item>
+        <item>994</item>
+        <item>991</item>
+        <item>985</item>
+        <item>984</item>
+    </integer-array>
+</resources>
