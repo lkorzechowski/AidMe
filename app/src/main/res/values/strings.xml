@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Prototyp</string>
+    <string name="mainactivity_pomoc">Pomoc</string>
+    <string name="mainactivity_portal">Portal dla pomocników</string>
+    <string-array name="numeralarmowy_uslugi">
+        <item>Numer alarmowy</item>
+        <item>Policja</item>
+        <item>Straż pożarna</item>
+        <item>Pogotowie ratunkowe</item>
+        <item>Pogotowie gazowe</item>
+        <item>Pogotowie ciepłownicze</item>
+        <item>Pogotowie drogowe</item>
+        <item>Centrum antyterrorystyczne</item>
+        <item>Straż miejska</item>
+        <item>Pogotowie wodociągowe</item>
+        <item>Pogotowie energetyczne</item>
+        <item>Ratownictwo morskie i górskie</item>
+        <item>Pogotowie rzeczne</item>
+    </string-array>
 </resources>
