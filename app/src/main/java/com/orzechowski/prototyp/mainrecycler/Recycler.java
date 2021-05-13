@@ -19,7 +19,7 @@ public class Recycler extends Fragment {
     protected RecyclerView recycler;
     protected ListAdapter adapter;
 
-    public Recycler(Bundle savedInstanceState) {
+    public Recycler() {
         super(R.layout.fragment_recycler);
     }
 

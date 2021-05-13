@@ -16,7 +16,7 @@ import java.util.List;
 
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHolder> {
-    private final List<NumerAlarmowy> numery;
+    private List<NumerAlarmowy> numery;
     private final LayoutInflater mPompka;
 
     public ListAdapter(Activity kontekst, List<NumerAlarmowy> listaNumerow) {
@@ -33,8 +33,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHold
 
     @Override
     public void onBindViewHolder(@NonNull NumeryViewHolder numeryholder, int numerWiersza) {
-        TextView label = numeryholder.itemView.findViewById(R.id.tekst);
-        label.setText(numery.get(numerWiersza).getNazwaUslugi());
+        TextView numer = numeryholder.itemView.findViewById(R.id.numer);
+        TextView usluga = numeryholder.itemView.findViewById(R.id.usluga);
+        numer.setText(String.valueOf(numery.get(numerWiersza).getNumerTelefonu()));
+        usluga.setText(numery.get(numerWiersza).getNazwaUslugi());
     }
 
     @Override
