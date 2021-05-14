@@ -16,7 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.objects.NumerAlarmowy;
+import com.orzechowski.prototyp.mainrecycler.objects.NumerAlarmowy;
 import java.util.List;
 
 
@@ -27,10 +27,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHold
     private final Context context;
     private final int REQUEST_PHONE_CALL = 1;
 
-    public ListAdapter(Activity kontekst, List<NumerAlarmowy> listaNumerow, Context appApcontext) {
+    public ListAdapter(Activity kontekst, List<NumerAlarmowy> listaNumerow) {
         mPompka = kontekst.getLayoutInflater();
         this.numery = listaNumerow;
-        this.context = appApcontext;
+        this.context = kontekst.getBaseContext();
     }
 
     @NonNull

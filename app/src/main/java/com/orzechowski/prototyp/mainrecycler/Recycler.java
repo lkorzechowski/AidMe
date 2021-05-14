@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.objects.NumerAlarmowy;
+import com.orzechowski.prototyp.mainrecycler.objects.NumerAlarmowy;
 import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,13 +18,12 @@ public class Recycler extends Fragment {
     protected ListAdapter adapter;
 
     public Recycler() {
-        super(R.layout.fragment_recycler);
+        super(R.layout.fragment_recycler_main);
     }
 
     @Override
     public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
+            @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
         ) {
             List<NumerAlarmowy> numery = new LinkedList<>();
             String[] uslugi = getResources().getStringArray(R.array.numeralarmowy_uslugi);
@@ -32,8 +31,8 @@ public class Recycler extends Fragment {
             for(int i = 0; i < uslugi.length; i++){
                 numery.add(new NumerAlarmowy(telefony[i], uslugi[i]));
             }
-            adapter = new ListAdapter(requireActivity(), numery, getContext());
-            View view = inflater.inflate(R.layout.fragment_recycler, container, false);
+            adapter = new ListAdapter(requireActivity(), numery);
+            View view = inflater.inflate(R.layout.fragment_recycler_main, container, false);
             recycler = view.findViewById(R.id.numery_rv);
             recycler.setAdapter(adapter);
             recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
