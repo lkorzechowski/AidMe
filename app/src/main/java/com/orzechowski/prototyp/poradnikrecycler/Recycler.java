@@ -33,7 +33,7 @@ public class Recycler extends Fragment {
         for (int i = 0; i < tytuly.length; i++) {
             lista.add(new Instrukcja(tytuly[i], instrukcje[i]));
         }
-        adapter = new ListAdapter(requireActivity(), lista);
+        adapter = new ListAdapter(requireActivity(), lista, (ListAdapter.WybranoTytul)requireActivity());
         View view = inflater.inflate(R.layout.fragment_recycler_poradnik, container, false);
         recycler = view.findViewById(R.id.poradniki_rv);
         recycler.setAdapter(adapter);
