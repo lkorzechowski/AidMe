@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
-        app:icon="@drawable/cog_icon"
+        app:icon="@drawable/ic_cog"
         app:iconGravity="end"
         app:iconSize="60dp"
         app:layout_constraintBottom_toBottomOf="parent"

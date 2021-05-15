@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
         android:textSize="12sp"
-        app:icon="@drawable/phone_icon"
+        app:icon="@drawable/ic_phone"
         app:iconSize="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

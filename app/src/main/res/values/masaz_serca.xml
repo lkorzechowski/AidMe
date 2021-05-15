@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="masaz_serca_instrukcje_tytuly">
+        <item>Wstęp</item>
+        <item>Ułożenie ofiary</item>
+        <item>Pozycja do udzielania pomocy</item>
+        <item>Ułożenie dłoni</item>
+        <item>Ułożenie dłoni - palce</item>
+        <item>Głębokość uciśnięć</item>
+        <item>Uciśnięcia</item>
+        <item>W razie zwymiotowania ofiary</item>
+    </string-array>
+    <string-array name="masaz_serca_instrukcje_instrukcje">
+        <item>Jeżeli ofiara nie jest w stanie samodzielnie oddychać:</item>
+        <item>Upewnij się, że ofiara leży na plecach, jej głowa jest ułożona prosto oraz że jej drogi oddechowe są udrożnione.</item>
+        <item>Uklęknij wygodnie nad ofiarą tak, by twoje dłonie mogły być wyprostowane prostopadle do jej klatki piersiowej.</item>
+        <item>Umieść dłoń na środku klatki piersiowej, drugą dłoń umieść nad pierwszą tak, aby palce się przeplatały.</item>
+        <item>Nie wywieraj nacisku na klatkę piersiową palcami, utrzymaj je lekko uniesione i splecione.</item>
+        <item>Staraj się wywierać nacisk o 5 centymetrów prosto w dół ciężarem swojego ciała.</item>
+        <item>Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.</item>
+        <item>Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.</item>
+    </string-array>
+    <integer-array name="masaz_wersja_1">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </integer-array>
+    <integer-array name="masaz_wersja_2">
+        <item>4</item>
+        <item>6</item>
+        <item>7</item>
+    </integer-array>
+    <integer-array name="masaz_wersja_1_czas">
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+    </integer-array>
+    <integer-array name ="masaz_wersja_2_czas">
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+    </integer-array>
+    <string name="tylko_tempo">Wiem co robię, potrzebne mi jest tylko tempo!</string>
+    <string name="masaz_wszystkie_podstawowe_kroki">Przeprowadź mnie przez wszystkie podstawowe kroki!</string>
+</resources>

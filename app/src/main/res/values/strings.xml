@@ -18,38 +18,4 @@
         <item>Ratownictwo morskie i górskie</item>
         <item>Pogotowie rzeczne</item>
     </string-array>
-    <string-array name="instrukcje_tytuly">
-        <item>Wstęp</item>
-        <item>Ułożenie ofiary</item>
-        <item>Pozycja do udzielania pomocy</item>
-        <item>Ułożenie dłoni</item>
-        <item>Ułożenie dłoni - palce</item>
-        <item>Głębokość uciśnięć</item>
-        <item>Uciśnięcia - bez sztucznego oddychania</item>
-        <item>Uciśnięcia - przed sztucznym oddychaniem</item>
-        <item>Pozycja do sztucznego oddychania</item>
-        <item>Technika sztucznego oddychania</item>
-        <item>Kolejne sztuczne oddychanie</item>
-        <item>Uciśnięcia - powtórzenie</item>
-        <item>W razie zwymiotowania ofiary</item>
-        <item>Sztuczne oddychanie - powtórzenie</item>
-        <item>Udrażnianie dróg oddechowych</item>
-    </string-array>
-    <string-array name="instrukcje_instrukcje">
-        <item>Jeżeli ofiara nie jest w stanie samodzielnie oddychać:</item>
-        <item>Upewnij się, że ofiara leży na plecach, jej głowa jest ułożona prosto oraz że jej drogi oddechowe są udrożnione.</item>
-        <item>Uklęknij wygodnie nad ofiarą tak, by twoje dłonie mogły być wyprostowane prostopadle do jej klatki piersiowej.</item>
-        <item>Umieść dłoń na środku klatki piersiowej, drugą dłoń umieść nad pierwszą tak, aby palce się przeplatały.</item>
-        <item>Nie wywieraj nacisku na klatkę piersiową palcami, utrzymaj je lekko uniesione i splecione.</item>
-        <item>Staraj się wywierać nacisk o 5 centymetrów prosto w dół ciężarem swojego ciała.</item>
-        <item>Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.</item>
-        <item>Rozpocznij trzydzieści uciśnięć zgodnie z tempem dźwięku który słyszysz tle.</item>
-        <item>Teraz sztuczne oddychanie, zatamuj dopływ powietrza nosem, usta ofiary powinny być rozwarte.</item>
-        <item>Weź głęboki wdech, obejmij usta ofiary swoimi ustami i wdmuchuj powietrzez przez około sekundę, do uniesienia klatki piersiowej.</item>
-        <item>Poczekaj aż klatka piersiowa opadnie i powtórz wdech i wdmuchiwanie tamując nos.</item>
-        <item>Ponownie rozpocznij trzydzieści uciśnięć zgodnie z tempem.</item>
-        <item>Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.</item>
-        <item>Ponownie wykonaj sztuczne oddychanie dwa razy.</item>
-        <item>Zawsze upewniaj się, że drogi oddechowe są udrożnione.</item>
-    </string-array>
 </resources>

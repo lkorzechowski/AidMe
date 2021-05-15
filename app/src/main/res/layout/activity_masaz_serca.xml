@@ -9,11 +9,9 @@
     <LinearLayout
         android:id="@+id/layout_instrukcje"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constrainedHeight="true"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cpr_video_embed"/>
 
     <VideoView
@@ -21,6 +19,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/masaz_podstawowe_kroki"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/masaz_wszystkie_podstawowe_kroki"
+        android:textAllCaps="false"
+        android:textSize="30sp"
+        app:icon="@drawable/ic_flag"
+        app:iconSize="100dp"
+        app:layout_constraintBottom_toTopOf="@id/masaz_space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/masaz_tylko_tempo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tylko_tempo"
+        android:textAllCaps="false"
+        android:textSize="30sp"
+        app:icon="@drawable/ic_graduate_hat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/masaz_space" />
+
+    <Space
+        android:id="@+id/masaz_space"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

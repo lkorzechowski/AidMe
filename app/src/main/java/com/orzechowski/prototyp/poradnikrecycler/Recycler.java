@@ -30,8 +30,10 @@ public class Recycler extends Fragment {
     ) {
         String[] tytuly = getArguments().getStringArray("tytuly");
         String[] instrukcje = getArguments().getStringArray("instrukcje");
-        for (int i = 0; i < tytuly.length; i++) {
-            lista.add(new Instrukcja(tytuly[i], instrukcje[i]));
+        int[] wersja = getArguments().getIntArray("wersja");
+        int[] czasTrwania = getArguments().getIntArray("czas");
+        for (int i = 0; i < wersja.length; i++) {
+            lista.add(new Instrukcja(tytuly[wersja[i]], instrukcje[wersja[i]], czasTrwania[i]));
         }
         adapter = new ListAdapter(requireActivity(), lista, (ListAdapter.WybranoTytul)requireActivity());
         View view = inflater.inflate(R.layout.fragment_recycler_poradnik, container, false);
