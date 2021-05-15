@@ -12,20 +12,15 @@
         android:layout_height="wrap_content"
         app:layout_constrainedHeight="true"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/wyjscie_z_poradnika"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/cpr_video_embed"/>
 
-    <Button
-        android:id="@+id/wyjscie_z_poradnika"
+    <VideoView
+        android:id="@+id/cpr_video_embed"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:background="#00FFFFFF"
-        android:text="@string/wroc"
-        android:textSize="16sp"
-        app:icon="@drawable/ic_arrow_back"
-        app:iconSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

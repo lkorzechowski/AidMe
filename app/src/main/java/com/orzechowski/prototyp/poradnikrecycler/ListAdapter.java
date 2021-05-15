@@ -14,12 +14,14 @@ import java.util.List;
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeViewHolder> {
     private final List<Instrukcja> instrukcje;
     private final LayoutInflater mPompka;
-    private WybranoTytul mWybranoTytul;
+    private final WybranoTytul mWybranoTytul;
+    private final Activity mActivity;
 
     public ListAdapter(Activity kontekst, List<Instrukcja> listaInstrukcji, WybranoTytul wybranoTytul) {
-        mPompka = kontekst.getLayoutInflater();
+        this.mPompka = kontekst.getLayoutInflater();
         this.instrukcje = listaInstrukcji;
         this.mWybranoTytul = wybranoTytul;
+        this.mActivity = kontekst;
     }
 
     @NonNull
@@ -34,7 +36,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
         TextView tytul = instrukcjeholder.tytul;
         TextView instrukcja = instrukcjeholder.instrukcja;
         tytul.setVisibility(View.VISIBLE);
-        instrukcja.setVisibility(View.INVISIBLE);
+        instrukcja.setVisibility(View.GONE);
         tytul.setText(instrukcje.get(numerWiersza).getTytul());
         instrukcja.setText(instrukcje.get(numerWiersza).getInstrukcja());
     }
@@ -59,9 +61,34 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
 
         @Override
         public void onClick(View v) {
-            tytul.setVisibility(View.INVISIBLE);
-            instrukcja.setVisibility(View.VISIBLE);
+            Pokaz pokaz = new Pokaz();
+            pokaz.start();
             wybranoTytul.onClick(getAdapterPosition());
+        }
+
+        public class Pokaz extends Thread {
+            @Override
+            public void run(){
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tytul.setVisibility(View.INVISIBLE);
+                        instrukcja.setVisibility(View.VISIBLE);
+                    }
+                });
+                try {
+                    Thread.sleep(1000); //1 second
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tytul.setVisibility(View.VISIBLE);
+                        instrukcja.setVisibility(View.GONE);
+                    }
+                });
+            }
         }
     }
 
