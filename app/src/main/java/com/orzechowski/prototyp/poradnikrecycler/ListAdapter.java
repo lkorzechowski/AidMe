@@ -18,14 +18,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
     private final LayoutInflater mPompka;
     private final Activity mActivity;
     private final List<InstrukcjeViewHolder> viewHolders;
-    public Player playerInstance;
+    private Thread currentPlayer;
 
     public ListAdapter(Activity kontekst, List<Instrukcja> listaInstrukcji) {
         this.mPompka = kontekst.getLayoutInflater();
         this.instrukcje = listaInstrukcji;
         this.mActivity = kontekst;
         this.viewHolders = new LinkedList<>();
-        this.playerInstance = new Player();
     }
 
     @NonNull
@@ -63,18 +62,19 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
 
         @Override
         public void onClick(View v) {
-            playerInstance.autoplay(getAdapterPosition());
+            play(getAdapterPosition());
         }
 
     }
 
     public class Player extends Thread {
-        private int czas, line;
+        private int time, line;
         private TextView tytul, instrukcja;
         private Boolean aktywneAutoplay = true;
 
-        void zmienParametry(){
-            this.czas = instrukcje.get(line).getCzas();
+        Player(int position){
+            this.line = position;
+            this.time = instrukcje.get(line).getCzas();
             InstrukcjeViewHolder currentView = viewHolders.get(line);
             this.tytul = currentView.tytul;
             this.instrukcja = currentView.instrukcja;
@@ -87,7 +87,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
                 instrukcja.setVisibility(View.VISIBLE);
             });
             try {
-                Thread.sleep(czas);
+                Thread.sleep(time);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -96,15 +96,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
                 instrukcja.setVisibility(View.GONE);
             });
         }
+        //if(numerWiersza==viewHolders.size()) aktywneAutoplay = false;
+    }
 
-        public void autoplay(int numerWiersza){
-            this.line = numerWiersza;
-            while(aktywneAutoplay){
-                zmienParametry();
-                this.start();
-                this.line++;
-                if(numerWiersza==viewHolders.size()) aktywneAutoplay = false;
-            }
+    public void play(int position){
+        if(currentPlayer!=null){
+            currentPlayer.interrupt();
         }
+        currentPlayer = new Player(position);
+        currentPlayer.start();
     }
 }
