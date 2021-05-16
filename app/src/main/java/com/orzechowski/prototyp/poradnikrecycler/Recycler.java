@@ -35,11 +35,12 @@ public class Recycler extends Fragment {
         for (int i = 0; i < wersja.length; i++) {
             lista.add(new Instrukcja(tytuly[wersja[i]], instrukcje[wersja[i]], czasTrwania[i]));
         }
-        adapter = new ListAdapter(requireActivity(), lista, (ListAdapter.WybranoTytul)requireActivity());
+        adapter = new ListAdapter(requireActivity(), lista);
         View view = inflater.inflate(R.layout.fragment_recycler_poradnik, container, false);
         recycler = view.findViewById(R.id.poradniki_rv);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        ///move    adapter.playerInstance.autoplay(0);
         return view;
     }
 }

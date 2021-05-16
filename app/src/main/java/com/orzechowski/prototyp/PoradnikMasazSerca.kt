@@ -10,7 +10,7 @@ import androidx.fragment.app.commit
 import com.orzechowski.prototyp.poradnikrecycler.ListAdapter
 import com.orzechowski.prototyp.poradnikrecycler.Recycler
 
-class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca), ListAdapter.WybranoTytul{
+class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
     private val bundle = Bundle()
     private lateinit var wersjaPelna : Button
     private lateinit var wersjaBezPodstaw : Button
@@ -62,9 +62,5 @@ class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca), Lis
             setReorderingAllowed(true)
             add<Recycler>(R.id.layout_instrukcje, args = bundle)
         }
-    }
-    override fun onClick(position: Int) {
-        //nagraniadzwiekowe.get(position) --- potem
-
     }
 }

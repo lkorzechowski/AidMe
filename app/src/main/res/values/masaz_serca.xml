@@ -36,19 +36,19 @@
         <item>7</item>
     </integer-array>
     <integer-array name="masaz_wersja_1_czas">
-        <item>5</item>
-        <item>5</item>
-        <item>5</item>
-        <item>5</item>
-        <item>5</item>
-        <item>5</item>
-        <item>5</item>
-        <item>5</item>
+        <item>5000</item>
+        <item>5000</item>
+        <item>5000</item>
+        <item>5000</item>
+        <item>5000</item>
+        <item>5000</item>
+        <item>5000</item>
+        <item>5000</item>
     </integer-array>
     <integer-array name ="masaz_wersja_2_czas">
-        <item>5</item>
-        <item>5</item>
-        <item>5</item>
+        <item>5000</item>
+        <item>5000</item>
+        <item>5000</item>
     </integer-array>
     <string name="tylko_tempo">Wiem co robię, potrzebne mi jest tylko tempo!</string>
     <string name="masaz_wszystkie_podstawowe_kroki">Przeprowadź mnie przez wszystkie podstawowe kroki!</string>

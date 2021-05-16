@@ -24,13 +24,13 @@ import java.util.List;
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHolder> {
     private final List<NumerAlarmowy> numery;
     private final LayoutInflater mPompka;
-    private final Context context;
+    private final Activity mActivity;
     private final int REQUEST_PHONE_CALL = 1;
 
     public ListAdapter(Activity kontekst, List<NumerAlarmowy> listaNumerow) {
         mPompka = kontekst.getLayoutInflater();
         this.numery = listaNumerow;
-        this.context = kontekst.getBaseContext();
+        this.mActivity = kontekst;
     }
 
     @NonNull
@@ -51,10 +51,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHold
         przyciskDzwon.setOnClickListener(v -> {
             Intent phone_intent = new Intent(Intent.ACTION_CALL);
             phone_intent.setData(Uri.parse("tel:" + 123));
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions((Activity)context, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+            if (ContextCompat.checkSelfPermission(mActivity.getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
             } else {
-                context.startActivity(phone_intent);
+                mActivity.startActivity(phone_intent);
             }
         });
     }

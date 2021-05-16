@@ -9,26 +9,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;;
 import com.orzechowski.prototyp.R;
 import com.orzechowski.prototyp.poradnikrecycler.objects.Instrukcja;
+
+import java.util.LinkedList;
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeViewHolder> {
     private final List<Instrukcja> instrukcje;
     private final LayoutInflater mPompka;
-    private final WybranoTytul mWybranoTytul;
     private final Activity mActivity;
+    private final List<InstrukcjeViewHolder> viewHolders;
+    public Player playerInstance;
 
-    public ListAdapter(Activity kontekst, List<Instrukcja> listaInstrukcji, WybranoTytul wybranoTytul) {
+    public ListAdapter(Activity kontekst, List<Instrukcja> listaInstrukcji) {
         this.mPompka = kontekst.getLayoutInflater();
         this.instrukcje = listaInstrukcji;
-        this.mWybranoTytul = wybranoTytul;
         this.mActivity = kontekst;
+        this.viewHolders = new LinkedList<>();
+        this.playerInstance = new Player();
     }
 
     @NonNull
     @Override
     public InstrukcjeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View wiersz = mPompka.inflate(R.layout.wiersz_instrukcje, null);
-        return new InstrukcjeViewHolder(wiersz, mWybranoTytul);
+        return new InstrukcjeViewHolder(wiersz);
     }
 
     @Override
@@ -47,52 +51,60 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
     }
 
     public class InstrukcjeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         TextView tytul, instrukcja;
-        WybranoTytul wybranoTytul;
 
-        public InstrukcjeViewHolder(@NonNull View glownyElementWiersza, WybranoTytul wybranoTytul){
+        public InstrukcjeViewHolder(@NonNull View glownyElementWiersza){
             super(glownyElementWiersza);
-            tytul = glownyElementWiersza.findViewById(R.id.tytul);
-            instrukcja = glownyElementWiersza.findViewById(R.id.instrukcja);
-            this.wybranoTytul = wybranoTytul;
+            this.tytul = glownyElementWiersza.findViewById(R.id.tytul);
+            this.instrukcja = glownyElementWiersza.findViewById(R.id.instrukcja);
             glownyElementWiersza.setOnClickListener(this);
+            viewHolders.add(this);
         }
 
         @Override
         public void onClick(View v) {
-            Pokaz pokaz = new Pokaz();
-            pokaz.start();
-            wybranoTytul.onClick(getAdapterPosition());
+            playerInstance.autoplay(getAdapterPosition());
         }
 
-        public class Pokaz extends Thread {
-            @Override
-            public void run(){
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tytul.setVisibility(View.INVISIBLE);
-                        instrukcja.setVisibility(View.VISIBLE);
-                    }
-                });
-                try {
-                    Thread.sleep(1000); //1 second
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tytul.setVisibility(View.VISIBLE);
-                        instrukcja.setVisibility(View.GONE);
-                    }
-                });
-            }
-        }
     }
 
-    public interface WybranoTytul{
-        void onClick(int position);
+    public class Player extends Thread {
+        private int czas, line;
+        private TextView tytul, instrukcja;
+        private Boolean aktywneAutoplay = true;
+
+        void zmienParametry(){
+            this.czas = instrukcje.get(line).getCzas();
+            InstrukcjeViewHolder currentView = viewHolders.get(line);
+            this.tytul = currentView.tytul;
+            this.instrukcja = currentView.instrukcja;
+        }
+
+        @Override
+        public void run(){
+            mActivity.runOnUiThread(() -> {
+                tytul.setVisibility(View.INVISIBLE);
+                instrukcja.setVisibility(View.VISIBLE);
+            });
+            try {
+                Thread.sleep(czas);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            mActivity.runOnUiThread(() -> {
+                tytul.setVisibility(View.VISIBLE);
+                instrukcja.setVisibility(View.GONE);
+            });
+        }
+
+        public void autoplay(int numerWiersza){
+            this.line = numerWiersza;
+            while(aktywneAutoplay){
+                zmienParametry();
+                this.start();
+                this.line++;
+                if(numerWiersza==viewHolders.size()) aktywneAutoplay = false;
+            }
+        }
     }
 }
