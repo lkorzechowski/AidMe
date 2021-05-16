@@ -18,7 +18,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
     private final LayoutInflater mPompka;
     private final Activity mActivity;
     private final List<InstrukcjeViewHolder> viewHolders;
-    private Thread currentPlayer;
+    private Player currentPlayer;
 
     public ListAdapter(Activity kontekst, List<Instrukcja> listaInstrukcji) {
         this.mPompka = kontekst.getLayoutInflater();
@@ -68,39 +68,45 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
     }
 
     public class Player extends Thread {
-        private int time, line;
-        private TextView tytul, instrukcja;
-        private Boolean aktywneAutoplay = true;
+        private final int time, line;
+        private final TextView title, instruction;
 
         Player(int position){
-            this.line = position;
-            this.time = instrukcje.get(line).getCzas();
+            line = position;
+            time = instrukcje.get(line).getCzas();
             InstrukcjeViewHolder currentView = viewHolders.get(line);
-            this.tytul = currentView.tytul;
-            this.instrukcja = currentView.instrukcja;
+            title = currentView.tytul;
+            instruction = currentView.instrukcja;
         }
 
         @Override
         public void run(){
-            mActivity.runOnUiThread(() -> {
-                tytul.setVisibility(View.INVISIBLE);
-                instrukcja.setVisibility(View.VISIBLE);
-            });
-            try {
-                Thread.sleep(time);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if(line < viewHolders.size()) {
+                mActivity.runOnUiThread(() -> {
+                    title.setVisibility(View.INVISIBLE);
+                    instruction.setVisibility(View.VISIBLE);
+                    instruction.requestFocus();
+                });
+                try {
+                    Thread.sleep(time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mActivity.runOnUiThread(() -> {
+                    title.setVisibility(View.VISIBLE);
+                    instruction.setVisibility(View.GONE);
+                });
+                mActivity.runOnUiThread(() -> {
+                    play(line+1);
+                });
             }
-            mActivity.runOnUiThread(() -> {
-                tytul.setVisibility(View.VISIBLE);
-                instrukcja.setVisibility(View.GONE);
-            });
         }
-        //if(numerWiersza==viewHolders.size()) aktywneAutoplay = false;
     }
 
     public void play(int position){
         if(currentPlayer!=null){
+            currentPlayer.title.setVisibility(View.VISIBLE);
+            currentPlayer.instruction.setVisibility(View.GONE);
             currentPlayer.interrupt();
         }
         currentPlayer = new Player(position);
