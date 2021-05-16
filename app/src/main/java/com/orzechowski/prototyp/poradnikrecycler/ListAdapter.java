@@ -14,49 +14,56 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeViewHolder> {
-    private final List<Instrukcja> instrukcje;
-    private final LayoutInflater mPompka;
+    private final List<Instrukcja> mInstructions;
+    private final LayoutInflater mInflater;
     private final Activity mActivity;
     private final List<InstrukcjeViewHolder> viewHolders;
     private Player currentPlayer;
 
-    public ListAdapter(Activity kontekst, List<Instrukcja> listaInstrukcji) {
-        this.mPompka = kontekst.getLayoutInflater();
-        this.instrukcje = listaInstrukcji;
-        this.mActivity = kontekst;
+    public ListAdapter(Activity tutorialActivity, List<Instrukcja> instructionsList) {
+        this.mInflater = tutorialActivity.getLayoutInflater();
+        this.mInstructions = instructionsList;
+        this.mActivity = tutorialActivity;
         this.viewHolders = new LinkedList<>();
     }
 
     @NonNull
     @Override
     public InstrukcjeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View wiersz = mPompka.inflate(R.layout.wiersz_instrukcje, null);
-        return new InstrukcjeViewHolder(wiersz);
+        View row = mInflater.inflate(R.layout.wiersz_instrukcje, null);
+        return new InstrukcjeViewHolder(row);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InstrukcjeViewHolder instrukcjeholder, int numerWiersza) {
-        TextView tytul = instrukcjeholder.tytul;
-        TextView instrukcja = instrukcjeholder.instrukcja;
-        tytul.setVisibility(View.VISIBLE);
-        instrukcja.setVisibility(View.GONE);
-        tytul.setText(instrukcje.get(numerWiersza).getTytul());
-        instrukcja.setText(instrukcje.get(numerWiersza).getInstrukcja());
+    public void onBindViewHolder(@NonNull InstrukcjeViewHolder instrukcjeholder, int rowNumber) {
+        TextView title = instrukcjeholder.title;
+        TextView instructionsView = instrukcjeholder.instruct;
+        title.setVisibility(View.VISIBLE);
+        instructionsView.setVisibility(View.GONE);
+        title.setText(mInstructions.get(rowNumber).getTytul());
+        instructionsView.setText(mInstructions.get(rowNumber).getInstrukcja());
     }
 
     @Override
     public int getItemCount() {
-        return instrukcje.size();
+        return mInstructions.size();
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull InstrukcjeViewHolder holder) {
+        if(holder.getAdapterPosition()==1) play(0);
     }
 
     public class InstrukcjeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tytul, instrukcja;
+        TextView title, instruct;
+        View divider;
 
-        public InstrukcjeViewHolder(@NonNull View glownyElementWiersza){
-            super(glownyElementWiersza);
-            this.tytul = glownyElementWiersza.findViewById(R.id.tytul);
-            this.instrukcja = glownyElementWiersza.findViewById(R.id.instrukcja);
-            glownyElementWiersza.setOnClickListener(this);
+        public InstrukcjeViewHolder(@NonNull View viewForRow){
+            super(viewForRow);
+            this.title = viewForRow.findViewById(R.id.tytul);
+            this.instruct = viewForRow.findViewById(R.id.instrukcja);
+            this.divider= viewForRow.findViewById(R.id.rv_divider);
+            viewForRow.setOnClickListener(this);
             viewHolders.add(this);
         }
 
@@ -64,42 +71,41 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
         public void onClick(View v) {
             play(getAdapterPosition());
         }
-
     }
 
     public class Player extends Thread {
         private final int time, line;
         private final TextView title, instruction;
+        private final View divider;
 
         Player(int position){
             line = position;
-            time = instrukcje.get(line).getCzas();
+            time = mInstructions.get(line).getCzas();
             InstrukcjeViewHolder currentView = viewHolders.get(line);
-            title = currentView.tytul;
-            instruction = currentView.instrukcja;
+            title = currentView.title;
+            instruction = currentView.instruct;
+            divider = currentView.divider;
         }
 
         @Override
         public void run(){
-            if(line < viewHolders.size()) {
-                mActivity.runOnUiThread(() -> {
-                    title.setVisibility(View.INVISIBLE);
-                    instruction.setVisibility(View.VISIBLE);
-                    instruction.requestFocus();
-                });
-                try {
-                    Thread.sleep(time);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                mActivity.runOnUiThread(() -> {
-                    title.setVisibility(View.VISIBLE);
-                    instruction.setVisibility(View.GONE);
-                });
-                mActivity.runOnUiThread(() -> {
-                    play(line+1);
-                });
+            mActivity.runOnUiThread(() -> {
+                title.setVisibility(View.INVISIBLE);
+                instruction.setVisibility(View.VISIBLE);
+                divider.setVisibility(View.INVISIBLE);
+            });
+            try {
+                Thread.sleep(time);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return;
             }
+            mActivity.runOnUiThread(() -> {
+                title.setVisibility(View.VISIBLE);
+                instruction.setVisibility(View.GONE);
+                divider.setVisibility(View.VISIBLE);
+            });
+            mActivity.runOnUiThread(() -> play(line+1));
         }
     }
 
@@ -109,7 +115,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
             currentPlayer.instruction.setVisibility(View.GONE);
             currentPlayer.interrupt();
         }
-        currentPlayer = new Player(position);
-        currentPlayer.start();
+        if(position < viewHolders.size()) {
+            currentPlayer = new Player(position);
+            currentPlayer.start();
+        }
     }
 }

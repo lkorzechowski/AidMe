@@ -1,6 +1,7 @@
 package com.orzechowski.prototyp.poradnikrecycler;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ import java.util.List;
 public class Recycler extends Fragment {
     protected RecyclerView recycler;
     protected ListAdapter adapter;
-    List<Instrukcja> lista = new LinkedList<>();
+    List<Instrukcja> list = new LinkedList<>();
 
     public Recycler() {
         super(R.layout.fragment_recycler_main);
@@ -33,14 +34,13 @@ public class Recycler extends Fragment {
         int[] wersja = getArguments().getIntArray("wersja");
         int[] czasTrwania = getArguments().getIntArray("czas");
         for (int i = 0; i < wersja.length; i++) {
-            lista.add(new Instrukcja(tytuly[wersja[i]], instrukcje[wersja[i]], czasTrwania[i]));
+            list.add(new Instrukcja(tytuly[wersja[i]], instrukcje[wersja[i]], czasTrwania[i]));
         }
-        adapter = new ListAdapter(requireActivity(), lista);
+        adapter = new ListAdapter(requireActivity(), list);
         View view = inflater.inflate(R.layout.fragment_recycler_poradnik, container, false);
         recycler = view.findViewById(R.id.poradniki_rv);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        ///move    adapter.playerInstance.autoplay(0);
         return view;
     }
 }

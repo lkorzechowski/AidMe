@@ -56,8 +56,8 @@ class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
     }
 
     fun getRecycler(){
-        val myObj = Recycler()
-        myObj.arguments = bundle
+        val recycler = Recycler()
+        recycler.arguments = bundle
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<Recycler>(R.id.layout_instrukcje, args = bundle)
