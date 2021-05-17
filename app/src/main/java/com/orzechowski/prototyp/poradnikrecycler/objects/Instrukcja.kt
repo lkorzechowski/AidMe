@@ -1,3 +1,3 @@
 package com.orzechowski.prototyp.poradnikrecycler.objects
 
-class Instrukcja(val tytul: String, val instrukcja: String, val czas: Int)
+class Instrukcja(val title: String, val instructionSet: String, val time: Int)

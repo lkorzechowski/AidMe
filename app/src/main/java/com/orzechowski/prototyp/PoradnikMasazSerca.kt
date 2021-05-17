@@ -7,7 +7,6 @@ import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import com.orzechowski.prototyp.poradnikrecycler.ListAdapter
 import com.orzechowski.prototyp.poradnikrecycler.Recycler
 
 class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
@@ -18,8 +17,8 @@ class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        bundle.putStringArray("tytuly", resources.getStringArray(R.array.masaz_serca_instrukcje_tytuly))
-        bundle.putStringArray("instrukcje", resources.getStringArray(R.array.masaz_serca_instrukcje_instrukcje))
+        bundle.putStringArray("title", resources.getStringArray(R.array.masaz_serca_instrukcje_tytuly))
+        bundle.putStringArray("instructions", resources.getStringArray(R.array.masaz_serca_instrukcje_instrukcje))
         pickVersion()
     }
 
@@ -34,13 +33,13 @@ class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
         basicVersion= findViewById(R.id.masaz_tylko_tempo)
 
         fullVersion.setOnClickListener{
-            bundle.putIntArray("wersja", resources.getIntArray(R.array.masaz_wersja_1))
-            bundle.putIntArray("czas", resources.getIntArray(R.array.masaz_wersja_1_czas))
+            bundle.putIntArray("version", resources.getIntArray(R.array.masaz_wersja_1))
+            bundle.putIntArray("duration", resources.getIntArray(R.array.masaz_wersja_1_czas))
             initialize()
         }
         basicVersion.setOnClickListener {
-            bundle.putIntArray("wersja", resources.getIntArray(R.array.masaz_wersja_2))
-            bundle.putIntArray("czas", resources.getIntArray(R.array.masaz_wersja_2_czas))
+            bundle.putIntArray("version", resources.getIntArray(R.array.masaz_wersja_2))
+            bundle.putIntArray("duration", resources.getIntArray(R.array.masaz_wersja_2_czas))
             initialize()
         }
     }

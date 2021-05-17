@@ -16,10 +16,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Recycler extends Fragment {
+public class Recycler extends Fragment implements ListAdapter.ClickedTitleListener {
     protected RecyclerView recycler;
     protected ListAdapter adapter;
-    List<Instrukcja> list = new LinkedList<>();
+    List<Instrukcja> mInstructionsList = new LinkedList<>();
 
     public Recycler() {
         super(R.layout.fragment_recycler_main);
@@ -29,18 +29,23 @@ public class Recycler extends Fragment {
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
     ) {
-        String[] tytuly = getArguments().getStringArray("tytuly");
-        String[] instrukcje = getArguments().getStringArray("instrukcje");
-        int[] wersja = getArguments().getIntArray("wersja");
-        int[] czasTrwania = getArguments().getIntArray("czas");
-        for (int i = 0; i < wersja.length; i++) {
-            list.add(new Instrukcja(tytuly[wersja[i]], instrukcje[wersja[i]], czasTrwania[i]));
+        String[] titles = getArguments().getStringArray("title");
+        String[] instructions = getArguments().getStringArray("instructions");
+        int[] version = getArguments().getIntArray("version");
+        int[] duration = getArguments().getIntArray("duration");
+        for (int i = 0; i < version.length; i++) {
+            mInstructionsList.add(new Instrukcja(titles[version[i]], instructions[version[i]], duration[i]));
         }
-        adapter = new ListAdapter(requireActivity(), list);
+        adapter = new ListAdapter(requireActivity(), mInstructionsList, this);
         View view = inflater.inflate(R.layout.fragment_recycler_poradnik, container, false);
         recycler = view.findViewById(R.id.poradniki_rv);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
         return view;
+    }
+
+    @Override
+    public void onTitleClicked(int position) {
+
     }
 }
