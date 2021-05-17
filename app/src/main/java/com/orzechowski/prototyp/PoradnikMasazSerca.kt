@@ -12,8 +12,8 @@ import com.orzechowski.prototyp.poradnikrecycler.Recycler
 
 class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
     private val bundle = Bundle()
-    private lateinit var wersjaPelna : Button
-    private lateinit var wersjaBezPodstaw : Button
+    private lateinit var fullVersion : Button
+    private lateinit var basicVersion : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,20 +25,20 @@ class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        wersjaPelna.visibility = View.VISIBLE
-        wersjaBezPodstaw.visibility = View.VISIBLE
+        fullVersion.visibility = View.VISIBLE
+        basicVersion.visibility = View.VISIBLE
     }
 
     fun pickVersion(){
-        wersjaPelna = findViewById(R.id.masaz_podstawowe_kroki)
-        wersjaBezPodstaw = findViewById(R.id.masaz_tylko_tempo)
+        fullVersion = findViewById(R.id.masaz_podstawowe_kroki)
+        basicVersion= findViewById(R.id.masaz_tylko_tempo)
 
-        wersjaPelna.setOnClickListener{
+        fullVersion.setOnClickListener{
             bundle.putIntArray("wersja", resources.getIntArray(R.array.masaz_wersja_1))
             bundle.putIntArray("czas", resources.getIntArray(R.array.masaz_wersja_1_czas))
             initialize()
         }
-        wersjaBezPodstaw.setOnClickListener {
+        basicVersion.setOnClickListener {
             bundle.putIntArray("wersja", resources.getIntArray(R.array.masaz_wersja_2))
             bundle.putIntArray("czas", resources.getIntArray(R.array.masaz_wersja_2_czas))
             initialize()
@@ -46,8 +46,8 @@ class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
     }
 
     fun initialize(){
-        wersjaPelna.visibility = View.GONE
-        wersjaBezPodstaw.visibility = View.GONE
+        fullVersion.visibility = View.GONE
+        basicVersion.visibility = View.GONE
         val cprVideo = findViewById<VideoView>(R.id.cpr_video_embed)
         cprVideo.setVideoPath("android.resource://" + packageName + "/" + R.raw.cpr_video)
         cprVideo.setOnCompletionListener { cprVideo.start() }

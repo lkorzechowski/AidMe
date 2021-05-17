@@ -2,7 +2,6 @@ package com.orzechowski.prototyp.mainrecycler;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -22,21 +21,21 @@ import java.util.List;
 
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHolder> {
-    private final List<NumerAlarmowy> numery;
-    private final LayoutInflater mPompka;
+    private final List<NumerAlarmowy> mNumbersList;
+    private final LayoutInflater mInflater;
     private final Activity mActivity;
-    private final int REQUEST_PHONE_CALL = 1;
+    private final int mRequestPhoneCall = 1;
 
     public ListAdapter(Activity kontekst, List<NumerAlarmowy> listaNumerow) {
-        mPompka = kontekst.getLayoutInflater();
-        this.numery = listaNumerow;
+        mInflater = kontekst.getLayoutInflater();
+        this.mNumbersList = listaNumerow;
         this.mActivity = kontekst;
     }
 
     @NonNull
     @Override
     public NumeryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View wiersz = mPompka.inflate(R.layout.wiersz_numery, null);
+        View wiersz = mInflater.inflate(R.layout.wiersz_numery, null);
         return new NumeryViewHolder(wiersz);
     }
 
@@ -44,15 +43,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHold
     public void onBindViewHolder(@NonNull NumeryViewHolder numeryholder, int numerWiersza) {
         TextView numer = numeryholder.itemView.findViewById(R.id.numer);
         TextView usluga = numeryholder.itemView.findViewById(R.id.usluga);
-        numer.setText(String.valueOf(numery.get(numerWiersza).getNumerTelefonu()));
-        usluga.setText(numery.get(numerWiersza).getNazwaUslugi());
+        numer.setText(String.valueOf(mNumbersList.get(numerWiersza).getPhoneNumber()));
+        usluga.setText(mNumbersList.get(numerWiersza).getServiceName());
 
         Button przyciskDzwon = numeryholder.itemView.findViewById(R.id.przycisk_zadzwon);
         przyciskDzwon.setOnClickListener(v -> {
             Intent phone_intent = new Intent(Intent.ACTION_CALL);
             phone_intent.setData(Uri.parse("tel:" + 123));
             if (ContextCompat.checkSelfPermission(mActivity.getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PHONE_CALL);
+                ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.CALL_PHONE}, mRequestPhoneCall);
             } else {
                 mActivity.startActivity(phone_intent);
             }
@@ -61,7 +60,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHold
 
     @Override
     public int getItemCount() {
-        return numery.size();
+        return mNumbersList.size();
     }
 
     public class NumeryViewHolder extends RecyclerView.ViewHolder{

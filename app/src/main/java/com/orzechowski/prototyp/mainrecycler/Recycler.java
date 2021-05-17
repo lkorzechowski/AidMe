@@ -25,13 +25,13 @@ public class Recycler extends Fragment {
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
         ) {
-            List<NumerAlarmowy> numery = new LinkedList<>();
-            String[] uslugi = getResources().getStringArray(R.array.numeralarmowy_uslugi);
-            int[] telefony = getResources().getIntArray(R.array.numeralarmowy_numery);
-            for(int i = 0; i < uslugi.length; i++){
-                numery.add(new NumerAlarmowy(telefony[i], uslugi[i]));
+            List<NumerAlarmowy> numbersList = new LinkedList<>();
+            String[] serviceNames = getResources().getStringArray(R.array.numeralarmowy_uslugi);
+            int[] phoneNumbers = getResources().getIntArray(R.array.numeralarmowy_numery);
+            for(int i = 0; i < serviceNames.length; i++){
+                numbersList.add(new NumerAlarmowy(phoneNumbers[i], serviceNames[i]));
             }
-            adapter = new ListAdapter(requireActivity(), numery);
+            adapter = new ListAdapter(requireActivity(), numbersList);
             View view = inflater.inflate(R.layout.fragment_recycler_main, container, false);
             recycler = view.findViewById(R.id.numery_rv);
             recycler.setAdapter(adapter);
