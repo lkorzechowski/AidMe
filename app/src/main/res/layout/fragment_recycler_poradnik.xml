@@ -10,5 +10,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/wiersz_instrukcje" />
+        tools:listitem="@layout/row_instructions_rv" />
 </androidx.constraintlayout.widget.ConstraintLayout>

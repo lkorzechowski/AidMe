@@ -7,12 +7,12 @@
     tools:context=".PoradnikMasazSerca">
 
     <LinearLayout
-        android:id="@+id/layout_instrukcje"
+        android:id="@+id/layout_instructions_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cpr_video_embed"/>
+        app:layout_constraintTop_toBottomOf="@id/active_instructions"/>
 
     <VideoView
         android:id="@+id/cpr_video_embed"
@@ -23,8 +23,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/active_instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#3E5E3B"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/cpr_video_embed" />
+
     <Button
-        android:id="@+id/masaz_podstawowe_kroki"
+        android:id="@+id/masaz_all_steps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/masaz_wszystkie_podstawowe_kroki"
@@ -38,7 +47,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/masaz_tylko_tempo"
+        android:id="@+id/masaz_only_pace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tylko_tempo"
@@ -56,4 +65,5 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

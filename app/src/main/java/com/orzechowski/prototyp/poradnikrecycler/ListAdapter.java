@@ -6,44 +6,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;;
+import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.poradnikrecycler.objects.Instrukcja;
+import com.orzechowski.prototyp.poradnikrecycler.objects.InstructionSet;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeViewHolder> {
-    private final List<Instrukcja> mInstructions;
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstructionsViewHolder> {
+    private final List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
-    private final List<InstrukcjeViewHolder> mInstructionSetList;
-    private OnViewClickListener onViewClickListener;
+    private final OnViewClickListener onViewClickListener;
 
-    public ListAdapter(Activity tutorialActivity, List<Instrukcja> instructionsList,
+    public ListAdapter(Activity tutorialActivity, List<InstructionSet> instructions,
                        OnViewClickListener listenerFromSuperclass)
     {
         this.mInflater = tutorialActivity.getLayoutInflater();
-        this.mInstructions = instructionsList;
-        this.mInstructionSetList = new LinkedList<>();
+        this.mInstructions = instructions;
         this.onViewClickListener = listenerFromSuperclass;
     }
 
     @NonNull
     @Override
-    public InstrukcjeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View row = mInflater.inflate(R.layout.wiersz_instrukcje, null);
-        return new InstrukcjeViewHolder(row, onViewClickListener);
+    public InstructionsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        View row = mInflater.inflate(R.layout.row_instructions_rv, null);
+        return new InstructionsViewHolder(row, onViewClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InstrukcjeViewHolder instrukcjeholder, int rowNumber) {
-        TextView title = instrukcjeholder.title;
-        TextView instructionsView = instrukcjeholder.instruct;
-        title.setVisibility(View.VISIBLE);
-        instructionsView.setVisibility(View.GONE);
-        title.setText(mInstructions.get(rowNumber).getTitle());
-        instructionsView.setText(mInstructions.get(rowNumber).getInstructionSet());
-        mInstructionSetList.add(rowNumber, instrukcjeholder);
+    public void onBindViewHolder(@NonNull InstructionsViewHolder instrukcjeholder, int rowNumber) {
+        instrukcjeholder.title.setText(mInstructions.get(rowNumber).getTitle());
+        instrukcjeholder.brief.setText(mInstructions.get(rowNumber).getInstructions().substring(3));
     }
 
     @Override
@@ -51,18 +43,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
         return mInstructions.size();
     }
 
-    public class InstrukcjeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView title, instruct;
-        View divider;
+    public static class InstructionsViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener
+    {
+        TextView title, brief;
         OnViewClickListener listenerForThisRow;
 
-        public InstrukcjeViewHolder(@NonNull View viewForRow, OnViewClickListener listenerFromSuperClass){
+        public InstructionsViewHolder(@NonNull View viewForRow, OnViewClickListener listenerFromSuperClass){
             super(viewForRow);
-            this.title = viewForRow.findViewById(R.id.tytul);
-            this.instruct = viewForRow.findViewById(R.id.instrukcja);
-            this.divider = viewForRow.findViewById(R.id.rv_divider);
+            this.title = viewForRow.findViewById(R.id.title);
+            this.brief = viewForRow.findViewById(R.id.brief);
             this.listenerForThisRow = listenerFromSuperClass;
-            mInstructionSetList.add(this);
             viewForRow.setOnClickListener(this);
         }
 
@@ -70,20 +61,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstrukcjeView
         public void onClick(View v){
             listenerForThisRow.onViewClick(getAdapterPosition());
         }
-    }
-
-    public void expandAt(int position){
-        InstrukcjeViewHolder currentView = mInstructionSetList.get(position);
-        currentView.title.setVisibility(View.GONE);
-        currentView.instruct.setVisibility(View.VISIBLE);
-        currentView.divider.setVisibility(View.GONE);
-    }
-
-    public void hideAt(int position){
-        InstrukcjeViewHolder currentView = mInstructionSetList.get(position);
-        currentView.title.setVisibility(View.VISIBLE);
-        currentView.instruct.setVisibility(View.GONE);
-        currentView.divider.setVisibility(View.VISIBLE);
     }
 
     public interface OnViewClickListener{

@@ -19,6 +19,7 @@ class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
         supportActionBar?.hide()
         bundle.putStringArray("title", resources.getStringArray(R.array.masaz_serca_instrukcje_tytuly))
         bundle.putStringArray("instructions", resources.getStringArray(R.array.masaz_serca_instrukcje_instrukcje))
+        bundle.putIntArray("duration", resources.getIntArray(R.array.masaz_serca_czas))
         pickVersion()
     }
 
@@ -29,17 +30,15 @@ class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
     }
 
     fun pickVersion(){
-        fullVersion = findViewById(R.id.masaz_podstawowe_kroki)
-        basicVersion= findViewById(R.id.masaz_tylko_tempo)
+        fullVersion = findViewById(R.id.masaz_all_steps)
+        basicVersion= findViewById(R.id.masaz_only_pace)
 
         fullVersion.setOnClickListener{
             bundle.putIntArray("version", resources.getIntArray(R.array.masaz_wersja_1))
-            bundle.putIntArray("duration", resources.getIntArray(R.array.masaz_wersja_1_czas))
             initialize()
         }
         basicVersion.setOnClickListener {
             bundle.putIntArray("version", resources.getIntArray(R.array.masaz_wersja_2))
-            bundle.putIntArray("duration", resources.getIntArray(R.array.masaz_wersja_2_czas))
             initialize()
         }
     }
@@ -59,7 +58,7 @@ class PoradnikMasazSerca : AppCompatActivity(R.layout.activity_masaz_serca){
         recycler.arguments = bundle
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            add<Recycler>(R.id.layout_instrukcje, args = bundle)
+            add<Recycler>(R.id.layout_instructions_list, args = bundle)
         }
     }
 }

@@ -15,38 +15,36 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.mainrecycler.objects.NumerAlarmowy;
+import com.orzechowski.prototyp.mainrecycler.objects.EmergencyNumber;
 import java.util.List;
 
-
-
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHolder> {
-    private final List<NumerAlarmowy> mNumbersList;
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumbersViewHolder> {
+    private final List<EmergencyNumber> mNumbersList;
     private final LayoutInflater mInflater;
     private final Activity mActivity;
     private final int mRequestPhoneCall = 1;
 
-    public ListAdapter(Activity kontekst, List<NumerAlarmowy> listaNumerow) {
-        mInflater = kontekst.getLayoutInflater();
-        this.mNumbersList = listaNumerow;
-        this.mActivity = kontekst;
+    public ListAdapter(Activity mainActivity, List<EmergencyNumber> listOfNumbers) {
+        mInflater = mainActivity.getLayoutInflater();
+        this.mNumbersList = listOfNumbers;
+        this.mActivity = mainActivity;
     }
 
     @NonNull
     @Override
-    public NumeryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View wiersz = mInflater.inflate(R.layout.wiersz_numery, null);
-        return new NumeryViewHolder(wiersz);
+    public NumbersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        View wiersz = mInflater.inflate(R.layout.row_phone_numbers_rv, null);
+        return new NumbersViewHolder(wiersz);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NumeryViewHolder numeryholder, int numerWiersza) {
-        TextView numer = numeryholder.itemView.findViewById(R.id.numer);
-        TextView usluga = numeryholder.itemView.findViewById(R.id.usluga);
-        numer.setText(String.valueOf(mNumbersList.get(numerWiersza).getPhoneNumber()));
-        usluga.setText(mNumbersList.get(numerWiersza).getServiceName());
+    public void onBindViewHolder(@NonNull NumbersViewHolder numbersHolder, int rowNumber) {
+        TextView numer = numbersHolder.itemView.findViewById(R.id.numer);
+        TextView usluga = numbersHolder.itemView.findViewById(R.id.usluga);
+        numer.setText(String.valueOf(mNumbersList.get(rowNumber).getPhoneNumber()));
+        usluga.setText(mNumbersList.get(rowNumber).getServiceName());
 
-        Button przyciskDzwon = numeryholder.itemView.findViewById(R.id.przycisk_zadzwon);
+        Button przyciskDzwon = numbersHolder.itemView.findViewById(R.id.przycisk_zadzwon);
         przyciskDzwon.setOnClickListener(v -> {
             Intent phone_intent = new Intent(Intent.ACTION_CALL);
             phone_intent.setData(Uri.parse("tel:" + 123));
@@ -63,8 +61,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumeryViewHold
         return mNumbersList.size();
     }
 
-    public class NumeryViewHolder extends RecyclerView.ViewHolder{
-        public NumeryViewHolder(@NonNull View glownyElementWiersza){
+    public static class NumbersViewHolder extends RecyclerView.ViewHolder{
+        public NumbersViewHolder(@NonNull View glownyElementWiersza){
             super(glownyElementWiersza);
         }
     }
