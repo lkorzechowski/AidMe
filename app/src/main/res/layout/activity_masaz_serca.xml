@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="#3E5E3B"
+        android:background="@color/green1"
         android:textSize="30sp"
         app:layout_constraintTop_toBottomOf="@id/cpr_video_embed" />
 
