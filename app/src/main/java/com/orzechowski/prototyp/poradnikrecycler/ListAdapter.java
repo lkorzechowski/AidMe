@@ -15,21 +15,21 @@ import java.util.List;
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstructionsViewHolder> {
     private final List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
-    private final OnViewClickListener onViewClickListener;
+    private final OnViewClickListener mListener;
 
     public ListAdapter(Activity tutorialActivity, List<InstructionSet> instructions,
                        OnViewClickListener listenerFromSuperclass)
     {
         this.mInflater = tutorialActivity.getLayoutInflater();
         this.mInstructions = instructions;
-        this.onViewClickListener = listenerFromSuperclass;
+        this.mListener = listenerFromSuperclass;
     }
 
     @NonNull
     @Override
     public InstructionsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View row = mInflater.inflate(R.layout.row_instructions_rv, null);
-        return new InstructionsViewHolder(row, onViewClickListener);
+        return new InstructionsViewHolder(row, mListener);
     }
 
     @Override
@@ -49,12 +49,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstructionsVi
         TextView title, brief;
         OnViewClickListener listenerForThisRow;
 
-        public InstructionsViewHolder(@NonNull View viewForRow, OnViewClickListener listenerFromSuperClass){
-            super(viewForRow);
-            this.title = viewForRow.findViewById(R.id.title);
-            this.brief = viewForRow.findViewById(R.id.brief);
+        public InstructionsViewHolder(@NonNull View viewForThisRow,
+                                      OnViewClickListener listenerFromSuperClass)
+        {
+            super(viewForThisRow);
+            this.title = viewForThisRow.findViewById(R.id.title);
+            this.brief = viewForThisRow.findViewById(R.id.brief);
             this.listenerForThisRow = listenerFromSuperClass;
-            viewForRow.setOnClickListener(this);
+            viewForThisRow.setOnClickListener(this);
         }
 
         @Override

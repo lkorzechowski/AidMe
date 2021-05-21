@@ -87,19 +87,18 @@ public class Recycler extends Fragment implements ListAdapter.OnViewClickListene
         public void run(){
             try {
                 sleep(100);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IllegalStateException e) {
                 e.printStackTrace();
+                interrupt();
             }
-            requireActivity().runOnUiThread(()->{
-                mTextDisplay.setText(mInstructionsList.get(position).getInstructions());
-            });
+            requireActivity().runOnUiThread(()->
+                    mTextDisplay.setText(mInstructionsList.get(position).getInstructions()));
             try {
                 sleep(mInstructionsList.get(position).getTime());
-                requireActivity().runOnUiThread(()->{
-                    play(position);
-                });
-            } catch (InterruptedException e) {
+                requireActivity().runOnUiThread(()-> play(position));
+            } catch (InterruptedException | IllegalStateException e) {
                 e.printStackTrace();
+                interrupt();
             }
         }
     }
