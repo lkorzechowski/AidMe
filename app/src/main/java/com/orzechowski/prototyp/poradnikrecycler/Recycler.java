@@ -3,6 +3,8 @@ package com.orzechowski.prototyp.poradnikrecycler;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.orzechowski.prototyp.R;
 import com.orzechowski.prototyp.poradnikrecycler.objects.InstructionSet;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,11 +26,13 @@ public class Recycler extends Fragment implements ListAdapter.OnViewClickListene
     private Player mPlayerInstance;
     private boolean mBoot;
     private TextView mTextDisplay;
+    private final String idResource;
 
     public Recycler() {
         super(R.layout.fragment_recycler_main);
         this.mBoot = true;
         this.mInstructionsList = new LinkedList<>();
+        this.idResource = "ania_";
     }
 
     @Override
@@ -71,6 +76,14 @@ public class Recycler extends Fragment implements ListAdapter.OnViewClickListene
     }
 
     @Override
+    public void onPause() {
+        if(mPlayerInstance!=null){
+            mPlayerInstance.interrupt();
+        }
+        super.onPause();
+    }
+
+    @Override
     public void onViewClick(int position) {
         mTextDisplay.setVisibility(View.VISIBLE);
         play(position-1);
@@ -91,15 +104,30 @@ public class Recycler extends Fragment implements ListAdapter.OnViewClickListene
                 e.printStackTrace();
                 interrupt();
             }
+            String idFinal = idResource + position;
+            MediaPlayer mPlayer = MediaPlayer.create(getContext(), getResId(idFinal, R.raw.class));
+            mPlayer.setLooping(false);
+            mPlayer.setVolume(1F, 1F);
             requireActivity().runOnUiThread(()->
                     mTextDisplay.setText(mInstructionsList.get(position).getInstructions()));
             try {
+                mPlayer.start();
                 sleep(mInstructionsList.get(position).getTime());
                 requireActivity().runOnUiThread(()-> play(position));
-            } catch (InterruptedException | IllegalStateException e) {
-                e.printStackTrace();
+            } catch (IllegalStateException | InterruptedException e) {
+                mPlayer.stop();
                 interrupt();
             }
+        }
+    }
+
+    public static int getResId(String resName, Class<?> c) {
+        try {
+            Field idField = c.getDeclaredField(resName);
+            return idField.getInt(idField);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }

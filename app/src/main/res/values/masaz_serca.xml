@@ -21,14 +21,14 @@
         <item>8. Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.</item>
     </string-array>
     <integer-array name="masaz_serca_czas">
-        <item>2000</item>
-        <item>2000</item>
-        <item>2000</item>
-        <item>2000</item>
-        <item>2000</item>
-        <item>2000</item>
-        <item>2000</item>
-        <item>2000</item>
+        <item>5000</item>
+        <item>8000</item>
+        <item>8000</item>
+        <item>9000</item>
+        <item>8000</item>
+        <item>7000</item>
+        <item>14000</item>
+        <item>8000</item>
     </integer-array>
     <integer-array name="masaz_wersja_1">
         <item>0</item>
