@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.poradnikrecycler;
+package com.orzechowski.prototyp.instructionsrecycler;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,17 +8,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.poradnikrecycler.objects.InstructionSet;
+import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
 
 import java.util.List;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.InstructionsViewHolder> {
+public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsListAdapter.InstructionsViewHolder> {
+
     private final List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
     private final OnViewClickListener mListener;
 
-    public ListAdapter(Activity tutorialActivity, List<InstructionSet> instructions,
-                       OnViewClickListener listenerFromSuperclass)
+    public InstructionsListAdapter(Activity tutorialActivity, List<InstructionSet> instructions,
+                                   OnViewClickListener listenerFromSuperclass)
     {
         this.mInflater = tutorialActivity.getLayoutInflater();
         this.mInstructions = instructions;

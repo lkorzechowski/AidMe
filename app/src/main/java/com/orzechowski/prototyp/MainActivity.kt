@@ -6,10 +6,10 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import com.orzechowski.prototyp.mainrecycler.Recycler
-
+import com.orzechowski.prototyp.emergencynumbers.Recycler
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             }
             val aidButton = findViewById<Button>(R.id.pomoc_button)
             aidButton.setOnClickListener {
-                val masazSerca = Intent(this@MainActivity, PoradnikMasazSerca::class.java)
+                val masazSerca = Intent(this@MainActivity, TutorialActivity::class.java)
                 startActivity(masazSerca)
             }
         }

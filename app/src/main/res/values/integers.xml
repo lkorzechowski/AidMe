@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer-array name="numeralarmowy_numery">
+    <integer-array name="numbers">
         <item>112</item>
         <item>997</item>
         <item>998</item>

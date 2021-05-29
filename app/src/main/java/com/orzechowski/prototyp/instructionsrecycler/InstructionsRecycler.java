@@ -1,53 +1,67 @@
-package com.orzechowski.prototyp.poradnikrecycler;
+package com.orzechowski.prototyp.instructionsrecycler;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.poradnikrecycler.objects.InstructionSet;
-import org.jetbrains.annotations.NotNull;
+import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
+import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSetViewModel;
+import com.orzechowski.prototyp.versionrecycler.database.Version;
+import com.orzechowski.prototyp.versionrecycler.database.VersionViewModel;
 
+import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Recycler extends Fragment implements ListAdapter.OnViewClickListener {
+public class InstructionsRecycler extends Fragment implements InstructionsListAdapter.OnViewClickListener {
+
     protected RecyclerView mRecycler;
-    protected ListAdapter mAdapter;
-    private final List<InstructionSet> mInstructionsList;
+    protected InstructionsListAdapter mAdapter;
     private Player mPlayerInstance;
     private boolean mBoot;
     private TextView mTextDisplay;
-    private final String idResource;
+    private final String mIdResource;
+    private final List<InstructionSet> mInstructionsList;
 
-    public Recycler() {
+    public InstructionsRecycler() {
         super(R.layout.fragment_recycler_main);
         this.mBoot = true;
+        this.mIdResource = "ania_";
         this.mInstructionsList = new LinkedList<>();
-        this.idResource = "ania_";
     }
 
     @Override
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
     ) {
+        long tutorialId = getArguments().getLong("tutorialId");
+        long versionId = getArguments().getLong("versionId");
+
         this.mTextDisplay = requireActivity().findViewById(R.id.active_instructions);
-        String[] titles = getArguments().getStringArray("title");
-        String[] instructions = getArguments().getStringArray("instructions");
-        int[] version = getArguments().getIntArray("version");
-        int[] duration = getArguments().getIntArray("duration");
-        for (int j : version) {
-            mInstructionsList.add(new InstructionSet(titles[j], instructions[j], duration[j]));
+
+        InstructionSetViewModel instructionSetViewModel =
+                new InstructionSetViewModel(getActivity().getApplication());
+        List<InstructionSet> instructionSets =
+                instructionSetViewModel.getByTutorialId(tutorialId).getValue();
+
+        VersionViewModel versionViewModel = new VersionViewModel(getActivity().getApplication());
+        List<Integer> versionInstructions =
+                versionViewModel.getByVersionId(versionId).getValue().get(0).getNumbers();
+
+        for(Integer v : versionInstructions){
+            mInstructionsList.add(instructionSets.get(v));
         }
-        mAdapter = new ListAdapter(requireActivity(), mInstructionsList, this);
+
+        mAdapter = new InstructionsListAdapter(requireActivity(), mInstructionsList, this);
         View view = inflater.inflate(R.layout.fragment_recycler_poradnik, container, false);
         mRecycler = view.findViewById(R.id.poradniki_rv);
         mRecycler.setAdapter(mAdapter);
@@ -104,7 +118,7 @@ public class Recycler extends Fragment implements ListAdapter.OnViewClickListene
                 e.printStackTrace();
                 interrupt();
             }
-            String idFinal = idResource + position;
+            String idFinal = mIdResource + position;
             MediaPlayer mPlayer = MediaPlayer.create(getContext(), getResId(idFinal, R.raw.class));
             mPlayer.setLooping(false);
             mPlayer.setVolume(1F, 1F);

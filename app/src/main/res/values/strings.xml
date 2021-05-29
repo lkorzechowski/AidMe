@@ -4,7 +4,7 @@
     <string name="mainactivity_portal">Portal dla pomocników</string>
     <string name="wroc">Wróć</string>
     <string name="icon_resembling_a_phone_handle">icon resembling a phone handle</string>
-    <string-array name="numeralarmowy_uslugi">
+    <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
         <item>Straż pożarna</item>

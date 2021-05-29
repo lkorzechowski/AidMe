@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.mainrecycler;
+package com.orzechowski.prototyp.emergencynumbers;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.mainrecycler.objects.EmergencyNumber;
+
 import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,8 +33,8 @@ public class Recycler extends Fragment implements ListAdapter.OnViewClickListene
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
             List<EmergencyNumber> numbersList = new LinkedList<>();
-            String[] serviceNames = getResources().getStringArray(R.array.numeralarmowy_uslugi);
-            int[] phoneNumbers = getResources().getIntArray(R.array.numeralarmowy_numery);
+            String[] serviceNames = getResources().getStringArray(R.array.services);
+            int[] phoneNumbers = getResources().getIntArray(R.array.numbers);
             for(int i = 0; i < serviceNames.length; i++){
                 numbersList.add(new EmergencyNumber(phoneNumbers[i], serviceNames[i]));
             }
