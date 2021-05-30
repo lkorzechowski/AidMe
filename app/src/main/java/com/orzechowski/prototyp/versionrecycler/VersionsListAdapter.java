@@ -5,23 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.orzechowski.prototyp.R;
 import com.orzechowski.prototyp.versionrecycler.database.Version;
-
 import java.util.List;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.VersionViewHolder> {
+public class VersionsListAdapter extends RecyclerView.Adapter<VersionsListAdapter.VersionViewHolder> {
 
     private final List<Version> mVersionsList;
     private final LayoutInflater mInflater;
     private final OnViewClickListener mListener;
 
-    public ListAdapter(Activity mainActivity, List<Version> listOfNumbers,
-                       OnViewClickListener listenerFromSuperClass)
+    public VersionsListAdapter(Activity mainActivity, List<Version> listOfNumbers,
+                               OnViewClickListener listenerFromSuperClass)
     {
         mInflater = mainActivity.getLayoutInflater();
         this.mVersionsList = listOfNumbers;

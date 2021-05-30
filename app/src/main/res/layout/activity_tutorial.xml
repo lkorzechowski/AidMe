@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".TutorialActivity">
 
-    <LinearLayout
-        android:id="@+id/layout_version_selection"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/versions_rv"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        tools:listitem="@layout/row_versions_rv" />
 
     <LinearLayout
         android:id="@+id/layout_instructions_list"
@@ -24,11 +23,16 @@
 
     <VideoView
         android:id="@+id/video_embed"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_embed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

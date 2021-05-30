@@ -1,8 +1,6 @@
 package com.orzechowski.prototyp.instructionsrecycler;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.media.MediaPlayer;
@@ -14,9 +12,7 @@ import android.widget.TextView;
 import com.orzechowski.prototyp.R;
 import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
 import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSetViewModel;
-import com.orzechowski.prototyp.versionrecycler.database.Version;
 import com.orzechowski.prototyp.versionrecycler.database.VersionViewModel;
-
 import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 import java.util.LinkedList;
