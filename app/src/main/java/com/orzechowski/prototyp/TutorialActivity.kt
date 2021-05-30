@@ -1,12 +1,12 @@
 package com.orzechowski.prototyp
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ImageView
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orzechowski.prototyp.instructionsrecycler.InstructionsRecycler
@@ -19,29 +19,21 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
 {
 
     private val bundle = Bundle()
-    private val videoEmbed: VideoView = findViewById(R.id.video_embed)
-    private val imageEmbed: ImageView = findViewById(R.id.image_embed)
-    private var versions: List<Version>? = null
+    private lateinit var mVersionViewModel: VersionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.setContentView(R.layout.activity_tutorial)
         supportActionBar?.hide()
-    }
 
-    override fun onResume(){
-        super.onResume()
-        videoEmbed.visibility = View.GONE
-        imageEmbed.visibility = View.GONE
-
-        val mVersionViewModel = VersionViewModel(application)
-        versions = mVersionViewModel.getByTutorialId(0L).value!!
-
-        val adapter = VersionsListAdapter(this, versions, this)
         val recycler: RecyclerView = findViewById(R.id.versions_rv)
+        mVersionViewModel = ViewModelProvider(this).get(VersionViewModel::class.java)
+        val adapter = VersionsListAdapter(this)
         recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(applicationContext)
+        recycler.layoutManager = LinearLayoutManager(this)
+        mVersionViewModel.getByTutorialId(0L)
+            .observe(this) { versions -> adapter.setElementList(versions) }
     }
-
 
     private fun getInstructionsRecycler(versionId: Long){
         bundle.putLong("versionId", versionId)
@@ -51,9 +43,12 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
         }
     }
 
-    override fun onViewClick(position: Int) {
+    override fun onViewClick(version: Version) {
+        val videoEmbed: VideoView = findViewById(R.id.video_embed)
+        val imageEmbed: ImageView = findViewById(R.id.image_embed)
+
         videoEmbed.setVideoPath("android.resource://" + packageName + "/" + R.raw.cpr_video)
         videoEmbed.setOnCompletionListener { videoEmbed.start() }
-        if(versions!=null) getInstructionsRecycler(versions!!.get(position).versionId)
+        getInstructionsRecycler(version.versionId)
     }
 }

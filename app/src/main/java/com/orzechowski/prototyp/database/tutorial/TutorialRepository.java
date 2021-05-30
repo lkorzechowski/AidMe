@@ -1,11 +1,8 @@
 package com.orzechowski.prototyp.database.tutorial;
 
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import com.orzechowski.prototyp.database.GlobalRoomDatabase;
-
 import java.util.List;
 
 public class TutorialRepository {

@@ -16,7 +16,7 @@ public class VersionRepository {
     public VersionRepository(Application application){
         GlobalRoomDatabase database = GlobalRoomDatabase.getDatabase(application);
         mDao = database.versionDao();
-        mVersions = mDao.getAllElements();
+        mVersions = mDao.getAll();
     }
 
     public LiveData<List<Version>> getAll(){

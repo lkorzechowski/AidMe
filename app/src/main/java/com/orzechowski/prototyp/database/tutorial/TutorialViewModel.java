@@ -4,23 +4,14 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-
-import java.util.List;
 
 public class TutorialViewModel extends AndroidViewModel {
 
     private final TutorialRepository mRepository;
-    private final LiveData<List<Tutorial>> mTutorials;
 
     public TutorialViewModel(@NonNull Application application){
         super(application);
         mRepository = new TutorialRepository(application);
-        mTutorials = mRepository.getAll();
-    }
-
-    public LiveData<List<Tutorial>> getAll(){
-        return mTutorials;
     }
 
     public void deleteAll(){

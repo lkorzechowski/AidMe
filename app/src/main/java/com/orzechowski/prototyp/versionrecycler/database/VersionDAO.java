@@ -12,23 +12,23 @@ import java.util.List;
 @Dao
 public interface VersionDAO {
 
-    @Insert
+    @Insert()
     void insert(Version version);
 
-    @Delete
+    @Delete()
     void delete(Version prompt);
 
-    @Update
+    @Update()
     void update(Version prompt);
 
     @Query("DELETE FROM version")
     void deleteAll();
 
     @Query("SELECT * FROM version")
-    LiveData<List<Version>> getAllElements();
+    LiveData<List<Version>> getAll();
 
-    @Query("SELECT * FROM version WHERE tutorialId= :tutorialId")
-    LiveData<List<Version>> getByTutorialId(long tutorialId);
+    @Query("SELECT * FROM version WHERE tutorialId = :tutorialId")
+    LiveData<List<Version>> getByTutorialId(Long tutorialId);
 
     @Query("SELECT * FROM version WHERE versionId = :versionId")
     LiveData<List<Version>> getByVersionId(Long versionId);

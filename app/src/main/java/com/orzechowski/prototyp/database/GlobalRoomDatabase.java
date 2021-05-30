@@ -1,21 +1,17 @@
 package com.orzechowski.prototyp.database;
 
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-
 import com.orzechowski.prototyp.database.tutorial.Tutorial;
 import com.orzechowski.prototyp.database.tutorial.TutorialDAO;
 import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
 import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSetDAO;
 import com.orzechowski.prototyp.versionrecycler.database.Version;
 import com.orzechowski.prototyp.versionrecycler.database.VersionDAO;
-
-import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -64,8 +60,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
                 instructionDAO.insert(new InstructionSet(6L, "Uciśnięcia", "Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.", 14000, 0L));
                 instructionDAO.insert(new InstructionSet(7L, "W razie zwymiotowania ofiary", "Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.", 8000, 0L));
 
-                versionDAO.insert(new Version(0L, "Wiem co robię, potrzebne mi jest tylko tempo!", Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7), 0L));
-                versionDAO.insert(new Version(1L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", Arrays.asList(4, 6, 7), 0L));
+                versionDAO.insert(new Version(0L, "Wiem co robię, potrzebne mi jest tylko tempo!", "01234567", 0L));
+                versionDAO.insert(new Version(1L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", "467", 0L));
             });
         }
     };

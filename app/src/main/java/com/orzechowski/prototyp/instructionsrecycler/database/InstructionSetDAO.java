@@ -12,13 +12,13 @@ import java.util.List;
 @Dao
 public interface InstructionSetDAO {
 
-    @Insert
+    @Insert()
     void insert(InstructionSet instructionSet);
 
-    @Delete
+    @Delete()
     void delete(InstructionSet instructionSet);
 
-    @Update
+    @Update()
     void update(InstructionSet instructionSet);
 
     @Query("SELECT * FROM instructionset")

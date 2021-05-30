@@ -50,11 +50,11 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                 instructionSetViewModel.getByTutorialId(tutorialId).getValue();
 
         VersionViewModel versionViewModel = new VersionViewModel(getActivity().getApplication());
-        List<Integer> versionInstructions =
-                versionViewModel.getByVersionId(versionId).getValue().get(0).getNumbers();
+        String versionInstructions =
+                versionViewModel.getByVersionId(versionId).getValue().get(0).getInstructions();
 
-        for(Integer v : versionInstructions){
-            mInstructionsList.add(instructionSets.get(v));
+        for(int i = 0; i < versionInstructions.length(); i++){
+            mInstructionsList.add(instructionSets.get(versionInstructions.charAt(i)));
         }
 
         mAdapter = new InstructionsListAdapter(requireActivity(), mInstructionsList, this);

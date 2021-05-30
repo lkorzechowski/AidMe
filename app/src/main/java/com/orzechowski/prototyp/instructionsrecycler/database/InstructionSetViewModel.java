@@ -1,26 +1,18 @@
 package com.orzechowski.prototyp.instructionsrecycler.database;
 
 import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 public class InstructionSetViewModel extends AndroidViewModel {
 
     private final InstructionSetRepository mRepository;
-    private final LiveData<List<InstructionSet>> mInstructions;
 
     public InstructionSetViewModel(@NonNull Application application){
         super(application);
         mRepository = new InstructionSetRepository(application);
-        mInstructions = mRepository.getAll();
-    }
-
-    public LiveData<List<InstructionSet>> getAll(){
-        return mInstructions;
     }
 
     public void deleteAll(){
