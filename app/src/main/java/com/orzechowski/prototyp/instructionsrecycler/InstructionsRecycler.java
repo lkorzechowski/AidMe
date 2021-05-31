@@ -1,6 +1,7 @@
 package com.orzechowski.prototyp.instructionsrecycler;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.media.MediaPlayer;
@@ -12,13 +13,10 @@ import android.widget.TextView;
 import com.orzechowski.prototyp.R;
 import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
 import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSetViewModel;
-import com.orzechowski.prototyp.versionrecycler.database.VersionViewModel;
 import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
-import java.util.LinkedList;
-import java.util.List;
 
-public class InstructionsRecycler extends Fragment implements InstructionsListAdapter.OnViewClickListener {
+public class InstructionsRecycler extends Fragment implements InstructionsListAdapter.OnClickListener {
 
     protected RecyclerView mRecycler;
     protected InstructionsListAdapter mAdapter;
@@ -26,41 +24,30 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     private boolean mBoot;
     private TextView mTextDisplay;
     private final String mIdResource;
-    private final List<InstructionSet> mInstructionsList;
+    private int tutorialLength;
 
     public InstructionsRecycler() {
         super(R.layout.fragment_recycler_main);
         this.mBoot = true;
         this.mIdResource = "ania_";
-        this.mInstructionsList = new LinkedList<>();
     }
 
     @Override
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
     ) {
-        long tutorialId = getArguments().getLong("tutorialId");
-        long versionId = getArguments().getLong("versionId");
-
+        long tutorialId = requireArguments().getLong("tutorialId");
+        String tutorialParts = requireArguments().getString("versionTutorialParts");
+        tutorialLength = tutorialParts.length();
         this.mTextDisplay = requireActivity().findViewById(R.id.active_instructions);
 
         InstructionSetViewModel instructionSetViewModel =
-                new InstructionSetViewModel(getActivity().getApplication());
-        List<InstructionSet> instructionSets =
-                instructionSetViewModel.getByTutorialId(tutorialId).getValue();
-
-        VersionViewModel versionViewModel = new VersionViewModel(getActivity().getApplication());
-        String versionInstructions =
-                versionViewModel.getByVersionId(versionId).getValue().get(0).getInstructions();
-
-        for(int i = 0; i < versionInstructions.length(); i++){
-            mInstructionsList.add(instructionSets.get(versionInstructions.charAt(i)));
-        }
-
-        mAdapter = new InstructionsListAdapter(requireActivity(), mInstructionsList, this);
+                new ViewModelProvider(this).get(InstructionSetViewModel.class);
+        instructionSetViewModel.getByTutorialId(tutorialId)
+                .observe(requireActivity(), instructions->mAdapter.setElementList(instructions));
+        mAdapter = new InstructionsListAdapter(requireActivity(), tutorialParts);
         View view = inflater.inflate(R.layout.fragment_recycler_poradnik, container, false);
-        mRecycler = view.findViewById(R.id.poradniki_rv);
-        mRecycler.setAdapter(mAdapter);
+        mRecycler = view.findViewById(R.id.tutorial_rv);
         mRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false){
             @Override
             public void onLayoutCompleted(RecyclerView.State state) {
@@ -71,6 +58,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                 }
             }
         });
+        mRecycler.setAdapter(mAdapter);
         return view;
     }
 
@@ -79,8 +67,8 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             mPlayerInstance.interrupt();
             position++;
         }
-        if(position < mInstructionsList.size()) {
-            mPlayerInstance = new Player(position);
+        if(position < tutorialLength) {
+            mPlayerInstance = new Player(mAdapter.getInstructionSet(position));
             mPlayerInstance.start();
         } else mTextDisplay.setVisibility(View.GONE);
     }
@@ -94,16 +82,18 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     }
 
     @Override
-    public void onViewClick(int position) {
+    public void onClick(InstructionSet instructionSet) {
         mTextDisplay.setVisibility(View.VISIBLE);
-        play(position-1);
+        play(instructionSet.getPosition());
     }
 
     private class Player extends Thread{
+        private final InstructionSet instructionSet;
         private final int position;
 
-        public Player(int position){
-            this.position = position;
+        public Player(InstructionSet instructionSet){
+            this.instructionSet = instructionSet;
+            this.position = instructionSet.getPosition();
         }
 
         @Override
@@ -119,10 +109,10 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             mPlayer.setLooping(false);
             mPlayer.setVolume(1F, 1F);
             requireActivity().runOnUiThread(()->
-                    mTextDisplay.setText(mInstructionsList.get(position).getInstructions()));
+                    mTextDisplay.setText(instructionSet.getInstructions()));
             try {
                 mPlayer.start();
-                sleep(mInstructionsList.get(position).getTime());
+                sleep(instructionSet.getTime());
                 requireActivity().runOnUiThread(()-> play(position));
             } catch (IllegalStateException | InterruptedException e) {
                 mPlayer.stop();

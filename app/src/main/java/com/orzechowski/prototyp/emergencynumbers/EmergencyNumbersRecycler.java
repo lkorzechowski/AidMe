@@ -20,11 +20,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Recycler extends Fragment implements ListAdapter.OnViewClickListener{
+public class EmergencyNumbersRecycler extends Fragment implements EmergencyNumbersListAdapter.OnViewClickListener{
     protected RecyclerView recycler;
-    protected ListAdapter adapter;
+    protected EmergencyNumbersListAdapter adapter;
 
-    public Recycler() {
+    public EmergencyNumbersRecycler() {
         super(R.layout.fragment_recycler_main);
     }
 
@@ -38,7 +38,7 @@ public class Recycler extends Fragment implements ListAdapter.OnViewClickListene
             for(int i = 0; i < serviceNames.length; i++){
                 numbersList.add(new EmergencyNumber(phoneNumbers[i], serviceNames[i]));
             }
-            adapter = new ListAdapter(requireActivity(), numbersList, this);
+            adapter = new EmergencyNumbersListAdapter(requireActivity(), numbersList, this);
             View view = inflater.inflate(R.layout.fragment_recycler_main, container, false);
             recycler = view.findViewById(R.id.numery_rv);
             recycler.setAdapter(adapter);

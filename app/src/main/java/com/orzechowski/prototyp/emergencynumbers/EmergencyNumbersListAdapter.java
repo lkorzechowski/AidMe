@@ -11,13 +11,13 @@ import com.orzechowski.prototyp.R;
 
 import java.util.List;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumbersViewHolder> {
+public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyNumbersListAdapter.NumbersViewHolder> {
     private final List<EmergencyNumber> mNumbersList;
     private final LayoutInflater mInflater;
     private final OnViewClickListener mListener;
 
-    public ListAdapter(Activity mainActivity, List<EmergencyNumber> listOfNumbers,
-                       OnViewClickListener listenerFromSuperClass)
+    public EmergencyNumbersListAdapter(Activity mainActivity, List<EmergencyNumber> listOfNumbers,
+                                       OnViewClickListener listenerFromSuperClass)
     {
         mInflater = mainActivity.getLayoutInflater();
         this.mNumbersList = listOfNumbers;
@@ -27,7 +27,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.NumbersViewHol
     @NonNull
     @Override
     public NumbersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View row = mInflater.inflate(R.layout.row_phone_numbers_rv, null);
+        View row = mInflater.inflate(R.layout.row_phone_numbers_rv, viewGroup, false);
         return new NumbersViewHolder(row, mListener);
     }
 

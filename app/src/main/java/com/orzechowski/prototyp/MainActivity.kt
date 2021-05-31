@@ -6,7 +6,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import com.orzechowski.prototyp.emergencynumbers.Recycler
+import com.orzechowski.prototyp.emergencynumbers.EmergencyNumbersRecycler
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -16,12 +16,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<Recycler>(R.id.layout_recyclera)
+                add<EmergencyNumbersRecycler>(R.id.phone_number_recycler_main)
             }
             val aidButton = findViewById<Button>(R.id.pomoc_button)
             aidButton.setOnClickListener {
-                val masazSerca = Intent(this@MainActivity, TutorialActivity::class.java)
-                startActivity(masazSerca)
+                val tutorial = Intent(this@MainActivity, VersionActivity::class.java)
+                startActivity(tutorial)
             }
         }
     }

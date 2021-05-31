@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".emergencynumbers.EmergencyNumbersRecycler">
+    tools:context=".versionrecycler.VersionRecycler">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/numery_rv"
+        android:id="@+id/versions_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/row_phone_numbers_rv" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/row_versions_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

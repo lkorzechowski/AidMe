@@ -12,8 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Prototyp">
         <activity android:name=".TutorialActivity" />
-        <activity android:name=".Wyszukiwarka" />
-        <activity android:name=".NawigacjaPoradniki" />
+        <activity android:name=".VersionActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
