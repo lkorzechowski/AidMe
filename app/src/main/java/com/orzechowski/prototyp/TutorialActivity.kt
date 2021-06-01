@@ -21,6 +21,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         val videoEmbed: VideoView = findViewById(R.id.video_embed)
         val imageEmbed: ImageView = findViewById(R.id.image_embed)
         videoEmbed.setVideoPath("android.resource://" + packageName + "/" + R.raw.cpr_video)
+        videoEmbed.start()
         videoEmbed.setOnCompletionListener { videoEmbed.start() }
 
         bundle = intent.extras!!

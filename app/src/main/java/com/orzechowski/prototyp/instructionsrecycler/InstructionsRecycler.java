@@ -39,15 +39,15 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
     ) {
         mTutorialId = requireArguments().getLong("tutorialId");
-        String tutorialParts = requireArguments().getString("versionTutorialParts");
-        tutorialLength = tutorialParts.length();
+        String tutorialParts = requireArguments().getString("versionTutorialParts");//TODO
         this.mTextDisplay = requireActivity().findViewById(R.id.active_instructions);
 
         mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
+        tutorialLength=8;//TODO
         mInstructionSetViewModel.getByTutorialId(mTutorialId)
                 .observe(requireActivity(), instructions->mAdapter.setElementList(instructions));
-        mAdapter = new InstructionsListAdapter(requireActivity(), tutorialParts, this);
-        View view = inflater.inflate(R.layout.fragment_recycler_poradnik, container, false);
+        mAdapter = new InstructionsListAdapter(requireActivity(), this);
+        View view = inflater.inflate(R.layout.fragment_recycler_tutorial, container, false);
         mRecycler = view.findViewById(R.id.tutorial_rv);
         mRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false){
             @Override
@@ -89,7 +89,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     @Override
     public void onClick(InstructionSet instructionSet) {
         mTextDisplay.setVisibility(View.VISIBLE);
-        play(instructionSet.getPosition());
+        play(instructionSet.getPosition()-1);
     }
 
     private class Player extends Thread{

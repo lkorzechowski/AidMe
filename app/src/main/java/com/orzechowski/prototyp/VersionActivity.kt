@@ -10,7 +10,7 @@ import com.orzechowski.prototyp.versionrecycler.VersionRecycler
 import com.orzechowski.prototyp.versionrecycler.database.Version
 
 class VersionActivity : AppCompatActivity(R.layout.activity_version),
-VersionListAdapter.OnViewClickListener {
+VersionListAdapter.OnClickListener {
 
     private val bundle = Bundle()
 
@@ -26,7 +26,7 @@ VersionListAdapter.OnViewClickListener {
         }
     }
 
-    override fun onViewClick(version: Version) {
+    override fun onClick(version: Version) {
         val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
         tutorial.putExtra("versionTutorialParts", version.instructions)
         startActivity(tutorial)

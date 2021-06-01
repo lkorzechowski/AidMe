@@ -10,27 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.prototyp.R;
 import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
-
-import java.util.LinkedList;
 import java.util.List;
 
 public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsListAdapter.InstructionsViewHolder> {
 
-    private final List<InstructionSet> mInstructions;
+    private List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
     private final OnClickListener mListener;
-    private final List<Integer> mVersion;
 
-    public InstructionsListAdapter(Activity activity, String versionRaw, OnClickListener listener)
+    public InstructionsListAdapter(Activity activity, OnClickListener listener)
     {
-        this.mInflater = activity.getLayoutInflater();
+        this.mInflater = LayoutInflater.from(activity);
         this.mListener = listener;
-        this.mVersion = new LinkedList<>();
-        this.mInstructions = new LinkedList<>();
-        for(int i = 0; i < versionRaw.length(); i++){
-            Log.w("VERSION NUMBER", String.valueOf(versionRaw.charAt(i)));
-            mVersion.add((int) versionRaw.charAt(i));
-        }
+        this.mInstructions = null;
     }
 
     @NonNull
@@ -44,20 +36,17 @@ public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsLi
     public void onBindViewHolder(@NonNull InstructionsViewHolder instrukcjeholder, int rowNumber) {
         instrukcjeholder.thisInstructionSet = mInstructions.get(rowNumber);
         instrukcjeholder.title.setText(mInstructions.get(rowNumber).getTitle());
-        instrukcjeholder.brief.setText(mInstructions.get(rowNumber).getInstructions().substring(3));
+        instrukcjeholder.brief.setText(mInstructions.get(rowNumber).getInstructions());
     }
 
     @Override
     public int getItemCount() {
-        return mInstructions.size();
+        if(mInstructions!=null) return mInstructions.size();
+        else return 0;
     }
 
     public void setElementList(List<InstructionSet> instructions){
-        for(InstructionSet instruction : instructions){
-            if(mVersion.contains(instruction.getPosition())){
-                mInstructions.add(instruction);
-            }
-        }
+        mInstructions = instructions;
         notifyDataSetChanged();
     }
 
