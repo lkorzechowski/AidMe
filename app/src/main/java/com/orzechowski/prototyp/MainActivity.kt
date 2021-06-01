@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import com.orzechowski.prototyp.database.GlobalRoomDatabase
 import com.orzechowski.prototyp.emergencynumbers.EmergencyNumbersRecycler
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
+        GlobalRoomDatabase.getDatabase(applicationContext)
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
