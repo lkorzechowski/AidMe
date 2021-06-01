@@ -1,6 +1,7 @@
 package com.orzechowski.prototyp.versionrecycler;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,11 @@ public class VersionRecycler extends Fragment {
         mAdapter = new VersionListAdapter(requireActivity());
         mRecycler = view.findViewById(R.id.versions_rv);
         mRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
-        versionViewModel.getByTutorialId(tutorialId).observe(requireActivity(), versions->mAdapter.setElementList(versions));
+        versionViewModel.getByTutorialId(tutorialId).observe(requireActivity(), versions->{
+            mAdapter.setElementList(versions);
+            Log.w("WARNING WARNING", versions.get(0).getText());
+        });
         mRecycler.setAdapter(mAdapter);
         return view;
     }
-
 }

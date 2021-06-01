@@ -1,6 +1,7 @@
 package com.orzechowski.prototyp.instructionsrecycler;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +21,16 @@ public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsLi
     private final OnClickListener mListener;
     private final List<Integer> mVersion;
 
-    public InstructionsListAdapter(Activity activity, String versionRaw)
+    public InstructionsListAdapter(Activity activity, String versionRaw, OnClickListener listener)
     {
         this.mInflater = activity.getLayoutInflater();
-        this.mListener = (OnClickListener) activity;
+        this.mListener = listener;
         this.mVersion = new LinkedList<>();
         this.mInstructions = new LinkedList<>();
         for(int i = 0; i < versionRaw.length(); i++){
+            Log.w("VERSION NUMBER", String.valueOf(versionRaw.charAt(i)));
             mVersion.add((int) versionRaw.charAt(i));
         }
-    }
-
-    public InstructionSet getInstructionSet(int position){
-        return mInstructions.get(position);
     }
 
     @NonNull

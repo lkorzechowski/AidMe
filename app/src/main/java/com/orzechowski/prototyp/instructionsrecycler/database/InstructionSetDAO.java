@@ -29,4 +29,7 @@ public interface InstructionSetDAO {
 
     @Query("SELECT * FROM instructionset WHERE tutorialId = :tutorialId ORDER BY tutorialId ASC")
     LiveData<List<InstructionSet>> getByTutorialId(Long tutorialId);
+
+    @Query("SELECT * FROM instructionset WHERE position = :position AND tutorialId = :tutorialId")
+    LiveData<List<InstructionSet>> getByPositionAndTutorialId(int position, long tutorialId);
 }

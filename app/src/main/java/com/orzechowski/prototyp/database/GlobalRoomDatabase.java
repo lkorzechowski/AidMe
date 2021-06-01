@@ -12,11 +12,12 @@ import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
 import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSetDAO;
 import com.orzechowski.prototyp.versionrecycler.database.Version;
 import com.orzechowski.prototyp.versionrecycler.database.VersionDAO;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class},
-        version = 2, exportSchema = false)
+        version = 1, exportSchema = false)
 public abstract class GlobalRoomDatabase extends RoomDatabase {
 
     public abstract VersionDAO versionDao();
@@ -28,7 +29,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
     public static GlobalRoomDatabase getDatabase(final Context context){
         if(INSTANCE == null){
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                    GlobalRoomDatabase.class, "AidMeDatabase")
+                    GlobalRoomDatabase.class, "AidMe")
                     .addCallback(sRoomDatabaseCallback)
                     .fallbackToDestructiveMigration()
                     .build();

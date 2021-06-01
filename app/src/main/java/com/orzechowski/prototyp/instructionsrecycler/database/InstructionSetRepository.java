@@ -39,4 +39,8 @@ public class InstructionSetRepository {
     public LiveData<List<InstructionSet>> getByTutorialId(long tutorialId){
         return mDao.getByTutorialId(tutorialId);
     }
+
+    public LiveData<List<InstructionSet>> getByPositionAndTutorialId(int position, long tutorialId){
+        return mDao.getByPositionAndTutorialId(position, tutorialId);
+    }
 }

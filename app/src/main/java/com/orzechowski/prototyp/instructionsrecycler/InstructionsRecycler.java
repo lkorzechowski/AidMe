@@ -25,6 +25,8 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     private TextView mTextDisplay;
     private final String mIdResource;
     private int tutorialLength;
+    private InstructionSetViewModel mInstructionSetViewModel;
+    private long mTutorialId;
 
     public InstructionsRecycler() {
         super(R.layout.fragment_recycler_main);
@@ -36,16 +38,15 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
     ) {
-        long tutorialId = requireArguments().getLong("tutorialId");
+        mTutorialId = requireArguments().getLong("tutorialId");
         String tutorialParts = requireArguments().getString("versionTutorialParts");
         tutorialLength = tutorialParts.length();
         this.mTextDisplay = requireActivity().findViewById(R.id.active_instructions);
 
-        InstructionSetViewModel instructionSetViewModel =
-                new ViewModelProvider(this).get(InstructionSetViewModel.class);
-        instructionSetViewModel.getByTutorialId(tutorialId)
+        mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
+        mInstructionSetViewModel.getByTutorialId(mTutorialId)
                 .observe(requireActivity(), instructions->mAdapter.setElementList(instructions));
-        mAdapter = new InstructionsListAdapter(requireActivity(), tutorialParts);
+        mAdapter = new InstructionsListAdapter(requireActivity(), tutorialParts, this);
         View view = inflater.inflate(R.layout.fragment_recycler_poradnik, container, false);
         mRecycler = view.findViewById(R.id.tutorial_rv);
         mRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false){
@@ -68,8 +69,12 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             position++;
         }
         if(position < tutorialLength) {
-            mPlayerInstance = new Player(mAdapter.getInstructionSet(position));
-            mPlayerInstance.start();
+            mInstructionSetViewModel
+                    .getByPositionAndTutorialId(position, mTutorialId)
+                    .observe(requireActivity(), selected ->{
+                        mPlayerInstance = new Player(selected.get(0));
+                        mPlayerInstance.start();
+                    });
         } else mTextDisplay.setVisibility(View.GONE);
     }
 

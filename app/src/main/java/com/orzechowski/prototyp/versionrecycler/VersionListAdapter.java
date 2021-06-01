@@ -1,7 +1,6 @@
 package com.orzechowski.prototyp.versionrecycler;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,6 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
     public void onBindViewHolder(@NonNull VersionViewHolder versionHolder, int rowNumber) {
         versionHolder.thisVersion = mVersionList.get(rowNumber);
         versionHolder.versionButton.setText((mVersionList.get(rowNumber).getText()));
-        Log.w("TAG", mVersionList.get(rowNumber).getText());
     }
 
     @Override
