@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +25,12 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     private boolean mBoot;
     private TextView mTextDisplay;
     private final String mIdResource;
-    private int tutorialLength;
+    private int mTutorialLength;
     private InstructionSetViewModel mInstructionSetViewModel;
     private long mTutorialId;
+    private String mTutorialParts;
+    private int mPlayCount;
+    private boolean mAutoplay;
 
     public InstructionsRecycler() {
         super(R.layout.fragment_recycler_main);
@@ -38,12 +42,16 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
     ) {
-        mTutorialId = requireArguments().getLong("tutorialId");
-        String tutorialParts = requireArguments().getString("versionTutorialParts");//TODO
+        this.mTutorialId = requireArguments().getLong("tutorialId");
+        this.mTutorialParts = requireArguments().getString("versionTutorialParts");
         this.mTextDisplay = requireActivity().findViewById(R.id.active_instructions);
+        this.mPlayCount = 0;
+        this.mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
+        this.mAutoplay = true;
+        this.mTutorialLength= mTutorialParts.length();
 
-        mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
-        tutorialLength=8;//TODO
+
+        Log.w("THE LENGTH IS: ", String.valueOf(mTutorialLength));
         mInstructionSetViewModel.getByTutorialId(mTutorialId)
                 .observe(requireActivity(), instructions->mAdapter.setElementList(instructions));
         mAdapter = new InstructionsListAdapter(requireActivity(), this);
@@ -64,18 +72,37 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     }
 
     private void play(int position){
-        if(mPlayerInstance!=null){
+        if (mPlayerInstance != null) {
             mPlayerInstance.interrupt();
             position++;
         }
-        if(position < tutorialLength) {
+        if(mAutoplay) {
+            if (mPlayCount < mTutorialLength) {
+                if (mTutorialParts.contains(String.valueOf(position))) {
+                    getPlayer(position);
+                    mPlayCount++;
+                } else {
+                    play(position + 1);
+                }
+            } else mTextDisplay.setVisibility(View.GONE);
+        } else {
+            if(mTutorialParts.contains(String.valueOf(position))){
+                mAutoplay = true;
+                getPlayer(position);
+                mPlayCount++;
+            } else {
+                getPlayer(position);
+            }
+        }
+    }
+
+    public void getPlayer(int position){
             mInstructionSetViewModel
-                    .getByPositionAndTutorialId(position, mTutorialId)
-                    .observe(requireActivity(), selected ->{
-                        mPlayerInstance = new Player(selected.get(0));
-                        mPlayerInstance.start();
-                    });
-        } else mTextDisplay.setVisibility(View.GONE);
+                .getByPositionAndTutorialId(position, mTutorialId)
+                    .observe(requireActivity(), selected -> {
+                    mPlayerInstance = new Player(selected.get(0));
+                    mPlayerInstance.start();
+                });
     }
 
     @Override
@@ -88,7 +115,10 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
 
     @Override
     public void onClick(InstructionSet instructionSet) {
-        mTextDisplay.setVisibility(View.VISIBLE);
+        this.mTextDisplay.setVisibility(View.VISIBLE);
+        this.mPlayCount = instructionSet.getPosition()-1;
+        this.mAutoplay = false;
+
         play(instructionSet.getPosition()-1);
     }
 
@@ -118,7 +148,9 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             try {
                 mPlayer.start();
                 sleep(instructionSet.getTime());
-                requireActivity().runOnUiThread(()-> play(position));
+                requireActivity().runOnUiThread(()->{
+                    if(mAutoplay) play(position);
+                });
             } catch (IllegalStateException | InterruptedException e) {
                 mPlayer.stop();
                 interrupt();

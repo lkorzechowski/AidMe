@@ -61,8 +61,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
                 instructionDAO.insert(new InstructionSet(6L, "Uciśnięcia", "Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.", 14000, 0L, 6));
                 instructionDAO.insert(new InstructionSet(7L, "W razie zwymiotowania ofiary", "Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.", 8000, 0L, 7));
 
-                versionDAO.insert(new Version(0L, "Wiem co robię, potrzebne mi jest tylko tempo!", "01234567", 0L));
-                versionDAO.insert(new Version(1L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", "467", 0L));
+                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", "01234567", 0L));
+                versionDAO.insert(new Version(1L, "Wiem co robię, potrzebne mi jest tylko tempo!", "6", 0L));
             });
         }
     };
