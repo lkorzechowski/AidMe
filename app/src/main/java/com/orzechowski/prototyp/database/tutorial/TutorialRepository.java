@@ -35,4 +35,8 @@ public class TutorialRepository {
     void update(Tutorial tutorial){
         GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(tutorial));
     }
+
+    LiveData<List<Tutorial>> getByTutorialId(Long tutorialId){
+        return mDao.getByTutorialId(tutorialId);
+    }
 }

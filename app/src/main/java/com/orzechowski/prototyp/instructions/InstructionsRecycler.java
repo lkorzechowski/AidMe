@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.instructionsrecycler;
+package com.orzechowski.prototyp.instructions;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
-import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSetViewModel;
+import com.orzechowski.prototyp.instructions.database.InstructionSet;
+import com.orzechowski.prototyp.instructions.database.InstructionSetViewModel;
 import org.jetbrains.annotations.NotNull;
 
 import static com.orzechowski.prototyp.tools.GetResId.getResId;

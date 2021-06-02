@@ -8,10 +8,10 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.orzechowski.prototyp.database.tutorial.Tutorial;
 import com.orzechowski.prototyp.database.tutorial.TutorialDAO;
-import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
-import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSetDAO;
-import com.orzechowski.prototyp.versionrecycler.database.Version;
-import com.orzechowski.prototyp.versionrecycler.database.VersionDAO;
+import com.orzechowski.prototyp.instructions.database.InstructionSet;
+import com.orzechowski.prototyp.instructions.database.InstructionSetDAO;
+import com.orzechowski.prototyp.version.database.Version;
+import com.orzechowski.prototyp.version.database.VersionDAO;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -50,7 +50,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
                 InstructionSetDAO instructionDAO = INSTANCE.instructionDao();
                 VersionDAO versionDAO = INSTANCE.versionDao();
 
-                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L));
+                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L, 45000, true, 545));
 
                 instructionDAO.insert(new InstructionSet(0L, "Wstęp", "Jeżeli ofiara nie jest w stanie samodzielnie oddychać…", 5000, 0L, 0));
                 instructionDAO.insert(new InstructionSet(1L, "Ułożenie ofiary", "Upewnij się, że ofiara leży na plecach, jest ułożona prosto, a jej drogi oddechowe są udrożnione.", 8000, 0L, 1));
@@ -61,8 +61,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
                 instructionDAO.insert(new InstructionSet(6L, "Uciśnięcia", "Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.", 14000, 0L, 6));
                 instructionDAO.insert(new InstructionSet(7L, "W razie zwymiotowania ofiary", "Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.", 8000, 0L, 7));
 
-                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", "01234567", 0L));
-                versionDAO.insert(new Version(1L, "Wiem co robię, potrzebne mi jest tylko tempo!", "6", 0L));
+                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", "01234567", 0L, false));
+                versionDAO.insert(new Version(1L, "Wiem co robię, potrzebne mi jest tylko tempo!", "6", 0L, true));
             });
         }
     };

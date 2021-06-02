@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.versionrecycler.database;
+package com.orzechowski.prototyp.version.database;
 
 import android.app.Application;
 

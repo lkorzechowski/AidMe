@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.instructionsrecycler.database
+package com.orzechowski.prototyp.instructions.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

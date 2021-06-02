@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.versionrecycler;
+package com.orzechowski.prototyp.version;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.versionrecycler.database.VersionViewModel;
+import com.orzechowski.prototyp.version.database.VersionViewModel;
 import org.jetbrains.annotations.NotNull;
 
 public class VersionRecycler extends Fragment {

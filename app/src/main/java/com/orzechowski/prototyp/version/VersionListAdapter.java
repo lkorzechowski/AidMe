@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.versionrecycler;
+package com.orzechowski.prototyp.version;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.versionrecycler.database.Version;
+import com.orzechowski.prototyp.version.database.Version;
 import java.util.List;
 
 public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.VersionViewHolder> {

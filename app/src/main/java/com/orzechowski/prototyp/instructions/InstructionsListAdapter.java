@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.instructionsrecycler;
+package com.orzechowski.prototyp.instructions;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.instructionsrecycler.database.InstructionSet;
+import com.orzechowski.prototyp.instructions.database.InstructionSet;
 import java.util.List;
 
 public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsListAdapter.InstructionsViewHolder> {

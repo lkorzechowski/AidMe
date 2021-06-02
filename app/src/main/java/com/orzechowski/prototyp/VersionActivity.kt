@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import com.orzechowski.prototyp.versionrecycler.VersionListAdapter
-import com.orzechowski.prototyp.versionrecycler.VersionRecycler
-import com.orzechowski.prototyp.versionrecycler.database.Version
+import com.orzechowski.prototyp.version.VersionListAdapter
+import com.orzechowski.prototyp.version.VersionRecycler
+import com.orzechowski.prototyp.version.database.Version
 
 class VersionActivity : AppCompatActivity(R.layout.activity_version),
 VersionListAdapter.OnClickListener {
@@ -29,6 +29,8 @@ VersionListAdapter.OnClickListener {
     override fun onClick(version: Version) {
         val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
         tutorial.putExtra("versionTutorialParts", version.instructions)
+        tutorial.putExtra("versionSkipDelay", version.skipDelayOnGlobalSound)
+        tutorial.putExtra("tutorialId", 0L)
         startActivity(tutorial)
     }
 }

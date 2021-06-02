@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.instructionsrecycler.database;
+package com.orzechowski.prototyp.instructions.database;
 
 import android.app.Application;
 import androidx.lifecycle.LiveData;
