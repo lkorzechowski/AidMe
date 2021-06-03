@@ -2,6 +2,7 @@ package com.orzechowski.prototyp
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
@@ -22,6 +23,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
     private var mLoopInterval by Delegates.notNull<Long>()
     private var mDelay by Delegates.notNull<Long>()
     private var mTutorial: Tutorial? = null
+    private var mDelayBool by Delegates.notNull<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +31,12 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         supportActionBar?.hide()
 
         this.mTutorialId = intent.extras?.getLong("tutorialId") ?: -1L
+        this.mDelayBool = intent.extras?.getBoolean("versionSkipDelay") ?: false
         this.mResourceId = GetResId.getResId("g$mTutorialId", R.raw::class.java)
 
         Thread {
             this.mTutorial = ViewModelProvider(this).get(TutorialViewModel::class.java).getByTutorialId(this.mTutorialId)
-        }
+        }.start()
 
         val videoEmbed: VideoView = findViewById(R.id.video_embed)
         //val imageEmbed: ImageView = findViewById(R.id.image_embed)
@@ -50,40 +53,40 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
     }
 
     private fun play(){
-
         if(mTutorial==null){
             Thread{
+                Log.w("waiting", "waiting")
                 sleep(10)
                 play()
-            }
-            return
+            }.start()
+        } else {
+
+            this.mDelay = mTutorial!!.globalSoundStart
+            this.mLoop = mTutorial!!.globalSoundLoop
+            this.mLoopInterval = mTutorial!!.globalSoundLoopInterval
+
+            val globalSound = GlobalSound(mResourceId, mLoopInterval, this)
+
+            Thread {
+                if (!mDelayBool) {
+                    sleep(mDelay)
+                    mDelayBool=false
+                }
+                globalSound.start()
+            }.start()
+
         }
-
-        this.mDelay = mTutorial!!.globalSoundStart
-        this.mLoop = mTutorial!!.globalSoundLoop
-        this.mLoopInterval = mTutorial!!.globalSoundLoopInterval
-
-        if(intent.extras?.getBoolean("versionSkipDelay")==true) {
-            Thread{
-                sleep(mDelay)
-                play()
-            }
-            return
-        }
-
-        val globalSound = GlobalSound(mResourceId, mLoopInterval, this)
-        globalSound.start()
     }
 
     class GlobalSound(private val resourceId: Int, private val interval: Long,
                       private val activity: TutorialActivity) : Thread()
     {
-
         override fun start(){
             val mPlayer: MediaPlayer = MediaPlayer.create(activity, resourceId)
             mPlayer.isLooping = false
-            mPlayer.setVolume(1f, 1f)
+            mPlayer.setVolume(0.5f, 0.5f)
             try {
+                Log.w("loop", "loop")
                 mPlayer.start()
                 sleep(interval)
                 if(activity.mLoop) activity.play()
