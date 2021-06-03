@@ -8,8 +8,8 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.orzechowski.prototyp.database.tutorial.Tutorial;
 import com.orzechowski.prototyp.database.tutorial.TutorialDAO;
-import com.orzechowski.prototyp.instructions.database.InstructionSet;
-import com.orzechowski.prototyp.instructions.database.InstructionSetDAO;
+import com.orzechowski.prototyp.tutorial.database.InstructionSet;
+import com.orzechowski.prototyp.tutorial.database.InstructionSetDAO;
 import com.orzechowski.prototyp.version.database.Version;
 import com.orzechowski.prototyp.version.database.VersionDAO;
 
@@ -50,7 +50,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
                 InstructionSetDAO instructionDAO = INSTANCE.instructionDao();
                 VersionDAO versionDAO = INSTANCE.versionDao();
 
-                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L, 45000, true, 545));
+                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L, 45000L, true, 545L));
 
                 instructionDAO.insert(new InstructionSet(0L, "Wstęp", "Jeżeli ofiara nie jest w stanie samodzielnie oddychać…", 5000, 0L, 0));
                 instructionDAO.insert(new InstructionSet(1L, "Ułożenie ofiary", "Upewnij się, że ofiara leży na plecach, jest ułożona prosto, a jej drogi oddechowe są udrożnione.", 8000, 0L, 1));

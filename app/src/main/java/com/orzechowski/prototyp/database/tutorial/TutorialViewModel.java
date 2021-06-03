@@ -4,9 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-
-import java.util.List;
 
 public class TutorialViewModel extends AndroidViewModel {
 
@@ -33,7 +30,7 @@ public class TutorialViewModel extends AndroidViewModel {
         mRepository.update(tutorial);
     }
 
-    public LiveData<List<Tutorial>> getByTutorialId(Long tutorialId){
+    public Tutorial getByTutorialId(Long tutorialId){
         return mRepository.getByTutorialId(tutorialId);
     }
 }

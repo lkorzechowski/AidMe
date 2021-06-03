@@ -8,6 +8,6 @@ class Tutorial(
     @PrimaryKey val tutorialId: Long,
                 val tutorialName: String,
                 val authorId: Long,
-                val globalSoundStart: Int,
+                val globalSoundStart: Long,
                 val globalSoundLoop: Boolean,
-                val globalSoundLoopInterval: Int)
+                val globalSoundLoopInterval: Long)

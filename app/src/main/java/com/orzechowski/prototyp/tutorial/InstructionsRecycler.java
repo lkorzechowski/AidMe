@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.instructions;
+package com.orzechowski.prototyp.tutorial;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.orzechowski.prototyp.R;
-import com.orzechowski.prototyp.instructions.database.InstructionSet;
-import com.orzechowski.prototyp.instructions.database.InstructionSetViewModel;
+import com.orzechowski.prototyp.tutorial.database.InstructionSet;
+import com.orzechowski.prototyp.tutorial.database.InstructionSetViewModel;
 import org.jetbrains.annotations.NotNull;
 
 import static com.orzechowski.prototyp.tools.GetResId.getResId;
@@ -112,7 +112,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     @Override
     public void onClick(InstructionSet instructionSet) {
         this.mTextDisplay.setVisibility(View.VISIBLE);
-        this.mPlayCount = instructionSet.getPosition()-1;
+        this.mPlayCount = instructionSet.getPosition();
         this.mAutoplay = false;
 
         play(instructionSet.getPosition()-1);

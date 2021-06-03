@@ -28,5 +28,5 @@ public interface TutorialDAO {
     LiveData<List<Tutorial>> getAll();
 
     @Query("SELECT * FROM tutorial WHERE tutorialId = :tutorialId")
-    LiveData<List<Tutorial>> getByTutorialId(Long tutorialId);
+    Tutorial getByTutorialId(Long tutorialId);
 }
