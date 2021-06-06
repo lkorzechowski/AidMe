@@ -2,14 +2,13 @@ package com.orzechowski.prototyp
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import com.orzechowski.prototyp.database.tutorial.Tutorial
-import com.orzechowski.prototyp.database.tutorial.TutorialViewModel
+import com.orzechowski.prototyp.tutorial.database.Tutorial
+import com.orzechowski.prototyp.tutorial.database.TutorialViewModel
 import com.orzechowski.prototyp.tutorial.InstructionsRecycler
 import com.orzechowski.prototyp.tools.GetResId
 import java.lang.Thread.sleep
@@ -24,6 +23,8 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
     private var mDelay by Delegates.notNull<Long>()
     private var mTutorial: Tutorial? = null
     private var mDelayBool by Delegates.notNull<Boolean>()
+    private var mBootup: Boolean = true
+    private lateinit var runnable: Thread
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,9 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         this.mResourceId = GetResId.getResId("g$mTutorialId", R.raw::class.java)
 
         Thread {
-            this.mTutorial = ViewModelProvider(this).get(TutorialViewModel::class.java).getByTutorialId(this.mTutorialId)
+            this.mTutorial = ViewModelProvider(this)
+                .get(TutorialViewModel::class.java)
+                .getByTutorialId(this.mTutorialId)
         }.start()
 
         val videoEmbed: VideoView = findViewById(R.id.video_embed)
@@ -55,50 +58,40 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
     private fun play(){
         if(mTutorial==null){
             Thread{
-                Log.w("waiting", "waiting")
-                sleep(10)
+                sleep(4)
                 play()
             }.start()
-        } else {
-
+        } else if (mBootup) {
             this.mDelay = mTutorial!!.globalSoundStart
             this.mLoop = mTutorial!!.globalSoundLoop
             this.mLoopInterval = mTutorial!!.globalSoundLoopInterval
-
-            val globalSound = GlobalSound(mResourceId, mLoopInterval, this)
-
-            Thread {
+            mBootup = false
+            play()
+        } else {
+            runnable = Thread {
                 if (!mDelayBool) {
                     sleep(mDelay)
                     mDelayBool=false
                 }
-                globalSound.start()
-            }.start()
-
+                val player = MediaPlayer.create(this, mResourceId)
+                try {
+                    player.setVolume(0.5f, 0.5f)
+                    player.start()
+                    sleep(mLoopInterval)
+                    player.stop()
+                    player.release()
+                    if (mLoop) play()
+                } catch (e: InterruptedException) {
+                    player.stop()
+                    player.release()
+                }
+            }
+            runnable.start()
         }
     }
 
-    class GlobalSound(private val resourceId: Int, private val interval: Long,
-                      private val activity: TutorialActivity) : Thread()
-    {
-        override fun start(){
-            val mPlayer: MediaPlayer = MediaPlayer.create(activity, resourceId)
-            mPlayer.isLooping = false
-            mPlayer.setVolume(0.5f, 0.5f)
-            try {
-                Log.w("loop", "loop")
-                mPlayer.start()
-                sleep(interval)
-                if(activity.mLoop) activity.play()
-                mPlayer.stop()
-                interrupt()
-            } catch (e: IllegalStateException) {
-                mPlayer.stop()
-                interrupt()
-            } catch (e: InterruptedException) {
-                mPlayer.stop()
-                interrupt()
-            }
-        }
+    override fun onStop() {
+        super.onStop()
+        if(runnable.isAlive) runnable.interrupt()
     }
 }

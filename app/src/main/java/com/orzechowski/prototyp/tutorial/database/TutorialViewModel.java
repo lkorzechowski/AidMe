@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.database.tutorial;
+package com.orzechowski.prototyp.tutorial.database;
 
 import android.app.Application;
 
