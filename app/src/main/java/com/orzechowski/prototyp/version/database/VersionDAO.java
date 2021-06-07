@@ -31,5 +31,5 @@ public interface VersionDAO {
     LiveData<List<Version>> getByTutorialId(Long tutorialId);
 
     @Query("SELECT * FROM version WHERE versionId = :versionId")
-    LiveData<List<Version>> getByVersionId(Long versionId);
+    Version getByVersionId(Long versionId);
 }

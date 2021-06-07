@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.tutorial;
+package com.orzechowski.prototyp.tutorial.recycler;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.orzechowski.prototyp.R;
 import com.orzechowski.prototyp.tutorial.database.InstructionSet;
 import com.orzechowski.prototyp.tutorial.database.InstructionSetViewModel;
+
 import org.jetbrains.annotations.NotNull;
 
 import static com.orzechowski.prototyp.tools.GetResId.getResId;

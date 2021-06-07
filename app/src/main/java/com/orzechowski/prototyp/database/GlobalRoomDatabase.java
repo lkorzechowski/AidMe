@@ -10,6 +10,8 @@ import com.orzechowski.prototyp.tutorial.database.Tutorial;
 import com.orzechowski.prototyp.tutorial.database.TutorialDAO;
 import com.orzechowski.prototyp.tutorial.database.InstructionSet;
 import com.orzechowski.prototyp.tutorial.database.InstructionSetDAO;
+import com.orzechowski.prototyp.tutorial.sound.TutorialSound;
+import com.orzechowski.prototyp.tutorial.sound.TutorialSoundDAO;
 import com.orzechowski.prototyp.version.database.Version;
 import com.orzechowski.prototyp.version.database.VersionDAO;
 
@@ -23,6 +25,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
     public abstract VersionDAO versionDao();
     public abstract InstructionSetDAO instructionDao();
     public abstract TutorialDAO tutorialDao();
+    public abstract TutorialSoundDAO tutorialSoundDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
@@ -49,8 +52,9 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
                 TutorialDAO tutorialDAO = INSTANCE.tutorialDao();
                 InstructionSetDAO instructionDAO = INSTANCE.instructionDao();
                 VersionDAO versionDAO = INSTANCE.versionDao();
+                TutorialSoundDAO tutorialSoundDAO = INSTANCE.tutorialSoundDAO();
 
-                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L, 45000L, true, 545L));
+                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L));
 
                 instructionDAO.insert(new InstructionSet(0L, "Wstęp", "Jeżeli ofiara nie jest w stanie samodzielnie oddychać…", 5000, 0L, 0));
                 instructionDAO.insert(new InstructionSet(1L, "Ułożenie ofiary", "Upewnij się, że ofiara leży na plecach, jest ułożona prosto, a jej drogi oddechowe są udrożnione.", 8000, 0L, 1));
@@ -61,8 +65,10 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
                 instructionDAO.insert(new InstructionSet(6L, "Uciśnięcia", "Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.", 14000, 0L, 6));
                 instructionDAO.insert(new InstructionSet(7L, "W razie zwymiotowania ofiary", "Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.", 8000, 0L, 7));
 
-                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", "01234567", 0L, false));
-                versionDAO.insert(new Version(1L, "Wiem co robię, potrzebne mi jest tylko tempo!", "6", 0L, true));
+                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", "01234567", 0L, false, "0"));
+                versionDAO.insert(new Version(1L, "Wiem co robię, potrzebne mi jest tylko tempo!", "6", 0L, true, "0"));
+
+                tutorialSoundDAO.insert(new TutorialSound(0L, 45000L, true, 545L, 0L));
             });
         }
     };

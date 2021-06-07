@@ -8,5 +8,6 @@ class InstructionSet(
     @PrimaryKey val instructionSetId: Long,
                 val title: String,
                 val instructions: String,
-                val time: Int, val tutorialId: Long,
+                val time: Int,
+                val tutorialId: Long,
                 val position: Int)

@@ -1,4 +1,4 @@
-package com.orzechowski.prototyp.tutorial;
+package com.orzechowski.prototyp.tutorial.recycler;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

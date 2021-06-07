@@ -39,7 +39,7 @@ public class VersionRepository {
         GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(version));
     }
 
-    public LiveData<List<Version>> getByVersionId(long versionId){
+    public Version getByVersionId(long versionId){
         return mDao.getByVersionId(versionId);
     }
 

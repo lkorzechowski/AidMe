@@ -1,6 +1,5 @@
 package com.orzechowski.prototyp
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
@@ -9,36 +8,25 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.orzechowski.prototyp.tutorial.database.Tutorial
 import com.orzechowski.prototyp.tutorial.database.TutorialViewModel
-import com.orzechowski.prototyp.tutorial.InstructionsRecycler
-import com.orzechowski.prototyp.tools.GetResId
-import java.lang.Thread.sleep
-import kotlin.properties.Delegates
+import com.orzechowski.prototyp.tutorial.recycler.InstructionsRecycler
+import com.orzechowski.prototyp.tutorial.sound.SoundAdapter
 
 class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
 {
-    private var mTutorialId by Delegates.notNull<Long>()
-    private var mResourceId by Delegates.notNull<Int>()
-    private var mLoop by Delegates.notNull<Boolean>()
-    private var mLoopInterval by Delegates.notNull<Long>()
-    private var mDelay by Delegates.notNull<Long>()
     private var mTutorial: Tutorial? = null
-    private var mDelayBool by Delegates.notNull<Boolean>()
-    private var mBootup: Boolean = true
-    private lateinit var runnable: Thread
+    private lateinit var soundAdapter: SoundAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_tutorial)
         supportActionBar?.hide()
 
-        this.mTutorialId = intent.extras?.getLong("tutorialId") ?: -1L
-        this.mDelayBool = intent.extras?.getBoolean("versionSkipDelay") ?: false
-        this.mResourceId = GetResId.getResId("g$mTutorialId", R.raw::class.java)
+        soundAdapter = SoundAdapter(intent.extras?.getLong("VersionId") ?: -1L)
 
         Thread {
             this.mTutorial = ViewModelProvider(this)
                 .get(TutorialViewModel::class.java)
-                .getByTutorialId(this.mTutorialId)
+                .getByTutorialId(intent.extras?.getLong("tutorialId") ?: -1L)
         }.start()
 
         val videoEmbed: VideoView = findViewById(R.id.video_embed)
@@ -52,46 +40,20 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
             setReorderingAllowed(true)
             add<InstructionsRecycler>(R.id.layout_instructions_list, args = bundle)
         }
-        play()
+        checkObtainedTutorial()
     }
 
-    private fun play(){
-        if(mTutorial==null){
-            Thread{
-                sleep(4)
-                play()
+    private fun checkObtainedTutorial(){
+        if(mTutorial==null) {
+            Thread {
+                Thread.sleep(4)
+                checkObtainedTutorial()
             }.start()
-        } else if (mBootup) {
-            this.mDelay = mTutorial!!.globalSoundStart
-            this.mLoop = mTutorial!!.globalSoundLoop
-            this.mLoopInterval = mTutorial!!.globalSoundLoopInterval
-            mBootup = false
-            play()
-        } else {
-            runnable = Thread {
-                if (!mDelayBool) {
-                    sleep(mDelay)
-                    mDelayBool=false
-                }
-                val player = MediaPlayer.create(this, mResourceId)
-                try {
-                    player.setVolume(0.5f, 0.5f)
-                    player.start()
-                    sleep(mLoopInterval)
-                    player.stop()
-                    player.release()
-                    if (mLoop) play()
-                } catch (e: InterruptedException) {
-                    player.stop()
-                    player.release()
-                }
-            }
-            runnable.start()
-        }
+        } else soundAdapter.deploy()
     }
 
     override fun onStop() {
         super.onStop()
-        if(runnable.isAlive) runnable.interrupt()
+        soundAdapter.destroy()
     }
 }

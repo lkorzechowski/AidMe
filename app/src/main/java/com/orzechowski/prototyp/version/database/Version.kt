@@ -9,4 +9,5 @@ class Version(
                 val text: String,
                 val instructions: String,
                 val tutorialId: Long,
-                val skipDelayOnGlobalSound: Boolean)
+                val skipDelayOnGlobalSound: Boolean,
+                val sounds: String)
