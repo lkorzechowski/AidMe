@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +36,20 @@ public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyN
     public void onBindViewHolder(@NonNull NumbersViewHolder numbersHolder, int rowNumber) {
         TextView numer = numbersHolder.itemView.findViewById(R.id.number);
         TextView usluga = numbersHolder.itemView.findViewById(R.id.service);
-        numer.setText(String.valueOf(mNumbersList.get(rowNumber).getPhoneNumber()));
+        ImageView icon = numbersHolder.itemView.findViewById(R.id.icon_phone);
+        int number = mNumbersList.get(rowNumber).getPhoneNumber();
+        if(rowNumber < 4) {
+            if (number == 999) {
+                icon.setImageResource(R.drawable.ic_hospital);
+            } else if (number == 997) {
+                icon.setImageResource(R.drawable.ic_police);
+            } else if (number == 998) {
+                icon.setImageResource(R.drawable.ic_flame);
+            } else if (number == 112) {
+                icon.setImageResource(R.drawable.ic_exclamation);
+            }
+        } else icon.setImageResource(R.drawable.ic_phone);
+        numer.setText(String.valueOf(number));
         usluga.setText(mNumbersList.get(rowNumber).getServiceName());
     }
 

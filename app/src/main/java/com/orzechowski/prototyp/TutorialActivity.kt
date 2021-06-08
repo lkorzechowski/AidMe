@@ -57,7 +57,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
     }
 
     override fun onStop() {
-        super.onStop()
         soundAdapter.destroy()
+        super.onStop()
     }
 }

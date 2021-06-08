@@ -2,8 +2,7 @@
     <string name="app_name">Prototyp</string>
     <string name="mainactivity_pomoc">Pomoc</string>
     <string name="mainactivity_portal">Portal dla pomocników</string>
-    <string name="wroc">Wróć</string>
-    <string name="icon_resembling_a_phone_handle">icon resembling a phone handle</string>
+    <string name="icon">icon</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

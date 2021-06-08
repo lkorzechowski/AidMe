@@ -24,11 +24,11 @@
         app:layout_constraintTop_toTopOf="@id/icon_phone" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/pasek1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/yellow1"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/icon_phone" />
 
     <ImageView
@@ -39,6 +39,5 @@
         android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_phone"
-        android:contentDescription="@string/icon_resembling_a_phone_handle" />
+        android:contentDescription="@string/icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>

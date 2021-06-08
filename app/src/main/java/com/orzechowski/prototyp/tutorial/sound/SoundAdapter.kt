@@ -22,12 +22,12 @@ class SoundAdapter (private val mVersionId: Long,
             {
                 val resourceId = GetResId.getResId("g$mVersionId"+"_"+i, R.raw::class.java)
                 mThreads.add(Thread {
-                    val loop = mSounds[i].soundLoop
                     if (mDelayGlobalSound) {
                         try{
                             Thread.sleep(mSounds[i].soundStart)
                         } catch (e: InterruptedException){
                             Thread.interrupted()
+                            return@Thread
                         }
                     }
                     var player = MediaPlayer.create(mContext, resourceId)
@@ -36,7 +36,7 @@ class SoundAdapter (private val mVersionId: Long,
                         player.start()
                         Thread.sleep(mSounds[i].interval)
                         player.release()
-                        while(loop){
+                        while(mSounds[i].soundLoop){
                             player = MediaPlayer.create(mContext, resourceId)
                             player.setVolume(0.5f, 0.5f)
                             player.start()
