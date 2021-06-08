@@ -29,8 +29,10 @@ VersionListAdapter.OnClickListener {
     override fun onClick(version: Version) {
         val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
         tutorial.putExtra("versionTutorialParts", version.instructions)
-        tutorial.putExtra("versionSkipDelay", version.skipDelayOnGlobalSound)
-        tutorial.putExtra("tutorialId", 0L)
+        tutorial.putExtra("versionId", version.versionId)
+        tutorial.putExtra("tutorialId", version.tutorialId)
+        tutorial.putExtra("delayGlobalSound", version.delayGlobalSound)
+        tutorial.putExtra("versionGlobalSounds", version.sounds)
         startActivity(tutorial)
     }
 }

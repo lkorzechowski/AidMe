@@ -18,7 +18,7 @@ import com.orzechowski.prototyp.version.database.VersionDAO;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Version.class, InstructionSet.class, Tutorial.class},
+@Database(entities = {Version.class, InstructionSet.class, Tutorial.class, TutorialSound.class},
         version = 1, exportSchema = false)
 public abstract class GlobalRoomDatabase extends RoomDatabase {
 
@@ -65,8 +65,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
                 instructionDAO.insert(new InstructionSet(6L, "Uciśnięcia", "Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.", 14000, 0L, 6));
                 instructionDAO.insert(new InstructionSet(7L, "W razie zwymiotowania ofiary", "Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.", 8000, 0L, 7));
 
-                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", "01234567", 0L, false, "0"));
-                versionDAO.insert(new Version(1L, "Wiem co robię, potrzebne mi jest tylko tempo!", "6", 0L, true, "0"));
+                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", "01234567", 0L, true, "0"));
+                versionDAO.insert(new Version(1L, "Wiem co robię, potrzebne mi jest tylko tempo!", "6", 0L, false, "0"));
 
                 tutorialSoundDAO.insert(new TutorialSound(0L, 45000L, true, 545L, 0L));
             });

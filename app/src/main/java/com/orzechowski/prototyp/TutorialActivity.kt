@@ -21,7 +21,11 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         this.setContentView(R.layout.activity_tutorial)
         supportActionBar?.hide()
 
-        soundAdapter = SoundAdapter(intent.extras?.getLong("VersionId") ?: -1L)
+        soundAdapter = SoundAdapter(
+            intent.extras?.getLong("VersionId") ?: -1L,
+            this,
+            intent.extras?.getBoolean("delayGlobalSound") ?: false,
+            intent.extras?.getString("versionGlobalSounds") ?: "")
 
         Thread {
             this.mTutorial = ViewModelProvider(this)
