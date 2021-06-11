@@ -15,16 +15,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         GlobalRoomDatabase.getDatabase(applicationContext)
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add<EmergencyNumbersRecycler>(R.id.phone_number_recycler_main)
-            }
-            val aidButton = findViewById<Button>(R.id.pomoc_button)
-            aidButton.setOnClickListener {
-                val tutorial = Intent(this@MainActivity, VersionActivity::class.java)
-                startActivity(tutorial)
-            }
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add<EmergencyNumbersRecycler>(R.id.phone_number_recycler_main)
+        }
+        val aidButton = findViewById<Button>(R.id.aid_button)
+        aidButton.setOnClickListener {
+            val tutorial = Intent(this@MainActivity, VersionActivity::class.java)
+            startActivity(tutorial)
         }
     }
 }

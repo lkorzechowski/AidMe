@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/pomoc_button"
+        android:id="@+id/aid_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/mainactivity_pomoc"
@@ -49,6 +49,6 @@
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pomoc_button"/>
+        app:layout_constraintTop_toBottomOf="@+id/aid_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
