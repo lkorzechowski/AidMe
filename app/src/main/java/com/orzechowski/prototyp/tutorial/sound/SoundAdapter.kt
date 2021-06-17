@@ -55,5 +55,6 @@ class SoundAdapter (private val mVersionId: Long,
 
     fun destroy(){
         for(thread in mThreads) thread.interrupt()
+        mThreads.clear()
     }
 }
