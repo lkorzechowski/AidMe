@@ -3,6 +3,11 @@
     <string name="mainactivity_pomoc">Pomoc</string>
     <string name="mainactivity_portal">Portal dla pomocników</string>
     <string name="icon">icon</string>
+    <string name="pobierz_wszystkie_poradniki">Pobierz wszystkie poradniki</string>
+    <string name="motyw">Motyw</string>
+    <string name="jasny">Jasny</string>
+    <string name="ciemny">Ciemny</string>
+    <string name="lepota_barw">Ślepota barw</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
