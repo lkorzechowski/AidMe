@@ -11,6 +11,7 @@
     <string name="app_policy">Nota prawna</string>
     <string name="contact">Kontakt</string>
     <string name="contributor_list">Lista wolontariuszy</string>
+    <string name="policy_note">Administrator dołoży wszelkich starań, by materiał zawarty w serwisie był kompletny i oferował wyższy standard pomocy, jednak nie może on udzielić żadnej gwarancji - wyrażonej w sposób jednoznaczny czy implikowany - że prezentowane w serwisie treści pozbawione są jakichkolwiek błędów i niedokładności. Administrator nie ponosi odpowiedzialności za wykroczenia popełnione przez wolontariuszy, użytkownicy proszeni są o zgłaszanie ich w trybie natychmiastowym w celu automatycznego zablokowania ich konta. Administrator nie rości sobie praw do żadnych treści multimedialnych opublikowanych w tym serwisie. Wszelkie zastrzeżenia dotyczące praw autorskich proszę kierować do lkorzechowski@gmail.com.</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
