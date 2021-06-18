@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:paddingStart="16dp"
+        android:paddingEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/number"
         app:layout_constraintTop_toTopOf="@id/icon_phone" />
