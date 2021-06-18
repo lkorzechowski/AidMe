@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">Prototyp</string>
-    <string name="mainactivity_pomoc">Pomoc</string>
-    <string name="mainactivity_portal">Portal dla pomocników</string>
+    <string name="app_name">Aid Me</string>
+    <string name="mainactivity_help">Pomoc</string>
+    <string name="mainactivity_login">Portal dla pomocników</string>
     <string name="icon">icon</string>
-    <string name="pobierz_wszystkie_poradniki">Pobierz wszystkie poradniki</string>
-    <string name="motyw">Motyw</string>
-    <string name="jasny">Jasny</string>
-    <string name="ciemny">Ciemny</string>
-    <string name="lepota_barw">Ślepota barw</string>
+    <string name="download_all_tutorials">Pobierz wszystkie poradniki</string>
+    <string name="header_select_theme">Motyw</string>
+    <string name="light">Jasny</string>
+    <string name="dark">Ciemny</string>
+    <string name="color_blind">Ślepota barw</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

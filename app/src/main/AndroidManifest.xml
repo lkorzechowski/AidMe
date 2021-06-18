@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.orzechowski.prototyp">
+    package="com.orzechowski.aidme">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
@@ -11,10 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AidMe">
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".TutorialActivity" />
-        <activity android:name=".VersionActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.orzechowski.aidme.SettingsActivity" />
+        <activity android:name="com.orzechowski.aidme.TutorialActivity" />
+        <activity android:name="com.orzechowski.aidme.VersionActivity" />
+        <activity android:name="com.orzechowski.aidme.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
