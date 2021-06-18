@@ -21,8 +21,8 @@ public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyN
                                        OnViewClickListener listenerFromSuperClass)
     {
         mInflater = mainActivity.getLayoutInflater();
-        this.mNumbersList = listOfNumbers;
-        this.mListener = listenerFromSuperClass;
+        mNumbersList = listOfNumbers;
+        mListener = listenerFromSuperClass;
     }
 
     @NonNull
@@ -37,7 +37,8 @@ public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyN
         TextView numer = numbersHolder.itemView.findViewById(R.id.number);
         TextView usluga = numbersHolder.itemView.findViewById(R.id.service);
         ImageView icon = numbersHolder.itemView.findViewById(R.id.icon_phone);
-        int number = mNumbersList.get(rowNumber).getPhoneNumber();
+        EmergencyNumber emergencyNumber = mNumbersList.get(rowNumber);
+        int number = emergencyNumber.getPhoneNumber();
         if(rowNumber < 4) {
             if (number == 999) {
                 icon.setImageResource(R.drawable.ic_hospital);
@@ -50,7 +51,7 @@ public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyN
             }
         } else icon.setImageResource(R.drawable.ic_phone);
         numer.setText(String.valueOf(number));
-        usluga.setText(mNumbersList.get(rowNumber).getServiceName());
+        usluga.setText(emergencyNumber.getServiceName());
     }
 
     @Override
@@ -67,7 +68,7 @@ public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyN
                 @NonNull View viewForThisRow, OnViewClickListener listenerFromSuperClass)
         {
             super(viewForThisRow);
-            this.listenerForThisRow = listenerFromSuperClass;
+            listenerForThisRow = listenerFromSuperClass;
             viewForThisRow.setOnClickListener(this);
         }
 

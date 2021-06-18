@@ -35,10 +35,6 @@ public class VersionViewModel extends AndroidViewModel {
         return mRepository.getAll();
     }
 
-    public Version getByVersionId(long versionId){
-        return mRepository.getByVersionId(versionId);
-    }
-
     public LiveData<List<Version>> getByTutorialId(long tutorialId){
         return mRepository.getByTutorialId(tutorialId);
     }

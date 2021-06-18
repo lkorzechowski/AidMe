@@ -8,6 +8,9 @@
     <string name="light">Jasny</string>
     <string name="dark">Ciemny</string>
     <string name="color_blind">Ślepota barw</string>
+    <string name="app_policy">Nota prawna</string>
+    <string name="contact">Kontakt</string>
+    <string name="contributor_list">Lista wolontariuszy</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

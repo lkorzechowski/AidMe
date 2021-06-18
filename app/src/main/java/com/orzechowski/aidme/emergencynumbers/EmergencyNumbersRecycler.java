@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,18 +33,19 @@ public class EmergencyNumbersRecycler extends Fragment implements EmergencyNumbe
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-            List<EmergencyNumber> numbersList = new LinkedList<>();
-            String[] serviceNames = getResources().getStringArray(R.array.services);
-            int[] phoneNumbers = getResources().getIntArray(R.array.main_phone_numbers);
-            for(int i = 0; i < serviceNames.length; i++){
-                numbersList.add(new EmergencyNumber(phoneNumbers[i], serviceNames[i]));
-            }
-            adapter = new EmergencyNumbersListAdapter(requireActivity(), numbersList, this);
-            View view = inflater.inflate(R.layout.fragment_recycler_main, container, false);
-            recycler = view.findViewById(R.id.numery_rv);
-            recycler.setAdapter(adapter);
-            recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            return view;
+        List<EmergencyNumber> numbersList = new LinkedList<>();
+        Resources resources = getResources();
+        String[] serviceNames = resources.getStringArray(R.array.services);
+        int[] phoneNumbers = resources.getIntArray(R.array.main_phone_numbers);
+        for(int i = 0; i < serviceNames.length; i++){
+            numbersList.add(new EmergencyNumber(phoneNumbers[i], serviceNames[i]));
+        }
+        adapter = new EmergencyNumbersListAdapter(requireActivity(), numbersList, this);
+        View view = inflater.inflate(R.layout.fragment_recycler_main, container, false);
+        recycler = view.findViewById(R.id.numery_rv);
+        recycler.setAdapter(adapter);
+        recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        return view;
     }
 
     @Override

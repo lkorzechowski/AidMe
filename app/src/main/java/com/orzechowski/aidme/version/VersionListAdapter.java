@@ -19,9 +19,9 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
 
     public VersionListAdapter(Activity activity)
     {
-        this.mInflater = LayoutInflater.from(activity);
-        this.mVersionList = null;
-        this.mListener = (OnClickListener) activity;
+        mInflater = LayoutInflater.from(activity);
+        mVersionList = null;
+        mListener = (OnClickListener) activity;
     }
 
     @NonNull
@@ -44,7 +44,7 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
     }
 
     public void setElementList(List<Version> versions){
-        this.mVersionList = versions;
+        mVersionList = versions;
         notifyDataSetChanged();
     }
 
@@ -59,7 +59,7 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
                 @NonNull View viewForThisRow, OnClickListener listenerFromActivity)
         {
             super(viewForThisRow);
-            this.listenerForThisRow = listenerFromActivity;
+            listenerForThisRow = listenerFromActivity;
             versionButton = viewForThisRow.findViewById(R.id.version_button);
             versionButton.setOnClickListener(this);
         }

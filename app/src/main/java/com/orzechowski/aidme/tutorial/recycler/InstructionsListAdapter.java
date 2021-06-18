@@ -19,9 +19,9 @@ public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsLi
 
     public InstructionsListAdapter(Activity activity, OnClickListener listener)
     {
-        this.mInflater = LayoutInflater.from(activity);
-        this.mListener = listener;
-        this.mInstructions = null;
+        mInflater = LayoutInflater.from(activity);
+        mListener = listener;
+        mInstructions = null;
     }
 
     @NonNull
@@ -33,9 +33,10 @@ public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsLi
 
     @Override
     public void onBindViewHolder(@NonNull InstructionsViewHolder instrukcjeholder, int rowNumber) {
-        instrukcjeholder.thisInstructionSet = mInstructions.get(rowNumber);
-        instrukcjeholder.title.setText(mInstructions.get(rowNumber).getTitle());
-        instrukcjeholder.brief.setText(mInstructions.get(rowNumber).getInstructions());
+        InstructionSet set = mInstructions.get(rowNumber);
+        instrukcjeholder.thisInstructionSet = set;
+        instrukcjeholder.title.setText(set.getTitle());
+        instrukcjeholder.brief.setText(set.getInstructions());
     }
 
     @Override
@@ -60,9 +61,9 @@ public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsLi
                                       OnClickListener listenerFromActivity)
         {
             super(viewForThisRow);
-            this.title = viewForThisRow.findViewById(R.id.title);
-            this.brief = viewForThisRow.findViewById(R.id.brief);
-            this.listenerForThisRow = listenerFromActivity;
+            title = viewForThisRow.findViewById(R.id.title);
+            brief = viewForThisRow.findViewById(R.id.brief);
+            listenerForThisRow = listenerFromActivity;
             viewForThisRow.setOnClickListener(this);
         }
 
