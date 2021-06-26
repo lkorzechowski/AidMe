@@ -14,7 +14,8 @@ class SoundAdapter (private val mVersionId: Long,
     private lateinit var mSounds: List<TutorialSound>
     private val mThreads: ArrayList<Thread> = ArrayList()
 
-    fun deploy(){
+    fun deploy()
+    {
         val soundViewModel = TutorialSoundViewModel(Application())
         mSounds = soundViewModel.getByTutorialId(mVersionId)
         for(i in mSounds.indices){
@@ -53,7 +54,8 @@ class SoundAdapter (private val mVersionId: Long,
         }
     }
 
-    fun destroy(){
+    fun destroy()
+    {
         for(thread in mThreads) thread.interrupt()
         mThreads.clear()
     }

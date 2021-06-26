@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.version.database;
+package com.orzechowski.aidme.tutorial.version.database;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -6,36 +6,44 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import java.util.List;
 
-public class VersionViewModel extends AndroidViewModel {
+public class VersionViewModel extends AndroidViewModel
+{
 
     private final VersionRepository mRepository;
 
-    public VersionViewModel(@NonNull Application application){
+    public VersionViewModel(@NonNull Application application)
+    {
         super(application);
         mRepository = new VersionRepository(application);
     }
 
-    public void deleteAll(){
+    public void deleteAll()
+    {
         mRepository.deleteAll();
     }
 
-    public void insert(Version version){
+    public void insert(Version version)
+    {
         mRepository.insert(version);
     }
 
-    public void delete(Version version){
+    public void delete(Version version)
+    {
         mRepository.delete(version);
     }
 
-    public void update(Version version){
+    public void update(Version version)
+    {
         mRepository.update(version);
     }
 
-    public LiveData<List<Version>> getAll(){
+    public LiveData<List<Version>> getAll()
+    {
         return mRepository.getAll();
     }
 
-    public LiveData<List<Version>> getByTutorialId(long tutorialId){
+    public LiveData<List<Version>> getByTutorialId(long tutorialId)
+    {
         return mRepository.getByTutorialId(tutorialId);
     }
 }

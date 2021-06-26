@@ -5,32 +5,38 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-public class TutorialViewModel extends AndroidViewModel {
-
+public class TutorialViewModel extends AndroidViewModel
+{
     private final TutorialRepository mRepository;
 
-    public TutorialViewModel(@NonNull Application application){
+    public TutorialViewModel(@NonNull Application application)
+    {
         super(application);
         mRepository = new TutorialRepository(application);
     }
 
-    public void deleteAll(){
+    public void deleteAll()
+    {
         mRepository.deleteAll();
     }
 
-    public void insert(Tutorial tutorial){
+    public void insert(Tutorial tutorial)
+    {
         mRepository.insert(tutorial);
     }
 
-    public void delete(Tutorial tutorial){
+    public void delete(Tutorial tutorial)
+    {
         mRepository.delete(tutorial);
     }
 
-    public void update(Tutorial tutorial){
+    public void update(Tutorial tutorial)
+    {
         mRepository.update(tutorial);
     }
 
-    public Tutorial getByTutorialId(Long tutorialId){
+    public Tutorial getByTutorialId(Long tutorialId)
+    {
         return mRepository.getByTutorialId(tutorialId);
     }
 }

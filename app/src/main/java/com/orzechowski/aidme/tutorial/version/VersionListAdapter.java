@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.version;
+package com.orzechowski.aidme.tutorial.version;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,11 +8,11 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.version.database.Version;
+import com.orzechowski.aidme.tutorial.version.database.Version;
 import java.util.List;
 
-public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.VersionViewHolder> {
-
+public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.VersionViewHolder>
+{
     private List<Version> mVersionList;
     private final LayoutInflater mInflater;
     private final OnClickListener mListener;
@@ -26,24 +26,28 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
 
     @NonNull
     @Override
-    public VersionViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public VersionViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
+    {
         View row = mInflater.inflate(R.layout.row_versions_rv, viewGroup, false);
         return new VersionViewHolder(row, mListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VersionViewHolder versionHolder, int rowNumber) {
+    public void onBindViewHolder(@NonNull VersionViewHolder versionHolder, int rowNumber)
+    {
         versionHolder.thisVersion = mVersionList.get(rowNumber);
         versionHolder.versionButton.setText((mVersionList.get(rowNumber).getText()));
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         if(mVersionList!=null) return mVersionList.size();
         else return 0;
     }
 
-    public void setElementList(List<Version> versions){
+    public void setElementList(List<Version> versions)
+    {
         mVersionList = versions;
         notifyDataSetChanged();
     }
@@ -65,12 +69,14 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
         }
 
         @Override
-        public void onClick(View v){
+        public void onClick(View v)
+        {
             listenerForThisRow.onClick(thisVersion);
         }
     }
 
-    public interface OnClickListener{
+    public interface OnClickListener
+    {
         void onClick(Version version);
     }
 }

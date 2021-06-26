@@ -6,30 +6,35 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.orzechowski.aidme.settings.helper.database.Helper;
+import com.orzechowski.aidme.settings.helper.database.HelperDAO;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialDAO;
 import com.orzechowski.aidme.tutorial.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.database.InstructionSetDAO;
 import com.orzechowski.aidme.tutorial.sound.TutorialSound;
 import com.orzechowski.aidme.tutorial.sound.TutorialSoundDAO;
-import com.orzechowski.aidme.version.database.Version;
-import com.orzechowski.aidme.version.database.VersionDAO;
+import com.orzechowski.aidme.tutorial.version.database.Version;
+import com.orzechowski.aidme.tutorial.version.database.VersionDAO;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Version.class, InstructionSet.class, Tutorial.class, TutorialSound.class},
-        version = 1, exportSchema = false)
-public abstract class GlobalRoomDatabase extends RoomDatabase {
-
+@Database(entities = {Version.class, InstructionSet.class, Tutorial.class,
+        TutorialSound.class, Helper.class}, version = 1, exportSchema = false)
+public abstract class GlobalRoomDatabase extends RoomDatabase
+{
     public abstract VersionDAO versionDao();
     public abstract InstructionSetDAO instructionDao();
     public abstract TutorialDAO tutorialDao();
     public abstract TutorialSoundDAO tutorialSoundDAO();
+    public abstract HelperDAO helperDao();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
-    public static GlobalRoomDatabase getDatabase(final Context context){
+    public static GlobalRoomDatabase getDatabase(final Context context)
+    {
         if(INSTANCE == null){
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     GlobalRoomDatabase.class, "AidMe")
@@ -43,7 +48,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(4);
 
-    private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback(){
+    private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback()
+    {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
@@ -53,6 +59,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
                 InstructionSetDAO instructionDAO = INSTANCE.instructionDao();
                 VersionDAO versionDAO = INSTANCE.versionDao();
                 TutorialSoundDAO tutorialSoundDAO = INSTANCE.tutorialSoundDAO();
+                HelperDAO helperDAO = INSTANCE.helperDao();
 
                 tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L));
 
@@ -96,6 +103,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase {
 
                 tutorialSoundDAO.insert(new TutorialSound(0L, 45000L,
                         true, 545L, 0L));
+
+                helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka", "voice actor"));
             });
         }
     };

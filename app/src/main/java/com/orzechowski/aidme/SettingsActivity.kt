@@ -8,10 +8,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.orzechowski.aidme.settings.Policy
+import com.orzechowski.aidme.settings.helper.HelperRecycler
 
 
-class SettingsActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+class SettingsActivity : AppCompatActivity()
+{
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
@@ -31,6 +34,11 @@ class SettingsActivity : AppCompatActivity() {
 
 
         contributorButton.setOnClickListener {
+            parentLayout.visibility = View.INVISIBLE
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add<HelperRecycler>(R.id.helper_layout)
+            }
         }
 
 

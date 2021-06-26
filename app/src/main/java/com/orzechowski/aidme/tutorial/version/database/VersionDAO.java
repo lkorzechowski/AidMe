@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.version.database;
+package com.orzechowski.aidme.tutorial.version.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -10,8 +10,8 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface VersionDAO {
-
+public interface VersionDAO
+{
     @Insert()
     void insert(Version version);
 

@@ -16,7 +16,8 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
     private var mTutorial: Tutorial? = null
     private lateinit var soundAdapter: SoundAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_tutorial)
         supportActionBar?.hide()
@@ -47,7 +48,8 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         checkObtainedTutorial()
     }
 
-    private fun checkObtainedTutorial(){
+    private fun checkObtainedTutorial()
+    {
         if(mTutorial==null) {
             Thread {
                 Thread.sleep(4)
@@ -56,7 +58,8 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         } else soundAdapter.deploy()
     }
 
-    override fun onStop() {
+    override fun onStop()
+    {
         soundAdapter.destroy()
         super.onStop()
     }

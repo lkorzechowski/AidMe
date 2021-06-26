@@ -11,8 +11,9 @@ import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tutorial.database.InstructionSet;
 import java.util.List;
 
-public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsListAdapter.InstructionsViewHolder> {
-
+public class InstructionsListAdapter
+        extends RecyclerView.Adapter<InstructionsListAdapter.InstructionsViewHolder>
+{
     private List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
     private final OnClickListener mListener;
@@ -26,26 +27,30 @@ public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsLi
 
     @NonNull
     @Override
-    public InstructionsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public InstructionsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
+    {
         View row = mInflater.inflate(R.layout.row_instructions_rv, viewGroup, false);
         return new InstructionsViewHolder(row, mListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InstructionsViewHolder instrukcjeholder, int rowNumber) {
+    public void onBindViewHolder(@NonNull InstructionsViewHolder instructionsHolder, int rowNumber)
+    {
         InstructionSet set = mInstructions.get(rowNumber);
-        instrukcjeholder.thisInstructionSet = set;
-        instrukcjeholder.title.setText(set.getTitle());
-        instrukcjeholder.brief.setText(set.getInstructions());
+        instructionsHolder.thisInstructionSet = set;
+        instructionsHolder.title.setText(set.getTitle());
+        instructionsHolder.brief.setText(set.getInstructions());
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         if(mInstructions!=null) return mInstructions.size();
         else return 0;
     }
 
-    public void setElementList(List<InstructionSet> instructions){
+    public void setElementList(List<InstructionSet> instructions)
+    {
         mInstructions = instructions;
         notifyDataSetChanged();
     }
@@ -68,12 +73,14 @@ public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsLi
         }
 
         @Override
-        public void onClick(View v){
+        public void onClick(View v)
+        {
             listenerForThisRow.onClick(thisInstructionSet);
         }
     }
 
-    public interface OnClickListener{
+    public interface OnClickListener
+    {
         void onClick(InstructionSet instructionSet);
     }
 }

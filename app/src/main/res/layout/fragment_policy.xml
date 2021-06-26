@@ -5,15 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".settings.Policy">
+
     <ScrollView
         android:id="@+id/policy_disclaimer_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:padding="10dp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/policy_note" />
+
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

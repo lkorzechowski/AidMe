@@ -19,8 +19,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.orzechowski.aidme.tools.GetResId.getResId;
 
-public class InstructionsRecycler extends Fragment implements InstructionsListAdapter.OnClickListener {
-
+public class InstructionsRecycler extends Fragment
+        implements InstructionsListAdapter.OnClickListener
+{
     private InstructionsListAdapter mAdapter;
     private Player mPlayerInstance;
     private boolean mBoot;
@@ -32,15 +33,16 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     private int mPlayCount;
     private boolean mAutoplay;
 
-    public InstructionsRecycler() {
+    public InstructionsRecycler()
+    {
         super(R.layout.fragment_recycler_main);
         mBoot = true;
     }
 
     @Override
     public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
-    ) {
+            @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         Bundle bundle = requireArguments();
         mTutorialId = bundle.getLong("tutorialId");
         mTutorialParts = bundle.getString("versionTutorialParts");
@@ -56,8 +58,10 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
 
 
         View view = inflater.inflate(R.layout.fragment_recycler_tutorial, container, false);
-        RecyclerView mRecycler = view.findViewById(R.id.tutorial_rv);
-        mRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false){
+        RecyclerView recycler = view.findViewById(R.id.tutorial_rv);
+        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+                LinearLayoutManager.VERTICAL, false)
+        {
             @Override
             public void onLayoutCompleted(RecyclerView.State state) {
                 super.onLayoutCompleted(state);
@@ -67,11 +71,12 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                 }
             }
         });
-        mRecycler.setAdapter(mAdapter);
+        recycler.setAdapter(mAdapter);
         return view;
     }
 
-    private void play(int position){
+    private void play(int position)
+    {
         if (mPlayerInstance != null) {
             mPlayerInstance.interrupt();
             position++;
@@ -96,7 +101,8 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
         }
     }
 
-    public void getPlayer(int position){
+    public void getPlayer(int position)
+    {
             mInstructionSetViewModel
                 .getByPositionAndTutorialId(position, mTutorialId)
                     .observe(requireActivity(), selected -> {
@@ -106,7 +112,8 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         if(mPlayerInstance!=null){
             mPlayerInstance.interrupt();
         }
@@ -114,7 +121,8 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     }
 
     @Override
-    public void onClick(InstructionSet instructionSet) {
+    public void onClick(InstructionSet instructionSet)
+    {
         mTextDisplay.setVisibility(View.VISIBLE);
         mPlayCount = instructionSet.getPosition();
         mAutoplay = false;
@@ -122,17 +130,20 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
         play(instructionSet.getPosition()-1);
     }
 
-    private class Player extends Thread{
+    private class Player extends Thread
+    {
         private final InstructionSet instructionSet;
         private final int position;
 
-        public Player(InstructionSet instructionSet){
+        public Player(InstructionSet instructionSet)
+        {
             this.instructionSet = instructionSet;
             position = instructionSet.getPosition();
         }
 
         @Override
-        public void run(){
+        public void run()
+        {
             try {
                 sleep(100);
             } catch (InterruptedException | IllegalStateException e) {

@@ -10,8 +10,8 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface InstructionSetDAO {
-
+public interface InstructionSetDAO
+{
     @Insert()
     void insert(InstructionSet instructionSet);
 
@@ -20,9 +20,6 @@ public interface InstructionSetDAO {
 
     @Update()
     void update(InstructionSet instructionSet);
-
-    @Query("SELECT * FROM instructionset")
-    LiveData<List<InstructionSet>> getAll();
 
     @Query("DELETE FROM instructionset")
     void deleteAll();

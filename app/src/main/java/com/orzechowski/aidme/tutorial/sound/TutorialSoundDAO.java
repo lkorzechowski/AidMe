@@ -10,8 +10,8 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface TutorialSoundDAO {
-
+public interface TutorialSoundDAO
+{
     @Insert
     void insert(TutorialSound tutorialSound);
 
@@ -23,9 +23,6 @@ public interface TutorialSoundDAO {
 
     @Query("DELETE FROM tutorialSound")
     void deleteAll();
-
-    @Query("SELECT * FROM tutorialSound")
-    LiveData<List<TutorialSound>> getAll();
 
     @Query("SELECT * FROM tutorialSound WHERE tutorialId = :tutorialId")
     List<TutorialSound> getByTutorialId(Long tutorialId);

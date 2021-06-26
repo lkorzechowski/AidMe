@@ -7,31 +7,38 @@ import androidx.lifecycle.AndroidViewModel;
 
 import java.util.List;
 
-public class TutorialSoundViewModel extends AndroidViewModel {
+public class TutorialSoundViewModel extends AndroidViewModel
+{
     private final TutorialSoundRepository mRepository;
 
-    public TutorialSoundViewModel(@NonNull Application application){
+    public TutorialSoundViewModel(@NonNull Application application)
+    {
         super(application);
         mRepository = new TutorialSoundRepository(application);
     }
 
-    public void deleteAll(){
+    public void deleteAll()
+    {
         mRepository.deleteAll();
     }
 
-    public void insert(TutorialSound tutorialSound){
+    public void insert(TutorialSound tutorialSound)
+    {
         mRepository.insert(tutorialSound);
     }
 
-    public void delete(TutorialSound tutorialSound){
+    public void delete(TutorialSound tutorialSound)
+    {
         mRepository.delete(tutorialSound);
     }
 
-    public void update(TutorialSound tutorialSound){
+    public void update(TutorialSound tutorialSound)
+    {
         mRepository.update(tutorialSound);
     }
 
-    public List<TutorialSound> getByTutorialId(Long tutorialId){
+    public List<TutorialSound> getByTutorialId(Long tutorialId)
+    {
         return mRepository.getByTutorialId(tutorialId);
     }
 }
