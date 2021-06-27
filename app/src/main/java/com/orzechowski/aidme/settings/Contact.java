@@ -1,0 +1,52 @@
+package com.orzechowski.aidme.settings;
+
+import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.orzechowski.aidme.R;
+
+import org.jetbrains.annotations.NotNull;
+
+public class Contact extends Fragment
+{
+    private OnClickListener mListener;
+
+    public Contact(OnClickListener listener){
+        mListener = listener;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
+    {
+        return inflater.inflate(R.layout.fragment_contact, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
+        Button contactFormButton = view.findViewById(R.id.contact_form_button);
+        contactFormButton.setOnClickListener(v -> mListener.onClick());
+    }
+
+    public boolean onBackPressed()
+    {
+        return true;
+    }
+
+    public interface OnClickListener
+    {
+        void onClick();
+    }
+}

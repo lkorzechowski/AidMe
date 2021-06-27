@@ -106,13 +106,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/policy_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
-
-    <LinearLayout
-        android:id="@+id/helper_layout"
+        android:id="@+id/fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" />

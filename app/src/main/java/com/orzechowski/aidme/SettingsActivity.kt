@@ -7,14 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import com.orzechowski.aidme.settings.Contact
+import com.orzechowski.aidme.settings.ContactForm
 import com.orzechowski.aidme.settings.Policy
 import com.orzechowski.aidme.settings.helper.HelperRecycler
 
 
-class SettingsActivity : AppCompatActivity()
+class SettingsActivity : AppCompatActivity(), Contact.OnClickListener
 {
-    val mPolicy: Policy = Policy()
-    val mHelpers: HelperRecycler = HelperRecycler()
+    val mPolicy = Policy()
+    val mHelpers = HelperRecycler()
+    val mContact = Contact(this)
+    val mContactForm = ContactForm()
     lateinit var mParentLayout: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -32,7 +36,7 @@ class SettingsActivity : AppCompatActivity()
             mParentLayout.visibility = View.INVISIBLE
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add(R.id.policy_layout, mPolicy)
+                add(R.id.fragment_layout, mPolicy)
             }
         }
 
@@ -40,7 +44,7 @@ class SettingsActivity : AppCompatActivity()
             mParentLayout.visibility = View.INVISIBLE
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add(R.id.helper_layout, mHelpers)
+                add(R.id.fragment_layout, mHelpers)
             }
         }
 
@@ -50,11 +54,16 @@ class SettingsActivity : AppCompatActivity()
         }
 
         contactButton.setOnClickListener {
-
+            mParentLayout.visibility = View.INVISIBLE
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add(R.id.fragment_layout, mContact)
+            }
         }
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
         mParentLayout.visibility = View.VISIBLE
         val fragmentList: List<*> = supportFragmentManager.fragments
         var handled = false
@@ -70,9 +79,28 @@ class SettingsActivity : AppCompatActivity()
                 t.remove(mHelpers).commit()
                 if(handled) break
             }
+            else if(f is Contact) {
+                handled = f.onBackPressed()
+                t.remove(mContact).commit()
+                if(handled) break
+            }
+
+            else if(f is ContactForm) {
+                handled = f.onBackPressed()
+                t.remove(mContactForm).commit()
+            }
         }
         if (!handled) {
             super.onBackPressed()
+        }
+    }
+
+    override fun onClick() {
+        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
+        t.remove(mContact).commit()
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.fragment_layout, mContactForm)
         }
     }
 }
