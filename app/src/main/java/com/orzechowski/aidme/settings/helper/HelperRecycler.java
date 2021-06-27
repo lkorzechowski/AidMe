@@ -40,4 +40,9 @@ public class HelperRecycler extends Fragment implements HelperListAdapter.OnClic
     {
 
     }
+
+    public boolean onBackPressed()
+    {
+        return true;
+    }
 }
