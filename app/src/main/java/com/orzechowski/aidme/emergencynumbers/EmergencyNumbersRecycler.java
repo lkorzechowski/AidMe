@@ -1,6 +1,7 @@
 package com.orzechowski.aidme.emergencynumbers;
 
-import androidx.core.app.ActivityCompat;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,9 +25,22 @@ import java.util.List;
 public class EmergencyNumbersRecycler extends Fragment implements EmergencyNumbersListAdapter.OnViewClickListener{
     protected RecyclerView recycler;
     protected EmergencyNumbersListAdapter adapter;
+    private ActivityResultLauncher<String> mPermissionResult;
+    private Intent mPhoneIntent;
 
     public EmergencyNumbersRecycler() {
         super(R.layout.fragment_recycler_main);
+    }
+
+    @Override
+    public void onCreate (Bundle savedInstanceState)
+    {
+        mPermissionResult = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                result -> {
+                    if(result)startActivity(mPhoneIntent);
+                });
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -49,13 +63,17 @@ public class EmergencyNumbersRecycler extends Fragment implements EmergencyNumbe
     }
 
     @Override
-    public void onViewClick(int position) {
-        Intent phone_intent = new Intent(Intent.ACTION_CALL);
-        phone_intent.setData(Uri.parse("tel:" + 123));
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CALL_PHONE}, 1);
+    public void onViewClick(int position)
+    {
+        mPhoneIntent = new Intent(Intent.ACTION_CALL);
+        mPhoneIntent.setData(Uri.parse("tel:" + 123));
+
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+        {
+            mPermissionResult.launch(Manifest.permission.CALL_PHONE);
         } else {
-            startActivity(phone_intent);
+            startActivity(mPhoneIntent);
         }
     }
 }
