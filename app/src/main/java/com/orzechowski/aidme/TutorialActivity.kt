@@ -1,13 +1,13 @@
 package com.orzechowski.aidme
 
 import android.os.Bundle
-import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.orzechowski.aidme.tutorial.database.Tutorial
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.Player
 import com.orzechowski.aidme.tutorial.recycler.InstructionsRecycler
 import com.orzechowski.aidme.tutorial.sound.SoundAdapter
 
@@ -34,13 +34,13 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
                 .getByTutorialId(intent.extras?.getLong("tutorialId") ?: -1L)
         }.start()
 
-        val videoEmbed: VideoView = findViewById(R.id.video_embed)
-        //val imageEmbed: ImageView = findViewById(R.id.image_embed)
-        videoEmbed.setVideoPath("android.resource://" + packageName + "/" + R.raw.cpr_video)
-        videoEmbed.start()
-        videoEmbed.setOnCompletionListener { videoEmbed.start() }
-
         val bundle = intent.extras!!
+
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add<Player>(R.id.layout_multimedia, args = bundle)
+        }
+
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<InstructionsRecycler>(R.id.layout_instructions_list, args = bundle)

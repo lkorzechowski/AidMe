@@ -15,20 +15,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/active_instructions"/>
 
-    <VideoView
-        android:id="@+id/video_embed"
+    <LinearLayout
+        android:id="@+id/layout_multimedia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/image_embed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/image_default_no_description" />
+        android:orientation="vertical" />
 
     <TextView
         android:id="@+id/active_instructions"
@@ -37,6 +29,6 @@
         android:layout_marginTop="8dp"
         android:background="@color/green1"
         android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@id/video_embed" />
+        app:layout_constraintTop_toBottomOf="@id/layout_multimedia" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

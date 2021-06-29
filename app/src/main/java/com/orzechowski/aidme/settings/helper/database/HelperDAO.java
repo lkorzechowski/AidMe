@@ -12,13 +12,13 @@ import java.util.List;
 @Dao
 public interface HelperDAO
 {
-    @Insert()
+    @Insert
     void insert(Helper helper);
 
-    @Delete()
+    @Delete
     void delete(Helper helper);
 
-    @Update()
+    @Update
     void update(Helper helper);
 
     @Query("DELETE FROM helper")

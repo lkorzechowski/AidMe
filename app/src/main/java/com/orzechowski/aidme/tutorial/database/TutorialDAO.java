@@ -12,13 +12,13 @@ import java.util.List;
 @Dao
 public interface TutorialDAO
 {
-    @Insert()
+    @Insert
     void insert(Tutorial tutorial);
 
-    @Delete()
+    @Delete
     void delete(Tutorial tutorial);
 
-    @Update()
+    @Update
     void update(Tutorial tutorial);
 
     @Query("DELETE FROM tutorial")

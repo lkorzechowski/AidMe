@@ -12,13 +12,13 @@ import java.util.List;
 @Dao
 public interface VersionDAO
 {
-    @Insert()
+    @Insert
     void insert(Version version);
 
-    @Delete()
+    @Delete
     void delete(Version prompt);
 
-    @Update()
+    @Update
     void update(Version prompt);
 
     @Query("DELETE FROM version")

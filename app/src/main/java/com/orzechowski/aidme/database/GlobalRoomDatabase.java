@@ -9,6 +9,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.orzechowski.aidme.settings.helper.database.Helper;
 import com.orzechowski.aidme.settings.helper.database.HelperDAO;
+import com.orzechowski.aidme.tutorial.database.Multimedia;
+import com.orzechowski.aidme.tutorial.database.MultimediaDAO;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialDAO;
 import com.orzechowski.aidme.tutorial.database.InstructionSet;
@@ -22,7 +24,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class,
-        TutorialSound.class, Helper.class}, version = 1, exportSchema = false)
+        TutorialSound.class, Helper.class, Multimedia.class},
+        version = 1, exportSchema = false)
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
     public abstract VersionDAO versionDao();
@@ -30,6 +33,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract TutorialDAO tutorialDao();
     public abstract TutorialSoundDAO tutorialSoundDAO();
     public abstract HelperDAO helperDao();
+    public abstract MultimediaDAO multimediaDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
@@ -60,6 +64,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 VersionDAO versionDAO = INSTANCE.versionDao();
                 TutorialSoundDAO tutorialSoundDAO = INSTANCE.tutorialSoundDAO();
                 HelperDAO helperDAO = INSTANCE.helperDao();
+                MultimediaDAO multimediaDAO = INSTANCE.multimediaDAO();
 
                 tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L));
 
@@ -96,15 +101,17 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                         8000, 0L, 7));
 
                 versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!",
-                        "01234567", 0L, true, "0"));
+                        "01234567", 0L, true, "0", "0"));
 
                 versionDAO.insert(new Version(1L, "Wiem, co robię, potrzebne mi jest tylko tempo!",
-                        "6", 0L, false, "0"));
+                        "6", 0L, false, "0", "0"));
 
                 tutorialSoundDAO.insert(new TutorialSound(0L, 45000L,
                         true, 545L, 0L));
 
                 helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka", "voice actor"));
+
+                multimediaDAO.insert(new Multimedia(0L, 0L, -1, false, true, 0));
             });
         }
     };

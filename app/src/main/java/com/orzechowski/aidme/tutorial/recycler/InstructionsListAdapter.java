@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tutorial.database.InstructionSet;
+
 import java.util.List;
 
 public class InstructionsListAdapter

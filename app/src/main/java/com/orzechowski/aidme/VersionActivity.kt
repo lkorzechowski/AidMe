@@ -35,6 +35,7 @@ VersionListAdapter.OnClickListener
         tutorial.putExtra("tutorialId", version.tutorialId)
         tutorial.putExtra("delayGlobalSound", version.delayGlobalSound)
         tutorial.putExtra("versionGlobalSounds", version.sounds)
+        tutorial.putExtra("versionMultimedias", version.medias)
         startActivity(tutorial)
     }
 }

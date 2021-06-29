@@ -1,16 +1,18 @@
 package com.orzechowski.aidme.tutorial.recycler;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tutorial.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.database.InstructionSetViewModel;
@@ -35,7 +37,6 @@ public class InstructionsRecycler extends Fragment
 
     public InstructionsRecycler()
     {
-        super(R.layout.fragment_recycler_main);
         mBoot = true;
     }
 
@@ -55,8 +56,6 @@ public class InstructionsRecycler extends Fragment
         mAdapter = new InstructionsListAdapter(activity, this);
         mInstructionSetViewModel.getByTutorialId(mTutorialId)
                 .observe(activity, instructions->mAdapter.setElementList(instructions));
-
-
         View view = inflater.inflate(R.layout.fragment_recycler_tutorial, container, false);
         RecyclerView recycler = view.findViewById(R.id.tutorial_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
