@@ -8,19 +8,15 @@
     tools:context=".tutorial.mediaplayer.Player">
 
     <VideoView
-        android:visibility="gone"
         android:id="@+id/video_embed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:visibility="gone"
         android:id="@+id/image_embed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/image_default_no_description" />
 

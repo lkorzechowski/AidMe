@@ -37,7 +37,6 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         val bundle = intent.extras!!
 
         supportFragmentManager.commit {
-            setReorderingAllowed(true)
             add<Player>(R.id.layout_multimedia, args = bundle)
         }
 
