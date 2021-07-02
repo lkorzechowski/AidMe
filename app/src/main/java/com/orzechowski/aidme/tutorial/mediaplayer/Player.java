@@ -1,6 +1,7 @@
 package com.orzechowski.aidme.tutorial.mediaplayer;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.orzechowski.aidme.R;
+import com.orzechowski.aidme.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.Multimedia;
 import com.orzechowski.aidme.tutorial.database.MultimediaViewModel;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 public class Player extends Fragment
 {
@@ -27,6 +31,7 @@ public class Player extends Fragment
     Play mPlayThread;
     String mVersionMultimedias;
     Activity mActivity;
+    AssetObtainer assetObtainer = new AssetObtainer();
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -70,11 +75,11 @@ public class Player extends Fragment
 
     private class Play extends Thread
     {
-        private final String currentPath;
+        private final String fileName;
         private final Multimedia currentMedia;
 
         Play(Multimedia media){
-            currentPath = "//android_asset/m"+mTutorialId+"_"+media.getPosition();
+            fileName = "m"+mTutorialId+"_"+media.getPosition()+".mp4";
             currentMedia = media;
         }
 
@@ -88,7 +93,11 @@ public class Player extends Fragment
                 mActivity.runOnUiThread(() -> {
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.INVISIBLE);
-                    mVideoView.setVideoPath(currentPath);//"android.resource://" + requireActivity().getPackageName() + "/" + currentId);
+                    try {
+                        mVideoView.setVideoURI(Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), fileName)));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     mVideoView.setOnCompletionListener(v->preplay(currentMedia.getPosition()));
                     mVideoView.start();
                 });

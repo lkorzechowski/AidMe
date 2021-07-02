@@ -1,6 +1,7 @@
 package com.orzechowski.aidme.tutorial.recycler;
 
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
+import com.orzechowski.aidme.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.database.InstructionSetViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import static com.orzechowski.aidme.tools.GetResId.getResId;
+import java.io.IOException;
 
 public class InstructionsRecycler extends Fragment
         implements InstructionsListAdapter.OnClickListener
@@ -133,6 +135,7 @@ public class InstructionsRecycler extends Fragment
     {
         private final InstructionSet instructionSet;
         private final int position;
+        private final AssetObtainer assetObtainer = new AssetObtainer();
 
         public Player(InstructionSet instructionSet)
         {
@@ -149,11 +152,16 @@ public class InstructionsRecycler extends Fragment
                 e.printStackTrace();
                 interrupt();
             }
-            String idFinal = "s" + mTutorialId + "_" + position;
-            int resourceId = getResId(idFinal, R.raw.class);
+            String fileName = "s" + mTutorialId + "_" + position+".m4a";
+            Uri uri = null;
+            try {
+                uri = Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             FragmentActivity activity = requireActivity();
-            if(resourceId!=-1) {
-                MediaPlayer mPlayer = MediaPlayer.create(getContext(), resourceId);
+            if(uri!=null) {
+                MediaPlayer mPlayer = MediaPlayer.create(getContext(), uri);
                 mPlayer.setLooping(false);
                 mPlayer.setVolume(1F, 1F);
                 activity.runOnUiThread(() ->
