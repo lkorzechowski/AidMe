@@ -2,7 +2,13 @@ package com.orzechowski.aidme.tutorial.sound
 
 import android.app.Application
 import android.content.Context
-import com.orzechowski.aidme.tools.SoundPlayback
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.net.Uri
+import androidx.core.net.toUri
+import java.io.File
+import java.io.IOException
 
 class SoundAdapter (private val mVersionId: Long,
                     private val mContext: Context,
@@ -12,7 +18,6 @@ class SoundAdapter (private val mVersionId: Long,
     private lateinit var mSounds: List<TutorialSound>
     private val mThreads: ArrayList<Thread> = ArrayList()
     private var mInit = true
-    private val soundPlayback: SoundPlayback = SoundPlayback()
 
     fun deploy()
     {
@@ -21,6 +26,26 @@ class SoundAdapter (private val mVersionId: Long,
         for(i in mSounds.indices){
             if(mVersionSounds.contains(i.toString(), true))
             {
+                //public String chk_path(String filePath)
+                //{
+                ////create array of extensions
+                //String[] ext=new String[]{".mkv",".mpg"}; //You can add more as you require
+                //
+                ////Iterate through array and check your path which extension with your path exists
+                //
+                //String path=null;
+                //for(int i=0;i<ext.Length;i++)
+                //{
+                //  File file = new File(filePath+ext[i]);
+                //  if(file.exists())
+                //    {
+                //     //if it exists then combine the extension
+                //     path=filePath+ext[i];
+                //     break;
+                //    }
+                //}
+                //return path;
+                //}
                 mThreads.add(Thread {
                     if (mDelayGlobalSound) {
                         try{
@@ -30,15 +55,24 @@ class SoundAdapter (private val mVersionId: Long,
                             return@Thread
                         }
                     }
+                    val resourceUri: Uri = getFileFromAssets(mContext,"g$mVersionId"+"_$i"+".mp3").toUri()
+                    lateinit var player: MediaPlayer
                     try {
                         while(mSounds[i].soundLoop || mInit) {
-                            mInit = false
-                            soundPlayback.play("g$mVersionId"+"_$i", mContext, 0.5F)
+                            player = MediaPlayer.create(mContext, resourceUri)
+                            player.setAudioAttributes(AudioAttributes.Builder()
+                                .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED)
+                                .setLegacyStreamType(AudioManager.USE_DEFAULT_STREAM_TYPE)
+                                .setUsage(AudioAttributes.USAGE_ALARM)
+                                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                .build())
+                            player.setVolume(0.5f, 0.5f)
+                            player.start()
                             Thread.sleep(mSounds[i].interval)
-                            soundPlayback.release()
+                            player.release()
                         }
                     } catch (e: InterruptedException) {
-                        soundPlayback.release()
+                        player.release()
                         Thread.interrupted()
                     }
                 })
@@ -52,4 +86,16 @@ class SoundAdapter (private val mVersionId: Long,
         for(thread in mThreads) thread.interrupt()
         mThreads.clear()
     }
+
+    @Throws(IOException::class)
+    fun getFileFromAssets(context: Context, fileName: String): File = File(context.cacheDir, fileName)
+        .also {
+            if (!it.exists()) {
+                it.outputStream().use { cache ->
+                    context.assets.open(fileName).use { inputStream ->
+                        inputStream.copyTo(cache)
+                    }
+                }
+            }
+        }
 }

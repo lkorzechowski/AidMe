@@ -34,8 +34,8 @@ public class InstructionsRecycler extends Fragment
     private InstructionSetViewModel mInstructionSetViewModel;
     private long mTutorialId;
     private String mTutorialParts;
-    private int mPlayCount;
-    private boolean mAutoplay;
+    private int mPlayCount = 0;
+    private boolean mAutoplay = true;
 
     public InstructionsRecycler()
     {
@@ -51,9 +51,7 @@ public class InstructionsRecycler extends Fragment
         mTutorialParts = bundle.getString("versionTutorialParts");
         FragmentActivity activity = requireActivity();
         mTextDisplay = activity.findViewById(R.id.active_instructions);
-        mPlayCount = 0;
         mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
-        mAutoplay = true;
         mTutorialLength = mTutorialParts.length();
         mAdapter = new InstructionsListAdapter(activity, this);
         mInstructionSetViewModel.getByTutorialId(mTutorialId)
