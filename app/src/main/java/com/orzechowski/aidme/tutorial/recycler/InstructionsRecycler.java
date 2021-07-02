@@ -1,6 +1,5 @@
 package com.orzechowski.aidme.tutorial.recycler;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,31 +13,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
+import com.orzechowski.aidme.tools.SoundPlayback;
 import com.orzechowski.aidme.tutorial.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.database.InstructionSetViewModel;
 
 import org.jetbrains.annotations.NotNull;
-
-import static com.orzechowski.aidme.tools.GetResId.getResId;
 
 public class InstructionsRecycler extends Fragment
         implements InstructionsListAdapter.OnClickListener
 {
     private InstructionsListAdapter mAdapter;
     private Player mPlayerInstance;
-    private boolean mBoot;
+    private boolean mBoot = true;
     private TextView mTextDisplay;
     private int mTutorialLength;
     private InstructionSetViewModel mInstructionSetViewModel;
     private long mTutorialId;
     private String mTutorialParts;
-    private int mPlayCount;
-    private boolean mAutoplay;
-
-    public InstructionsRecycler()
-    {
-        mBoot = true;
-    }
+    private int mPlayCount = 0;
+    private boolean mAutoplay = true;
 
     @Override
     public View onCreateView(
@@ -49,9 +42,7 @@ public class InstructionsRecycler extends Fragment
         mTutorialParts = bundle.getString("versionTutorialParts");
         FragmentActivity activity = requireActivity();
         mTextDisplay = activity.findViewById(R.id.active_instructions);
-        mPlayCount = 0;
         mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
-        mAutoplay = true;
         mTutorialLength = mTutorialParts.length();
         mAdapter = new InstructionsListAdapter(activity, this);
         mInstructionSetViewModel.getByTutorialId(mTutorialId)
@@ -125,7 +116,6 @@ public class InstructionsRecycler extends Fragment
         mTextDisplay.setVisibility(View.VISIBLE);
         mPlayCount = instructionSet.getPosition();
         mAutoplay = false;
-
         play(instructionSet.getPosition()-1);
     }
 
@@ -133,10 +123,11 @@ public class InstructionsRecycler extends Fragment
     {
         private final InstructionSet instructionSet;
         private final int position;
+        private final SoundPlayback soundPlayback = new SoundPlayback();
 
-        public Player(InstructionSet instructionSet)
+        public Player(InstructionSet passedSet)
         {
-            this.instructionSet = instructionSet;
+            instructionSet = passedSet;
             position = instructionSet.getPosition();
         }
 
@@ -149,37 +140,19 @@ public class InstructionsRecycler extends Fragment
                 e.printStackTrace();
                 interrupt();
             }
-            String idFinal = "s" + mTutorialId + "_" + position;
-            int resourceId = getResId(idFinal, R.raw.class);
             FragmentActivity activity = requireActivity();
-            if(resourceId!=-1) {
-                MediaPlayer mPlayer = MediaPlayer.create(getContext(), resourceId);
-                mPlayer.setLooping(false);
-                mPlayer.setVolume(1F, 1F);
-                activity.runOnUiThread(() ->
-                        mTextDisplay.setText(instructionSet.getInstructions()));
+            activity.runOnUiThread(() -> mTextDisplay.setText(instructionSet.getInstructions()));
                 try {
-                    mPlayer.start();
+                    soundPlayback.play("s"+mTutorialId+"_"+position, requireContext(), 1F);
                     sleep(instructionSet.getTime());
+                    soundPlayback.release();
                     activity.runOnUiThread(() -> {
                         if (mAutoplay) play(position);
                     });
                 } catch (IllegalStateException | InterruptedException e) {
-                    mPlayer.stop();
+                    soundPlayback.release();
                     interrupt();
                 }
-            } else {
-                activity.runOnUiThread(() ->
-                        mTextDisplay.setText(instructionSet.getInstructions()));
-                try {
-                    sleep(instructionSet.getTime());
-                    activity.runOnUiThread(() -> {
-                        if (mAutoplay) play(position);
-                    });
-                } catch (InterruptedException e) {
-                    interrupt();
-                }
-            }
         }
     }
 }

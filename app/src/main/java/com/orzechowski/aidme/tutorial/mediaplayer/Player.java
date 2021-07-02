@@ -1,6 +1,7 @@
 package com.orzechowski.aidme.tutorial.mediaplayer;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.orzechowski.aidme.R;
+import com.orzechowski.aidme.tools.AssetFinder;
 import com.orzechowski.aidme.tutorial.database.Multimedia;
 import com.orzechowski.aidme.tutorial.database.MultimediaViewModel;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 
 public class Player extends Fragment
 {
@@ -70,11 +74,12 @@ public class Player extends Fragment
 
     private class Play extends Thread
     {
-        private final String currentPath;
+        private final String fileName;
         private final Multimedia currentMedia;
+        private final AssetFinder assetFinder = new AssetFinder();
 
         Play(Multimedia media){
-            currentPath = "//android_asset/m"+mTutorialId+"_"+media.getPosition();
+            fileName = "m"+mTutorialId+"_"+media.getPosition();
             currentMedia = media;
         }
 
@@ -86,9 +91,22 @@ public class Player extends Fragment
                 mVideoView.setVisibility(View.INVISIBLE);
             } else {
                 mActivity.runOnUiThread(() -> {
+                    int attempt = 0;
+                    boolean matchFound = false;
+                    while(attempt < 2 && !matchFound){
+                        File file = assetFinder.getFileFromAssets(requireContext(), fileName, attempt, 1);
+                        Uri uri = Uri.fromFile(file);
+                        try{
+                            mVideoView.setVideoURI(uri);
+                            matchFound = true;
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                        attempt++;
+                    }
+                    if(attempt==2) return;
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.INVISIBLE);
-                    mVideoView.setVideoPath(currentPath);//"android.resource://" + requireActivity().getPackageName() + "/" + currentId);
                     mVideoView.setOnCompletionListener(v->preplay(currentMedia.getPosition()));
                     mVideoView.start();
                 });
