@@ -17,6 +17,7 @@
     <string name="contact_form">Formularz zgłoszeniowy</string>
     <string name="send">Wyślij</string>
     <string name="form_content_hint">Proszę podać treść zgłoszenia</string>
+    <string name="search_button">Wyszukiwarka</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

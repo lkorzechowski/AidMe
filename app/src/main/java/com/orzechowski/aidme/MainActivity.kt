@@ -23,8 +23,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
         }
         val aidButton = findViewById<Button>(R.id.aid_button)
         aidButton.setOnClickListener {
-            val tutorial = Intent(this@MainActivity, VersionActivity::class.java)
-            startActivity(tutorial)
+            val browser = Intent(this@MainActivity, BrowserActivity::class.java)
+            startActivity(browser)
         }
         val settingsButton = findViewById<Button>(R.id.settings_button)
         settingsButton.setOnClickListener {

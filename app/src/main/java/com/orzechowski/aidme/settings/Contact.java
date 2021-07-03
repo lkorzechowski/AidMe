@@ -1,13 +1,13 @@
 package com.orzechowski.aidme.settings;
 
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.orzechowski.aidme.R;
 
@@ -35,7 +35,8 @@ public class Contact extends Fragment
     }
 
     @Override
-    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState)
+    {
         Button contactFormButton = view.findViewById(R.id.contact_form_button);
         contactFormButton.setOnClickListener(v -> mListener.onClick());
     }

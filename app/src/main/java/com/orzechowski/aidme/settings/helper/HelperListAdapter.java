@@ -66,7 +66,7 @@ public class HelperListAdapter extends RecyclerView.Adapter<HelperListAdapter.He
         public HelperViewHolder(@NonNull View viewForThisRow, OnClickListener listenerFromActivity)
         {
             super(viewForThisRow);
-            nameDisplay = viewForThisRow.findViewById(R.id.nameDisplay);
+            nameDisplay = viewForThisRow.findViewById(R.id.name_display);
             listenerForThisRow = listenerFromActivity;
         }
 

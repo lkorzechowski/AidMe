@@ -7,4 +7,5 @@ import androidx.room.PrimaryKey
 class Tutorial(
     @PrimaryKey val tutorialId: Long,
                 val tutorialName: String,
-                val authorId: Long)
+                val authorId: Long,
+                val tags: String)

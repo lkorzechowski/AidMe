@@ -23,8 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
-public class InstructionsRecycler extends Fragment
-        implements InstructionsListAdapter.OnClickListener
+public class InstructionsRecycler extends Fragment implements InstructionsListAdapter.OnClickListener
 {
     private InstructionsListAdapter mAdapter;
     private Player mPlayerInstance;

@@ -3,19 +3,21 @@
     package="com.orzechowski.aidme">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AidMe">
-        <activity android:name="com.orzechowski.aidme.SettingsActivity" />
-        <activity android:name="com.orzechowski.aidme.TutorialActivity" />
-        <activity android:name="com.orzechowski.aidme.VersionActivity" />
-        <activity android:name="com.orzechowski.aidme.MainActivity">
+        <activity android:name=".BrowserActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".TutorialActivity" />
+        <activity android:name=".VersionActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

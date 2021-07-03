@@ -17,7 +17,7 @@ import java.util.List;
 public class InstructionsListAdapter
         extends RecyclerView.Adapter<InstructionsListAdapter.InstructionsViewHolder>
 {
-    private List<InstructionSet> mInstructions;
+    private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
     private final OnClickListener mListener;
 
@@ -25,7 +25,6 @@ public class InstructionsListAdapter
     {
         mInflater = LayoutInflater.from(activity);
         mListener = listener;
-        mInstructions = null;
     }
 
     @NonNull

@@ -1,20 +1,23 @@
 package com.orzechowski.aidme.database;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.orzechowski.aidme.browser.database.Category;
+import com.orzechowski.aidme.browser.database.CategoryDAO;
 import com.orzechowski.aidme.settings.helper.database.Helper;
 import com.orzechowski.aidme.settings.helper.database.HelperDAO;
+import com.orzechowski.aidme.tutorial.database.InstructionSet;
+import com.orzechowski.aidme.tutorial.database.InstructionSetDAO;
 import com.orzechowski.aidme.tutorial.database.Multimedia;
 import com.orzechowski.aidme.tutorial.database.MultimediaDAO;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialDAO;
-import com.orzechowski.aidme.tutorial.database.InstructionSet;
-import com.orzechowski.aidme.tutorial.database.InstructionSetDAO;
 import com.orzechowski.aidme.tutorial.sound.TutorialSound;
 import com.orzechowski.aidme.tutorial.sound.TutorialSoundDAO;
 import com.orzechowski.aidme.tutorial.version.database.Version;
@@ -24,7 +27,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class,
-        TutorialSound.class, Helper.class, Multimedia.class},
+        TutorialSound.class, Helper.class, Multimedia.class, Category.class},
         version = 1, exportSchema = false)
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
@@ -34,6 +37,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract TutorialSoundDAO tutorialSoundDAO();
     public abstract HelperDAO helperDao();
     public abstract MultimediaDAO multimediaDAO();
+    public abstract CategoryDAO categoryDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
@@ -65,8 +69,9 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 TutorialSoundDAO tutorialSoundDAO = INSTANCE.tutorialSoundDAO();
                 HelperDAO helperDAO = INSTANCE.helperDao();
                 MultimediaDAO multimediaDAO = INSTANCE.multimediaDAO();
+                CategoryDAO categoryDAO = INSTANCE.categoryDAO();
 
-                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L));
+                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L, "firstaid breathing immediate"));
 
                 instructionDAO.insert(new InstructionSet(0L, "Wstęp",
                         "Jeżeli ofiara nie jest w stanie samodzielnie oddychać…",
@@ -112,6 +117,18 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka", "voice actor"));
 
                 multimediaDAO.insert(new Multimedia(0L, 0L, -1, false, true, 0));
+
+                categoryDAO.insert(new Category(0L, "Pierwsza pomoc", "firstaid", true, "first_aid.jpg", 0));
+
+                categoryDAO.insert(new Category(1L, "Pożar", "fire", true, "fire.jpeg", 0));
+
+                categoryDAO.insert(new Category(2L, "Żywioł", "natural", true, "natural_disaster.jpeg", 0));
+
+                categoryDAO.insert(new Category(3L, "Atak terrorystyczny", "terrorism", true, "terrorist.jpg", 0));
+
+                categoryDAO.insert(new Category(4L, "Zwierzęta", "animals", true, "animal_danger.jpg", 0));
+
+                categoryDAO.insert(new Category(5L, "Przetrwanie w dziczy", "survival", true, "survival.jpeg", 0));
             });
         }
     };
