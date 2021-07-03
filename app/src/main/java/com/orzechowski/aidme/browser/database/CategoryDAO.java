@@ -26,4 +26,7 @@ public interface CategoryDAO
 
     @Query("SELECT * FROM category WHERE categoryLevel = :categoryLevel AND categoryTags = :categoryTags")
     LiveData<List<Category>> getByLevelAndTags(int categoryLevel, String categoryTags);
+
+    @Query("SELECT * FROM category WHERE categoryLevel = :categoryLevel")
+    LiveData<List<Category>> getByLevel(int categoryLevel);
 }

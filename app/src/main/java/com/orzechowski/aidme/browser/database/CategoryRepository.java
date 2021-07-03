@@ -38,4 +38,9 @@ public class CategoryRepository {
     {
         return mDao.getByLevelAndTags(level, tags);
     }
+
+    public LiveData<List<Category>> getByLevel(int level)
+    {
+        return mDao.getByLevel(level);
+    }
 }
