@@ -49,4 +49,9 @@ public class TutorialRepository
     {
         return mDao.getByTutorialId(tutorialId);
     }
+
+    LiveData<List<Tutorial>> getByTag(String tag)
+    {
+        return mDao.getByTag(tag);
+    }
 }

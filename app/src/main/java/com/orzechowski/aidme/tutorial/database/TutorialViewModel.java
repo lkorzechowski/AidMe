@@ -4,6 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
 
 public class TutorialViewModel extends AndroidViewModel
 {
@@ -38,5 +41,10 @@ public class TutorialViewModel extends AndroidViewModel
     public Tutorial getByTutorialId(Long tutorialId)
     {
         return mRepository.getByTutorialId(tutorialId);
+    }
+
+    public LiveData<List<Tutorial>> getByTag(String tag)
+    {
+        return mRepository.getByTag(tag);
     }
 }

@@ -71,7 +71,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 MultimediaDAO multimediaDAO = INSTANCE.multimediaDAO();
                 CategoryDAO categoryDAO = INSTANCE.categoryDAO();
 
-                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L, "firstaid breathing immediate"));
+                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 0L, "firstaid breathing immediate", "heart_massage.jpg"));
 
                 instructionDAO.insert(new InstructionSet(0L, "Wstęp",
                         "Jeżeli ofiara nie jest w stanie samodzielnie oddychać…",
@@ -124,7 +124,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
 
                 categoryDAO.insert(new Category(2L, "Żywioł", "natural", true, "natural_disaster.jpeg", 0));
 
-                categoryDAO.insert(new Category(3L, "Atak terrorystyczny", "terrorism", true, "terrorist.jpg", 0));
+                categoryDAO.insert(new Category(3L, "Atak terrorystyczny", "terrorism", true, "terrorist.jpeg", 0));
 
                 categoryDAO.insert(new Category(4L, "Zwierzęta", "animals", true, "animal_danger.jpg", 0));
 

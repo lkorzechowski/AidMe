@@ -18,6 +18,8 @@
     <string name="send">Wyślij</string>
     <string name="form_content_hint">Proszę podać treść zgłoszenia</string>
     <string name="search_button">Wyszukiwarka</string>
+    <string name="search_hint">Podaj treść wyszukiwania</string>
+    <string name="suggestion_text">Być może chodzi ci o:</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

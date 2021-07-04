@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".browser.Search">
+
+    <EditText
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="true"
+        android:ems="10"
+        android:hint="@string/search_hint"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp"
+        android:inputType="textNoSuggestions" />
+
+    <TextView
+        android:id="@+id/search_suggestion_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/suggestion_text"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_input" />
+
+    <include
+        android:id="@+id/search_suggestion_item"
+        android:paddingTop="20dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_suggestion_header"
+        layout="@layout/row_results_rv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

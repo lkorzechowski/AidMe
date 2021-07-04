@@ -29,4 +29,7 @@ public interface TutorialDAO
 
     @Query("SELECT * FROM tutorial WHERE tutorialId = :tutorialId")
     Tutorial getByTutorialId(Long tutorialId);
+
+    @Query("SELECT * FROM tutorial WHERE tags LIKE '%' || :tag || '%'")
+    LiveData<List<Tutorial>> getByTag(String tag);
 }
