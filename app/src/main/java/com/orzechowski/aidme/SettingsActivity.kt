@@ -15,11 +15,11 @@ import com.orzechowski.aidme.settings.helper.HelperRecycler
 
 class SettingsActivity : AppCompatActivity(), Contact.OnClickListener
 {
-    val mPolicy = Policy()
-    val mHelpers = HelperRecycler()
-    val mContact = Contact(this)
-    val mContactForm = ContactForm()
-    lateinit var mParentLayout: ConstraintLayout
+    private val mPolicy = Policy()
+    private val mHelpers = HelperRecycler()
+    private val mContact = Contact(this)
+    private val mContactForm = ContactForm()
+    private lateinit var mParentLayout: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -47,7 +47,6 @@ class SettingsActivity : AppCompatActivity(), Contact.OnClickListener
                 add(R.id.fragment_layout, mHelpers)
             }
         }
-
 
         downloadAllTutorialsButton.setOnClickListener {
 

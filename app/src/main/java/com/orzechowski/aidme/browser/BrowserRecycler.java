@@ -20,17 +20,24 @@ import org.jetbrains.annotations.NotNull;
 public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnClickListener
 {
     private BrowserListAdapter mAdapter;
+    private CategoryViewModel mCategoryViewModel;
     private int mLevel = 0;
     private String mTags = "";
+    private final CallbackToResults mCallback;
+
+    public BrowserRecycler(CallbackToResults callback)
+    {
+        mCallback = callback;
+    }
 
     @Override
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         FragmentActivity activity = requireActivity();
-        CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         mAdapter = new BrowserListAdapter(activity, this);
-        categoryViewModel.getByLevel(mLevel)
+        mCategoryViewModel.getByLevel(mLevel)
                 .observe(activity, categories->mAdapter.setElementList(categories));
         View view = inflater.inflate(R.layout.fragment_recycler_browser, container, false);
         RecyclerView recycler = view.findViewById(R.id.browser_rv);
@@ -43,11 +50,18 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     @Override
     public void onClick(Category category)
     {
+        Bundle bundle = requireArguments();
+        mLevel = bundle.getInt("level");
+        mTags = bundle.getString("tags");
+        if(category.getHasSubcategories()) mCategoryViewModel.getByLevelAndTags(mLevel, mTags)
+                .observe(requireActivity(), categories ->mAdapter.setElementList(categories));
+        else {
+            mCallback.serveResults();
+        }
+    }
 
+    public interface CallbackToResults
+    {
+        void serveResults();
     }
 }
-//Bundle bundle = getArguments();
-//if(bundle != null) {
-//    mLevel = bundle.getInt("level");
-//    mTags = bundle.getString("tags");
-//}
