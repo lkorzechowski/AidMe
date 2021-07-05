@@ -44,4 +44,9 @@ public class HelperViewModel extends AndroidViewModel
     {
         return mRepository.getAll();
     }
+
+    public LiveData<List<Helper>> getByTags(String tags)
+    {
+        return mRepository.getByTags(tags);
+    }
 }

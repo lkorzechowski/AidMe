@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
+import com.orzechowski.aidme.settings.helper.database.HelperViewModel;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ResultsRecycler extends Fragment implements  ResultsListAdapter.OnClickListener
+public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnClickListener
 {
     private ResultsListAdapter mAdapter;
     public CallbackForTutorial mCallbackForTutorial;
@@ -35,8 +36,11 @@ public class ResultsRecycler extends Fragment implements  ResultsListAdapter.OnC
         String tags = requireArguments().getString("tags");
         TutorialViewModel tutorialViewModel = new ViewModelProvider(this).get(TutorialViewModel.class);
         mAdapter = new ResultsListAdapter(activity, this);
-        tutorialViewModel.getByTag(tags.replaceAll("^.*?(\\w+)\\W*$", "$1"))
+        String lastTag = tags.replaceAll("^.*?(\\w+)\\W*$", "$1");
+        tutorialViewModel.getByTag(lastTag)
                 .observe(activity, results->mAdapter.setElementList(results));
+        HelperViewModel helperViewModel = new ViewModelProvider(this).get(HelperViewModel.class);
+        helperViewModel.getByTags(lastTag).observe(getViewLifecycleOwner(), authors -> mAdapter.setAuthors(authors));
         View view = inflater.inflate(R.layout.fragment_recycler_results, container, false);
         RecyclerView recycler = view.findViewById(R.id.results_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),

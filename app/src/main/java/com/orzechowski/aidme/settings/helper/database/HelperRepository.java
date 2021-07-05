@@ -1,8 +1,11 @@
 package com.orzechowski.aidme.settings.helper.database;
 
 import android.app.Application;
+
 import androidx.lifecycle.LiveData;
+
 import com.orzechowski.aidme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class HelperRepository
@@ -40,5 +43,10 @@ public class HelperRepository
     public void update(Helper helper)
     {
         GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(helper));
+    }
+
+    public LiveData<List<Helper>> getByTags(String tags)
+    {
+        return mDao.getByTags(tags);
     }
 }

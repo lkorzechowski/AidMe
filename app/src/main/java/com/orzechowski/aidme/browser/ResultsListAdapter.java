@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
+import com.orzechowski.aidme.settings.helper.database.Helper;
 import com.orzechowski.aidme.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 
@@ -26,6 +27,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     private final OnClickListener mListener;
     private final AssetObtainer assetObtainer = new AssetObtainer();
     private final Context mContext;
+    private List<Helper> mAuthors;
 
     public ResultsListAdapter(Activity activity, OnClickListener listener)
     {
@@ -46,9 +48,21 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     public void onBindViewHolder(@NonNull ResultViewHolder resultHolder, int rowNumber)
     {
         Tutorial tutorial = mTutorials.get(rowNumber);
+        Helper author = null;
+        int index = 0;
+        long tutorialId = tutorial.getTutorialId();
+        if(mAuthors!=null) try {
+            while (author == null) {
+                Helper helper = mAuthors.get(index);
+                if(helper.getHelperId()==tutorialId){
+                    author = helper;
+                }
+                index++;
+            }
+            resultHolder.author.setText(String.format("Autor: %s %s %s", author.getTitle(), author.getName(), author.getSurname()));
+        } catch (IndexOutOfBoundsException ignored) {}
         resultHolder.thisResult = tutorial;
         resultHolder.name.setText(tutorial.getTutorialName());
-
         Uri uri = null;
         try {
             uri = Uri.fromFile(assetObtainer.getFileFromAssets(mContext, tutorial.getMiniatureName()));
@@ -71,9 +85,15 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         notifyDataSetChanged();
     }
 
+    public void setAuthors(List<Helper> helpers)
+    {
+        mAuthors = helpers;
+        notifyDataSetChanged();
+    }
+
     public static class ResultViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        TextView name;
+        TextView name, author;
         ImageView image;
         OnClickListener listenerForThisRow;
         Tutorial thisResult;
@@ -82,6 +102,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
             super(viewForThisRow);
             name = viewForThisRow.findViewById(R.id.result_name_text);
             image = viewForThisRow.findViewById(R.id.result_image);
+            author = viewForThisRow.findViewById(R.id.author);
             listenerForThisRow = listener;
             viewForThisRow.setOnClickListener(this);
         }
