@@ -47,7 +47,9 @@ public class BrowserListAdapter extends RecyclerView.Adapter<BrowserListAdapter.
     {
         Category category = mCategories.get(rowNumber);
         categoryHolder.thisCategory = category;
-        categoryHolder.name.setText(category.getCategoryName());
+        String categoryName = category.getCategoryName();
+        categoryHolder.name.setText(categoryName);
+        if(categoryName.length() > 20) categoryHolder.name.setTextSize(20);
         Uri uri = null;
         try {
             uri = Uri.fromFile(assetObtainer.getFileFromAssets(mContext, category.getMiniatureName()));

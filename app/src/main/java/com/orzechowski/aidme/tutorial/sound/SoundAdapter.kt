@@ -1,6 +1,6 @@
 package com.orzechowski.aidme.tutorial.sound
 
-import android.app.Application
+import android.app.Activity
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioManager
@@ -9,20 +9,24 @@ import android.net.Uri
 import androidx.core.net.toUri
 import java.io.File
 import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SoundAdapter (private val mVersionId: Long,
-                    private val mContext: Context,
                     private val mDelayGlobalSound: Boolean,
-                    private val mVersionSounds: String)
-{
-    private lateinit var mSounds: List<TutorialSound>
+                    private val mVersionSounds: String,
+                    private val mActivity: Activity) {
+    var mSounds: List<TutorialSound> = LinkedList()
     private val mThreads: ArrayList<Thread> = ArrayList()
     private var mInit = true
 
+    fun setData(sounds: List<TutorialSound>)
+    {
+        mSounds = sounds
+    }
+
     fun deploy()
     {
-        val soundViewModel = TutorialSoundViewModel(Application())
-        mSounds = soundViewModel.getByTutorialId(mVersionId)
         for(i in mSounds.indices){
             if(mVersionSounds.contains(i.toString(), true))
             {
@@ -55,11 +59,11 @@ class SoundAdapter (private val mVersionId: Long,
                             return@Thread
                         }
                     }
-                    val resourceUri: Uri = getFileFromAssets(mContext,"g$mVersionId"+"_$i"+".mp3").toUri()
+                    val resourceUri: Uri = getFileFromAssets(mActivity,"g$mVersionId"+"_$i"+".mp3").toUri()
                     lateinit var player: MediaPlayer
                     try {
                         while(mSounds[i].soundLoop || mInit) {
-                            player = MediaPlayer.create(mContext, resourceUri)
+                            player = MediaPlayer.create(mActivity, resourceUri)
                             player.setAudioAttributes(AudioAttributes.Builder()
                                 .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED)
                                 .setLegacyStreamType(AudioManager.USE_DEFAULT_STREAM_TYPE)

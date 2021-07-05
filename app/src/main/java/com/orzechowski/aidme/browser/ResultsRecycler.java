@@ -20,16 +20,22 @@ import org.jetbrains.annotations.NotNull;
 public class ResultsRecycler extends Fragment implements  ResultsListAdapter.OnClickListener
 {
     private ResultsListAdapter mAdapter;
-    private String mTags = "";
+    public CallbackForTutorial mCallbackForTutorial;
+
+    public ResultsRecycler(CallbackForTutorial callback)
+    {
+        mCallbackForTutorial = callback;
+    }
 
     @Override
     public View onCreateView(
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         FragmentActivity activity = requireActivity();
+        String tags = requireArguments().getString("tags");
         TutorialViewModel tutorialViewModel = new ViewModelProvider(this).get(TutorialViewModel.class);
         mAdapter = new ResultsListAdapter(activity, this);
-        tutorialViewModel.getByTag(mTags.substring(mTags.lastIndexOf(" "+1)))
+        tutorialViewModel.getByTag(tags.replaceAll("^.*?(\\w+)\\W*$", "$1"))
                 .observe(activity, results->mAdapter.setElementList(results));
         View view = inflater.inflate(R.layout.fragment_recycler_results, container, false);
         RecyclerView recycler = view.findViewById(R.id.results_rv);
@@ -40,7 +46,13 @@ public class ResultsRecycler extends Fragment implements  ResultsListAdapter.OnC
     }
 
     @Override
-    public void onClick(Tutorial tutorial) {
+    public void onClick(Tutorial tutorial)
+    {
+        mCallbackForTutorial.serveTutorial(tutorial);
+    }
 
+    public interface CallbackForTutorial
+    {
+        void serveTutorial(Tutorial tutorial);
     }
 }

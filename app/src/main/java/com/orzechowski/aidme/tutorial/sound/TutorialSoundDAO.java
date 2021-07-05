@@ -25,5 +25,5 @@ public interface TutorialSoundDAO
     void deleteAll();
 
     @Query("SELECT * FROM tutorialSound WHERE tutorialId = :tutorialId")
-    List<TutorialSound> getByTutorialId(Long tutorialId);
+    LiveData<List<TutorialSound>> getByTutorialId(Long tutorialId);
 }

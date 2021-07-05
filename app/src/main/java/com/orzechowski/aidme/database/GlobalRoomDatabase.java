@@ -129,6 +129,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryDAO.insert(new Category(4L, "Zwierzęta", "animals", true, "animal_danger.jpg", 0));
 
                 categoryDAO.insert(new Category(5L, "Przetrwanie w dziczy", "survival", true, "survival.jpeg", 0));
+
+                categoryDAO.insert(new Category(6L, "Problemy z oddychaniem", "firstaid breathing", false, "breathing.jpg", 1));
             });
         }
     };

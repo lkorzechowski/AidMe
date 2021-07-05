@@ -20,7 +20,7 @@ VersionListAdapter.OnClickListener
         this.setContentView(R.layout.activity_version)
         supportActionBar?.hide()
 
-        bundle.putLong("tutorialId", 0L)
+        bundle.putLong("tutorialId", intent.getLongExtra("tutorialId", -1L))
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<VersionRecycler>(R.id.layout_versions_list, args = bundle)

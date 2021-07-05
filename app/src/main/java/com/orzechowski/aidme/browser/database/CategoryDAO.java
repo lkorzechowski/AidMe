@@ -24,7 +24,7 @@ public interface CategoryDAO
     @Query("DELETE FROM category")
     void deleteAll();
 
-    @Query("SELECT * FROM category WHERE categoryLevel = :categoryLevel AND categoryTags = :categoryTags")
+    @Query("SELECT * FROM category WHERE categoryLevel = :categoryLevel AND categoryTags LIKE :categoryTags || '%'")
     LiveData<List<Category>> getByLevelAndTags(int categoryLevel, String categoryTags);
 
     @Query("SELECT * FROM category WHERE categoryLevel = :categoryLevel")

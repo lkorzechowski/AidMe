@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class TutorialSoundViewModel extends AndroidViewModel
         mRepository.update(tutorialSound);
     }
 
-    public List<TutorialSound> getByTutorialId(Long tutorialId)
+    public LiveData<List<TutorialSound>> getByTutorialId(Long tutorialId)
     {
         return mRepository.getByTutorialId(tutorialId);
     }
