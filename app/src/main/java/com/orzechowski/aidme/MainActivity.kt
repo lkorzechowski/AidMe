@@ -21,15 +21,20 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
             setReorderingAllowed(true)
             add<EmergencyNumbersRecycler>(R.id.phone_number_recycler_main)
         }
-        val aidButton = findViewById<Button>(R.id.aid_button)
+        val aidButton = findViewById<Button>(R.id.aid_button_main)
         aidButton.setOnClickListener {
             val browser = Intent(this@MainActivity, BrowserActivity::class.java)
             startActivity(browser)
         }
-        val settingsButton = findViewById<Button>(R.id.settings_button)
+        val settingsButton = findViewById<Button>(R.id.settings_button_main)
         settingsButton.setOnClickListener {
             val settings = Intent(this@MainActivity, SettingsActivity::class.java)
             startActivity(settings)
+        }
+        val loginButton = findViewById<Button>(R.id.login_button_main)
+        loginButton.setOnClickListener {
+            val login = Intent(this@MainActivity, LoginActivity::class.java)
+            startActivity(login)
         }
     }
 }
