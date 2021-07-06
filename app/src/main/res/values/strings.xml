@@ -20,11 +20,14 @@
     <string name="search_button">Wyszukiwarka</string>
     <string name="search_hint">Podaj treść wyszukiwania</string>
     <string name="suggestion_text">Być może chodzi ci o:</string>
-    <string name="login_mode_button_default_text">Zarejestruj się</string>
+    <string name="login_mode_button_register_text">Zarejestruj się</string>
+    <string name="login_mode_button_login_text">Zaloguj się</string>
     <string name="login_email_address_header">Adres e-mail</string>
     <string name="three_dots">…</string>
     <string name="login_password_header">Hasło</string>
     <string name="login_button_text">Login</string>
+    <string name="register_button_text">Rejestracja</string>
+    <string name="password_repeat">Powtórz hasło</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
