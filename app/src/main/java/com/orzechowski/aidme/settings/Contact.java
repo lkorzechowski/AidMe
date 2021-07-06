@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Contact extends Fragment
 {
-    private OnClickListener mListener;
+    private final OnClickListener mListener;
 
     public Contact(OnClickListener listener){
         mListener = listener;

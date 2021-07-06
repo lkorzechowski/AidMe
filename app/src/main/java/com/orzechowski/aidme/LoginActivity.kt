@@ -11,7 +11,8 @@ class LoginActivity : AppCompatActivity() {
     private val mLogin = LoginFragment()
     private val mRegister = RegisterFragment()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_login)

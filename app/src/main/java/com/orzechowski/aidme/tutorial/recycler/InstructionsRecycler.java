@@ -42,8 +42,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     }
 
     @Override
-    public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState)
     {
         Bundle bundle = requireArguments();
         mTutorialId = bundle.getLong("tutorialId");
@@ -55,7 +54,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
         mAdapter = new InstructionsListAdapter(activity, this);
         mInstructionSetViewModel.getByTutorialId(mTutorialId)
                 .observe(activity, instructions->mAdapter.setElementList(instructions));
-        View view = inflater.inflate(R.layout.fragment_recycler_tutorial, container, false);
+        View view = inflater.inflate(R.layout.fragment_recycler_tutorial, group, false);
         RecyclerView recycler = view.findViewById(R.id.tutorial_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false)
