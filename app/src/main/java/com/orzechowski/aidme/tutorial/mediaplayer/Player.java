@@ -3,7 +3,6 @@ package com.orzechowski.aidme.tutorial.mediaplayer;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +26,9 @@ public class Player extends Fragment
     VideoView mVideoView;
     ImageView mImageView;
     MultimediaViewModel mMultimediaViewModel;
-    Long mTutorialId;
+    public Long mTutorialId;
+    public String mVersionMultimedias;
     Play mPlayThread;
-    String mVersionMultimedias;
     Activity mActivity;
     AssetObtainer assetObtainer = new AssetObtainer();
 
@@ -44,10 +43,6 @@ public class Player extends Fragment
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         mActivity = requireActivity();
-        Bundle bundle = requireArguments();
-        mTutorialId = bundle.getLong("tutorialId");
-        mVersionMultimedias = bundle.getString("versionMultimedias");
-        Log.w("versionMultimedias", mVersionMultimedias);
         mMultimediaViewModel = new ViewModelProvider(this).get(MultimediaViewModel.class);
         mVideoView = view.findViewById(R.id.video_embed);
         mImageView = view.findViewById(R.id.image_embed);

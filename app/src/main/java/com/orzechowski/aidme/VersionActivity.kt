@@ -3,7 +3,6 @@ package com.orzechowski.aidme
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.orzechowski.aidme.tutorial.version.VersionListAdapter
 import com.orzechowski.aidme.tutorial.version.VersionRecycler
@@ -13,6 +12,7 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
 VersionListAdapter.OnClickListener
 {
     private val bundle = Bundle()
+    private val mVersionRecycler = VersionRecycler()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -23,19 +23,24 @@ VersionListAdapter.OnClickListener
         bundle.putLong("tutorialId", intent.getLongExtra("tutorialId", -1L))
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            add<VersionRecycler>(R.id.layout_versions_list, args = bundle)
+            mVersionRecycler.arguments = bundle
+            add(R.id.layout_versions_list, mVersionRecycler)
         }
     }
 
     override fun onClick(version: Version)
     {
-        val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
-        tutorial.putExtra("versionTutorialParts", version.instructions)
-        tutorial.putExtra("versionId", version.versionId)
-        tutorial.putExtra("tutorialId", version.tutorialId)
-        tutorial.putExtra("delayGlobalSound", version.delayGlobalSound)
-        tutorial.putExtra("versionGlobalSounds", version.sounds)
-        tutorial.putExtra("versionMultimedias", version.medias)
-        startActivity(tutorial)
+        if(version.hasSubVersions){
+            mVersionRecycler.getChildrenVersions(version.versionId)
+        }
+        else{
+            val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
+            tutorial.putExtra("versionId", version.versionId)
+            tutorial.putExtra("tutorialId", version.tutorialId)
+            tutorial.putExtra("delayGlobalSound", version.delayGlobalSound)
+            tutorial.putExtra("versionGlobalSounds", version.sounds)
+            tutorial.putExtra("versionMultimedias", version.medias)
+            startActivity(tutorial)
+        }
     }
 }

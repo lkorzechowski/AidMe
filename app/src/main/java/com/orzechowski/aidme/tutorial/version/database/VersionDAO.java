@@ -24,9 +24,9 @@ public interface VersionDAO
     @Query("DELETE FROM version")
     void deleteAll();
 
-    @Query("SELECT * FROM version")
-    LiveData<List<Version>> getAll();
-
     @Query("SELECT * FROM version WHERE tutorialId = :tutorialId")
     LiveData<List<Version>> getByTutorialId(Long tutorialId);
+
+    @Query("SELECT * FROM version WHERE parentVersionId = :parentId")
+    LiveData<List<Version>> getByParentVersionId(Long parentId);
 }

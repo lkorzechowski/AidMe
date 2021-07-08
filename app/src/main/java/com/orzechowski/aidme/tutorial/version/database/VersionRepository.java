@@ -11,18 +11,11 @@ import java.util.List;
 public class VersionRepository
 {
     private final VersionDAO mDao;
-    private final LiveData<List<Version>> mVersions;
 
     public VersionRepository(Application application)
     {
         GlobalRoomDatabase database = GlobalRoomDatabase.getDatabase(application);
         mDao = database.versionDao();
-        mVersions = mDao.getAll();
-    }
-
-    public LiveData<List<Version>> getAll()
-    {
-        return mVersions;
     }
 
     public void deleteAll()
@@ -48,5 +41,10 @@ public class VersionRepository
     public LiveData<List<Version>> getByTutorialId(long tutorialId)
     {
         return mDao.getByTutorialId(tutorialId);
+    }
+
+    public LiveData<List<Version>> getByParentVersionId(long parentId)
+    {
+        return mDao.getByParentVersionId(parentId);
     }
 }

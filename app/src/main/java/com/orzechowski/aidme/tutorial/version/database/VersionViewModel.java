@@ -1,9 +1,11 @@
 package com.orzechowski.aidme.tutorial.version.database;
 
 import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
 import java.util.List;
 
 public class VersionViewModel extends AndroidViewModel
@@ -37,13 +39,13 @@ public class VersionViewModel extends AndroidViewModel
         mRepository.update(version);
     }
 
-    public LiveData<List<Version>> getAll()
-    {
-        return mRepository.getAll();
-    }
-
     public LiveData<List<Version>> getByTutorialId(long tutorialId)
     {
         return mRepository.getByTutorialId(tutorialId);
+    }
+
+    public LiveData<List<Version>> getByParentVersionId(long parentId)
+    {
+        return mRepository.getByParentVersionId(parentId);
     }
 }

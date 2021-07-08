@@ -7,8 +7,9 @@ import androidx.room.PrimaryKey
 class Version(
     @PrimaryKey val versionId: Long,
                 val text: String,
-                val instructions: String,
                 val tutorialId: Long,
                 val delayGlobalSound: Boolean,
-                val sounds: String,
-                val medias: String)
+                val sounds: String?,
+                val medias: String?,
+                val hasSubVersions: Boolean,
+                val parentVersionId: Long?)
