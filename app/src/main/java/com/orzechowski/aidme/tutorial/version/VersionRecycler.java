@@ -36,7 +36,7 @@ public class VersionRecycler extends Fragment
         mRecycler = view.findViewById(R.id.versions_rv);
         mRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        mVersionViewModel.getByTutorialId(tutorialId).observe(requireActivity(),
+        mVersionViewModel.getBaseByTutorialId(tutorialId).observe(requireActivity(),
                 versions-> mAdapter.setElementList(versions));
         mRecycler.setAdapter(mAdapter);
         return view;

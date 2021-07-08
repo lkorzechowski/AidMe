@@ -53,7 +53,7 @@ public class Player extends Fragment
     {
         if (mPlayThread != null) {
             mPlayThread.interrupt();
-            position++;
+            //position++;
         }
         if(mVersionMultimedias.contains(String.valueOf(position))) getPlayer(position);
     }

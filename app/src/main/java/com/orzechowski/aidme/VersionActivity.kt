@@ -30,7 +30,7 @@ VersionListAdapter.OnClickListener
 
     override fun onClick(version: Version)
     {
-        if(version.hasSubVersions){
+        if(version.hasChildren){
             mVersionRecycler.getChildrenVersions(version.versionId)
         }
         else{

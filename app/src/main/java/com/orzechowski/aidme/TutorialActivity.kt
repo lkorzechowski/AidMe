@@ -75,7 +75,9 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
 
     override fun onStop()
     {
-        mSoundAdapter.destroy()
+        try {
+            mSoundAdapter.destroy()
+        } catch(ignored: UninitializedPropertyAccessException){}
         super.onStop()
     }
 }

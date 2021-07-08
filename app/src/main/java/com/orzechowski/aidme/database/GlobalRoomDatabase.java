@@ -98,9 +98,9 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
 
                 instructionDAO.insert(new InstructionSet(7L, "W razie zwymiotowania ofiary", "Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.", 8000, 0L, 7));
 
-                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", 0L, true, "0", "0", false, null));
+                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", 0L, true, "0", "0", false, false,  null));
 
-                versionDAO.insert(new Version(1L, "Wiem, co robię, potrzebne mi jest tylko tempo!", 0L, false, "0", "0", false, null));
+                versionDAO.insert(new Version(1L, "Wiem, co robię, potrzebne mi jest tylko tempo!", 0L, false, "0", "0", false, false, null));
 
                 versionInstructionDAO.insert(new VersionInstruction(0L, 0L, 0));
                 versionInstructionDAO.insert(new VersionInstruction(1L, 0L, 1));
@@ -163,17 +163,17 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
 
                 instructionDAO.insert(new InstructionSet(28L, "Wstrząs", "Ryzyko wstrząsu, czyli niedostatecznej ilości tlenu w organizmie, mogącej być spowodowanej utratą dużej ilości krwi, omówione jest w oddzielnym poradniku. W razie potrzeby naciśnij tutaj aby do niego przejść.", 5000, 1L, 20));
 
-                versionDAO.insert(new Version(3L, "Udało mi się wezwać pomoc, jestem z ofiarą do czasu jej przybycia", 1L, false, null, null, true, null));
+                versionDAO.insert(new Version(3L, "Udało mi się wezwać pomoc, jestem z ofiarą do czasu jej przybycia", 1L, false, null, null, true, false, null));
 
-                versionDAO.insert(new Version(4L, "Muszę sam/a przetransportować ofiarę do szpitala", 1L, false, null, null, true, null));
+                versionDAO.insert(new Version(4L, "Muszę sam/a zawieźć ofiarę do szpitala", 1L, false, null, null, true, false, null));
 
-                versionDAO.insert(new Version(5L, "Złamanie zamknięte", 1L, false, null, null, false, 3L));
+                versionDAO.insert(new Version(5L, "Złamanie zamknięte", 1L, false, null, null, false, true, 3L));
 
-                versionDAO.insert(new Version(6L, "Złamanie otwarte", 1L, false, null, null, false, 3L));
+                versionDAO.insert(new Version(6L, "Złamanie otwarte", 1L, false, null, null, false, true, 3L));
 
-                versionDAO.insert(new Version(7L, "Złamanie zamknięte", 1L, false, null, null, false, 4L));
+                versionDAO.insert(new Version(7L, "Złamanie zamknięte", 1L, false, null, null, false, true, 4L));
 
-                versionDAO.insert(new Version(8L, "Złamanie otwarte", 1L, false, null, null, false, 4L));
+                versionDAO.insert(new Version(8L, "Złamanie otwarte", 1L, false, null, null, false, true, 4L));
 
                 versionInstructionDAO.insert(new VersionInstruction(10L, 5L, 0));
                 versionInstructionDAO.insert(new VersionInstruction(11L, 5L, 2));

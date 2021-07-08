@@ -29,4 +29,7 @@ public interface InstructionSetDAO
 
     @Query("SELECT * FROM instructionset WHERE position = :position AND tutorialId = :tutorialId")
     LiveData<List<InstructionSet>> getByPositionAndTutorialId(int position, long tutorialId);
+
+    @Query("SELECT COUNT(*) FROM instructionset WHERE tutorialId = :tutorialId")
+    LiveData<Integer> getTutorialSize(long tutorialId);
 }

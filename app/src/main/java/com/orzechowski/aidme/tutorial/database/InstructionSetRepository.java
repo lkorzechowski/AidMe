@@ -46,4 +46,9 @@ public class InstructionSetRepository
     {
         return mDao.getByPositionAndTutorialId(position, tutorialId);
     }
+
+    public LiveData<Integer> getTutorialSize(long tutorialId)
+    {
+        return mDao.getTutorialSize(tutorialId);
+    }
 }

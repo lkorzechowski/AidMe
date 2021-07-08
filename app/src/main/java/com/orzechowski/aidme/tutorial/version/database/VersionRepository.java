@@ -38,9 +38,9 @@ public class VersionRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(version));
     }
 
-    public LiveData<List<Version>> getByTutorialId(long tutorialId)
+    public LiveData<List<Version>> getBaseByTutorialId(long tutorialId)
     {
-        return mDao.getByTutorialId(tutorialId);
+        return mDao.getBaseByTutorialId(tutorialId);
     }
 
     public LiveData<List<Version>> getByParentVersionId(long parentId)

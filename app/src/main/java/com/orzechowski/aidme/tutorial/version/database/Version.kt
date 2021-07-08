@@ -11,5 +11,6 @@ class Version(
                 val delayGlobalSound: Boolean,
                 val sounds: String?,
                 val medias: String?,
-                val hasSubVersions: Boolean,
+                val hasChildren: Boolean,
+                val hasParent: Boolean,
                 val parentVersionId: Long?)

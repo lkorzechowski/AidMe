@@ -29,18 +29,14 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
 {
     private InstructionsListAdapter mAdapter;
     private Player mPlayerInstance;
-    private boolean mBoot;
+    private boolean mBoot = true;
     private TextView mTextDisplay;
     private InstructionSetViewModel mInstructionSetViewModel;
     private long mTutorialId;
     private List<Integer> mTutorialInstructions;
     private int mPlayCount = 0;
     private boolean mAutoplay = true;
-
-    public InstructionsRecycler()
-    {
-        mBoot = true;
-    }
+    private int mSize;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState)
@@ -61,6 +57,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
         mTextDisplay = activity.findViewById(R.id.active_instructions);
         mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
         mAdapter = new InstructionsListAdapter(activity, this);
+        mInstructionSetViewModel.getTutorialSize(mTutorialId).observe(activity, size -> mSize = size);
         mInstructionSetViewModel.getByTutorialId(mTutorialId)
                 .observe(activity, instructions->mAdapter.setElementList(instructions));
         View view = inflater.inflate(R.layout.fragment_recycler_tutorial, group, false);
@@ -82,7 +79,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                 if (mTutorialInstructions.contains(position)) {
                     getPlayer(position);
                     mPlayCount++;
-                } else if(mPlayCount!=mTutorialInstructions.get(size-1)) {
+                } else if(position < mSize){
                     play(position + 1);
                 }
             } else mTextDisplay.setVisibility(View.GONE);
