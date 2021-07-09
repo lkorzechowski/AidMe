@@ -59,6 +59,11 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                 lock.notifyAll();
             }
         });
+        synchronized (lock) {
+            try {
+                lock.wait(10);
+            } catch (InterruptedException ignored) {}
+        }
         mInstructionSetViewModel.getByTutorialId(mTutorialId)
                 .observe(activity, instructions->mAdapter.setElementList(instructions));
         View view = inflater.inflate(R.layout.fragment_recycler_tutorial, group, false);
@@ -74,18 +79,12 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             mPlayerInstance.interrupt();
             position++;
         }
-        if (mSize == 0) {
-            synchronized (lock) {
-                try {
-                    lock.wait();
-                } catch (InterruptedException ignored) {}
-            }
-        }
         if(mAutoplay) {
             if (mTutorialInstructions.contains(position)) {
                 getPlayer(position);
             } else if(position < mSize) {
-                play(position + 1);
+                if(mPlayerInstance==null) play(position+1);
+                else play(position);
             } else mTextDisplay.setVisibility(View.GONE);
         } else {
             if(mTutorialInstructions.contains(position)) {

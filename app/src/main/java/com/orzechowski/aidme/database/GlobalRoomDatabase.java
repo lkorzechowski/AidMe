@@ -195,9 +195,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 versionInstructionDAO.insert(new VersionInstruction(57L, 8L, 20));
 
                 //beginning of heatstroke tutorial
-                tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "firstaid head heatstroke sun stroke", "sun.jpg"));
-
-                //tutorialDAO.insert(new Tutorial(1L, "Złamana kończyna", 1L, "firstaid injury brokenbones limbs", "broken_bone.jpeg"));
+                tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "firstaid head heatstroke", "sun.jpg"));
 
                 categoryDAO.insert(new Category(0L, "Pierwsza pomoc", "firstaid", true, "first_aid.jpg", 0));
                 categoryDAO.insert(new Category(1L, "Pożar", "fire", true, "fire.jpeg", 0));
