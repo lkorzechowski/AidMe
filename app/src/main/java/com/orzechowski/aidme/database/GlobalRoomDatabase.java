@@ -194,6 +194,9 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 versionInstructionDAO.insert(new VersionInstruction(56L, 8L, 19));
                 versionInstructionDAO.insert(new VersionInstruction(57L, 8L, 20));
 
+                multimediaDAO.insert(new Multimedia(1L, 1L, 5000, true, true, 0));
+                multimediaDAO.insert(new Multimedia(2L, 1L, 5000, true, true, 1));
+
                 //beginning of heatstroke tutorial
                 tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "firstaid head heatstroke", "sun.jpg"));
 
