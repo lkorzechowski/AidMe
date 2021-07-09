@@ -67,7 +67,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
     {
         if(mTutorial==null || mSoundAdapter.mSounds.isEmpty()) {
             Thread {
-                Thread.sleep(4)
+                Thread.sleep(2)
                 checkObtainedTutorial()
             }.start()
         } else mSoundAdapter.deploy()

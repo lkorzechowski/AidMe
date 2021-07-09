@@ -24,11 +24,11 @@ public interface InstructionSetDAO
     @Query("DELETE FROM instructionset")
     void deleteAll();
 
-    @Query("SELECT * FROM instructionset WHERE tutorialId = :tutorialId ORDER BY tutorialId ASC")
+    @Query("SELECT * FROM instructionset WHERE tutorialId = :tutorialId ORDER BY position ASC")
     LiveData<List<InstructionSet>> getByTutorialId(Long tutorialId);
 
     @Query("SELECT * FROM instructionset WHERE position = :position AND tutorialId = :tutorialId")
-    LiveData<List<InstructionSet>> getByPositionAndTutorialId(int position, long tutorialId);
+    LiveData<InstructionSet> getByPositionAndTutorialId(int position, long tutorialId);
 
     @Query("SELECT COUNT(*) FROM instructionset WHERE tutorialId = :tutorialId")
     LiveData<Integer> getTutorialSize(long tutorialId);

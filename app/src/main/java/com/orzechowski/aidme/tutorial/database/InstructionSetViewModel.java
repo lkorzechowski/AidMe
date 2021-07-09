@@ -43,7 +43,7 @@ public class InstructionSetViewModel extends AndroidViewModel
         return mRepository.getByTutorialId(tutorialId);
     }
 
-    public LiveData<List<InstructionSet>> getByPositionAndTutorialId(int position, long tutorialId)
+    public LiveData<InstructionSet> getByPositionAndTutorialId(int position, long tutorialId)
     {
         return mRepository.getByPositionAndTutorialId(position, tutorialId);
     }

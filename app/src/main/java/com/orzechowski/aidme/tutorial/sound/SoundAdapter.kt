@@ -76,6 +76,7 @@ class SoundAdapter (private val mVersionId: Long,
                             player.release()
                         }
                     } catch (e: InterruptedException) {
+                        player.stop()
                         player.release()
                         Thread.interrupted()
                     }

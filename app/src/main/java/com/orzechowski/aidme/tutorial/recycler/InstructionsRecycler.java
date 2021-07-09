@@ -29,14 +29,13 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
 {
     private InstructionsListAdapter mAdapter;
     private Player mPlayerInstance;
-    private boolean mBoot = true;
     private TextView mTextDisplay;
     private InstructionSetViewModel mInstructionSetViewModel;
     private long mTutorialId;
     private List<Integer> mTutorialInstructions;
-    private int mPlayCount = 0;
     private boolean mAutoplay = true;
     private int mSize;
+    private final Object lock = new Object();
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState)
@@ -46,18 +45,20 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
         VersionInstructionViewModel versionInstructionViewModel = new ViewModelProvider(this)
                 .get(VersionInstructionViewModel.class);
         versionInstructionViewModel.getByVersionId(bundle.getLong("versionId"))
-                .observe(activity, instructionNumbers ->{
+                .observe(activity, instructionNumbers -> {
                     mTutorialInstructions = instructionNumbers;
-                    if(mBoot){
-                        play(0);
-                        mBoot = false;
-                    }
+                    play(0);
                 });
         mTutorialId = bundle.getLong("tutorialId");
         mTextDisplay = activity.findViewById(R.id.active_instructions);
         mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
         mAdapter = new InstructionsListAdapter(activity, this);
-        mInstructionSetViewModel.getTutorialSize(mTutorialId).observe(activity, size -> mSize = size);
+        mInstructionSetViewModel.getTutorialSize(mTutorialId).observe(activity, size -> {
+            synchronized (lock) {
+                mSize = size;
+                lock.notifyAll();
+            }
+        });
         mInstructionSetViewModel.getByTutorialId(mTutorialId)
                 .observe(activity, instructions->mAdapter.setElementList(instructions));
         View view = inflater.inflate(R.layout.fragment_recycler_tutorial, group, false);
@@ -73,41 +74,42 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             mPlayerInstance.interrupt();
             position++;
         }
+        if (mSize == 0) {
+            synchronized (lock) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException ignored) {}
+            }
+        }
         if(mAutoplay) {
-            int size = mTutorialInstructions.size();
-            if (mPlayCount < size) {
-                if (mTutorialInstructions.contains(position)) {
-                    getPlayer(position);
-                    mPlayCount++;
-                } else if(position < mSize){
-                    play(position + 1);
-                }
+            if (mTutorialInstructions.contains(position)) {
+                getPlayer(position);
+            } else if(position < mSize) {
+                play(position + 1);
             } else mTextDisplay.setVisibility(View.GONE);
         } else {
-            if(mTutorialInstructions.contains(position)){
+            if(mTutorialInstructions.contains(position)) {
                 mAutoplay = true;
-                getPlayer(position);
-                mPlayCount++;
-            } else {
-                getPlayer(position);
             }
+            getPlayer(position);
         }
     }
 
     public void getPlayer(int position)
     {
-            mInstructionSetViewModel
-                .getByPositionAndTutorialId(position, mTutorialId)
-                    .observe(requireActivity(), selected -> {
-                    mPlayerInstance = new Player(selected.get(0));
-                    mPlayerInstance.start();
+        mInstructionSetViewModel.getByPositionAndTutorialId(position, mTutorialId)
+                .observe(requireActivity(), selected -> {
+                    if(selected != null) {
+                        mPlayerInstance = new Player(selected);
+                        mPlayerInstance.start();
+                    } else  mTextDisplay.setVisibility(View.GONE);
                 });
     }
 
     @Override
     public void onPause()
     {
-        if(mPlayerInstance!=null){
+        if(mPlayerInstance != null){
             mPlayerInstance.interrupt();
         }
         super.onPause();
@@ -117,9 +119,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     public void onClick(InstructionSet instructionSet)
     {
         mTextDisplay.setVisibility(View.VISIBLE);
-        mPlayCount = instructionSet.getPosition();
         mAutoplay = false;
-
         play(instructionSet.getPosition()-1);
     }
 
@@ -141,7 +141,6 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             try {
                 sleep(100);
             } catch (InterruptedException | IllegalStateException e) {
-                e.printStackTrace();
                 interrupt();
             }
             String fileName = "s" + mTutorialId + "_" + position+".m4a";
@@ -149,7 +148,6 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             try {
                 uri = Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), fileName));
             } catch (IOException e) {
-                e.printStackTrace();
                 uri = null;
             }
             FragmentActivity activity = requireActivity();
@@ -157,7 +155,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             if(uri!=null){
                 mPlayer = MediaPlayer.create(getContext(), uri);
             }
-            if(mPlayer!=null) {
+            if(mPlayer != null) {
                 mPlayer.setLooping(false);
                 mPlayer.setVolume(1F, 1F);
                 activity.runOnUiThread(() ->
@@ -170,6 +168,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                     });
                 } catch (IllegalStateException | InterruptedException e) {
                     mPlayer.stop();
+                    mPlayer.release();
                     interrupt();
                 }
             } else {
