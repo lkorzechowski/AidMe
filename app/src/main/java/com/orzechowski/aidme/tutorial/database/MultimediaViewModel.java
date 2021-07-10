@@ -36,8 +36,8 @@ public class MultimediaViewModel extends AndroidViewModel
         mRepository.update(multimedia);
     }
 
-    public LiveData<Multimedia> getByPositionAndTutorialId(int position, Long tutorialId)
+    public LiveData<Multimedia> getByMediaIdAndTutorialId(long mediaId, long tutorialId)
     {
-        return mRepository.getByPositionAndTutorialId(position, tutorialId);
+        return mRepository.getByMediaIdAndTutorialId(mediaId, tutorialId);
     }
 }

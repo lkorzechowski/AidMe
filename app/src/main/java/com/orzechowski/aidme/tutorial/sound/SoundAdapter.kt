@@ -30,26 +30,6 @@ class SoundAdapter (private val mVersionId: Long,
         for(i in mSounds.indices){
             if(mVersionSounds.contains(i.toString(), true))
             {
-                //public String chk_path(String filePath)
-                //{
-                ////create array of extensions
-                //String[] ext=new String[]{".mkv",".mpg"}; //You can add more as you require
-                //
-                ////Iterate through array and check your path which extension with your path exists
-                //
-                //String path=null;
-                //for(int i=0;i<ext.Length;i++)
-                //{
-                //  File file = new File(filePath+ext[i]);
-                //  if(file.exists())
-                //    {
-                //     //if it exists then combine the extension
-                //     path=filePath+ext[i];
-                //     break;
-                //    }
-                //}
-                //return path;
-                //}
                 mThreads.add(Thread {
                     if (mDelayGlobalSound) {
                         try{

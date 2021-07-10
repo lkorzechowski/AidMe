@@ -9,5 +9,6 @@ class Multimedia(
                 val tutorialId: Long,
                 val displayTime: Int,
                 val type: Boolean,  //true = image, false = video
+                val fullFileName: String,
                 val loop: Boolean,
                 val position: Int)

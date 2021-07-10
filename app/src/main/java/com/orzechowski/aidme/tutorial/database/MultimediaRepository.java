@@ -36,8 +36,8 @@ public class MultimediaRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(multimedia));
     }
 
-    LiveData<Multimedia> getByPositionAndTutorialId(int position, Long tutorialId)
+    LiveData<Multimedia> getByMediaIdAndTutorialId(long mediaId, long tutorialId)
     {
-        return mDao.getByPositionAndTutorialId(position, tutorialId);
+        return mDao.getByMediaIdAndTutorialId(mediaId, tutorialId);
     }
 }

@@ -16,6 +16,8 @@ import com.orzechowski.aidme.tutorial.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.database.InstructionSetDAO;
 import com.orzechowski.aidme.tutorial.database.Multimedia;
 import com.orzechowski.aidme.tutorial.database.MultimediaDAO;
+import com.orzechowski.aidme.tutorial.database.MultimediaInVersion;
+import com.orzechowski.aidme.tutorial.database.MultimediaInVersionDAO;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialDAO;
 import com.orzechowski.aidme.tutorial.sound.TutorialSound;
@@ -29,7 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class, VersionInstruction.class,
-        TutorialSound.class, Helper.class, Multimedia.class, Category.class},
+        TutorialSound.class, Helper.class, Multimedia.class, Category.class, MultimediaInVersion.class},
         version = 1, exportSchema = false)
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
@@ -41,6 +43,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract MultimediaDAO multimediaDAO();
     public abstract CategoryDAO categoryDAO();
     public abstract VersionInstructionDAO versionInstructionDAO();
+    public abstract MultimediaInVersionDAO multimediaInVersionDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
@@ -74,6 +77,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 MultimediaDAO multimediaDAO = INSTANCE.multimediaDAO();
                 CategoryDAO categoryDAO = INSTANCE.categoryDAO();
                 VersionInstructionDAO versionInstructionDAO = INSTANCE.versionInstructionDAO();
+                MultimediaInVersionDAO multimediaInVersionDAO = INSTANCE.multimediaInVersionDAO();
 
                 helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka", "voiceactor"));
                 helperDAO.insert(new Helper(1L, "Łukasz", "Orzechowski", "", "Twórca", "creator firstaid breathing immediate"));
@@ -91,8 +95,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 instructionDAO.insert(new InstructionSet(6L, "Uciśnięcia", "Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.", 14000, 0L, 6));
                 instructionDAO.insert(new InstructionSet(7L, "W razie zwymiotowania ofiary", "Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.", 8000, 0L, 7));
 
-                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", 0L, true, "0", "0", false, false,  null));
-                versionDAO.insert(new Version(1L, "Wiem, co robię, potrzebne mi jest tylko tempo!", 0L, false, "0", "0", false, false, null));
+                versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", 0L, true,"0", false, false,  null));
+                versionDAO.insert(new Version(1L, "Wiem, co robię, potrzebne mi jest tylko tempo!", 0L, false, "0", false, false, null));
 
                 versionInstructionDAO.insert(new VersionInstruction(0L, 0L, 0));
                 versionInstructionDAO.insert(new VersionInstruction(1L, 0L, 1));
@@ -108,7 +112,10 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
 
                 tutorialSoundDAO.insert(new TutorialSound(0L, 45000L, true, 545L, 0L));
 
-                multimediaDAO.insert(new Multimedia(0L, 0L, -1, false, true, 0));
+                multimediaDAO.insert(new Multimedia(0L, 0L, -1,false, "m0_0.mp4" ,true, 0));
+
+                multimediaInVersionDAO.insert(new MultimediaInVersion(0L, 0L, 0L));
+                multimediaInVersionDAO.insert(new MultimediaInVersion(1L, 0L, 1L));
 
                 //beginning of broken limb general tutorial
                 tutorialDAO.insert(new Tutorial(1L, "Złamana kończyna", 1L, "firstaid injury brokenbones limbs", "broken_bone.jpeg"));
@@ -135,12 +142,20 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 instructionDAO.insert(new InstructionSet(27L, "Upomnienie o krwiobiegu", "…w celu upewnienia się, że sztywny opatrunek go nie tamuje. W przypadku gdy krwiobieg jest zatamowany, należy poluzować opatrunek.", 5000, 1L, 19));
                 instructionDAO.insert(new InstructionSet(28L, "Wstrząs", "Ryzyko wstrząsu, czyli niedostatecznej ilości tlenu w organizmie, mogącej być spowodowanej utratą dużej ilości krwi, omówione jest w oddzielnym poradniku. W razie potrzeby naciśnij tutaj aby do niego przejść.", 5000, 1L, 20));
 
-                versionDAO.insert(new Version(3L, "Udało mi się wezwać pomoc, jestem z ofiarą do czasu jej przybycia", 1L, false, null, null, true, false, null));
-                versionDAO.insert(new Version(4L, "Muszę sam/a zawieźć ofiarę do szpitala", 1L, false, null, null, true, false, null));
-                versionDAO.insert(new Version(5L, "Złamanie zamknięte", 1L, false, null, null, false, true, 3L));
-                versionDAO.insert(new Version(6L, "Złamanie otwarte", 1L, false, null, null, false, true, 3L));
-                versionDAO.insert(new Version(7L, "Złamanie zamknięte", 1L, false, null, null, false, true, 4L));
-                versionDAO.insert(new Version(8L, "Złamanie otwarte", 1L, false, null, null, false, true, 4L));
+                versionDAO.insert(new Version(9L, "Złamana ręka", 1L, false, null, true, false, null));
+                versionDAO.insert(new Version(10L, "Złamana noga", 1L, false, null, true, false, null));
+                versionDAO.insert(new Version(3L, "Udało mi się wezwać pomoc, jestem z ofiarą do czasu jej przybycia", 1L, false, null, true, true, 9L));
+                versionDAO.insert(new Version(4L, "Muszę sam/a zawieźć ofiarę do szpitala", 1L, false, null, true, true, 9L));
+                versionDAO.insert(new Version(11L, "Udało mi się wezwać pomoc, jestem z ofiarą do czasu jej przybycia", 1L, false, null, true, true, 10L));
+                versionDAO.insert(new Version(12L, "Muszę sam/a zawieźć ofiarę do szpitala", 1L, false, null, true, true, 10L));
+                versionDAO.insert(new Version(5L, "Złamanie zamknięte", 1L, false, null, false, true, 3L));
+                versionDAO.insert(new Version(6L, "Złamanie otwarte", 1L, false, null, false, true, 3L));
+                versionDAO.insert(new Version(7L, "Złamanie zamknięte", 1L, false, null, false, true, 4L));
+                versionDAO.insert(new Version(8L, "Złamanie otwarte", 1L, false, null, false, true, 4L));
+                versionDAO.insert(new Version(13L, "Złamanie zamknięte", 1L, false, null, false, true, 11L));
+                versionDAO.insert(new Version(14L, "Złamanie otwarte", 1L, false, null, false, true, 11L));
+                versionDAO.insert(new Version(15L, "Złamanie zamknięte", 1L, false, null, false, true, 12L));
+                versionDAO.insert(new Version(16L, "Złamanie otwarte", 1L, false, null, false, true, 12L));
 
                 versionInstructionDAO.insert(new VersionInstruction(10L, 5L, 0));
                 versionInstructionDAO.insert(new VersionInstruction(11L, 5L, 2));
@@ -166,9 +181,6 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 versionInstructionDAO.insert(new VersionInstruction(27L, 7L, 6));
                 versionInstructionDAO.insert(new VersionInstruction(28L, 7L, 7));
                 versionInstructionDAO.insert(new VersionInstruction(29L, 7L, 8));
-                versionInstructionDAO.insert(new VersionInstruction(30L, 7L, 9));
-                versionInstructionDAO.insert(new VersionInstruction(31L, 7L, 10));
-                versionInstructionDAO.insert(new VersionInstruction(32L, 7L, 11));
                 versionInstructionDAO.insert(new VersionInstruction(33L, 7L, 12));
                 versionInstructionDAO.insert(new VersionInstruction(34L, 7L, 18));
                 versionInstructionDAO.insert(new VersionInstruction(35L, 7L, 19));
@@ -182,9 +194,6 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 versionInstructionDAO.insert(new VersionInstruction(44L, 8L, 6));
                 versionInstructionDAO.insert(new VersionInstruction(45L, 8L, 7));
                 versionInstructionDAO.insert(new VersionInstruction(46L, 8L, 8));
-                versionInstructionDAO.insert(new VersionInstruction(47L, 8L, 9));
-                versionInstructionDAO.insert(new VersionInstruction(48L, 8L, 10));
-                versionInstructionDAO.insert(new VersionInstruction(49L, 8L, 11));
                 versionInstructionDAO.insert(new VersionInstruction(50L, 8L, 12));
                 versionInstructionDAO.insert(new VersionInstruction(51L, 8L, 13));
                 versionInstructionDAO.insert(new VersionInstruction(52L, 8L, 14));
@@ -194,8 +203,67 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 versionInstructionDAO.insert(new VersionInstruction(56L, 8L, 19));
                 versionInstructionDAO.insert(new VersionInstruction(57L, 8L, 20));
 
-                multimediaDAO.insert(new Multimedia(1L, 1L, 5000, true, true, 0));
-                multimediaDAO.insert(new Multimedia(2L, 1L, 5000, true, true, 1));
+                versionInstructionDAO.insert(new VersionInstruction(58L, 13L, 0));
+                versionInstructionDAO.insert(new VersionInstruction(59L, 13L, 2));
+                versionInstructionDAO.insert(new VersionInstruction(60L, 13L, 3));
+                versionInstructionDAO.insert(new VersionInstruction(61L, 13L, 5));
+                versionInstructionDAO.insert(new VersionInstruction(62L, 13L, 6));
+                versionInstructionDAO.insert(new VersionInstruction(63L, 13L, 17));
+                versionInstructionDAO.insert(new VersionInstruction(64L, 13L, 19));
+
+                versionInstructionDAO.insert(new VersionInstruction(65L, 14L, 0));
+                versionInstructionDAO.insert(new VersionInstruction(66L, 14L, 2));
+                versionInstructionDAO.insert(new VersionInstruction(67L, 14L, 3));
+                versionInstructionDAO.insert(new VersionInstruction(68L, 14L, 4));
+                versionInstructionDAO.insert(new VersionInstruction(69L, 14L, 5));
+                versionInstructionDAO.insert(new VersionInstruction(70L, 14L, 6));
+                versionInstructionDAO.insert(new VersionInstruction(71L, 14L, 17));
+                versionInstructionDAO.insert(new VersionInstruction(72L, 14L, 19));
+
+                versionInstructionDAO.insert(new VersionInstruction(73L, 15L, 0));
+                versionInstructionDAO.insert(new VersionInstruction(74L, 15L, 1));
+                versionInstructionDAO.insert(new VersionInstruction(75L, 15L, 2));
+                versionInstructionDAO.insert(new VersionInstruction(76L, 15L, 3));
+                versionInstructionDAO.insert(new VersionInstruction(77L, 15L, 6));
+                versionInstructionDAO.insert(new VersionInstruction(78L, 15L, 7));
+                versionInstructionDAO.insert(new VersionInstruction(79L, 15L, 8));
+                versionInstructionDAO.insert(new VersionInstruction(80L, 15L, 9));
+                versionInstructionDAO.insert(new VersionInstruction(81L, 15L, 10));
+                versionInstructionDAO.insert(new VersionInstruction(82L, 15L, 11));
+                versionInstructionDAO.insert(new VersionInstruction(83L, 15L, 12));
+                versionInstructionDAO.insert(new VersionInstruction(84L, 15L, 19));
+                versionInstructionDAO.insert(new VersionInstruction(85L, 15L, 20));
+
+                versionInstructionDAO.insert(new VersionInstruction(86L, 16L, 0));
+                versionInstructionDAO.insert(new VersionInstruction(87L, 16L, 1));
+                versionInstructionDAO.insert(new VersionInstruction(89L, 16L, 2));
+                versionInstructionDAO.insert(new VersionInstruction(90L, 16L, 3));
+                versionInstructionDAO.insert(new VersionInstruction(91L, 16L, 4));
+                versionInstructionDAO.insert(new VersionInstruction(92L, 16L, 6));
+                versionInstructionDAO.insert(new VersionInstruction(93L, 16L, 7));
+                versionInstructionDAO.insert(new VersionInstruction(94L, 16L, 8));
+                versionInstructionDAO.insert(new VersionInstruction(95L, 16L, 9));
+                versionInstructionDAO.insert(new VersionInstruction(96L, 16L, 10));
+                versionInstructionDAO.insert(new VersionInstruction(97L, 16L, 11));
+                versionInstructionDAO.insert(new VersionInstruction(98L, 16L, 12));
+                versionInstructionDAO.insert(new VersionInstruction(99L, 16L, 13));
+                versionInstructionDAO.insert(new VersionInstruction(100L, 16L, 14));
+                versionInstructionDAO.insert(new VersionInstruction(101L, 16L, 15));
+                versionInstructionDAO.insert(new VersionInstruction(102L, 16L, 16));
+                versionInstructionDAO.insert(new VersionInstruction(103L, 16L, 19));
+                versionInstructionDAO.insert(new VersionInstruction(104L, 16L, 20));
+
+                multimediaDAO.insert(new Multimedia(1L, 1L, 5000, true, "m1_0.jpg", true, 0));
+                multimediaDAO.insert(new Multimedia(2L, 1L, 5000, true, "m1_1.jpg", true, 1));
+
+                multimediaInVersionDAO.insert(new MultimediaInVersion(3L, 1L, 5L));
+                multimediaInVersionDAO.insert(new MultimediaInVersion(4L, 2L, 5L));
+                multimediaInVersionDAO.insert(new MultimediaInVersion(5L, 1L, 6L));
+                multimediaInVersionDAO.insert(new MultimediaInVersion(6L, 2L, 6L));
+                multimediaInVersionDAO.insert(new MultimediaInVersion(7L, 1L, 7L));
+                multimediaInVersionDAO.insert(new MultimediaInVersion(8L, 2L, 7L));
+                multimediaInVersionDAO.insert(new MultimediaInVersion(9L, 1L, 8L));
+                multimediaInVersionDAO.insert(new MultimediaInVersion(10L, 2L, 8L));
 
                 //beginning of heatstroke tutorial
                 tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "firstaid head heatstroke", "sun.jpg"));

@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import com.orzechowski.aidme.tutorial.database.MultimediaInVersionViewModel
+import com.orzechowski.aidme.tutorial.database.MultimediaViewModel
 import com.orzechowski.aidme.tutorial.database.Tutorial
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel
-import com.orzechowski.aidme.tutorial.mediaplayer.Player
+import com.orzechowski.aidme.tutorial.mediaplayer.MediaPlayer
 import com.orzechowski.aidme.tutorial.recycler.InstructionsRecycler
 import com.orzechowski.aidme.tutorial.sound.SoundAdapter
 import com.orzechowski.aidme.tutorial.sound.TutorialSoundViewModel
@@ -18,7 +20,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
 {
     private var mTutorial: Tutorial? = null
     private lateinit var mSoundAdapter: SoundAdapter
-    private val mMediaPlayer = Player()
+    private val mMediaPlayer = MediaPlayer()
     private var mTutorialId by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -29,13 +31,17 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         val bundle = intent.extras!!
         mTutorialId = intent.extras?.getLong("tutorialId") ?: -1L
         soundAdapterSetup(intent.extras?.getString("versionGlobalSounds"))
-        mMediaPlayer.mVersionMultimedias =  intent.extras?.getString("versionMultimedias")
-        if(!mMediaPlayer.mVersionMultimedias.isNullOrEmpty()) {
-            mMediaPlayer.mTutorialId = mTutorialId
-            supportFragmentManager.commit {
-                add(R.id.layout_multimedia, mMediaPlayer)
-            }
-        }
+        val mediaInVersionViewModel = MultimediaInVersionViewModel(Application())
+        mediaInVersionViewModel.getByVersionId(intent.extras?.getLong("versionId") ?: -1L)
+            .observe(this, { list ->
+                mMediaPlayer.mTutorialId = mTutorialId
+                val mediaViewModel = MultimediaViewModel(Application())
+                for(id: Long in list){
+                    mediaViewModel.getByMediaIdAndTutorialId(id, mTutorialId).observe(this, { item ->
+                        mMediaPlayer.multimedias.add(item)
+                    })
+                }
+        })
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<InstructionsRecycler>(R.id.layout_instructions_list, args = bundle)
@@ -70,7 +76,14 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
                 Thread.sleep(2)
                 checkObtainedTutorial()
             }.start()
-        } else mSoundAdapter.deploy()
+        } else {
+            if(!mMediaPlayer.isAdded) {
+                supportFragmentManager.commit {
+                    add(R.id.layout_multimedia, mMediaPlayer)
+                }
+            }
+            mSoundAdapter.deploy()
+        }
     }
 
     override fun onStop()

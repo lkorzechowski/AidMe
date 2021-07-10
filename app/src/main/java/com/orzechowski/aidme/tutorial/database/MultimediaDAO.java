@@ -22,6 +22,6 @@ public interface MultimediaDAO
     @Query("DELETE FROM multimedia")
     void deleteAll();
 
-    @Query("SELECT * FROM multimedia WHERE position = :position AND tutorialId = :tutorialId")
-    LiveData<Multimedia> getByPositionAndTutorialId(int position, long tutorialId);
+    @Query("SELECT * FROM multimedia WHERE multimediaId = :multimediaId AND tutorialId = :tutorialId")
+    LiveData<Multimedia> getByMediaIdAndTutorialId(long multimediaId, long tutorialId);
 }

@@ -10,7 +10,6 @@ class Version(
                 val tutorialId: Long,
                 val delayGlobalSound: Boolean,
                 val sounds: String?,
-                val medias: String?,
                 val hasChildren: Boolean,
                 val hasParent: Boolean,
                 val parentVersionId: Long?)

@@ -20,17 +20,19 @@ import com.orzechowski.aidme.tutorial.database.MultimediaViewModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Player extends Fragment
+public class MediaPlayer extends Fragment
 {
     VideoView mVideoView;
     ImageView mImageView;
     MultimediaViewModel mMultimediaViewModel;
-    public Long mTutorialId;
-    public String mVersionMultimedias;
     Play mPlayThread;
     Activity mActivity;
     AssetObtainer assetObtainer = new AssetObtainer();
+    public Long mTutorialId;
+    public List<Multimedia> multimedias = new LinkedList<>();
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -46,54 +48,64 @@ public class Player extends Fragment
         mMultimediaViewModel = new ViewModelProvider(this).get(MultimediaViewModel.class);
         mVideoView = view.findViewById(R.id.video_embed);
         mImageView = view.findViewById(R.id.image_embed);
-        preplay(0);
+        getPlayer(0);
     }
 
-    private void preplay(int position)
+    private void getPlayer(int position)
     {
-        if (mPlayThread != null) {
+        if(mPlayThread != null) {
             mPlayThread.interrupt();
-            //position++;
+            position++;
         }
-        if(mVersionMultimedias.contains(String.valueOf(position))) getPlayer(position);
-    }
-
-    public void getPlayer(int position)
-    {
-        mMultimediaViewModel
-                .getByPositionAndTutorialId(position, mTutorialId)
-                .observe(requireActivity(), selected -> {
-                    mPlayThread = new Play(selected);
-                    mPlayThread.start();
-                });
+        if(!multimedias.isEmpty()) {
+            mPlayThread = new Play(multimedias.get(position));
+            mPlayThread.start();
+        }
     }
 
     private class Play extends Thread
     {
-        private final String fileName;
         private final Multimedia currentMedia;
 
         Play(Multimedia media){
-            fileName = "m"+mTutorialId+"_"+media.getPosition()+".mp4";
             currentMedia = media;
         }
 
         @Override
         public void run()
         {
-            if(currentMedia.getType()){
-                mImageView.setVisibility(View.VISIBLE);
-                mVideoView.setVisibility(View.INVISIBLE);
+            int position = currentMedia.getPosition();
+            int displayTime = currentMedia.getDisplayTime();
+            boolean loopBool = currentMedia.getLoop();
+            if(currentMedia.getType()) {
+                mActivity.runOnUiThread(() -> {
+                    mImageView.setVisibility(View.VISIBLE);
+                    mVideoView.setVisibility(View.INVISIBLE);
+                    try {
+                        mImageView.setImageURI(null);
+                        mImageView.setImageURI(Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), currentMedia.getFullFileName())));
+                    } catch (IOException ignored) {}
+                });
+                if(displayTime>0) {
+                    try {
+                        sleep(displayTime);
+                        if(!loopBool) multimedias.remove(currentMedia);
+                        if(position<multimedias.size()-1) {
+                            getPlayer(position);
+                        } else getPlayer(0);
+                    } catch (InterruptedException e) {
+                        mActivity.runOnUiThread(() -> mImageView.setVisibility(View.INVISIBLE));
+                        interrupt();
+                    }
+                }
             } else {
                 mActivity.runOnUiThread(() -> {
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.INVISIBLE);
                     try {
-                        mVideoView.setVideoURI(Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), fileName)));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    mVideoView.setOnCompletionListener(v->preplay(currentMedia.getPosition()));
+                        mVideoView.setVideoURI(Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), currentMedia.getFullFileName())));
+                    } catch (IOException ignored) {}
+                    mVideoView.setOnCompletionListener(v->getPlayer(position));
                     mVideoView.start();
                 });
             }
