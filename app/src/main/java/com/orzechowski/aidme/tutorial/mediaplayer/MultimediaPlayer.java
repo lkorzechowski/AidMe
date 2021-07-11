@@ -14,8 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tools.AssetObtainer;
-import com.orzechowski.aidme.tutorial.database.Multimedia;
-import com.orzechowski.aidme.tutorial.database.MultimediaViewModel;
+import com.orzechowski.aidme.tutorial.mediaplayer.database.Multimedia;
+import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaViewModel;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MediaPlayer extends Fragment
+public class MultimediaPlayer extends Fragment
 {
     VideoView mVideoView;
     ImageView mImageView;
@@ -105,7 +105,7 @@ public class MediaPlayer extends Fragment
                     try {
                         mVideoView.setVideoURI(Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), currentMedia.getFullFileName())));
                     } catch (IOException ignored) {}
-                    mVideoView.setOnCompletionListener(v->getPlayer(position));
+                    if(loopBool && multimedias.size()==1) mVideoView.setOnCompletionListener(v->getPlayer(position-1));
                     mVideoView.start();
                 });
             }

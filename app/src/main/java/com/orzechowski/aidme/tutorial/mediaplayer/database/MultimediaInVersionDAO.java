@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.tutorial.database;
+package com.orzechowski.aidme.tutorial.mediaplayer.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

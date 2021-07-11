@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.tutorial.sound;
+package com.orzechowski.aidme.tutorial.mediaplayer.sound;
 
 import android.app.Application;
 

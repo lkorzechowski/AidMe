@@ -6,21 +6,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import com.orzechowski.aidme.tutorial.database.MultimediaInVersionViewModel
-import com.orzechowski.aidme.tutorial.database.MultimediaViewModel
 import com.orzechowski.aidme.tutorial.database.Tutorial
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel
-import com.orzechowski.aidme.tutorial.mediaplayer.MediaPlayer
-import com.orzechowski.aidme.tutorial.recycler.InstructionsRecycler
-import com.orzechowski.aidme.tutorial.sound.SoundAdapter
-import com.orzechowski.aidme.tutorial.sound.TutorialSoundViewModel
+import com.orzechowski.aidme.tutorial.instructionsrecycler.InstructionsRecycler
+import com.orzechowski.aidme.tutorial.mediaplayer.MultimediaPlayer
+import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaInVersionViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.SoundAdapter
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.TutorialSoundViewModel
 import kotlin.properties.Delegates
 
 class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
 {
     private var mTutorial: Tutorial? = null
     private lateinit var mSoundAdapter: SoundAdapter
-    private val mMediaPlayer = MediaPlayer()
+    private val mMediaPlayer =
+        MultimediaPlayer()
     private var mTutorialId by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -31,7 +32,10 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         val bundle = intent.extras!!
         mTutorialId = intent.extras?.getLong("tutorialId") ?: -1L
         soundAdapterSetup(intent.extras?.getString("versionGlobalSounds"))
-        val mediaInVersionViewModel = MultimediaInVersionViewModel(Application())
+        val mediaInVersionViewModel =
+            MultimediaInVersionViewModel(
+                Application()
+            )
         mediaInVersionViewModel.getByVersionId(intent.extras?.getLong("versionId") ?: -1L)
             .observe(this, { list ->
                 mMediaPlayer.mTutorialId = mTutorialId

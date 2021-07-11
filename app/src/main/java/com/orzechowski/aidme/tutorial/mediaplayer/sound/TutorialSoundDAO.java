@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.tutorial.sound;
+package com.orzechowski.aidme.tutorial.mediaplayer.sound;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

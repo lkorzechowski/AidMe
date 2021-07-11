@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tutorial.recycler.InstructionsRecycler">
+    tools:context=".tutorial.instructionsrecycler.InstructionsRecycler">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tutorial_rv"
