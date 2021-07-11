@@ -54,12 +54,13 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         if(mAuthors!=null) try {
             while (author == null) {
                 Helper helper = mAuthors.get(index);
-                if(helper.getHelperId()==tutorialId){
+                if(helper.getHelperId()==tutorialId) {
                     author = helper;
                 }
                 index++;
             }
-            resultHolder.author.setText(String.format("Autor: %s %s %s", author.getTitle(), author.getName(), author.getSurname()));
+            resultHolder.author.setText(String.format("Autor: %s %s %s",
+                            author.getTitle(), author.getName(), author.getSurname()));
         } catch (IndexOutOfBoundsException ignored) {}
         resultHolder.thisResult = tutorial;
         resultHolder.name.setText(tutorial.getTutorialName());

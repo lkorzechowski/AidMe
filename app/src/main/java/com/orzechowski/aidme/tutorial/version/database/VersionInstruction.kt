@@ -7,5 +7,4 @@ import androidx.room.PrimaryKey
 class VersionInstruction(
     @PrimaryKey val versionInstructionId: Long,
                 val versionId: Long,
-                val instructionPosition: Int
-)
+                val instructionPosition: Int)

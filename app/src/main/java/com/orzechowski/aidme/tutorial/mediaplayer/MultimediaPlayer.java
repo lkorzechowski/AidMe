@@ -33,7 +33,7 @@ public class MultimediaPlayer extends Fragment
     Activity mActivity;
     AssetObtainer assetObtainer = new AssetObtainer();
     public Long mTutorialId;
-    public List<Multimedia> multimedias = new LinkedList<>();
+    public List<Multimedia> mMultimedias = new LinkedList<>();
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
@@ -58,8 +58,13 @@ public class MultimediaPlayer extends Fragment
             mPlayThread.interrupt();
             position++;
         }
-        if(!multimedias.isEmpty()) {
-            mPlayThread = new Play(multimedias.get(position));
+        if(!mMultimedias.isEmpty()) {
+            try {
+                mPlayThread = new Play(mMultimedias.get(position));
+            } catch (IndexOutOfBoundsException e) {
+                getPlayer(0);
+                return;
+            }
             mPlayThread.start();
         }
     }
@@ -78,19 +83,21 @@ public class MultimediaPlayer extends Fragment
             int position = currentMedia.getPosition();
             int displayTime = currentMedia.getDisplayTime();
             boolean loopBool = currentMedia.getLoop();
+            int size = mMultimedias.size();
+            if(!loopBool) mMultimedias.remove(currentMedia);
             if(currentMedia.getType()) {
                 mActivity.runOnUiThread(() -> {
                     mImageView.setVisibility(View.VISIBLE);
                     mVideoView.setVisibility(View.GONE);
                     try {
-                        Picasso.get().load(assetObtainer.getFileFromAssets(requireContext(), currentMedia.getFullFileName())).into(mImageView);
+                        Picasso.get().load(assetObtainer.getFileFromAssets(requireContext(),
+                                currentMedia.getFullFileName())).into(mImageView);
                     } catch (IOException ignored) {}
                 });
                 if(displayTime>0) {
                     try {
                         sleep(displayTime);
-                        if(!loopBool) multimedias.remove(currentMedia);
-                        if(position<multimedias.size()-1) {
+                        if(position<size-1) {
                             getPlayer(position);
                         } else getPlayer(0);
                     } catch (InterruptedException e) {
@@ -103,9 +110,14 @@ public class MultimediaPlayer extends Fragment
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.GONE);
                     try {
-                        mVideoView.setVideoURI(Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), currentMedia.getFullFileName())));
+                        mVideoView.setVideoURI(Uri.fromFile(assetObtainer
+                                .getFileFromAssets(requireContext(), currentMedia.getFullFileName())));
                     } catch (IOException ignored) {}
-                    if(loopBool && multimedias.size()==1) mVideoView.setOnCompletionListener(v->getPlayer(position-1));
+                    if(loopBool && size==1) mVideoView.setOnCompletionListener(v->getPlayer(0));
+                    else {
+                        if(position<size-1) mVideoView.setOnCompletionListener(v->getPlayer(position));
+                        else getPlayer(0);
+                    }
                     mVideoView.start();
                 });
             }
@@ -115,7 +127,7 @@ public class MultimediaPlayer extends Fragment
     @Override
     public void onPause()
     {
-        if(mPlayThread!=null){
+        if(mPlayThread!=null) {
             mPlayThread.interrupt();
         }
         super.onPause();

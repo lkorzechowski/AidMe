@@ -38,7 +38,8 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     private final Object lock = new Object();
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup group, Bundle savedInstanceState)
+    public View onCreateView(@NotNull LayoutInflater inflater,
+                             ViewGroup group, Bundle savedInstanceState)
     {
         Bundle bundle = requireArguments();
         FragmentActivity activity = requireActivity();
@@ -51,7 +52,8 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                 });
         mTutorialId = bundle.getLong("tutorialId");
         mTextDisplay = activity.findViewById(R.id.active_instructions);
-        mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
+        mInstructionSetViewModel =
+                new ViewModelProvider(this).get(InstructionSetViewModel.class);
         mAdapter = new InstructionsListAdapter(activity, this);
         mInstructionSetViewModel.getTutorialSize(mTutorialId).observe(activity, size -> {
             synchronized (lock) {
@@ -68,7 +70,8 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                 .observe(activity, instructions->mAdapter.setElementList(instructions));
         View view = inflater.inflate(R.layout.fragment_recycler_tutorial, group, false);
         RecyclerView recycler = view.findViewById(R.id.tutorial_rv);
-        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+                LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
         return view;
     }
@@ -108,7 +111,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     @Override
     public void onPause()
     {
-        if(mPlayerInstance != null){
+        if(mPlayerInstance != null) {
             mPlayerInstance.interrupt();
         }
         super.onPause();
@@ -151,7 +154,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             }
             FragmentActivity activity = requireActivity();
             MediaPlayer mPlayer = null;
-            if(uri!=null){
+            if(uri!=null) {
                 mPlayer = MediaPlayer.create(getContext(), uri);
             }
             if(mPlayer != null) {

@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tutorial.version.database.Version;
+
 import java.util.List;
 
 public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.VersionViewHolder>

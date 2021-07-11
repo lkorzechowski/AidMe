@@ -11,16 +11,19 @@ import java.util.List;
 public class CategoryRepository {
     private final CategoryDAO mDao;
 
-    public CategoryRepository(Application application) {
+    public CategoryRepository(Application application)
+    {
         GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
         mDao = globalDatabase.categoryDAO();
     }
 
-    public void deleteAll() {
+    public void deleteAll()
+    {
         GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
     }
 
-    public void insert(Category category) {
+    public void insert(Category category)
+    {
         GlobalRoomDatabase.databaseWriteExecutor.execute(() -> mDao.insert(category));
     }
 

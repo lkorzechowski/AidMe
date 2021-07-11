@@ -50,7 +50,7 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     public void onClick(Category category)
     {
         String tags = category.getCategoryTags();
-        if(category.getHasSubcategories()){
+        if(category.getHasSubcategories()) {
             mLevel = category.getCategoryLevel()+1;
             mCategoryViewModel.getByLevelAndTags(mLevel, tags)
                     .observe(requireActivity(), categories ->mAdapter.setElementList(categories));

@@ -12,7 +12,8 @@ import com.orzechowski.aidme.browser.ResultsRecycler
 import com.orzechowski.aidme.browser.Search
 import com.orzechowski.aidme.tutorial.database.Tutorial
 
-class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults, ResultsRecycler.CallbackForTutorial
+class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
+    ResultsRecycler.CallbackForTutorial
 {
     private val mBrowser: BrowserRecycler = BrowserRecycler(this)
     private val mSearch: Search = Search()
@@ -30,7 +31,7 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults, 
         }
 
         val searchButton: Button = findViewById(R.id.search_button)
-        searchButton.setOnClickListener{
+        searchButton.setOnClickListener {
             val t: FragmentTransaction = supportFragmentManager.beginTransaction()
             t.remove(mBrowser).commit()
             supportFragmentManager.commit {

@@ -42,7 +42,8 @@ public class VersionRecycler extends Fragment
         return view;
     }
 
-    public void getChildrenVersions(Long versionId){
+    public void getChildrenVersions(Long versionId)
+    {
         mVersionViewModel.getByParentVersionId(versionId).observe(requireActivity(),
                 versions -> mAdapter.setElementList(versions));
     }

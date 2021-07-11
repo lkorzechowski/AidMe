@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
             var handled: Boolean
             val t = supportFragmentManager.beginTransaction()
             for (f in fragmentList) {
-                if(f is LoginFragment){
+                if(f is LoginFragment) {
                     switchButton.setText(R.string.login_mode_button_login_text)
                     submitButton.setText(R.string.register_button_text)
                     handled = f.onBackPressed()

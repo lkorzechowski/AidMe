@@ -1,24 +1,24 @@
 package com.orzechowski.aidme.tutorial.mediaplayer.sound
 
 import android.app.Activity
-import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.core.net.toUri
-import java.io.File
-import java.io.IOException
+import com.orzechowski.aidme.tools.AssetObtainer
 import java.util.*
 import kotlin.collections.ArrayList
 
 class SoundAdapter (private val mVersionId: Long,
                     private val mDelayGlobalSound: Boolean,
                     private val mVersionSounds: String,
-                    private val mActivity: Activity) {
+                    private val mActivity: Activity)
+{
     var mSounds: List<TutorialSound> = LinkedList()
     private val mThreads: ArrayList<Thread> = ArrayList()
     private var mInit = true
+    private val assetObtainer = AssetObtainer()
 
     fun setData(sounds: List<TutorialSound>)
     {
@@ -27,19 +27,22 @@ class SoundAdapter (private val mVersionId: Long,
 
     fun deploy()
     {
-        for(i in mSounds.indices){
+        for(i in mSounds.indices) {
             if(mVersionSounds.contains(i.toString(), true))
             {
                 mThreads.add(Thread {
                     if (mDelayGlobalSound) {
-                        try{
+                        try {
                             Thread.sleep(mSounds[i].soundStart)
                         } catch (e: InterruptedException) {
                             Thread.interrupted()
                             return@Thread
                         }
                     }
-                    val resourceUri: Uri = getFileFromAssets(mActivity,"g$mVersionId"+"_$i"+".mp3").toUri()
+                    val resourceUri: Uri =
+                        assetObtainer
+                            .getFileFromAssets(mActivity,"g$mVersionId"+"_$i"+".mp3")
+                            .toUri()
                     lateinit var player: MediaPlayer
                     try {
                         while(mSounds[i].soundLoop || mInit) {
@@ -71,16 +74,4 @@ class SoundAdapter (private val mVersionId: Long,
         for(thread in mThreads) thread.interrupt()
         mThreads.clear()
     }
-
-    @Throws(IOException::class)
-    fun getFileFromAssets(context: Context, fileName: String): File = File(context.cacheDir, fileName)
-        .also {
-            if (!it.exists()) {
-                it.outputStream().use { cache ->
-                    context.assets.open(fileName).use { inputStream ->
-                        inputStream.copyTo(cache)
-                    }
-                }
-            }
-        }
 }

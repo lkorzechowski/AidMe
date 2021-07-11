@@ -36,14 +36,16 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
             MultimediaInVersionViewModel(
                 Application()
             )
-        mediaInVersionViewModel.getByVersionId(intent.extras?.getLong("versionId") ?: -1L)
+        mediaInVersionViewModel
+            .getByVersionId(intent.extras?.getLong("versionId") ?: -1L)
             .observe(this, { list ->
                 mMediaPlayer.mTutorialId = mTutorialId
                 val mediaViewModel = MultimediaViewModel(Application())
                 for(id: Long in list){
-                    mediaViewModel.getByMediaIdAndTutorialId(id, mTutorialId).observe(this, { item ->
-                        mMediaPlayer.multimedias.add(item)
-                    })
+                    mediaViewModel.getByMediaIdAndTutorialId(id, mTutorialId)
+                        .observe(this, { item ->
+                            mMediaPlayer.mMultimedias.add(item)
+                        })
                 }
         })
         supportFragmentManager.commit {

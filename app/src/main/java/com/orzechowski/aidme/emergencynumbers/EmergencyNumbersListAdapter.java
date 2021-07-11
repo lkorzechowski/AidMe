@@ -6,13 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.orzechowski.aidme.R;
 
 import java.util.List;
 
-public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyNumbersListAdapter.NumbersViewHolder> {
+public class EmergencyNumbersListAdapter
+        extends RecyclerView.Adapter<EmergencyNumbersListAdapter.NumbersViewHolder>
+{
     private final List<EmergencyNumber> mNumbersList;
     private final LayoutInflater mInflater;
     private final OnViewClickListener mListener;
@@ -27,13 +31,15 @@ public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyN
 
     @NonNull
     @Override
-    public NumbersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public NumbersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
+    {
         View row = mInflater.inflate(R.layout.row_phone_numbers_rv, viewGroup, false);
         return new NumbersViewHolder(row, mListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NumbersViewHolder numbersHolder, int rowNumber) {
+    public void onBindViewHolder(@NonNull NumbersViewHolder numbersHolder, int rowNumber)
+    {
         TextView numer = numbersHolder.itemView.findViewById(R.id.number);
         TextView usluga = numbersHolder.itemView.findViewById(R.id.service);
         ImageView icon = numbersHolder.itemView.findViewById(R.id.icon_phone);
@@ -55,7 +61,8 @@ public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyN
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mNumbersList.size();
     }
 
@@ -73,12 +80,14 @@ public class EmergencyNumbersListAdapter extends RecyclerView.Adapter<EmergencyN
         }
 
         @Override
-        public void onClick(View v){
+        public void onClick(View v)
+        {
             listenerForThisRow.onViewClick(getAdapterPosition());
         }
     }
 
-    public interface OnViewClickListener{
+    public interface OnViewClickListener
+    {
         void onViewClick(int position);
     }
 }
