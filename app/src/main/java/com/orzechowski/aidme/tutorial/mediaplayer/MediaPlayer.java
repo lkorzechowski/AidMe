@@ -16,6 +16,7 @@ import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.Multimedia;
 import com.orzechowski.aidme.tutorial.database.MultimediaViewModel;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -80,10 +81,9 @@ public class MediaPlayer extends Fragment
             if(currentMedia.getType()) {
                 mActivity.runOnUiThread(() -> {
                     mImageView.setVisibility(View.VISIBLE);
-                    mVideoView.setVisibility(View.INVISIBLE);
+                    mVideoView.setVisibility(View.GONE);
                     try {
-                        mImageView.setImageURI(null);
-                        mImageView.setImageURI(Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), currentMedia.getFullFileName())));
+                        Picasso.get().load(assetObtainer.getFileFromAssets(requireContext(), currentMedia.getFullFileName())).into(mImageView);
                     } catch (IOException ignored) {}
                 });
                 if(displayTime>0) {
@@ -94,14 +94,14 @@ public class MediaPlayer extends Fragment
                             getPlayer(position);
                         } else getPlayer(0);
                     } catch (InterruptedException e) {
-                        mActivity.runOnUiThread(() -> mImageView.setVisibility(View.INVISIBLE));
+                        mActivity.runOnUiThread(() -> mImageView.setVisibility(View.GONE));
                         interrupt();
                     }
                 }
             } else {
                 mActivity.runOnUiThread(() -> {
                     mVideoView.setVisibility(View.VISIBLE);
-                    mImageView.setVisibility(View.INVISIBLE);
+                    mImageView.setVisibility(View.GONE);
                     try {
                         mVideoView.setVideoURI(Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), currentMedia.getFullFileName())));
                     } catch (IOException ignored) {}
