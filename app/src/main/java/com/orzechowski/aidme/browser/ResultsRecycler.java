@@ -34,13 +34,15 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
     {
         FragmentActivity activity = requireActivity();
         String tags = requireArguments().getString("tags");
-        TutorialViewModel tutorialViewModel = new ViewModelProvider(this).get(TutorialViewModel.class);
+        TutorialViewModel tutorialViewModel = new ViewModelProvider(this)
+                .get(TutorialViewModel.class);
+        HelperViewModel helperViewModel = new ViewModelProvider(this).get(HelperViewModel.class);
         mAdapter = new ResultsListAdapter(activity, this);
         String lastTag = tags.replaceAll("^.*?(\\w+)\\W*$", "$1");
-        tutorialViewModel.getByTag(lastTag)
-                .observe(activity, results->mAdapter.setElementList(results));
-        HelperViewModel helperViewModel = new ViewModelProvider(this).get(HelperViewModel.class);
-        helperViewModel.getByTags(lastTag).observe(getViewLifecycleOwner(), authors -> mAdapter.setAuthors(authors));
+        tutorialViewModel.getByTag(lastTag).observe(activity, results->
+                helperViewModel.getByTags(lastTag)
+                        .observe(getViewLifecycleOwner(),
+                                authors -> mAdapter.setElementList(results, authors)));
         View view = inflater.inflate(R.layout.fragment_recycler_results, container, false);
         RecyclerView recycler = view.findViewById(R.id.results_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),

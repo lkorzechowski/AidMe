@@ -25,7 +25,6 @@
         app:layout_constraintTop_toTopOf="@id/icon_phone" />
 
     <View
-        android:id="@+id/pasek1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/yellow1"
@@ -40,5 +39,6 @@
         android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/icon" />
+        android:contentDescription="@string/phone_icon_description" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

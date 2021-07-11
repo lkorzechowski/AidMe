@@ -2,7 +2,6 @@
     <string name="app_name">Aid Me</string>
     <string name="mainactivity_help">Pomoc</string>
     <string name="mainactivity_login">Portal dla pomocników</string>
-    <string name="icon">icon</string>
     <string name="download_all_tutorials">Pobierz wszystkie poradniki</string>
     <string name="header_select_theme">Motyw</string>
     <string name="light">Jasny</string>
@@ -28,6 +27,8 @@
     <string name="login_button_text">Login</string>
     <string name="register_button_text">Rejestracja</string>
     <string name="password_repeat">Powtórz hasło</string>
+    <string name="phone_icon_description">Ikonka telefonu</string>
+    <string name="default_author_unknown_label">Autor nieznany</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

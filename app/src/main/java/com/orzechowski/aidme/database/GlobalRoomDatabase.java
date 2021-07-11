@@ -80,7 +80,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 MultimediaInVersionDAO multimediaInVersionDAO = INSTANCE.multimediaInVersionDAO();
 
                 helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka", "voiceactor"));
-                helperDAO.insert(new Helper(1L, "Łukasz", "Orzechowski", "", "Twórca", "creator firstaid breathing immediate"));
+                helperDAO.insert(new Helper(1L, "Łukasz", "Orzechowski", "", "Twórca", "creator firstaid breathing immediate injury brokenbones limbs head heatstroke"));
                 helperDAO.insert(new Helper(2L, "Kasia", "Kulpa", "", "Studentka", "voiceactor"));
 
                 //beginning of CPR tutorial

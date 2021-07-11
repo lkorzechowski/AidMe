@@ -26,7 +26,8 @@
     <TextView
         android:id="@+id/author"
         android:layout_marginTop="5dp"
-        android:textSize="12sp"
+        android:textSize="14sp"
+        android:text="@string/default_author_unknown_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/result_image"

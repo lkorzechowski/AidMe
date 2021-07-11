@@ -27,7 +27,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     private final OnClickListener mListener;
     private final AssetObtainer assetObtainer = new AssetObtainer();
     private final Context mContext;
-    private List<Helper> mAuthors;
+    private List<Helper> mHelpers;
 
     public ResultsListAdapter(Activity activity, OnClickListener listener)
     {
@@ -48,28 +48,19 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     public void onBindViewHolder(@NonNull ResultViewHolder resultHolder, int rowNumber)
     {
         Tutorial tutorial = mTutorials.get(rowNumber);
-        Helper author = null;
-        int index = 0;
-        long tutorialId = tutorial.getTutorialId();
-        if(mAuthors!=null) try {
-            while (author == null) {
-                Helper helper = mAuthors.get(index);
-                if(helper.getHelperId()==tutorialId) {
-                    author = helper;
-                }
-                index++;
+        long authorId = tutorial.getAuthorId();
+        for (Helper helper : mHelpers) {
+            if (authorId == helper.getHelperId()) {
+                resultHolder.author.setText(String.format("Autor: %s %s %s",
+                        helper.getTitle(), helper.getName(), helper.getSurname()));
             }
-            resultHolder.author.setText(String.format("Autor: %s %s %s",
-                            author.getTitle(), author.getName(), author.getSurname()));
-        } catch (IndexOutOfBoundsException ignored) {}
+        }
         resultHolder.thisResult = tutorial;
         resultHolder.name.setText(tutorial.getTutorialName());
         Uri uri = null;
         try {
             uri = Uri.fromFile(assetObtainer.getFileFromAssets(mContext, tutorial.getMiniatureName()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException ignored) {}
         if(uri != null) resultHolder.image.setImageURI(uri);
     }
 
@@ -80,15 +71,10 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         else return 0;
     }
 
-    public void setElementList(List<Tutorial> tutorials)
+    public void setElementList(List<Tutorial> tutorials, List<Helper> helpers)
     {
         mTutorials = tutorials;
-        notifyDataSetChanged();
-    }
-
-    public void setAuthors(List<Helper> helpers)
-    {
-        mAuthors = helpers;
+        mHelpers = helpers;
         notifyDataSetChanged();
     }
 
@@ -99,7 +85,8 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         OnClickListener listenerForThisRow;
         Tutorial thisResult;
 
-        public ResultViewHolder(@NonNull View viewForThisRow, OnClickListener listener) {
+        public ResultViewHolder(@NonNull View viewForThisRow, OnClickListener listener)
+        {
             super(viewForThisRow);
             name = viewForThisRow.findViewById(R.id.result_name_text);
             image = viewForThisRow.findViewById(R.id.result_image);

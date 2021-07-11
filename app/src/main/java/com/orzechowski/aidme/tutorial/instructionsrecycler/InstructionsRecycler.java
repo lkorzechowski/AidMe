@@ -56,7 +56,7 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                 new ViewModelProvider(this).get(InstructionSetViewModel.class);
         mAdapter = new InstructionsListAdapter(activity, this);
         mInstructionSetViewModel.getTutorialSize(mTutorialId).observe(activity, size -> {
-            synchronized (lock) {
+            synchronized(lock) {
                 mSize = size;
                 lock.notifyAll();
             }
