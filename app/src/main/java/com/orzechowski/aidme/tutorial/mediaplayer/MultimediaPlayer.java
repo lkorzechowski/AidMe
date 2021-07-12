@@ -3,6 +3,7 @@ package com.orzechowski.aidme.tutorial.mediaplayer;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,10 @@ import android.widget.ImageView;
 import android.widget.VideoView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.mediaplayer.database.Multimedia;
-import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaViewModel;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,13 +27,12 @@ public class MultimediaPlayer extends Fragment
 {
     VideoView mVideoView;
     ImageView mImageView;
-    MultimediaViewModel mMultimediaViewModel;
     Play mPlayThread;
     Activity mActivity;
     AssetObtainer assetObtainer = new AssetObtainer();
     public Long mTutorialId;
-    public List<Multimedia> mMultimedias = new LinkedList<>();
-
+    List<Multimedia> mMultimedias = new LinkedList<>();
+    
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -46,9 +44,17 @@ public class MultimediaPlayer extends Fragment
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         mActivity = requireActivity();
-        mMultimediaViewModel = new ViewModelProvider(this).get(MultimediaViewModel.class);
         mVideoView = view.findViewById(R.id.video_embed);
         mImageView = view.findViewById(R.id.image_embed);
+    }
+
+    public void appendMultimedia(Multimedia media)
+    {
+        mMultimedias.add(media);
+    }
+
+    public void deploy()
+    {
         getPlayer(0);
     }
 
@@ -86,6 +92,7 @@ public class MultimediaPlayer extends Fragment
             int size = mMultimedias.size();
             if(!loopBool) mMultimedias.remove(currentMedia);
             if(currentMedia.getType()) {
+                Log.w("found", "image");
                 mActivity.runOnUiThread(() -> {
                     mImageView.setVisibility(View.VISIBLE);
                     mVideoView.setVisibility(View.GONE);
@@ -99,13 +106,13 @@ public class MultimediaPlayer extends Fragment
                         sleep(displayTime);
                         if(position<size-1) {
                             getPlayer(position);
-                        } else getPlayer(0);
+                        } else getPlayer(-1);
                     } catch (InterruptedException e) {
                         mActivity.runOnUiThread(() -> mImageView.setVisibility(View.GONE));
                         interrupt();
                     }
                 }
-            } else {
+            } else if(!currentMedia.getType()) {
                 mActivity.runOnUiThread(() -> {
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.GONE);
@@ -113,10 +120,10 @@ public class MultimediaPlayer extends Fragment
                         mVideoView.setVideoURI(Uri.fromFile(assetObtainer
                                 .getFileFromAssets(requireContext(), currentMedia.getFullFileName())));
                     } catch (IOException ignored) {}
-                    if(loopBool && size==1) mVideoView.setOnCompletionListener(v->getPlayer(0));
+                    if(loopBool && size==1) mVideoView.setOnCompletionListener(v->getPlayer(-1));
                     else {
                         if(position<size-1) mVideoView.setOnCompletionListener(v->getPlayer(position));
-                        else getPlayer(0);
+                        else getPlayer(-1);
                     }
                     mVideoView.start();
                 });

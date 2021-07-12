@@ -45,7 +45,7 @@ public class TutorialRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(tutorial));
     }
 
-    Tutorial getByTutorialId(Long tutorialId)
+    LiveData<Tutorial> getByTutorialId(Long tutorialId)
     {
         return mDao.getByTutorialId(tutorialId);
     }

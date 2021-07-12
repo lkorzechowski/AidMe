@@ -20,8 +20,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
 {
     private var mTutorial: Tutorial? = null
     private lateinit var mSoundAdapter: SoundAdapter
-    private val mMediaPlayer =
-        MultimediaPlayer()
+    private val mMediaPlayer = MultimediaPlayer()
     private var mTutorialId by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -31,31 +30,14 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         supportActionBar?.hide()
         val bundle = intent.extras!!
         mTutorialId = intent.extras?.getLong("tutorialId") ?: -1L
-        soundAdapterSetup(intent.extras?.getString("versionGlobalSounds"))
-        val mediaInVersionViewModel =
-            MultimediaInVersionViewModel(
-                Application()
-            )
-        mediaInVersionViewModel
-            .getByVersionId(intent.extras?.getLong("versionId") ?: -1L)
-            .observe(this, { list ->
-                mMediaPlayer.mTutorialId = mTutorialId
-                val mediaViewModel = MultimediaViewModel(Application())
-                for(id: Long in list){
-                    mediaViewModel.getByMediaIdAndTutorialId(id, mTutorialId)
-                        .observe(this, { item ->
-                            mMediaPlayer.mMultimedias.add(item)
-                        })
-                }
-        })
+        setup(intent.extras?.getString("versionGlobalSounds"))
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<InstructionsRecycler>(R.id.layout_instructions_list, args = bundle)
         }
-        checkObtainedTutorial()
     }
 
-    private fun soundAdapterSetup(versionGlobalSounds: String?)
+    private fun setup(versionGlobalSounds: String?)
     {
         if(!versionGlobalSounds.isNullOrEmpty()) {
             mSoundAdapter = SoundAdapter(
@@ -63,32 +45,33 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
                 intent.extras?.getBoolean("delayGlobalSound") ?: false,
                 versionGlobalSounds, this
             )
-            val soundViewModel = TutorialSoundViewModel(Application())
-            soundViewModel.getByTutorialId(mTutorialId).observe(this, {
-                mSoundAdapter.setData(it)
-            })
-            Thread {
-                this.mTutorial = ViewModelProvider(this)
-                    .get(TutorialViewModel::class.java)
-                    .getByTutorialId(mTutorialId)
-            }.start()
-        }
-    }
 
-    private fun checkObtainedTutorial()
-    {
-        if(mTutorial==null || mSoundAdapter.mSounds.isEmpty()) {
-            Thread {
-                Thread.sleep(2)
-                checkObtainedTutorial()
-            }.start()
-        } else {
-            if(!mMediaPlayer.isAdded) {
-                supportFragmentManager.commit {
-                    add(R.id.layout_multimedia, mMediaPlayer)
-                }
-            }
-            mSoundAdapter.deploy()
+            val tutorialViewModel  = ViewModelProvider(this).get(TutorialViewModel::class.java)
+            tutorialViewModel.getByTutorialId(mTutorialId).observe(this, { tutorial ->
+                mTutorial = tutorial
+                val mediaInVersionViewModel = MultimediaInVersionViewModel(Application())
+                mediaInVersionViewModel
+                    .getByVersionId(intent.extras?.getLong("versionId") ?: -1L)
+                    .observe(this, { list ->
+                        mMediaPlayer.mTutorialId = mTutorialId
+                        val mediaViewModel = MultimediaViewModel(Application())
+                        for(id: Long in list){
+                            mediaViewModel.getByMediaIdAndTutorialId(id, mTutorialId)
+                                .observe(this, { item ->
+                                    mMediaPlayer.appendMultimedia(item)
+                                    if(id==list[list.size-1]) mMediaPlayer.deploy()
+                                })
+                        }
+                        supportFragmentManager.commit {
+                            add(R.id.layout_multimedia, mMediaPlayer)
+                        }
+                    })
+                val soundViewModel = ViewModelProvider(this).get(TutorialSoundViewModel::class.java)
+                soundViewModel.getByTutorialId(mTutorialId).observe(this, { sounds ->
+                    mSoundAdapter.setData(sounds)
+                    mSoundAdapter.deploy()
+                })
+            })
         }
     }
 

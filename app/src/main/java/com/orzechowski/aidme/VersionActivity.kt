@@ -31,7 +31,7 @@ VersionListAdapter.OnClickListener
     override fun onClick(version: Version)
     {
         if(version.hasChildren) {
-            mVersionRecycler.getChildrenVersions(version.versionId)
+            mVersionRecycler.getChildVersions(version.versionId)
         }
         else {
             val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
