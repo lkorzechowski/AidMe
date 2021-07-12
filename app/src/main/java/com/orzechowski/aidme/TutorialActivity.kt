@@ -39,9 +39,10 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
 
     private fun setup(versionGlobalSounds: String?)
     {
+        val versionId = intent.extras?.getLong("versionId") ?: -1L
         if(!versionGlobalSounds.isNullOrEmpty()) {
             mSoundAdapter = SoundAdapter(
-                intent.extras?.getLong("VersionId") ?: -1L,
+                versionId,
                 intent.extras?.getBoolean("delayGlobalSound") ?: false,
                 versionGlobalSounds, this
             )
@@ -51,7 +52,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
                 mTutorial = tutorial
                 val mediaInVersionViewModel = MultimediaInVersionViewModel(Application())
                 mediaInVersionViewModel
-                    .getByVersionId(intent.extras?.getLong("versionId") ?: -1L)
+                    .getByVersionId(versionId)
                     .observe(this, { list ->
                         mMediaPlayer.mTutorialId = mTutorialId
                         val mediaViewModel = MultimediaViewModel(Application())
