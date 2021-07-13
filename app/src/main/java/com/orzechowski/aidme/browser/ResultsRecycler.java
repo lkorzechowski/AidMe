@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.settings.helper.database.HelperViewModel;
+import com.orzechowski.aidme.database.helper.HelperViewModel;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
 

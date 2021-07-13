@@ -10,8 +10,16 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.orzechowski.aidme.browser.database.Category;
 import com.orzechowski.aidme.browser.database.CategoryDAO;
-import com.orzechowski.aidme.settings.helper.database.Helper;
-import com.orzechowski.aidme.settings.helper.database.HelperDAO;
+import com.orzechowski.aidme.database.helper.Helper;
+import com.orzechowski.aidme.database.helper.HelperDAO;
+import com.orzechowski.aidme.database.tag.CategoryTag;
+import com.orzechowski.aidme.database.tag.CategoryTagDAO;
+import com.orzechowski.aidme.database.tag.HelperTag;
+import com.orzechowski.aidme.database.tag.HelperTagDAO;
+import com.orzechowski.aidme.database.tag.Tag;
+import com.orzechowski.aidme.database.tag.TagDAO;
+import com.orzechowski.aidme.database.tag.TutorialTag;
+import com.orzechowski.aidme.database.tag.TutorialTagDAO;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialDAO;
 import com.orzechowski.aidme.tutorial.instructionsrecycler.database.InstructionSet;
@@ -31,7 +39,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class, VersionInstruction.class,
-        TutorialSound.class, Helper.class, Multimedia.class, Category.class, MultimediaInVersion.class},
+        TutorialSound.class, Helper.class, Multimedia.class, Category.class, MultimediaInVersion.class,
+        Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class},
         version = 1, exportSchema = false)
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
@@ -44,6 +53,10 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract CategoryDAO categoryDAO();
     public abstract VersionInstructionDAO versionInstructionDAO();
     public abstract MultimediaInVersionDAO multimediaInVersionDAO();
+    public abstract TagDAO tagDAO();
+    public abstract HelperTagDAO helperTagDAO();
+    public abstract TutorialTagDAO tutorialTagDAO();
+    public abstract CategoryTagDAO categoryTagDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
@@ -78,6 +91,10 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 CategoryDAO categoryDAO = INSTANCE.categoryDAO();
                 VersionInstructionDAO versionInstructionDAO = INSTANCE.versionInstructionDAO();
                 MultimediaInVersionDAO multimediaInVersionDAO = INSTANCE.multimediaInVersionDAO();
+                TagDAO tagDAO = INSTANCE.tagDAO();
+                HelperTagDAO helperTagDAO = INSTANCE.helperTagDAO();
+                TutorialTagDAO tutorialTagDAO = INSTANCE.tutorialTagDAO();
+                CategoryTagDAO categoryTagDAO = INSTANCE.categoryTagDAO();
 
                 helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka", "voiceactor"));
                 helperDAO.insert(new Helper(1L, "Łukasz", "Orzechowski", "", "Twórca", "creator firstaid breathing immediate injury brokenbones limbs head heatstroke"));

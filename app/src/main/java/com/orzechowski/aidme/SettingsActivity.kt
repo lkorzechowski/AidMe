@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.orzechowski.aidme.settings.Contact
 import com.orzechowski.aidme.settings.ContactForm
+import com.orzechowski.aidme.settings.HelperRecycler
 import com.orzechowski.aidme.settings.Policy
-import com.orzechowski.aidme.settings.helper.HelperRecycler
 
 
 class SettingsActivity : AppCompatActivity(), Contact.OnClickListener

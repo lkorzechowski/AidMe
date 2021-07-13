@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.settings.helper;
+package com.orzechowski.aidme.settings;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.settings.helper.database.Helper;
+import com.orzechowski.aidme.database.helper.Helper;
 
 import java.util.List;
 

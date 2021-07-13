@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.settings.helper.database.Helper;
+import com.orzechowski.aidme.database.helper.Helper;
 import com.orzechowski.aidme.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 

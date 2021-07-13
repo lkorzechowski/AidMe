@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.settings.helper.database
+package com.orzechowski.aidme.database.helper
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

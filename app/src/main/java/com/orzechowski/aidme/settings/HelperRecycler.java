@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.settings.helper;
+package com.orzechowski.aidme.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.settings.helper.database.Helper;
-import com.orzechowski.aidme.settings.helper.database.HelperViewModel;
+import com.orzechowski.aidme.database.helper.Helper;
+import com.orzechowski.aidme.database.helper.HelperViewModel;
 
 public class HelperRecycler extends Fragment implements HelperListAdapter.OnClickListener
 {
