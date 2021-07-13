@@ -9,5 +9,4 @@ class Helper(
                 val name: String,
                 val surname: String,
                 val title: String,
-                val profession: String,
-                val tags: String)
+                val profession: String)

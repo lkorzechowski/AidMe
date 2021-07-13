@@ -96,12 +96,12 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 TutorialTagDAO tutorialTagDAO = INSTANCE.tutorialTagDAO();
                 CategoryTagDAO categoryTagDAO = INSTANCE.categoryTagDAO();
 
-                helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka", "voiceactor"));
-                helperDAO.insert(new Helper(1L, "Łukasz", "Orzechowski", "", "Twórca", "creator firstaid breathing immediate injury brokenbones limbs head heatstroke"));
-                helperDAO.insert(new Helper(2L, "Kasia", "Kulpa", "", "Studentka", "voiceactor"));
+                helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka"));
+                helperDAO.insert(new Helper(1L, "Łukasz", "Orzechowski", "", "Twórca"));
+                helperDAO.insert(new Helper(2L, "Kasia", "Kulpa", "", "Studentka"));
 
                 //beginning of CPR tutorial
-                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 1L, "firstaid breathing immediate", "heart_massage.jpg"));
+                tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 1L, "heart_massage.jpg"));
 
                 instructionDAO.insert(new InstructionSet(0L, "Wstęp", "Jeżeli ofiara nie jest w stanie samodzielnie oddychać…", 5000, 0L, 0));
                 instructionDAO.insert(new InstructionSet(1L, "Ułożenie ofiary", "Upewnij się, że ofiara leży na plecach, jest ułożona prosto, a jej drogi oddechowe są udrożnione.", 8000, 0L, 1));
@@ -135,7 +135,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 multimediaInVersionDAO.insert(new MultimediaInVersion(1L, 0L, 1L));
 
                 //beginning of broken limb general tutorial
-                tutorialDAO.insert(new Tutorial(1L, "Złamana kończyna", 1L, "firstaid injury brokenbones limbs", "broken_bone.jpeg"));
+                tutorialDAO.insert(new Tutorial(1L, "Złamana kończyna", 1L, "broken_bone.jpeg"));
 
                 instructionDAO.insert(new InstructionSet(8L, "Wstęp", "Jeżeli istnieje podejrzenie złamania", 5000, 1L, 0));
                 instructionDAO.insert(new InstructionSet(9L, "Nie udało się wezwać pomocy", "...i nie możesz dosięgnąć numeru alarmowego", 5000, 1L, 1));
@@ -283,19 +283,69 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 multimediaInVersionDAO.insert(new MultimediaInVersion(10L, 2L, 8L));
 
                 //beginning of heatstroke tutorial
-                tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "firstaid head heatstroke", "sun.jpg"));
+                tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "sun.jpg"));
 
-                categoryDAO.insert(new Category(0L, "Pierwsza pomoc", "firstaid", true, "first_aid.jpg", 0));
-                categoryDAO.insert(new Category(1L, "Pożar", "fire", true, "fire.jpeg", 0));
-                categoryDAO.insert(new Category(2L, "Żywioł", "natural", true, "natural_disaster.jpeg", 0));
-                categoryDAO.insert(new Category(3L, "Atak terrorystyczny", "terrorism", true, "terrorist.jpeg", 0));
-                categoryDAO.insert(new Category(4L, "Zwierzęta", "animals", true, "animal_danger.jpg", 0));
-                categoryDAO.insert(new Category(5L, "Przetrwanie w dziczy", "survival", true, "survival.jpeg", 0));
-                categoryDAO.insert(new Category(6L, "Problemy z oddychaniem", "firstaid breathing", false, "breathing.jpg", 1));
-                categoryDAO.insert(new Category(7L, "Urazy", "firstaid injury", true, "injury.jpeg", 1));
-                categoryDAO.insert(new Category(8L, "Złamania", "firstaid injury brokenbones", false, "broken_bone.jpeg", 2));
-                categoryDAO.insert(new Category(9L, "Zwichnięcia", "firstaid injury sprain", false, "sprain.jpeg", 2));
-                categoryDAO.insert(new Category(10L, "Głowa", "firstaid head", true, "head_accident.jpeg", 1));
+                //beginning of categories
+                categoryDAO.insert(new Category(0L, "Pierwsza pomoc", true, "first_aid.jpg", 0));
+                categoryDAO.insert(new Category(1L, "Pożar", true, "fire.jpeg", 0));
+                categoryDAO.insert(new Category(2L, "Żywioł", true, "natural_disaster.jpeg", 0));
+                categoryDAO.insert(new Category(3L, "Atak terrorystyczny", true, "terrorist.jpeg", 0));
+                categoryDAO.insert(new Category(4L, "Zwierzęta", true, "animal_danger.jpg", 0));
+                categoryDAO.insert(new Category(5L, "Przetrwanie w dziczy", true, "survival.jpeg", 0));
+                categoryDAO.insert(new Category(6L, "Problemy z oddychaniem", false, "breathing.jpg", 1));
+                categoryDAO.insert(new Category(7L, "Urazy", true, "injury.jpeg", 1));
+                categoryDAO.insert(new Category(8L, "Złamania", false, "broken_bone.jpeg", 2));
+                categoryDAO.insert(new Category(9L, "Zwichnięcia", false, "sprain.jpeg", 2));
+                categoryDAO.insert(new Category(10L, "Głowa", true, "head_accident.jpeg", 1));
+
+                //beginning of tags
+                tagDAO.insert(new Tag(0L, "firstaid", 0));
+                tagDAO.insert(new Tag(1L, "fire", 0));
+                tagDAO.insert(new Tag(2L, "natural", 0));
+                tagDAO.insert(new Tag(3L, "terrorism", 0));
+                tagDAO.insert(new Tag(4L, "animals", 0));
+                tagDAO.insert(new Tag(5L, "survival", 0));
+                tagDAO.insert(new Tag(6L, "breathing", 1));
+                tagDAO.insert(new Tag(7L, "injury", 1));
+                tagDAO.insert(new Tag(8L, "broken bones", 2));
+                tagDAO.insert(new Tag(9L, "sprain", 2));
+                tagDAO.insert(new Tag(10L, "head", 1));
+                tagDAO.insert(new Tag(11L, "creator", null));
+                tagDAO.insert(new Tag(12L, "immediate", null));
+                tagDAO.insert(new Tag(13L, "limbs", null));
+                tagDAO.insert(new Tag(14L, "heatstroke", null));
+
+                categoryTagDAO.insert(new CategoryTag(0L, 0L, 0L));
+                categoryTagDAO.insert(new CategoryTag(1L, 1L, 1L));
+                categoryTagDAO.insert(new CategoryTag(2L, 2L, 2L));
+                categoryTagDAO.insert(new CategoryTag(3L, 3L, 3L));
+                categoryTagDAO.insert(new CategoryTag(4L, 4L, 4L));
+                categoryTagDAO.insert(new CategoryTag(5L, 5L, 5L));
+                categoryTagDAO.insert(new CategoryTag(6L, 6L, 0L));
+                categoryTagDAO.insert(new CategoryTag(7L, 6L, 6L));
+                categoryTagDAO.insert(new CategoryTag(8L, 7L, 0L));
+                categoryTagDAO.insert(new CategoryTag(9L, 7L, 7L));
+                categoryTagDAO.insert(new CategoryTag(10L, 8L, 0L));
+                categoryTagDAO.insert(new CategoryTag(11L, 8L, 7L));
+                categoryTagDAO.insert(new CategoryTag(12L, 8L, 8L));
+                categoryTagDAO.insert(new CategoryTag(13L, 9L, 0L));
+                categoryTagDAO.insert(new CategoryTag(14L, 9L, 7L));
+                categoryTagDAO.insert(new CategoryTag(15L, 9L, 9L));
+                categoryTagDAO.insert(new CategoryTag(16L, 10L, 0L));
+                categoryTagDAO.insert(new CategoryTag(17L, 10L, 10L));
+
+                helperTagDAO.insert(new HelperTag(0L, 1L, 11L));
+
+                tutorialTagDAO.insert(new TutorialTag(0L, 0L, 0L));
+                tutorialTagDAO.insert(new TutorialTag(1L, 0L, 6L));
+                tutorialTagDAO.insert(new TutorialTag(2L, 0L, 12L));
+                tutorialTagDAO.insert(new TutorialTag(3L, 1L, 0L));
+                tutorialTagDAO.insert(new TutorialTag(4L, 1L, 7L));
+                tutorialTagDAO.insert(new TutorialTag(5L, 1L, 8L));
+                tutorialTagDAO.insert(new TutorialTag(6L, 1L, 13L));
+                tutorialTagDAO.insert(new TutorialTag(7L, 2L, 0L));
+                tutorialTagDAO.insert(new TutorialTag(8L, 2L, 10L));
+                tutorialTagDAO.insert(new TutorialTag(9L, 2L, 14L));
             });
         }
     };

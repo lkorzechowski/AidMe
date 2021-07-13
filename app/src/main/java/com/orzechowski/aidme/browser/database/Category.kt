@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 class Category(
     @PrimaryKey val categoryId: Long,
                 val categoryName: String,
-                val categoryTags: String,
                 val hasSubcategories: Boolean,
                 val miniatureName: String,
                 val categoryLevel: Int) //level 0 = highest

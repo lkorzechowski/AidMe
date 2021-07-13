@@ -7,4 +7,4 @@ import androidx.room.PrimaryKey
 class Tag(
     @PrimaryKey val tagId: Long,
                 val tagName: String,
-                val tagLevel: Long?)
+                val tagLevel: Int?)
