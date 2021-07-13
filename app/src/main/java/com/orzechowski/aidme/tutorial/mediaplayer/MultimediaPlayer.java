@@ -91,8 +91,8 @@ public class MultimediaPlayer extends Fragment
             boolean loopBool = currentMedia.getLoop();
             int size = mMultimedias.size();
             if(!loopBool) mMultimedias.remove(currentMedia);
+            Log.w("found", "multimedia");
             if(currentMedia.getType()) {
-                Log.w("found", "image");
                 mActivity.runOnUiThread(() -> {
                     mImageView.setVisibility(View.VISIBLE);
                     mVideoView.setVisibility(View.GONE);

@@ -23,6 +23,7 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     private CategoryViewModel mCategoryViewModel;
     private int mLevel = 0;
     private final CallbackToResults mCallback;
+    private String mTags;
 
     public BrowserRecycler(CallbackToResults callback)
     {
@@ -49,19 +50,29 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     @Override
     public void onClick(Category category)
     {
-        String tags = category.getCategoryTags();
+        mTags = category.getCategoryTags();
         if(category.getHasSubcategories()) {
             mLevel = category.getCategoryLevel()+1;
-            mCategoryViewModel.getByLevelAndTags(mLevel, tags)
+            mCategoryViewModel.getByLevelAndTags(mLevel, mTags)
                     .observe(requireActivity(), categories ->mAdapter.setElementList(categories));
         }
         else {
-            mCallback.serveResults(tags);
+            mCallback.serveResults(mTags);
         }
     }
 
     public interface CallbackToResults
     {
         void serveResults(String tags);
+    }
+
+    public String getTags()
+    {
+        return mTags;
+    }
+
+    public int getLevel()
+    {
+        return mLevel;
     }
 }

@@ -38,7 +38,7 @@ public class TutorialViewModel extends AndroidViewModel
         mRepository.update(tutorial);
     }
 
-    public LiveData<Tutorial> getByTutorialId(Long tutorialId)
+    public LiveData<Tutorial> getByTutorialId(long tutorialId)
     {
         return mRepository.getByTutorialId(tutorialId);
     }

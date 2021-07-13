@@ -89,9 +89,7 @@ class SettingsActivity : AppCompatActivity(), Contact.OnClickListener
                 t.remove(mContactForm).commit()
             }
         }
-        if (!handled) {
-            super.onBackPressed()
-        }
+        if (!handled) super.onBackPressed()
     }
 
     override fun onClick() {

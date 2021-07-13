@@ -28,7 +28,7 @@ public interface TutorialDAO
     LiveData<List<Tutorial>> getAll();
 
     @Query("SELECT * FROM tutorial WHERE tutorialId = :tutorialId")
-    LiveData<Tutorial> getByTutorialId(Long tutorialId);
+    LiveData<Tutorial> getByTutorialId(long tutorialId);
 
     @Query("SELECT * FROM tutorial WHERE tags LIKE '%' || :tag || '%'")
     LiveData<List<Tutorial>> getByTag(String tag);

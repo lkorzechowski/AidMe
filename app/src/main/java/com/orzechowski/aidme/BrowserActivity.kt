@@ -15,9 +15,9 @@ import com.orzechowski.aidme.tutorial.database.Tutorial
 class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
     ResultsRecycler.CallbackForTutorial
 {
-    private val mBrowser: BrowserRecycler = BrowserRecycler(this)
-    private val mSearch: Search = Search()
-    private val mResults: ResultsRecycler = ResultsRecycler(this)
+    private val mBrowser = BrowserRecycler(this)
+    private val mSearch = Search()
+    private val mResults = ResultsRecycler(this)
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -51,11 +51,31 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         }
     }
 
-    override fun serveTutorial(tutorial: Tutorial) {
+    override fun serveTutorial(tutorial: Tutorial)
+    {
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
         t.remove(mResults).commit()
         val intent = Intent(this@BrowserActivity, VersionActivity::class.java)
         intent.putExtra("tutorialId", tutorial.tutorialId)
         startActivity(intent)
+    }
+
+    override fun onBackPressed() {
+        val fragmentList: List<*> = supportFragmentManager.fragments
+        var handled = false
+        var currentTags: String
+        var currentLevel: Int
+        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
+        for (f in fragmentList) {
+            if(f is BrowserRecycler) {
+                currentTags = f.tags
+                currentLevel = f.level
+                t.remove(mBrowser).commit()
+                if(currentLevel>0) {
+                    handled = true
+                }
+            }
+        }
+        if(!handled) super.onBackPressed()
     }
 }
