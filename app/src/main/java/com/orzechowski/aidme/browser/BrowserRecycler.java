@@ -27,7 +27,6 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     private int mLevel = 0;
     private long currentTagId = 15L;
     private final CallbackToResults mCallback;
-    private boolean mSubcategories;
 
     public BrowserRecycler(CallbackToResults callback)
     {
@@ -54,17 +53,16 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     @Override
     public void onClick(Category category)
     {
-        mSubcategories = true;
         CategoryTagViewModel categoryTagViewModel = new ViewModelProvider(this).get(CategoryTagViewModel.class);
         TagViewModel tagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
-        categoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
-            for(CategoryTag categoryTag : categoryTags) {
-                tagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
-                    if(tag.getTagLevel()!=null && tag.getTagLevel() > mLevel){
-                        mLevel = tag.getTagLevel();
-                        currentTagId = tag.getTagId();
-                    }
-                    if(category.getHasSubcategories()) {
+        if(category.getHasSubcategories()) {
+            categoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
+                for(CategoryTag categoryTag : categoryTags) {
+                    tagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
+                        if(tag.getTagLevel()!=null && tag.getTagLevel() > mLevel){
+                            mLevel = tag.getTagLevel();
+                            currentTagId = tag.getTagId();
+                        }
                         mCategoryViewModel.getByLevel(mLevel).observe(requireActivity(), categories-> {
                             for (Category cat : categories) {
                                 categoryTagViewModel.getByCategoryId(cat.getCategoryId()).observe(requireActivity(), catTag-> {
@@ -77,13 +75,21 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
                             }
                             mAdapter.setElementList(categories);
                         });
-                    } else {
-                        mSubcategories = false;
-                    }
-                });
-            }
-        });
-        if(!mSubcategories) mCallback.serveResults(currentTagId);
+                    });
+                }
+            });
+        } else {
+            categoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
+                for (CategoryTag categoryTag : categoryTags) {
+                    tagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag -> {
+                        if (tag.getTagLevel() != null && tag.getTagLevel() > mLevel) {
+                            mCallback.serveResults(tag.getTagId());
+                        }
+                    });
+                }
+            });
+
+        }
     }
 
     public interface CallbackToResults
