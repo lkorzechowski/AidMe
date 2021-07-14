@@ -20,12 +20,18 @@ import com.orzechowski.aidme.database.tag.TagViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnClickListener
 {
     private BrowserListAdapter mAdapter;
     private CategoryViewModel mCategoryViewModel;
+    private CategoryTagViewModel mCategoryTagViewModel;
+    private TagViewModel mTagViewModel;
     private int mLevel = 0;
     private long currentTagId = 15L;
+    private final List<Category> mCategoryPath = new LinkedList<>();
     private final CallbackToResults mCallback;
 
     public BrowserRecycler(CallbackToResults callback)
@@ -34,11 +40,12 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     }
 
     @Override
-    public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         FragmentActivity activity = requireActivity();
+        mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
         mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        mCategoryTagViewModel = new ViewModelProvider(this).get(CategoryTagViewModel.class);
         mAdapter = new BrowserListAdapter(activity, this);
         mCategoryViewModel.getByLevel(mLevel)
                 .observe(activity, categories->mAdapter.setElementList(categories));
@@ -50,38 +57,50 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
         return view;
     }
 
+    public boolean restorePrevious()
+    {
+        mLevel--;
+        int size = mCategoryPath.size();
+        if(!mCategoryPath.isEmpty() && size>1) {
+            mCategoryPath.remove(size-1);
+            onClick(mCategoryPath.get(size-2));
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     @Override
     public void onClick(Category category)
     {
-        CategoryTagViewModel categoryTagViewModel = new ViewModelProvider(this).get(CategoryTagViewModel.class);
-        TagViewModel tagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
+        if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
         if(category.getHasSubcategories()) {
-            categoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
+            mCategoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
                 for(CategoryTag categoryTag : categoryTags) {
-                    tagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
-                        if(tag.getTagLevel()!=null && tag.getTagLevel() > mLevel){
+                    mTagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
+                        if(tag.getTagLevel()!=null && tag.getTagLevel()>mLevel) {
                             mLevel = tag.getTagLevel();
                             currentTagId = tag.getTagId();
+                            mCategoryViewModel.getByLevel(mLevel).observe(requireActivity(), categories-> {
+                                for (Category cat : categories) {
+                                    mCategoryTagViewModel.getByCategoryId(cat.getCategoryId()).observe(requireActivity(), catTag-> {
+                                        boolean match = false;
+                                        for(CategoryTag oneTag : catTag) {
+                                            if(oneTag.getTagId()==currentTagId) match = true;
+                                        }
+                                        if(!match) categories.remove(cat);
+                                    });
+                                }
+                                mAdapter.setElementList(categories);
+                            });
                         }
-                        mCategoryViewModel.getByLevel(mLevel).observe(requireActivity(), categories-> {
-                            for (Category cat : categories) {
-                                categoryTagViewModel.getByCategoryId(cat.getCategoryId()).observe(requireActivity(), catTag-> {
-                                    boolean match = false;
-                                    for(CategoryTag oneTag : catTag) {
-                                        if(oneTag.getTagId()==currentTagId) match = true;
-                                    }
-                                    if(!match) categories.remove(cat);
-                                });
-                            }
-                            mAdapter.setElementList(categories);
-                        });
                     });
                 }
             });
         } else {
-            categoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
+            mCategoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
                 for (CategoryTag categoryTag : categoryTags) {
-                    tagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag -> {
+                    mTagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag -> {
                         if (tag.getTagLevel() != null && tag.getTagLevel() > mLevel) {
                             mCallback.serveResults(tag.getTagId());
                         }

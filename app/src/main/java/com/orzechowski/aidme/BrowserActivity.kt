@@ -15,7 +15,7 @@ import com.orzechowski.aidme.tutorial.database.Tutorial
 class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
     ResultsRecycler.CallbackForTutorial
 {
-    private val mBrowser = BrowserRecycler(this)
+    private lateinit var mBrowser: BrowserRecycler
     private val mSearch = Search()
     private val mResults = ResultsRecycler(this)
 
@@ -24,12 +24,7 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_browser)
-
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            add(R.id.tutorials_recycler_browser, mBrowser)
-        }
-
+        commitBrowser()
         val searchButton: Button = findViewById(R.id.search_button)
         searchButton.setOnClickListener {
             val t: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -37,6 +32,15 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
             supportFragmentManager.commit {
                 add(R.id.search_fragment_layout, mSearch)
             }
+        }
+    }
+
+    private fun commitBrowser()
+    {
+        mBrowser = BrowserRecycler(this)
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.tutorials_recycler_browser, mBrowser)
         }
     }
 
@@ -62,15 +66,18 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
 
     override fun onBackPressed() {
         val fragmentList: List<*> = supportFragmentManager.fragments
-        var handled = false
-        var currentLevel: Int
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
+        var handled = false
         for (f in fragmentList) {
             if(f is BrowserRecycler) {
-                currentLevel = f.level
-                t.remove(mBrowser).commit()
-                if(currentLevel>0) {
-                    handled = true
+                val currentLevel = f.level
+                if(currentLevel!=0) {
+                    handled = mBrowser.restorePrevious()
+                    if(!handled) {
+                        t.remove(mBrowser).commit()
+                        commitBrowser()
+                        handled = true
+                    }
                 }
             }
         }
