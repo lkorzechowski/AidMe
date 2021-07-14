@@ -45,8 +45,8 @@ public class HelperRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(helper));
     }
 
-    public LiveData<List<Helper>> getByTags(String tags)
+    public LiveData<Helper> getById(long helperId)
     {
-        return mDao.getByTags(tags);
+        return mDao.getById(helperId);
     }
 }

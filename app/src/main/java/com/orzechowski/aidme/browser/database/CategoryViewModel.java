@@ -32,11 +32,6 @@ public class CategoryViewModel extends AndroidViewModel {
         mRepository.update(category);
     }
 
-    public LiveData<List<Category>> getByLevelAndTags(int level, String tags)
-    {
-        return mRepository.getByLevelAndTags(level, tags);
-    }
-
     public LiveData<List<Category>> getByLevel(int level)
     {
         return mRepository.getByLevel(level);

@@ -27,6 +27,6 @@ public interface HelperDAO
     @Query("SELECT * FROM helper")
     LiveData<List<Helper>> getAll();
 
-    @Query("SELECT * FROM helper WHERE tags LIKE '%' || :tags || '%'")
-    LiveData<List<Helper>> getByTags(String tags);
+    @Query("SELECT * FROM helper WHERE helperId = :helperId")
+    LiveData<Helper> getById(long helperId);
 }

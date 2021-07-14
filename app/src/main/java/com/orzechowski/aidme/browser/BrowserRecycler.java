@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.browser.database.Category;
 import com.orzechowski.aidme.browser.database.CategoryViewModel;
+import com.orzechowski.aidme.database.tag.CategoryTag;
+import com.orzechowski.aidme.database.tag.CategoryTagViewModel;
+import com.orzechowski.aidme.database.tag.TagViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,8 +25,9 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     private BrowserListAdapter mAdapter;
     private CategoryViewModel mCategoryViewModel;
     private int mLevel = 0;
+    private long currentTagId = 15L;
     private final CallbackToResults mCallback;
-    private String mTags;
+    private boolean mSubcategories;
 
     public BrowserRecycler(CallbackToResults callback)
     {
@@ -50,25 +54,41 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     @Override
     public void onClick(Category category)
     {
-        mTags = category.getCategoryTags();
-        if(category.getHasSubcategories()) {
-            mLevel = category.getCategoryLevel()+1;
-            mCategoryViewModel.getByLevelAndTags(mLevel, mTags)
-                    .observe(requireActivity(), categories ->mAdapter.setElementList(categories));
-        }
-        else {
-            mCallback.serveResults(mTags);
-        }
+        mSubcategories = true;
+        CategoryTagViewModel categoryTagViewModel = new ViewModelProvider(this).get(CategoryTagViewModel.class);
+        TagViewModel tagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
+        categoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
+            for(CategoryTag categoryTag : categoryTags) {
+                tagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
+                    if(tag.getTagLevel()!=null && tag.getTagLevel() > mLevel){
+                        mLevel = tag.getTagLevel();
+                        currentTagId = tag.getTagId();
+                    }
+                    if(category.getHasSubcategories()) {
+                        mCategoryViewModel.getByLevel(mLevel).observe(requireActivity(), categories-> {
+                            for (Category cat : categories) {
+                                categoryTagViewModel.getByCategoryId(cat.getCategoryId()).observe(requireActivity(), catTag-> {
+                                    boolean match = false;
+                                    for(CategoryTag oneTag : catTag) {
+                                        if(oneTag.getTagId()==currentTagId) match = true;
+                                    }
+                                    if(!match) categories.remove(cat);
+                                });
+                            }
+                            mAdapter.setElementList(categories);
+                        });
+                    } else {
+                        mSubcategories = false;
+                    }
+                });
+            }
+        });
+        if(!mSubcategories) mCallback.serveResults(currentTagId);
     }
 
     public interface CallbackToResults
     {
-        void serveResults(String tags);
-    }
-
-    public String getTags()
-    {
-        return mTags;
+        void serveResults(long tagId);
     }
 
     public int getLevel()

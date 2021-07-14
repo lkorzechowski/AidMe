@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 @Dao
 public interface CategoryTagDAO
 {
@@ -23,8 +25,8 @@ public interface CategoryTagDAO
     void deleteAll();
 
     @Query("SELECT * FROM categorytag WHERE tagId = :tagId")
-    LiveData<CategoryTag> getByTagId(long tagId);
+    LiveData<List<CategoryTag>> getByTagId(long tagId);
 
     @Query("SELECT * FROM categorytag WHERE categoryId = :categoryId")
-    LiveData<CategoryTag> getByCategoryId(long categoryId);
+    LiveData<List<CategoryTag>> getByCategoryId(long categoryId);
 }

@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 
 import com.orzechowski.aidme.database.GlobalRoomDatabase;
 
+import java.util.List;
+
 public class HelperTagRepository
 {
     private final HelperTagDAO mDao;
@@ -37,12 +39,12 @@ public class HelperTagRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(helperTag));
     }
 
-    public LiveData<HelperTag> getByHelperId(long helperId)
+    public LiveData<List<HelperTag>> getByHelperId(long helperId)
     {
         return mDao.getByHelperId(helperId);
     }
 
-    public LiveData<HelperTag> getByTagId(long tagId)
+    public LiveData<List<HelperTag>> getByTagId(long tagId)
     {
         return mDao.getByTagId(tagId);
     }

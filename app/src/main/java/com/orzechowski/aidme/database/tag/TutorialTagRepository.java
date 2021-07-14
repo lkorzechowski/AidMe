@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 
 import com.orzechowski.aidme.database.GlobalRoomDatabase;
 
+import java.util.List;
+
 public class TutorialTagRepository
 {
     private final TutorialTagDAO mDao;
@@ -37,12 +39,12 @@ public class TutorialTagRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(tutorialTag));
     }
 
-    public LiveData<TutorialTag> getByTutorialId(long tutorialId)
+    public LiveData<List<TutorialTag>> getByTutorialId(long tutorialId)
     {
         return mDao.getByTutorialId(tutorialId);
     }
 
-    public LiveData<TutorialTag> getByTagId(long tagId)
+    public LiveData<List<TutorialTag>> getByTagId(long tagId)
     {
         return mDao.getByTagId(tagId);
     }

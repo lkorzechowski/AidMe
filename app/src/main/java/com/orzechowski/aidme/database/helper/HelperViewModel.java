@@ -45,8 +45,8 @@ public class HelperViewModel extends AndroidViewModel
         return mRepository.getAll();
     }
 
-    public LiveData<List<Helper>> getByTags(String tags)
+    public LiveData<Helper> getById(long helperId)
     {
-        return mRepository.getByTags(tags);
+        return mRepository.getById(helperId);
     }
 }

@@ -299,17 +299,18 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryDAO.insert(new Category(10L, "Głowa", true, "head_accident.jpeg", 1));
 
                 //beginning of tags
-                tagDAO.insert(new Tag(0L, "firstaid", 0));
-                tagDAO.insert(new Tag(1L, "fire", 0));
-                tagDAO.insert(new Tag(2L, "natural", 0));
-                tagDAO.insert(new Tag(3L, "terrorism", 0));
-                tagDAO.insert(new Tag(4L, "animals", 0));
-                tagDAO.insert(new Tag(5L, "survival", 0));
-                tagDAO.insert(new Tag(6L, "breathing", 1));
-                tagDAO.insert(new Tag(7L, "injury", 1));
-                tagDAO.insert(new Tag(8L, "broken bones", 2));
-                tagDAO.insert(new Tag(9L, "sprain", 2));
-                tagDAO.insert(new Tag(10L, "head", 1));
+                tagDAO.insert(new Tag(15L, "root", 0));
+                tagDAO.insert(new Tag(0L, "firstaid", 1));
+                tagDAO.insert(new Tag(1L, "fire", 1));
+                tagDAO.insert(new Tag(2L, "natural", 1));
+                tagDAO.insert(new Tag(3L, "terrorism", 1));
+                tagDAO.insert(new Tag(4L, "animals", 1));
+                tagDAO.insert(new Tag(5L, "survival", 1));
+                tagDAO.insert(new Tag(6L, "breathing", 2));
+                tagDAO.insert(new Tag(7L, "injury", 2));
+                tagDAO.insert(new Tag(8L, "broken bones", 3));
+                tagDAO.insert(new Tag(9L, "sprain", 3));
+                tagDAO.insert(new Tag(10L, "head", 2));
                 tagDAO.insert(new Tag(11L, "creator", null));
                 tagDAO.insert(new Tag(12L, "immediate", null));
                 tagDAO.insert(new Tag(13L, "limbs", null));

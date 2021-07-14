@@ -40,13 +40,13 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         }
     }
 
-    override fun serveResults(tags: String)
+    override fun serveResults(tagId: Long)
     {
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
         t.remove(mBrowser).commit()
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            mResults.arguments = bundleOf(Pair("tags", tags))
+            mResults.arguments = bundleOf(Pair("tagId", tagId))
             add(R.id.tutorials_recycler_browser, mResults)
         }
     }
@@ -63,12 +63,10 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
     override fun onBackPressed() {
         val fragmentList: List<*> = supportFragmentManager.fragments
         var handled = false
-        var currentTags: String
         var currentLevel: Int
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
         for (f in fragmentList) {
             if(f is BrowserRecycler) {
-                currentTags = f.tags
                 currentLevel = f.level
                 t.remove(mBrowser).commit()
                 if(currentLevel>0) {

@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 @Dao
 public interface TutorialTagDAO
 {
@@ -23,8 +25,8 @@ public interface TutorialTagDAO
     void deleteAll();
 
     @Query("SELECT * FROM tutorialtag WHERE tagId = :tagId")
-    LiveData<TutorialTag> getByTagId(long tagId);
+    LiveData<List<TutorialTag>> getByTagId(long tagId);
 
-    @Query("SELECT * FROM helpertag WHERE helperId = :tutorialId")
-    LiveData<TutorialTag> getByTutorialId(long tutorialId);
+    @Query("SELECT * FROM tutorialtag WHERE tutorialId = :tutorialId")
+    LiveData<List<TutorialTag>> getByTutorialId(long tutorialId);
 }

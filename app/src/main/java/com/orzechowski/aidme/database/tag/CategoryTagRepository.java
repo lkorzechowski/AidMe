@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 
 import com.orzechowski.aidme.database.GlobalRoomDatabase;
 
+import java.util.List;
+
 public class CategoryTagRepository
 {
     private final CategoryTagDAO mDao;
@@ -37,12 +39,12 @@ public class CategoryTagRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(categoryTag));
     }
 
-    public LiveData<CategoryTag> getByCategoryId(long categoryId)
+    public LiveData<List<CategoryTag>> getByCategoryId(long categoryId)
     {
         return mDao.getByCategoryId(categoryId);
     }
 
-    public LiveData<CategoryTag> getByTagId(long tagId)
+    public LiveData<List<CategoryTag>> getByTagId(long tagId)
     {
         return mDao.getByTagId(tagId);
     }

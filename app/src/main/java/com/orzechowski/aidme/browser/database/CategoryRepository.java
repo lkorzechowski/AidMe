@@ -37,11 +37,6 @@ public class CategoryRepository {
         GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(category));
     }
 
-    public LiveData<List<Category>> getByLevelAndTags(int level, String tags)
-    {
-        return mDao.getByLevelAndTags(level, tags);
-    }
-
     public LiveData<List<Category>> getByLevel(int level)
     {
         return mDao.getByLevel(level);

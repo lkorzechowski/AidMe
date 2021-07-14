@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class CategoryTagViewModel extends AndroidViewModel
 {
     private final CategoryTagRepository mRepository;
@@ -38,12 +40,12 @@ public class CategoryTagViewModel extends AndroidViewModel
         mRepository.update(categoryTag);
     }
 
-    public LiveData<CategoryTag> getByCategoryId(long categoryId)
+    public LiveData<List<CategoryTag>> getByCategoryId(long categoryId)
     {
         return mRepository.getByCategoryId(categoryId);
     }
 
-    public LiveData<CategoryTag> getByTagId(long tagId)
+    public LiveData<List<CategoryTag>> getByTagId(long tagId)
     {
         return mRepository.getByTagId(tagId);
     }
