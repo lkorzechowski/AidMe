@@ -59,7 +59,7 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
 
     public boolean restorePrevious()
     {
-        mLevel--;
+        mLevel -= 2;
         int size = mCategoryPath.size();
         if(!mCategoryPath.isEmpty() && size>1) {
             mCategoryPath.remove(size-1);
