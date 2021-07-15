@@ -36,8 +36,7 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
     }
 
     @Override
-    public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         long tagId = requireArguments().getLong("tagId");
         TutorialTagViewModel tutorialTagViewModel = new ViewModelProvider(this).get(TutorialTagViewModel.class);
@@ -55,10 +54,13 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
                 for(HelperTag helperTag : helperTags) {
                     helperViewModel.getById(helperTag.getHelperId()).observe(requireActivity(), helpers::add);
                 }
-                helperViewModel.getById(1L).observe(requireActivity(), helpers::add);
+                helperViewModel.getById(1L).observe(requireActivity(), creator-> {
+                    helpers.add(creator);
+                    mAdapter.setElementList(tutorials, helpers);
+                });
                 //programatically adding myself here, because tags are also used for suggesting numbers
-                //to call for help, I ought not to have any, as I am not a medical professional.
-                mAdapter.setElementList(tutorials, helpers);
+                //to call for help, I ought not to have any, as I am not a medical professional. Also a
+                //good catch to wait out database connection time for the list.
             });
         });
         View view = inflater.inflate(R.layout.fragment_recycler_results, container, false);

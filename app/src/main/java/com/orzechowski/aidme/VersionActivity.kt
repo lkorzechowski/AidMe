@@ -42,6 +42,4 @@ VersionListAdapter.OnClickListener
             startActivity(tutorial)
         }
     }
-
-
 }

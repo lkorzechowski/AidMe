@@ -18,6 +18,7 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
     private lateinit var mBrowser: BrowserRecycler
     private val mSearch = Search()
     private val mResults = ResultsRecycler(this)
+    private var returning = false
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -25,7 +26,6 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         supportActionBar?.hide()
         setContentView(R.layout.activity_browser)
         mBrowser = BrowserRecycler(this)
-        commitBrowser()
         val searchButton: Button = findViewById(R.id.search_button)
         searchButton.setOnClickListener {
             val t: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -36,6 +36,12 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if(!returning) commitBrowser()
+        else commitResults()
+    }
+
     private fun commitBrowser()
     {
         supportFragmentManager.commit {
@@ -44,15 +50,20 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         }
     }
 
+    private fun commitResults()
+    {
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add(R.id.tutorials_recycler_browser, mResults)
+        }
+    }
+
     override fun serveResults(tagId: Long)
     {
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
         t.remove(mBrowser).commit()
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            mResults.arguments = bundleOf(Pair("tagId", tagId))
-            add(R.id.tutorials_recycler_browser, mResults)
-        }
+        mResults.arguments = bundleOf(Pair("tagId", tagId))
+        commitResults()
     }
 
     override fun serveTutorial(tutorial: Tutorial)
@@ -88,5 +99,10 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
             }
         }
         if(!handled) super.onBackPressed()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        returning = true
     }
 }
