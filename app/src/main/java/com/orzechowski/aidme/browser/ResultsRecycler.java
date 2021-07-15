@@ -55,6 +55,9 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
                 for(HelperTag helperTag : helperTags) {
                     helperViewModel.getById(helperTag.getHelperId()).observe(requireActivity(), helpers::add);
                 }
+                helperViewModel.getById(1L).observe(requireActivity(), helpers::add);
+                //programatically adding myself here, because tags are also used for suggesting numbers
+                //to call for help, I ought not to have any, as I am not a medical professional.
                 mAdapter.setElementList(tutorials, helpers);
             });
         });

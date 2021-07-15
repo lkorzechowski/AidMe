@@ -78,8 +78,8 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         notifyDataSetChanged();
     }
 
-    public static class ResultViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+    public static class ResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
         TextView name, author;
         ImageView image;
         OnClickListener listenerForThisRow;

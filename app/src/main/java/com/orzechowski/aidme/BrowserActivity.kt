@@ -24,6 +24,7 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_browser)
+        mBrowser = BrowserRecycler(this)
         commitBrowser()
         val searchButton: Button = findViewById(R.id.search_button)
         searchButton.setOnClickListener {
@@ -37,7 +38,6 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
 
     private fun commitBrowser()
     {
-        mBrowser = BrowserRecycler(this)
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add(R.id.tutorials_recycler_browser, mBrowser)
@@ -75,10 +75,16 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
                     handled = mBrowser.restorePrevious()
                     if(!handled) {
                         t.remove(mBrowser).commit()
+                        mBrowser = BrowserRecycler(this)
                         commitBrowser()
                         handled = true
                     }
                 }
+            }
+            if(f is ResultsRecycler) {
+                t.remove(mResults).commit()
+                commitBrowser()
+                handled = true
             }
         }
         if(!handled) super.onBackPressed()

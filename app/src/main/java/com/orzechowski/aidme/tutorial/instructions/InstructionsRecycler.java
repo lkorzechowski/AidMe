@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.tutorial.instructionsrecycler;
+package com.orzechowski.aidme.tutorial.instructions;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tools.AssetObtainer;
-import com.orzechowski.aidme.tutorial.instructionsrecycler.database.InstructionSet;
-import com.orzechowski.aidme.tutorial.instructionsrecycler.database.InstructionSetViewModel;
+import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
+import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewModel;
 import com.orzechowski.aidme.tutorial.version.database.VersionInstructionViewModel;
 
 import org.jetbrains.annotations.NotNull;

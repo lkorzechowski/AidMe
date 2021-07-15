@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import com.orzechowski.aidme.tutorial.instructionsrecycler.InstructionsRecycler
+import com.orzechowski.aidme.tutorial.instructions.InstructionsRecycler
 import com.orzechowski.aidme.tutorial.mediaplayer.MultimediaPlayer
 import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaInVersionViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaViewModel

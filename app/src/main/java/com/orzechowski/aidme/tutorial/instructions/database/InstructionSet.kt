@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.tutorial.instructionsrecycler.database
+package com.orzechowski.aidme.tutorial.instructions.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
