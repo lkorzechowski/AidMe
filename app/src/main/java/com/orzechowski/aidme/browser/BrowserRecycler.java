@@ -61,7 +61,7 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     {
         mLevel -= 2;
         int size = mCategoryPath.size();
-        if(!mCategoryPath.isEmpty() && size>1) {
+        if(size>1) {
             mCategoryPath.remove(size-1);
             onClick(mCategoryPath.get(size-2));
             return true;
@@ -73,8 +73,8 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     @Override
     public void onClick(Category category)
     {
-        if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
         if(category.getHasSubcategories()) {
+            if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
             mCategoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
                 for(CategoryTag categoryTag : categoryTags) {
                     mTagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
