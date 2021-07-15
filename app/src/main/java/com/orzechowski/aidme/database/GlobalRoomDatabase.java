@@ -297,6 +297,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryDAO.insert(new Category(8L, "Złamania", false, "broken_bone.jpeg", 2));
                 categoryDAO.insert(new Category(9L, "Zwichnięcia", false, "sprain.jpeg", 2));
                 categoryDAO.insert(new Category(10L, "Głowa", true, "head_accident.jpeg", 1));
+                categoryDAO.insert(new Category(11L, "Zatrucia", true, "poisoning.jpeg", 1));
+                categoryDAO.insert(new Category(12L, "Węże", true, "snakes.jpeg", 1));
 
                 //beginning of tags
                 tagDAO.insert(new Tag(15L, "root", 0));
@@ -315,6 +317,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tagDAO.insert(new Tag(12L, "immediate", null));
                 tagDAO.insert(new Tag(13L, "limbs", null));
                 tagDAO.insert(new Tag(14L, "heatstroke", null));
+                tagDAO.insert(new Tag(16L, "poisoning", 1));
+                tagDAO.insert(new Tag(17L, "snakes", 1));
 
                 categoryTagDAO.insert(new CategoryTag(0L, 0L, 0L));
                 categoryTagDAO.insert(new CategoryTag(1L, 1L, 1L));
@@ -334,6 +338,10 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryTagDAO.insert(new CategoryTag(15L, 9L, 9L));
                 categoryTagDAO.insert(new CategoryTag(16L, 10L, 0L));
                 categoryTagDAO.insert(new CategoryTag(17L, 10L, 10L));
+                categoryTagDAO.insert(new CategoryTag(18L, 11L, 0L));
+                categoryTagDAO.insert(new CategoryTag(19L, 11L, 16L));
+                categoryTagDAO.insert(new CategoryTag(20L, 12L, 17L));
+                categoryTagDAO.insert(new CategoryTag(21L, 12L, 4L));
 
                 helperTagDAO.insert(new HelperTag(0L, 1L, 11L));
 

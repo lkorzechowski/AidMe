@@ -82,6 +82,7 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
                             mLevel = tag.getTagLevel();
                             currentTagId = tag.getTagId();
                             mCategoryViewModel.getByLevel(mLevel).observe(requireActivity(), categories-> {
+                                long finalId = categories.get(categories.size()-1).getCategoryId();
                                 for (Category cat : categories) {
                                     mCategoryTagViewModel.getByCategoryId(cat.getCategoryId()).observe(requireActivity(), catTag-> {
                                         boolean match = false;
@@ -89,9 +90,11 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
                                             if(oneTag.getTagId()==currentTagId) match = true;
                                         }
                                         if(!match) categories.remove(cat);
+                                        if(cat.getCategoryId()==finalId) {
+                                            mAdapter.setElementList(categories);
+                                        }
                                     });
                                 }
-                                mAdapter.setElementList(categories);
                             });
                         }
                     });
