@@ -46,11 +46,11 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
         mAdapter = new ResultsListAdapter(requireActivity(), this);
         tutorialTagViewModel.getByTagId(tagId).observe(requireActivity(), tutorialTags-> {
             List<Tutorial> tutorials = new LinkedList<>();
-            List<Helper> helpers = new LinkedList<>();
+            for(TutorialTag tutorialTag : tutorialTags) {
+                tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId()).observe(requireActivity(), tutorials::add);
+            }
             helperTagViewModel.getByTagId(tagId).observe(requireActivity(), helperTags-> {
-                for(TutorialTag tutorialTag : tutorialTags) {
-                    tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId()).observe(requireActivity(), tutorials::add);
-                }
+                List<Helper> helpers = new LinkedList<>();
                 for(HelperTag helperTag : helperTags) {
                     helperViewModel.getById(helperTag.getHelperId()).observe(requireActivity(), helpers::add);
                 }
@@ -59,8 +59,7 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
                     mAdapter.setElementList(tutorials, helpers);
                 });
                 //programatically adding myself here, because tags are also used for suggesting numbers
-                //to call for help, I ought not to have any, as I am not a medical professional. Also a
-                //good catch to wait out database connection time for the list.
+                //to call for help, I ought not to have any, as I am not a medical professional.
             });
         });
         View view = inflater.inflate(R.layout.fragment_recycler_results, container, false);
