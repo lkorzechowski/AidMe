@@ -40,18 +40,16 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         super.onStart()
         if(!returning) {
             commitBrowser()
-            if(mBrowser.savedCategoryInstance!=null)
-            {
-                mBrowser.onClick(mBrowser.savedCategoryInstance)
-            }
         }
-        else commitResults()
+        else {
+            commitResults()
+            returning = false
+        }
     }
 
     private fun commitBrowser()
     {
         supportFragmentManager.commit {
-            setReorderingAllowed(true)
             add(R.id.tutorials_recycler_browser, mBrowser)
         }
     }
@@ -59,7 +57,6 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
     private fun commitResults()
     {
         supportFragmentManager.commit {
-            setReorderingAllowed(true)
             add(R.id.tutorials_recycler_browser, mResults)
         }
     }

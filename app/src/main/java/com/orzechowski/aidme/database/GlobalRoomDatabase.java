@@ -62,7 +62,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
 
     public static GlobalRoomDatabase getDatabase(final Context context)
     {
-        if(INSTANCE == null){
+        if(INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     GlobalRoomDatabase.class, "AidMe")
                     .addCallback(sRoomDatabaseCallback)
@@ -78,11 +78,11 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback()
     {
         @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db){
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
 
             //hard coded database content injection
-            databaseWriteExecutor.execute(()->{
+            databaseWriteExecutor.execute(()-> {
                 TutorialDAO tutorialDAO = INSTANCE.tutorialDao();
                 InstructionSetDAO instructionDAO = INSTANCE.instructionDao();
                 VersionDAO versionDAO = INSTANCE.versionDao();
@@ -338,20 +338,20 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tagDAO.insert(new Tag(12L, "immediate", null));
                 tagDAO.insert(new Tag(13L, "limbs", null));
                 tagDAO.insert(new Tag(14L, "heatstroke", null));
-                tagDAO.insert(new Tag(16L, "poisoning", 1));
-                tagDAO.insert(new Tag(17L, "snakes", 1));
-                tagDAO.insert(new Tag(18L, "dogs", 1));
+                tagDAO.insert(new Tag(16L, "poisoning", 2));
+                tagDAO.insert(new Tag(17L, "snakes", 2));
+                tagDAO.insert(new Tag(18L, "dogs", 2));
                 tagDAO.insert(new Tag(19L, "choking", null));
-                tagDAO.insert(new Tag(20L, "horses", 1));
+                tagDAO.insert(new Tag(20L, "horses", 2));
                 tagDAO.insert(new Tag(21L, "danger", null));
-                tagDAO.insert(new Tag(22L, "cats", 1));
-                tagDAO.insert(new Tag(23L, "rodents", 1));
-                tagDAO.insert(new Tag(24L, "rats", 2));
-                tagDAO.insert(new Tag(25L, "birds", 1));
-                tagDAO.insert(new Tag(26L, "parrots", 2));
-                tagDAO.insert(new Tag(27L, "chinchilla", 2));
-                tagDAO.insert(new Tag(28L, "owls", 2));
-                tagDAO.insert(new Tag(29L, "wild", 1));
+                tagDAO.insert(new Tag(22L, "cats", 2));
+                tagDAO.insert(new Tag(23L, "rodents", 2));
+                tagDAO.insert(new Tag(24L, "rats", 3));
+                tagDAO.insert(new Tag(25L, "birds", 2));
+                tagDAO.insert(new Tag(26L, "parrots", 3));
+                tagDAO.insert(new Tag(27L, "chinchilla", 3));
+                tagDAO.insert(new Tag(28L, "owls", 3));
+                tagDAO.insert(new Tag(29L, "wild", 2));
 
                 //beginning of category-tag relations
                 categoryTagDAO.insert(new CategoryTag(0L, 0L, 0L));
