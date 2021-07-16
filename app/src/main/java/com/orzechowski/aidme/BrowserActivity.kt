@@ -38,7 +38,13 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
 
     override fun onStart() {
         super.onStart()
-        if(!returning) commitBrowser()
+        if(!returning) {
+            commitBrowser()
+            if(mBrowser.savedCategoryInstance!=null)
+            {
+                mBrowser.onClick(mBrowser.savedCategoryInstance)
+            }
+        }
         else commitResults()
     }
 

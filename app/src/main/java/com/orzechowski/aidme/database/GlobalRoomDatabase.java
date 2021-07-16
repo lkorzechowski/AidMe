@@ -81,6 +81,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
         public void onCreate(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
 
+            //hard coded database content injection
             databaseWriteExecutor.execute(()->{
                 TutorialDAO tutorialDAO = INSTANCE.tutorialDao();
                 InstructionSetDAO instructionDAO = INSTANCE.instructionDao();
@@ -96,6 +97,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 TutorialTagDAO tutorialTagDAO = INSTANCE.tutorialTagDAO();
                 CategoryTagDAO categoryTagDAO = INSTANCE.categoryTagDAO();
 
+                //beginning of helpers
                 helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka"));
                 helperDAO.insert(new Helper(1L, "Łukasz", "Orzechowski", "", "Twórca"));
                 helperDAO.insert(new Helper(2L, "Kasia", "Kulpa", "", "Studentka"));
@@ -285,20 +287,39 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 //beginning of heatstroke tutorial
                 tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "sun.jpg"));
 
+                //beginning of choking dog tutorial
+                tutorialDAO.insert(new Tutorial(3L, "Dławiący się pies", 1L, "choking_dog.jpeg"));
+
+                //beginning of aggressive dog tutorial
+                tutorialDAO.insert(new Tutorial(4L, "Agresywny pies", 1L, "barking_dog.jpg"));
+
+                //beginning of choking cat tutorial
+                tutorialDAO.insert(new Tutorial(5L, "Dławiący się kot", 1L, "choking_cat.jpeg"));
+
                 //beginning of categories
                 categoryDAO.insert(new Category(0L, "Pierwsza pomoc", true, "first_aid.jpg", 0));
                 categoryDAO.insert(new Category(1L, "Pożar", true, "fire.jpeg", 0));
                 categoryDAO.insert(new Category(2L, "Żywioł", true, "natural_disaster.jpeg", 0));
                 categoryDAO.insert(new Category(3L, "Atak terrorystyczny", true, "terrorist.jpeg", 0));
-                categoryDAO.insert(new Category(4L, "Zwierzęta", true, "animal_danger.jpg", 0));
+                categoryDAO.insert(new Category(4L, "Zwierzęta", true, "animals.jpeg", 0));
                 categoryDAO.insert(new Category(5L, "Przetrwanie w dziczy", true, "survival.jpeg", 0));
                 categoryDAO.insert(new Category(6L, "Problemy z oddychaniem", false, "breathing.jpg", 1));
                 categoryDAO.insert(new Category(7L, "Urazy", true, "injury.jpeg", 1));
                 categoryDAO.insert(new Category(8L, "Złamania", false, "broken_bone.jpeg", 2));
                 categoryDAO.insert(new Category(9L, "Zwichnięcia", false, "sprain.jpeg", 2));
-                categoryDAO.insert(new Category(10L, "Głowa", true, "head_accident.jpeg", 1));
+                categoryDAO.insert(new Category(10L, "Głowa", false, "head_accident.jpeg", 1));
                 categoryDAO.insert(new Category(11L, "Zatrucia", true, "poisoning.jpeg", 1));
-                categoryDAO.insert(new Category(12L, "Węże", true, "snakes.jpeg", 1));
+                categoryDAO.insert(new Category(12L, "Węże", false, "snakes.jpeg", 1));
+                categoryDAO.insert(new Category(13L, "Psy", false, "dogs.jpeg", 1));
+                categoryDAO.insert(new Category(14L, "Konie", false, "horses.jpeg", 1));
+                categoryDAO.insert(new Category(15L, "Koty", false, "cats.jpeg", 1));
+                categoryDAO.insert(new Category(16L, "Gryzonie", true, "rodents.jpeg", 1));
+                categoryDAO.insert(new Category(17L, "Ptaki", true, "birds.jpeg", 1));
+                categoryDAO.insert(new Category(18L, "Papugi", false, "parrots.jpeg", 2));
+                categoryDAO.insert(new Category(19L, "Szczury", false, "rats.jpg", 2));
+                categoryDAO.insert(new Category(20L, "Szynszyle", false, "chinchilla.jpg", 2));
+                categoryDAO.insert(new Category(21L, "Sowy", false, "owls.jpeg", 2));
+                categoryDAO.insert(new Category(22L, "Dzikie zwierzęta", true, "wild_animals.jpeg", 1));
 
                 //beginning of tags
                 tagDAO.insert(new Tag(15L, "root", 0));
@@ -319,7 +340,20 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tagDAO.insert(new Tag(14L, "heatstroke", null));
                 tagDAO.insert(new Tag(16L, "poisoning", 1));
                 tagDAO.insert(new Tag(17L, "snakes", 1));
+                tagDAO.insert(new Tag(18L, "dogs", 1));
+                tagDAO.insert(new Tag(19L, "choking", null));
+                tagDAO.insert(new Tag(20L, "horses", 1));
+                tagDAO.insert(new Tag(21L, "danger", null));
+                tagDAO.insert(new Tag(22L, "cats", 1));
+                tagDAO.insert(new Tag(23L, "rodents", 1));
+                tagDAO.insert(new Tag(24L, "rats", 2));
+                tagDAO.insert(new Tag(25L, "birds", 1));
+                tagDAO.insert(new Tag(26L, "parrots", 2));
+                tagDAO.insert(new Tag(27L, "chinchilla", 2));
+                tagDAO.insert(new Tag(28L, "owls", 2));
+                tagDAO.insert(new Tag(29L, "wild", 1));
 
+                //beginning of category-tag relations
                 categoryTagDAO.insert(new CategoryTag(0L, 0L, 0L));
                 categoryTagDAO.insert(new CategoryTag(1L, 1L, 1L));
                 categoryTagDAO.insert(new CategoryTag(2L, 2L, 2L));
@@ -342,9 +376,35 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryTagDAO.insert(new CategoryTag(19L, 11L, 16L));
                 categoryTagDAO.insert(new CategoryTag(20L, 12L, 17L));
                 categoryTagDAO.insert(new CategoryTag(21L, 12L, 4L));
+                categoryTagDAO.insert(new CategoryTag(22L, 13, 18L));
+                categoryTagDAO.insert(new CategoryTag(23L, 13, 4L));
+                categoryTagDAO.insert(new CategoryTag(24L, 14L, 4L));
+                categoryTagDAO.insert(new CategoryTag(25L, 14L, 20L));
+                categoryTagDAO.insert(new CategoryTag(26L, 15L, 4L));
+                categoryTagDAO.insert(new CategoryTag(27L, 15L, 22L));
+                categoryTagDAO.insert(new CategoryTag(28L, 16L, 4L));
+                categoryTagDAO.insert(new CategoryTag(29L, 16L, 23L));
+                categoryTagDAO.insert(new CategoryTag(31L, 17L, 4L));
+                categoryTagDAO.insert(new CategoryTag(32L, 17L, 25L));
+                categoryTagDAO.insert(new CategoryTag(33L, 18L, 4L));
+                categoryTagDAO.insert(new CategoryTag(34L, 18L, 25L));
+                categoryTagDAO.insert(new CategoryTag(35L, 18L, 26L));
+                categoryTagDAO.insert(new CategoryTag(36L, 19L, 4L));
+                categoryTagDAO.insert(new CategoryTag(37L, 19L, 23L));
+                categoryTagDAO.insert(new CategoryTag(38L, 19L, 24L));
+                categoryTagDAO.insert(new CategoryTag(39L, 20L, 4L));
+                categoryTagDAO.insert(new CategoryTag(40L, 20L, 23L));
+                categoryTagDAO.insert(new CategoryTag(41L, 20L, 27L));
+                categoryTagDAO.insert(new CategoryTag(42L, 21L, 4L));
+                categoryTagDAO.insert(new CategoryTag(43L, 21L, 25L));
+                categoryTagDAO.insert(new CategoryTag(44L, 21L, 28L));
+                categoryTagDAO.insert(new CategoryTag(45L, 22L, 4L));
+                categoryTagDAO.insert(new CategoryTag(46L, 22L, 29L));
 
+                //beginning of helper-tag relations
                 helperTagDAO.insert(new HelperTag(0L, 1L, 11L));
 
+                //beginning of tutorial-tag relations
                 tutorialTagDAO.insert(new TutorialTag(0L, 0L, 0L));
                 tutorialTagDAO.insert(new TutorialTag(1L, 0L, 6L));
                 tutorialTagDAO.insert(new TutorialTag(2L, 0L, 12L));
@@ -355,6 +415,15 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tutorialTagDAO.insert(new TutorialTag(7L, 2L, 0L));
                 tutorialTagDAO.insert(new TutorialTag(8L, 2L, 10L));
                 tutorialTagDAO.insert(new TutorialTag(9L, 2L, 14L));
+                tutorialTagDAO.insert(new TutorialTag(10L, 3L, 4L));
+                tutorialTagDAO.insert(new TutorialTag(11L, 3L, 18L));
+                tutorialTagDAO.insert(new TutorialTag(12L, 3L, 19L));
+                tutorialTagDAO.insert(new TutorialTag(13L, 4L, 4L));
+                tutorialTagDAO.insert(new TutorialTag(14L, 4L, 18L));
+                tutorialTagDAO.insert(new TutorialTag(15L, 4L, 21L));
+                tutorialTagDAO.insert(new TutorialTag(16L, 5L, 4L));
+                tutorialTagDAO.insert(new TutorialTag(17L, 5L, 22L));
+                tutorialTagDAO.insert(new TutorialTag(18L, 5L, 19L));
             });
         }
     };

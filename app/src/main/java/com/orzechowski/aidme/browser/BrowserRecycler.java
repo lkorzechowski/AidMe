@@ -31,6 +31,7 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     private TagViewModel mTagViewModel;
     private int mLevel = 0;
     private long currentTagId = 15L;
+    private Category savedCategoryInstance;
     private final List<Category> mCategoryPath = new LinkedList<>();
     private final CallbackToResults mCallback;
 
@@ -70,9 +71,15 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
         }
     }
 
+    public Category getSavedCategoryInstance()
+    {
+        return savedCategoryInstance;
+    }
+
     @Override
     public void onClick(Category category)
     {
+        savedCategoryInstance = category;
         if(category.getHasSubcategories()) {
             if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
             mCategoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
