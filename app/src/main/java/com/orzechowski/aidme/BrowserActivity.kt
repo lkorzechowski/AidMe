@@ -17,8 +17,7 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
 {
     private lateinit var mCategory: CategoryRecycler
     private val mSearch = Search()
-    private val mResults =
-        ResultsRecycler(this)
+    private val mResults = ResultsRecycler(this)
     private var returning = false
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -26,8 +25,7 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_browser)
-        mCategory =
-            CategoryRecycler(this)
+        mCategory = CategoryRecycler(this)
         val searchButton: Button = findViewById(R.id.search_button)
         searchButton.setOnClickListener {
             val t: FragmentTransaction = supportFragmentManager.beginTransaction()

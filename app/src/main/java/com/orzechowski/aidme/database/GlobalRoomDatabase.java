@@ -12,6 +12,8 @@ import com.orzechowski.aidme.browser.categories.database.Category;
 import com.orzechowski.aidme.browser.categories.database.CategoryDAO;
 import com.orzechowski.aidme.browser.search.database.Keyword;
 import com.orzechowski.aidme.browser.search.database.KeywordDAO;
+import com.orzechowski.aidme.browser.search.database.TagKeyword;
+import com.orzechowski.aidme.browser.search.database.TagKeywordDAO;
 import com.orzechowski.aidme.database.helper.Helper;
 import com.orzechowski.aidme.database.helper.HelperDAO;
 import com.orzechowski.aidme.database.tag.CategoryTag;
@@ -42,7 +44,7 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class, VersionInstruction.class,
         TutorialSound.class, Helper.class, Multimedia.class, Category.class, MultimediaInVersion.class,
-        Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class, Keyword.class},
+        Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class, Keyword.class, TagKeyword.class},
         version = 1, exportSchema = false)
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
@@ -60,6 +62,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract TutorialTagDAO tutorialTagDAO();
     public abstract CategoryTagDAO categoryTagDAO();
     public abstract KeywordDAO keywordDAO();
+    public abstract TagKeywordDAO tagKeywordDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
@@ -100,6 +103,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 TutorialTagDAO tutorialTagDAO = INSTANCE.tutorialTagDAO();
                 CategoryTagDAO categoryTagDAO = INSTANCE.categoryTagDAO();
                 KeywordDAO keywordDAO = INSTANCE.keywordDAO();
+                TagKeywordDAO tagKeywordDAO = INSTANCE.tagKeywordDAO();
 
                 //beginning of helpers
                 helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka"));

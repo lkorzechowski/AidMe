@@ -12,7 +12,6 @@ public class KeywordViewModel extends AndroidViewModel
 {
     private final KeywordRepository mRepository;
 
-
     public KeywordViewModel(@NonNull @NotNull Application application)
     {
         super(application);
