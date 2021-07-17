@@ -353,6 +353,15 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryDAO.insert(new Category(39L, "Bardzo niskie temperatury", false, "extreme_cold.jpeg", 1));
                 categoryDAO.insert(new Category(40L, "Bardzo wysokie temperatury", false, "extreme_heat.jpeg", 1));
                 categoryDAO.insert(new Category(41L, "Środowiskowe", false, "environmental.jpeg", 2));
+                categoryDAO.insert(new Category(42L, "Utrata przytomności", false, "unconscious.jpeg", 1));
+                categoryDAO.insert(new Category(43L, "Substancjami", false, "substances.jpeg", 2));
+                categoryDAO.insert(new Category(44L, "Trujące jedzenie", false, "poison_food.jpeg", 2));
+                categoryDAO.insert(new Category(45L, "Trujące rośliny", false, "poison_plants.jpeg", 2));
+                categoryDAO.insert(new Category(46L, "Uzbrojeni w broń palną", false, "gunner.jpeg", 1));
+                categoryDAO.insert(new Category(47L, "Uzbrojeni w broń białą", false, "knife.jpeg", 1));
+                categoryDAO.insert(new Category(48L, "Owady", true, "insects.jpeg", 1));
+                categoryDAO.insert(new Category(49L, "Pająki", true, "spiders.jpeg", 1));
+                categoryDAO.insert(new Category(50L, "Przygniecenie", false, "crushing.jpg", 1));
 
                 //beginning of tags
                 tagDAO.insert(new Tag(15L, "root", 0));
@@ -406,6 +415,15 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tagDAO.insert(new Tag(48L, "extreme cold", 2));
                 tagDAO.insert(new Tag(49L, "extreme heat", 2));
                 tagDAO.insert(new Tag(50L, "environmental", 3));
+                tagDAO.insert(new Tag(51L, "unconscious", 2));
+                tagDAO.insert(new Tag(52L, "substances", 3));
+                tagDAO.insert(new Tag(53L, "poisonous food", 3));
+                tagDAO.insert(new Tag(54L, "poisonous plants", 3));
+                tagDAO.insert(new Tag(55L, "firearms", 2));
+                tagDAO.insert(new Tag(56L, "melee", 2));
+                tagDAO.insert(new Tag(57L, "insects", 2));
+                tagDAO.insert(new Tag(58L, "spiders", 2));
+                tagDAO.insert(new Tag(59L, "crushing", 2));
 
                 //beginning of category-tag relations
                 categoryTagDAO.insert(new CategoryTag(0L, 0L, 0L));
@@ -495,6 +513,27 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryTagDAO.insert(new CategoryTag(85L, 41L, 0L));
                 categoryTagDAO.insert(new CategoryTag(86L, 41L, 16L));
                 categoryTagDAO.insert(new CategoryTag(87L, 41L, 50L));
+                categoryTagDAO.insert(new CategoryTag(88L, 42L, 0L));
+                categoryTagDAO.insert(new CategoryTag(89L, 42L, 51L));
+                categoryTagDAO.insert(new CategoryTag(90L, 43L, 0L));
+                categoryTagDAO.insert(new CategoryTag(91L, 43L, 52L));
+                categoryTagDAO.insert(new CategoryTag(92L, 43L, 16L));
+                categoryTagDAO.insert(new CategoryTag(93L, 44L, 0L));
+                categoryTagDAO.insert(new CategoryTag(94L, 44L, 16L));
+                categoryTagDAO.insert(new CategoryTag(95L, 44L, 53L));
+                categoryTagDAO.insert(new CategoryTag(96L, 45L, 54L));
+                categoryTagDAO.insert(new CategoryTag(97L, 45L, 0L));
+                categoryTagDAO.insert(new CategoryTag(98L, 45L, 16L));
+                categoryTagDAO.insert(new CategoryTag(99L, 46L, 55L));
+                categoryTagDAO.insert(new CategoryTag(100L, 46L, 3L));
+                categoryTagDAO.insert(new CategoryTag(101L, 47L, 3L));
+                categoryTagDAO.insert(new CategoryTag(102L, 47L, 56L));
+                categoryTagDAO.insert(new CategoryTag(103L, 48L, 4L));
+                categoryTagDAO.insert(new CategoryTag(104L, 48L, 57L));
+                categoryTagDAO.insert(new CategoryTag(105L, 49L, 58L));
+                categoryTagDAO.insert(new CategoryTag(106L, 49L, 4L));
+                categoryTagDAO.insert(new CategoryTag(107L, 50L, 0L));
+                categoryTagDAO.insert(new CategoryTag(108L, 50L, 59L));
 
                 //beginning of helper-tag relations
                 helperTagDAO.insert(new HelperTag(0L, 1L, 11L));
