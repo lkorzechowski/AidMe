@@ -341,6 +341,18 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryDAO.insert(new Category(28L, "Wypadki nad wodą", false, "water_accidents.jpeg", 1));
                 categoryDAO.insert(new Category(27L, "Szok", false, "shock.jpeg", 1));
                 categoryDAO.insert(new Category(29L, "Przypadkowe amputacje", false, "accidental_amputation.jpeg", 1));
+                categoryDAO.insert(new Category(30L, "Niedźwiedzie", false, "wild_animals.jpeg", 2));
+                categoryDAO.insert(new Category(31L, "Wilki", false, "wolves.jpeg", 2));
+                categoryDAO.insert(new Category(32L, "Burza", false, "storm.jpeg", 1));
+                categoryDAO.insert(new Category(33L, "Pożar lasu", false, "forest_fire.jpeg", 1));
+                categoryDAO.insert(new Category(34L, "Trzęsienie ziemi", false, "earthquake.jpeg", 1));
+                categoryDAO.insert(new Category(35L, "Lawina", false, "avalanche.jpeg", 1));
+                categoryDAO.insert(new Category(36L, "Huragan", false, "hurricane.jpeg", 1));
+                categoryDAO.insert(new Category(37L, "Zamieć śnieżna", false, "heavy_snowfall.jpeg", 1));
+                categoryDAO.insert(new Category(38L, "Powódź", false, "flood.jpeg", 1));
+                categoryDAO.insert(new Category(39L, "Bardzo niskie temperatury", false, "extreme_cold.jpeg", 1));
+                categoryDAO.insert(new Category(40L, "Bardzo wysokie temperatury", false, "extreme_heat.jpeg", 1));
+                categoryDAO.insert(new Category(41L, "Środowiskowe", false, "environmental.jpeg", 2));
 
                 //beginning of tags
                 tagDAO.insert(new Tag(15L, "root", 0));
@@ -382,6 +394,18 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tagDAO.insert(new Tag(36L, "mouth", 2));
                 tagDAO.insert(new Tag(37L, "amputation", 2));
                 tagDAO.insert(new Tag(38L, "drowning", null));
+                tagDAO.insert(new Tag(39L, "bears", 3));
+                tagDAO.insert(new Tag(40L, "wolves", 3));
+                tagDAO.insert(new Tag(41L, "storm", 2));
+                tagDAO.insert(new Tag(42L, "forest fire", 2));
+                tagDAO.insert(new Tag(43L, "earthquake", 2));
+                tagDAO.insert(new Tag(44L, "avalanche", 2));
+                tagDAO.insert(new Tag(45L, "hurricane", 2));
+                tagDAO.insert(new Tag(46L, "heavy snowfall", 2));
+                tagDAO.insert(new Tag(47L, "flood", 2));
+                tagDAO.insert(new Tag(48L, "extreme cold", 2));
+                tagDAO.insert(new Tag(49L, "extreme heat", 2));
+                tagDAO.insert(new Tag(50L, "environmental", 3));
 
                 //beginning of category-tag relations
                 categoryTagDAO.insert(new CategoryTag(0L, 0L, 0L));
@@ -444,6 +468,33 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryTagDAO.insert(new CategoryTag(58L, 26L, 36L));
                 categoryTagDAO.insert(new CategoryTag(59L, 29L, 0L));
                 categoryTagDAO.insert(new CategoryTag(60L, 29L, 37L));
+                categoryTagDAO.insert(new CategoryTag(61L, 30L, 39L));
+                categoryTagDAO.insert(new CategoryTag(62L, 30L, 4L));
+                categoryTagDAO.insert(new CategoryTag(63L, 30L, 29L));
+                categoryTagDAO.insert(new CategoryTag(64L, 31L, 40L));
+                categoryTagDAO.insert(new CategoryTag(65L, 31L, 29L));
+                categoryTagDAO.insert(new CategoryTag(66L, 31L, 4L));
+                categoryTagDAO.insert(new CategoryTag(67L, 32L, 2L));
+                categoryTagDAO.insert(new CategoryTag(68L, 32L, 41L));
+                categoryTagDAO.insert(new CategoryTag(69L, 33L, 1L));
+                categoryTagDAO.insert(new CategoryTag(70L, 33L, 42L));
+                categoryTagDAO.insert(new CategoryTag(71L, 34L, 43L));
+                categoryTagDAO.insert(new CategoryTag(72L, 34L, 2L));
+                categoryTagDAO.insert(new CategoryTag(73L, 35L, 44L));
+                categoryTagDAO.insert(new CategoryTag(74L, 35L, 2L));
+                categoryTagDAO.insert(new CategoryTag(75L, 36L, 2L));
+                categoryTagDAO.insert(new CategoryTag(76L, 36L, 45L));
+                categoryTagDAO.insert(new CategoryTag(77L, 37L, 2L));
+                categoryTagDAO.insert(new CategoryTag(78L, 37L, 46L));
+                categoryTagDAO.insert(new CategoryTag(79L, 38L, 47L));
+                categoryTagDAO.insert(new CategoryTag(80L, 38L, 2L));
+                categoryTagDAO.insert(new CategoryTag(81L, 39L, 2L));
+                categoryTagDAO.insert(new CategoryTag(82L, 39L, 48L));
+                categoryTagDAO.insert(new CategoryTag(83L, 40L, 49L));
+                categoryTagDAO.insert(new CategoryTag(84L, 40L, 2L));
+                categoryTagDAO.insert(new CategoryTag(85L, 41L, 0L));
+                categoryTagDAO.insert(new CategoryTag(86L, 41L, 16L));
+                categoryTagDAO.insert(new CategoryTag(87L, 41L, 50L));
 
                 //beginning of helper-tag relations
                 helperTagDAO.insert(new HelperTag(0L, 1L, 11L));
