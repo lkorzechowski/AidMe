@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.browser.database;
+package com.orzechowski.aidme.browser.categories.database;
 
 import android.app.Application;
 
@@ -11,24 +11,29 @@ import java.util.List;
 public class CategoryViewModel extends AndroidViewModel {
     private final CategoryRepository mRepository;
 
-    public CategoryViewModel(@NonNull Application application) {
+    public CategoryViewModel(@NonNull Application application)
+    {
         super(application);
         mRepository = new CategoryRepository(application);
     }
 
-    public void deleteAll() {
+    public void deleteAll()
+    {
         mRepository.deleteAll();
     }
 
-    public void insert(Category category) {
+    public void insert(Category category)
+    {
         mRepository.insert(category);
     }
 
-    public void delete(Category category) {
+    public void delete(Category category)
+    {
         mRepository.delete(category);
     }
 
-    public void update(Category category) {
+    public void update(Category category)
+    {
         mRepository.update(category);
     }
 

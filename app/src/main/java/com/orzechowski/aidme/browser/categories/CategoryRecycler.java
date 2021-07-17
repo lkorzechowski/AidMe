@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.browser;
+package com.orzechowski.aidme.browser.categories;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.browser.database.Category;
-import com.orzechowski.aidme.browser.database.CategoryViewModel;
+import com.orzechowski.aidme.browser.categories.database.Category;
+import com.orzechowski.aidme.browser.categories.database.CategoryViewModel;
 import com.orzechowski.aidme.database.tag.CategoryTag;
 import com.orzechowski.aidme.database.tag.CategoryTagViewModel;
 import com.orzechowski.aidme.database.tag.TagViewModel;
@@ -23,9 +23,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnClickListener
+public class CategoryRecycler extends Fragment implements CategoryListAdapter.OnClickListener
 {
-    private BrowserListAdapter mAdapter;
+    private CategoryListAdapter mAdapter;
     private CategoryViewModel mCategoryViewModel;
     private CategoryTagViewModel mCategoryTagViewModel;
     private TagViewModel mTagViewModel;
@@ -34,7 +34,7 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
     private final List<Category> mCategoryPath = new LinkedList<>();
     private final CallbackToResults mCallback;
 
-    public BrowserRecycler(CallbackToResults callback)
+    public CategoryRecycler(CallbackToResults callback)
     {
         mCallback = callback;
     }
@@ -46,7 +46,7 @@ public class BrowserRecycler extends Fragment implements BrowserListAdapter.OnCl
         mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
         mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         mCategoryTagViewModel = new ViewModelProvider(this).get(CategoryTagViewModel.class);
-        mAdapter = new BrowserListAdapter(activity, this);
+        mAdapter = new CategoryListAdapter(activity, this);
         mCategoryViewModel.getByLevel(mLevel)
                 .observe(activity, categories->mAdapter.setElementList(categories));
         View view = inflater.inflate(R.layout.fragment_recycler_browser, container, false);

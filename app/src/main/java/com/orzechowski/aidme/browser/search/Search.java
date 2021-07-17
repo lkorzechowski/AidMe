@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.browser;
+package com.orzechowski.aidme.browser.search;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

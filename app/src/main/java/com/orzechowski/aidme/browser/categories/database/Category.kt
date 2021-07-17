@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.browser.database
+package com.orzechowski.aidme.browser.categories.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

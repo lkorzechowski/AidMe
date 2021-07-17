@@ -7,17 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import com.orzechowski.aidme.browser.BrowserRecycler
-import com.orzechowski.aidme.browser.ResultsRecycler
-import com.orzechowski.aidme.browser.Search
+import com.orzechowski.aidme.browser.categories.CategoryRecycler
+import com.orzechowski.aidme.browser.results.ResultsRecycler
+import com.orzechowski.aidme.browser.search.Search
 import com.orzechowski.aidme.tutorial.database.Tutorial
 
-class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
+class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
     ResultsRecycler.CallbackForTutorial
 {
-    private lateinit var mBrowser: BrowserRecycler
+    private lateinit var mCategory: CategoryRecycler
     private val mSearch = Search()
-    private val mResults = ResultsRecycler(this)
+    private val mResults =
+        ResultsRecycler(this)
     private var returning = false
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -25,11 +26,12 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_browser)
-        mBrowser = BrowserRecycler(this)
+        mCategory =
+            CategoryRecycler(this)
         val searchButton: Button = findViewById(R.id.search_button)
         searchButton.setOnClickListener {
             val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-            t.remove(mBrowser).commit()
+            t.remove(mCategory).commit()
             supportFragmentManager.commit {
                 add(R.id.search_fragment_layout, mSearch)
             }
@@ -50,7 +52,7 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
     private fun commitBrowser()
     {
         supportFragmentManager.commit {
-            add(R.id.tutorials_recycler_browser, mBrowser)
+            add(R.id.tutorials_recycler_browser, mCategory)
         }
     }
 
@@ -64,7 +66,7 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
     override fun serveResults(tagId: Long)
     {
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-        t.remove(mBrowser).commit()
+        t.remove(mCategory).commit()
         mResults.arguments = bundleOf(Pair("tagId", tagId))
         commitResults()
     }
@@ -83,13 +85,16 @@ class BrowserActivity : AppCompatActivity(), BrowserRecycler.CallbackToResults,
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
         var handled = false
         for (f in fragmentList) {
-            if(f is BrowserRecycler) {
+            if(f is CategoryRecycler) {
                 val currentLevel = f.level
                 if(currentLevel!=0) {
-                    handled = mBrowser.restorePrevious()
+                    handled = mCategory.restorePrevious()
                     if(!handled) {
-                        t.remove(mBrowser).commit()
-                        mBrowser = BrowserRecycler(this)
+                        t.remove(mCategory).commit()
+                        mCategory =
+                            CategoryRecycler(
+                                this
+                            )
                         commitBrowser()
                         handled = true
                     }

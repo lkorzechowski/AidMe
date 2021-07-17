@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.browser;
+package com.orzechowski.aidme.browser.categories;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,13 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.browser.database.Category;
+import com.orzechowski.aidme.browser.categories.database.Category;
 import com.orzechowski.aidme.tools.AssetObtainer;
 
 import java.io.IOException;
 import java.util.List;
 
-public class BrowserListAdapter extends RecyclerView.Adapter<BrowserListAdapter.CategoryViewHolder>
+public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>
 {
     private List<Category> mCategories = null;
     private final LayoutInflater mInflater;
@@ -27,7 +27,7 @@ public class BrowserListAdapter extends RecyclerView.Adapter<BrowserListAdapter.
     private final AssetObtainer assetObtainer = new AssetObtainer();
     private final Context mContext;
 
-    public BrowserListAdapter(Activity activity, OnClickListener listener)
+    public CategoryListAdapter(Activity activity, OnClickListener listener)
     {
         mInflater = LayoutInflater.from(activity);
         mListener = listener;
