@@ -1,9 +1,8 @@
-package com.orzechowski.aidme.tutorial.mediaplayer;
+package com.orzechowski.aidme.tutorial.mediaplayer.multimedia;
 
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tools.AssetObtainer;
-import com.orzechowski.aidme.tutorial.mediaplayer.database.Multimedia;
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +54,7 @@ public class MultimediaPlayer extends Fragment
 
     public void deploy()
     {
-        getPlayer(0);
+        getPlayer(-1);
     }
 
     private void getPlayer(int position)
@@ -91,7 +90,6 @@ public class MultimediaPlayer extends Fragment
             boolean loopBool = currentMedia.getLoop();
             int size = mMultimedias.size();
             if(!loopBool) mMultimedias.remove(currentMedia);
-            Log.w("found", "multimedia");
             if(currentMedia.getType()) {
                 mActivity.runOnUiThread(() -> {
                     mImageView.setVisibility(View.VISIBLE);

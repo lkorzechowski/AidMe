@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.tutorial.mediaplayer.database;
+package com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database;
 
 import android.app.Application;
 

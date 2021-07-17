@@ -24,12 +24,12 @@ import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialDAO;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetDAO;
-import com.orzechowski.aidme.tutorial.mediaplayer.database.Multimedia;
-import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaDAO;
-import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaInVersion;
-import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaInVersionDAO;
-import com.orzechowski.aidme.tutorial.mediaplayer.sound.TutorialSound;
-import com.orzechowski.aidme.tutorial.mediaplayer.sound.TutorialSoundDAO;
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia;
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaDAO;
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersion;
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersionDAO;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundDAO;
 import com.orzechowski.aidme.tutorial.version.database.Version;
 import com.orzechowski.aidme.tutorial.version.database.VersionDAO;
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction;
@@ -296,6 +296,12 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 //beginning of choking cat tutorial
                 tutorialDAO.insert(new Tutorial(5L, "Dławiący się kot", 1L, "choking_cat.jpeg"));
 
+                //beginning of circulatory shock tutorial
+                tutorialDAO.insert(new Tutorial(6L, "Wstrząs", 1L, "circulatory_shock.jpeg"));
+
+                //beginning of drowning tutorial
+                tutorialDAO.insert(new Tutorial(7L, "Podtopienie", 1L, "drowning.jpeg"));
+
                 //beginning of categories
                 categoryDAO.insert(new Category(0L, "Pierwsza pomoc", true, "first_aid.jpg", 0));
                 categoryDAO.insert(new Category(1L, "Pożar", true, "fire.jpeg", 0));
@@ -320,6 +326,13 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryDAO.insert(new Category(20L, "Szynszyle", false, "chinchilla.jpg", 2));
                 categoryDAO.insert(new Category(21L, "Sowy", false, "owls.jpeg", 2));
                 categoryDAO.insert(new Category(22L, "Dzikie zwierzęta", true, "wild_animals.jpeg", 1));
+                categoryDAO.insert(new Category(23L, "Zającowate", true, "leporidae.jpeg", 1));
+                categoryDAO.insert(new Category(24L, "Rany", true, "wounds.jpeg", 1));
+                categoryDAO.insert(new Category(25L, "Poparzenia", true, "burns.jpeg", 1));
+                categoryDAO.insert(new Category(26L, "Jama ustna", false, "mouth.jpeg", 1));
+                categoryDAO.insert(new Category(28L, "Wypadki nad wodą", false, "water_accidents.jpeg", 1));
+                categoryDAO.insert(new Category(27L, "Szok", false, "shock.jpeg", 1));
+                categoryDAO.insert(new Category(29L, "Przypadkowe amputacje", false, "accidental_amputation.jpeg", 1));
 
                 //beginning of tags
                 tagDAO.insert(new Tag(15L, "root", 0));
@@ -352,6 +365,15 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tagDAO.insert(new Tag(27L, "chinchilla", 3));
                 tagDAO.insert(new Tag(28L, "owls", 3));
                 tagDAO.insert(new Tag(29L, "wild", 2));
+                tagDAO.insert(new Tag(30L, "leporidae", 2));
+                tagDAO.insert(new Tag(31L, "wounds", 2));
+                tagDAO.insert(new Tag(32L, "burns", 2));
+                tagDAO.insert(new Tag(33L, "water accidents", 2));
+                tagDAO.insert(new Tag(34L, "shock", 2));
+                tagDAO.insert(new Tag(35L, "circulatory", null));
+                tagDAO.insert(new Tag(36L, "mouth", 2));
+                tagDAO.insert(new Tag(37L, "amputation", 2));
+                tagDAO.insert(new Tag(38L, "drowning", null));
 
                 //beginning of category-tag relations
                 categoryTagDAO.insert(new CategoryTag(0L, 0L, 0L));
@@ -400,6 +422,20 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 categoryTagDAO.insert(new CategoryTag(44L, 21L, 28L));
                 categoryTagDAO.insert(new CategoryTag(45L, 22L, 4L));
                 categoryTagDAO.insert(new CategoryTag(46L, 22L, 29L));
+                categoryTagDAO.insert(new CategoryTag(47L, 23L, 30L));
+                categoryTagDAO.insert(new CategoryTag(48L, 23L, 4L));
+                categoryTagDAO.insert(new CategoryTag(49L, 24L, 0L));
+                categoryTagDAO.insert(new CategoryTag(50L, 24L, 31L));
+                categoryTagDAO.insert(new CategoryTag(51L, 25L, 32L));
+                categoryTagDAO.insert(new CategoryTag(52L, 25L, 0L));
+                categoryTagDAO.insert(new CategoryTag(53L, 28L, 0L));
+                categoryTagDAO.insert(new CategoryTag(54L, 28L, 33L));
+                categoryTagDAO.insert(new CategoryTag(55L, 27L, 34L));
+                categoryTagDAO.insert(new CategoryTag(56L, 27L, 0L));
+                categoryTagDAO.insert(new CategoryTag(57L, 26L, 0L));
+                categoryTagDAO.insert(new CategoryTag(58L, 26L, 36L));
+                categoryTagDAO.insert(new CategoryTag(59L, 29L, 0L));
+                categoryTagDAO.insert(new CategoryTag(60L, 29L, 37L));
 
                 //beginning of helper-tag relations
                 helperTagDAO.insert(new HelperTag(0L, 1L, 11L));
@@ -424,6 +460,12 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tutorialTagDAO.insert(new TutorialTag(16L, 5L, 4L));
                 tutorialTagDAO.insert(new TutorialTag(17L, 5L, 22L));
                 tutorialTagDAO.insert(new TutorialTag(18L, 5L, 19L));
+                tutorialTagDAO.insert(new TutorialTag(19L, 6L, 0L));
+                tutorialTagDAO.insert(new TutorialTag(20L, 6L, 34L));
+                tutorialTagDAO.insert(new TutorialTag(21L, 6L, 35L));
+                tutorialTagDAO.insert(new TutorialTag(22L, 7L, 0L));
+                tutorialTagDAO.insert(new TutorialTag(23L, 7L, 33L));
+                tutorialTagDAO.insert(new TutorialTag(24L, 7L, 38L));
             });
         }
     };

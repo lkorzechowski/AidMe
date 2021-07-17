@@ -7,16 +7,17 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.orzechowski.aidme.tutorial.instructions.InstructionsRecycler
-import com.orzechowski.aidme.tutorial.mediaplayer.MultimediaPlayer
-import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaInVersionViewModel
-import com.orzechowski.aidme.tutorial.mediaplayer.database.MultimediaViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.MultimediaPlayer
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersionViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.SoundAdapter
-import com.orzechowski.aidme.tutorial.mediaplayer.sound.TutorialSoundViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
 
 class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
 {
     private lateinit var mSoundAdapter: SoundAdapter
-    private val mMediaPlayer = MultimediaPlayer()
+    private val mMediaPlayer =
+        MultimediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {

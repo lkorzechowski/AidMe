@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.tutorial.mediaplayer.sound
+package com.orzechowski.aidme.tutorial.mediaplayer.sound.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
