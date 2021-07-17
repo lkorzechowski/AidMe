@@ -356,7 +356,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tagDAO.insert(new Tag(9L, "sprain", 3));
                 tagDAO.insert(new Tag(10L, "head", 2));
                 tagDAO.insert(new Tag(11L, "creator", null));
-                tagDAO.insert(new Tag(12L, "immediate", null));
+                tagDAO.insert(new Tag(12L, "cpr", null));
                 tagDAO.insert(new Tag(13L, "limbs", null));
                 tagDAO.insert(new Tag(14L, "heatstroke", null));
                 tagDAO.insert(new Tag(16L, "poisoning", 2));
@@ -474,6 +474,37 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tutorialTagDAO.insert(new TutorialTag(22L, 7L, 0L));
                 tutorialTagDAO.insert(new TutorialTag(23L, 7L, 33L));
                 tutorialTagDAO.insert(new TutorialTag(24L, 7L, 38L));
+
+                //beginning of keywords
+                //when helpers add keywords additional replicas with -em, -u, -a replacing e, etc.
+                //will be generated also
+                keywordDAO.insert(new Keyword(0L, "sztuczne"));
+                keywordDAO.insert(new Keyword(1L, "oddychanie"));
+                keywordDAO.insert(new Keyword(7L, "oddychania"));
+                keywordDAO.insert(new Keyword(8L, "oddechu"));
+                keywordDAO.insert(new Keyword(9L, "oddycha"));
+                keywordDAO.insert(new Keyword( 10L, "oddechem"));
+                keywordDAO.insert(new Keyword(2L, "oddech"));
+                keywordDAO.insert(new Keyword(3L, "zawał"));
+                keywordDAO.insert(new Keyword(4L, "masaż"));
+                keywordDAO.insert(new Keyword(5L, "serce"));
+                keywordDAO.insert(new Keyword(6L, "serca"));
+                keywordDAO.insert(new Keyword(11L, "sercu"));
+                keywordDAO.insert(new Keyword(12L, "zawału"));
+                keywordDAO.insert(new Keyword(13L, "zawałem"));
+                keywordDAO.insert(new Keyword(14L, "oddechy"));
+                keywordDAO.insert(new Keyword(15L, "oddech"));
+                keywordDAO.insert(new Keyword(16L, "tchu"));
+                keywordDAO.insert(new Keyword(17L, "brak"));
+                keywordDAO.insert(new Keyword(18L, "cpr"));
+                keywordDAO.insert(new Keyword(19L, "renanimacja"));
+                keywordDAO.insert(new Keyword(20L, "renimuj"));
+
+
+                //beginning of tag-keyword relations
+                for(long i = 0; i < 21L; i++) {
+                    tagKeywordDAO.insert(new TagKeyword(i, i, 12L));
+                }
             });
         }
     };
