@@ -46,13 +46,17 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.On
         mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         mCategoryTagViewModel = new ViewModelProvider(this).get(CategoryTagViewModel.class);
         mAdapter = new CategoryListAdapter(activity, this);
-        mCategoryViewModel.getByLevel(mLevel)
-                .observe(activity, categories->mAdapter.setElementList(categories));
         View view = inflater.inflate(R.layout.fragment_recycler_browser, container, false);
         RecyclerView recycler = view.findViewById(R.id.browser_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
+        if(mCategoryPath.isEmpty()) mCategoryViewModel.getByLevel(mLevel)
+                .observe(activity, categories->mAdapter.setElementList(categories));
+        else {
+            mLevel--;
+            onClick(mCategoryPath.get(mCategoryPath.size()-1));
+        }
         return view;
     }
 
