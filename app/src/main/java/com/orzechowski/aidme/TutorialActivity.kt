@@ -51,13 +51,13 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
             })
         }
         val mediaInVersionViewModel = MultimediaInVersionViewModel(Application())
+        val mediaViewModel = MultimediaViewModel(Application())
         mediaInVersionViewModel.getByVersionId(versionId).observe(this, { list ->
-            val mediaViewModel = MultimediaViewModel(Application())
-            for(id: Long in list){
-                mediaViewModel.getByMediaIdAndTutorialId(id, tutorialId)
-                    .observe(this, { item ->
+            for(id: Long in list) {
+                mediaViewModel.getByMediaIdAndTutorialId(id, tutorialId).observe(this,
+                    { item->
                         mMediaPlayer.appendMultimedia(item)
-                        if(id==list[list.size-1]) mMediaPlayer.deploy()
+                        if(id==list[list.size-1]) mMediaPlayer.getPlayer(0)
                     })
             }
             supportFragmentManager.commit {

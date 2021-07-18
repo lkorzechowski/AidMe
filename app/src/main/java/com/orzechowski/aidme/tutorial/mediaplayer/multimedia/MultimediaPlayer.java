@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -52,24 +51,14 @@ public class MultimediaPlayer extends Fragment
         mMultimedias.add(media);
     }
 
-    public void deploy()
-    {
-        getPlayer(-1);
-    }
-
-    private void getPlayer(int position)
+    public void getPlayer(int position)
     {
         if(mPlayThread != null) {
             mPlayThread.interrupt();
             position++;
         }
         if(!mMultimedias.isEmpty()) {
-            try {
-                mPlayThread = new Play(mMultimedias.get(position));
-            } catch (IndexOutOfBoundsException e) {
-                getPlayer(0);
-                return;
-            }
+            mPlayThread = new Play(mMultimedias.get(position));
             mPlayThread.start();
         }
     }
@@ -95,8 +84,8 @@ public class MultimediaPlayer extends Fragment
                     mImageView.setVisibility(View.VISIBLE);
                     mVideoView.setVisibility(View.GONE);
                     try {
-                        Picasso.get().load(assetObtainer.getFileFromAssets(requireContext(),
-                                currentMedia.getFullFileName())).into(mImageView);
+                        mImageView.setImageURI(Uri.fromFile(assetObtainer
+                                .getFileFromAssets(requireContext(), currentMedia.getFullFileName())));
                     } catch (IOException ignored) {}
                 });
                 if(displayTime>0) {
