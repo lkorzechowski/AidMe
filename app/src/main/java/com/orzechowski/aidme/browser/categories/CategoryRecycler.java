@@ -30,7 +30,6 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.On
     private CategoryTagViewModel mCategoryTagViewModel;
     private TagViewModel mTagViewModel;
     private int mLevel = 0;
-    private long currentTagId = 15L;
     private final List<Category> mCategoryPath = new LinkedList<>();
     private final CallbackToResults mCallback;
 
@@ -57,17 +56,12 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.On
         return view;
     }
 
-    public boolean restorePrevious()
+    public void restorePrevious()
     {
         mLevel -= 2;
         int size = mCategoryPath.size();
-        if(size>1) {
-            mCategoryPath.remove(size-1);
-            onClick(mCategoryPath.get(size-2));
-            return true;
-        } else{
-            return false;
-        }
+        mCategoryPath.remove(size-1);
+        onClick(mCategoryPath.get(size-2));
     }
 
     @Override
@@ -79,15 +73,14 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.On
                 for(CategoryTag categoryTag : categoryTags) {
                     mTagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
                         if(tag.getTagLevel()!=null && tag.getTagLevel()>mLevel) {
-                            mLevel = tag.getTagLevel();
-                            currentTagId = tag.getTagId();
+                            mLevel++;
                             mCategoryViewModel.getByLevel(mLevel).observe(requireActivity(), categories-> {
                                 long finalId = categories.get(categories.size()-1).getCategoryId();
                                 for (Category cat : categories) {
                                     mCategoryTagViewModel.getByCategoryId(cat.getCategoryId()).observe(requireActivity(), catTag-> {
                                         boolean match = false;
                                         for(CategoryTag oneTag : catTag) {
-                                            if(oneTag.getTagId()==currentTagId) match = true;
+                                            if(oneTag.getTagId()==tag.getTagId()) match = true;
                                         }
                                         if(!match) categories.remove(cat);
                                         if(cat.getCategoryId()==finalId) {

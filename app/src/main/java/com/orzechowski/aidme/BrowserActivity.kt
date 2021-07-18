@@ -85,17 +85,14 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
         for (f in fragmentList) {
             if(f is CategoryRecycler) {
                 val currentLevel = f.level
-                if(currentLevel!=0) {
-                    handled = mCategory.restorePrevious()
-                    if(!handled) {
-                        t.remove(mCategory).commit()
-                        mCategory =
-                            CategoryRecycler(
-                                this
-                            )
-                        commitBrowser()
-                        handled = true
-                    }
+                if(currentLevel>1) {
+                    mCategory.restorePrevious()
+                    handled = true
+                } else if(currentLevel==1) {
+                    t.remove(mCategory).commit()
+                    mCategory = CategoryRecycler(this)
+                    commitBrowser()
+                    handled = true
                 }
             }
             if(f is ResultsRecycler) {
