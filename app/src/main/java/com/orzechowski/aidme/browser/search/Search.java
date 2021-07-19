@@ -3,7 +3,6 @@ package com.orzechowski.aidme.browser.search;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,37 +103,59 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
                         }
                         for(String word : words){
                             mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
-                                Log.w("turkusowy", "match!");
-                                mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords-> {
-                                    for(TagKeyword tagKeyword : tagKeywords) {
-                                        mTagViewModel.getById(tagKeyword.getTagId()).observe( requireActivity(), tag->
-                                                mTutorialTagViewModel.getByTutorialId(tag.getTagId()).observe(requireActivity(), tutorialTags-> {
-                                            for(TutorialTag tutorialTag : tutorialTags) {
-                                                putScore(tutorialTag.getTutorialId());
+                                if(keyword!=null) {
+                                    mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords -> {
+                                        for (TagKeyword tagKeyword : tagKeywords) {
+                                            mTagViewModel.getById(tagKeyword.getTagId()).observe(requireActivity(), tag ->
+                                                    mTutorialTagViewModel.getByTutorialId(tag.getTagId()).observe(requireActivity(), tutorialTags -> {
+                                                        for (TutorialTag tutorialTag : tutorialTags) {
+                                                            putScore(tutorialTag.getTutorialId());
+                                                        }
+                                                        int displayLimit = 20;
+                                                        while (displayLimit > 0) {
+                                                            int matchScale = 0;
+                                                            Long tutorialId = null;
+                                                            for (long id : mScoredTutorialIds.keySet()) {
+                                                                int value = Objects.requireNonNull(mScoredTutorialIds.get(id));
+                                                                if (value > matchScale) {
+                                                                    matchScale = value;
+                                                                    tutorialId = id;
+                                                                }
+                                                            }
+                                                            if (tutorialId != null) {
+                                                                mScoredTutorialIds.remove(tutorialId);
+                                                                mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial -> {
+                                                                    pickedTutorials.add(tutorial);
+                                                                    mAdapter.setElementList(pickedTutorials, helpers);
+                                                                });
+                                                            }
+                                                            displayLimit--;
+                                                        }
+                                                    }));
+                                        }
+                                    });
+                                } else {
+                                    int displayLimit = 20;
+                                    while (displayLimit > 0) {
+                                        int matchScale = 0;
+                                        Long tutorialId = null;
+                                        for (long id : mScoredTutorialIds.keySet()) {
+                                            int value = Objects.requireNonNull(mScoredTutorialIds.get(id));
+                                            if (value > matchScale) {
+                                                matchScale = value;
+                                                tutorialId = id;
                                             }
-                                            int displayLimit = 20;
-                                            while(displayLimit>0) {
-                                                int matchScale = 0;
-                                                Long tutorialId = null;
-                                                for(long id : mScoredTutorialIds.keySet()) {
-                                                    int value = Objects.requireNonNull(mScoredTutorialIds.get(id));
-                                                    if(value>matchScale) {
-                                                        matchScale = value;
-                                                        tutorialId = id;
-                                                    }
-                                                }
-                                                if(tutorialId!=null) {
-                                                    mScoredTutorialIds.remove(tutorialId);
-                                                    mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial-> {
-                                                        pickedTutorials.add(tutorial);
-                                                        mAdapter.setElementList(pickedTutorials, helpers);
-                                                    });
-                                                }
-                                                displayLimit--;
-                                            }
-                                        }));
+                                        }
+                                        if (tutorialId != null) {
+                                            mScoredTutorialIds.remove(tutorialId);
+                                            mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial -> {
+                                                pickedTutorials.add(tutorial);
+                                                mAdapter.setElementList(pickedTutorials, helpers);
+                                            });
+                                        }
+                                        displayLimit--;
                                     }
-                                });
+                                }
                             });
                         }
                     }));
