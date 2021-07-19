@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 
 import com.orzechowski.aidme.database.GlobalRoomDatabase;
 
+import java.util.List;
+
 public class TutorialRepository
 {
     private final TutorialDAO mDao;
@@ -39,5 +41,10 @@ public class TutorialRepository
     LiveData<Tutorial> getByTutorialId(long tutorialId)
     {
         return mDao.getByTutorialId(tutorialId);
+    }
+
+    LiveData<List<Tutorial>> getAll()
+    {
+        return mDao.getAll();
     }
 }

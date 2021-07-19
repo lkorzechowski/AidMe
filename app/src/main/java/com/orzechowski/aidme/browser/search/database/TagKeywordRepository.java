@@ -38,8 +38,8 @@ public class TagKeywordRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(tagKeyword));
     }
 
-    public LiveData<List<TagKeyword>> getByTagId(long tagId)
+    public LiveData<List<TagKeyword>> getByKeywordId(long keywordId)
     {
-        return mDao.getByTagId(tagId);
+        return mDao.getByKeywordId(keywordId);
     }
 }

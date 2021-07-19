@@ -3,6 +3,7 @@ package com.orzechowski.aidme.browser.search;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.browser.results.ResultsListAdapter;
+import com.orzechowski.aidme.browser.search.database.KeywordViewModel;
+import com.orzechowski.aidme.browser.search.database.TagKeywordViewModel;
+import com.orzechowski.aidme.database.tag.TagViewModel;
+import com.orzechowski.aidme.database.tag.TutorialTagViewModel;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
+import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewModel;
 
@@ -24,13 +30,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Search extends Fragment implements ResultsListAdapter.OnClickListener
 {
     private ResultsListAdapter mAdapter;
     public CallbackForTutorial mCallback;
     private InstructionSetViewModel mInstructionSetViewModel;
-    private final Map<Integer, Tutorial> mScoredTutorials = new HashMap<>();
+    private TutorialViewModel mTutorialViewModel;
+    private KeywordViewModel mKeywordViewModel;
+    private TagViewModel mTagViewModel;
+    private TagKeywordViewModel mTagKeywordViewModel;
+    private TutorialTagViewModel mTutorialTagViewModel;
+    private final Map<Long, Integer> mScoredTutorialIds = new HashMap<>();
 
     public Search(CallbackForTutorial callback)
     {
@@ -42,6 +54,11 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
             @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
+        mTutorialViewModel = new ViewModelProvider(this).get(TutorialViewModel.class);
+        mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
+        mKeywordViewModel = new ViewModelProvider(this).get(KeywordViewModel.class);
+        mTutorialTagViewModel = new ViewModelProvider(this).get(TutorialTagViewModel.class);
+        mTagKeywordViewModel = new ViewModelProvider(this).get(TagKeywordViewModel.class);
         mAdapter = new ResultsListAdapter(requireActivity(), this);
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         RecyclerView recycler = view.findViewById(R.id.search_rv);
@@ -61,21 +78,47 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mScoredTutorials.clear();
-                mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets-> {
-                    for(InstructionSet instructionSet : instructionSets) {
-                        if(instructionSet.getInstructions().contains(s) || instructionSet.getTitle().contains(s)){
-                            
+                mScoredTutorialIds.clear();
+                String [] words = String.valueOf(s).split ("\\W+");
+                mTutorialViewModel.getAll().observe(requireActivity(), tutorials-> {
+                    mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets-> {
+                        for(InstructionSet instructionSet : instructionSets) {
+                            if(instructionSet.getInstructions().contains(s) || instructionSet.getTitle().contains(s)) {
+                                putScore(instructionSet.getTutorialId());
+                            }
                         }
-                    }
+                        for(Tutorial tutorial : tutorials) {
+                            long id = tutorial.getTutorialId();
+                            if(tutorial.getTutorialName().contains(s)) {
+                                putScore(id);
+                            }
+                        }
+                        for(String word : words){
+                            mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
+                                Log.w("turkusowy", "match!");
+                                mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords-> {
+
+                                });
+                            });
+                        }
+                    });
                 });
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {}
         });
+    }
+
+    private void putScore(long id)
+    {
+        if(mScoredTutorialIds.containsKey(id)) {
+            int oldValue = Objects.requireNonNull(mScoredTutorialIds.get(id));
+            mScoredTutorialIds.remove(id);
+            mScoredTutorialIds.put(id, oldValue+1);
+        } else {
+            mScoredTutorialIds.put(id, 1);
+        }
     }
 
     @Override
