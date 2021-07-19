@@ -51,4 +51,9 @@ public class InstructionSetRepository
     {
         return mDao.getTutorialSize(tutorialId);
     }
+
+    public LiveData<List<InstructionSet>> getAll()
+    {
+        return mDao.getAll();
+    }
 }

@@ -32,4 +32,7 @@ public interface InstructionSetDAO
 
     @Query("SELECT COUNT(*) FROM instructionset WHERE tutorialId = :tutorialId")
     LiveData<Integer> getTutorialSize(long tutorialId);
+
+    @Query("SELECT * FROM instructionset")
+    LiveData<List<InstructionSet>> getAll();
 }
