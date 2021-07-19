@@ -28,11 +28,11 @@ import java.util.List;
 public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnClickListener
 {
     private ResultsListAdapter mAdapter;
-    public CallbackForTutorial mCallbackForTutorial;
+    public CallbackForTutorial mCallback;
 
     public ResultsRecycler(CallbackForTutorial callback)
     {
-        mCallbackForTutorial = callback;
+        mCallback = callback;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
     @Override
     public void onClick(Tutorial tutorial)
     {
-        mCallbackForTutorial.serveTutorial(tutorial);
+        mCallback.serveTutorial(tutorial);
     }
 
     public interface CallbackForTutorial

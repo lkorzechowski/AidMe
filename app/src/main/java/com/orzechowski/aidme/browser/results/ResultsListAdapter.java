@@ -25,7 +25,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     private List<Tutorial> mTutorials = null;
     private final LayoutInflater mInflater;
     private final OnClickListener mListener;
-    private final AssetObtainer assetObtainer = new AssetObtainer();
+    private final AssetObtainer mAssetObtainer = new AssetObtainer();
     private final Context mContext;
     private List<Helper> mHelpers;
 
@@ -50,7 +50,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         Tutorial tutorial = mTutorials.get(rowNumber);
         long authorId = tutorial.getAuthorId();
         for (Helper helper : mHelpers) {
-            if (authorId == helper.getHelperId()) {
+            if(authorId == helper.getHelperId()) {
                 resultHolder.author.setText(String.format("Autor: %s %s %s",
                         helper.getTitle(), helper.getName(), helper.getSurname()));
             }
@@ -59,8 +59,8 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         resultHolder.name.setText(tutorial.getTutorialName());
         Uri uri = null;
         try {
-            uri = Uri.fromFile(assetObtainer.getFileFromAssets(mContext, tutorial.getMiniatureName()));
-        } catch (IOException ignored) {}
+            uri = Uri.fromFile(mAssetObtainer.getFileFromAssets(mContext, tutorial.getMiniatureName()));
+        } catch(IOException ignored) {}
         if(uri != null) resultHolder.image.setImageURI(uri);
     }
 

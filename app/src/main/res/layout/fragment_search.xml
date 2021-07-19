@@ -20,20 +20,21 @@
         android:textSize="20sp"
         android:inputType="textNoSuggestions" />
 
-    <TextView
-        android:id="@+id/search_suggestion_header"
+    <ImageView
+        android:id="@+id/search_arrow_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_input"
+        app:srcCompat="@drawable/ic_arrow_down"
+        android:contentDescription="@string/image_default_no_description" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="@string/suggestion_text"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/search_input" />
-
-    <include
-        android:id="@+id/search_suggestion_item"
-        android:paddingTop="20dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/search_suggestion_header"
-        layout="@layout/row_results_rv" />
+        app:layout_constraintTop_toBottomOf="@+id/search_arrow_separator"
+        tools:listitem="@layout/row_results_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

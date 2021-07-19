@@ -13,10 +13,10 @@ import com.orzechowski.aidme.browser.search.Search
 import com.orzechowski.aidme.tutorial.database.Tutorial
 
 class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
-    ResultsRecycler.CallbackForTutorial
+    ResultsRecycler.CallbackForTutorial, Search.CallbackForTutorial
 {
     private lateinit var mCategory: CategoryRecycler
-    private val mSearch = Search()
+    private val mSearch = Search(this)
     private val mResults = ResultsRecycler(this)
     private var returning = false
 
@@ -69,15 +69,6 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
         commitResults()
     }
 
-    override fun serveTutorial(tutorial: Tutorial)
-    {
-        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-        t.remove(mResults).commit()
-        val intent = Intent(this@BrowserActivity, VersionActivity::class.java)
-        intent.putExtra("tutorialId", tutorial.tutorialId)
-        startActivity(intent)
-    }
-
     override fun onBackPressed() {
         val fragmentList: List<*> = supportFragmentManager.fragments
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -107,5 +98,26 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
     override fun onRestart() {
         super.onRestart()
         returning = true
+    }
+
+    override fun serveTutorial(tutorial: Tutorial)
+    {
+        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
+        t.remove(mResults).commit()
+        startTutorial(tutorial.tutorialId)
+    }
+
+    override fun serveSearchedTutorial(tutorial: Tutorial)
+    {
+        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
+        t.remove(mSearch).commit()
+        startTutorial(tutorial.tutorialId)
+    }
+
+    private fun startTutorial(tutorialId: Long)
+    {
+        val intent = Intent(this@BrowserActivity, VersionActivity::class.java)
+        intent.putExtra("tutorialId", tutorialId)
+        startActivity(intent)
     }
 }
