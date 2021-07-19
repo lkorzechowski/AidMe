@@ -57,8 +57,11 @@ public class MultimediaPlayer extends Fragment
             mPlayThread.interrupt();
             position++;
         }
+
         if(!mMultimedias.isEmpty()) {
-            mPlayThread = new Play(mMultimedias.get(position));
+            if(position==mMultimedias.size()){
+                mPlayThread = new Play(mMultimedias.get(0));
+            } else mPlayThread = new Play(mMultimedias.get(position));
             mPlayThread.start();
         }
     }
@@ -91,9 +94,7 @@ public class MultimediaPlayer extends Fragment
                 if(displayTime>0) {
                     try {
                         sleep(displayTime);
-                        if(position<size-1) {
-                            getPlayer(position);
-                        } else getPlayer(-1);
+                        getPlayer(position);
                     } catch (InterruptedException e) {
                         mActivity.runOnUiThread(() -> mImageView.setVisibility(View.GONE));
                         interrupt();

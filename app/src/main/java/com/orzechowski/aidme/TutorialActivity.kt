@@ -16,8 +16,7 @@ import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundVi
 class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
 {
     private lateinit var mSoundAdapter: SoundAdapter
-    private val mMediaPlayer =
-        MultimediaPlayer()
+    private val mMediaPlayer = MultimediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
