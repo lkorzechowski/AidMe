@@ -24,7 +24,7 @@ public interface TutorialDAO
     @Query("DELETE FROM tutorial")
     void deleteAll();
 
-    @Query("SELECT * FROM tutorial")
+    @Query("SELECT * FROM tutorial ORDER BY tutorialId")
     LiveData<List<Tutorial>> getAll();
 
     @Query("SELECT * FROM tutorial WHERE tutorialId = :tutorialId")

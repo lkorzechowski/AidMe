@@ -18,8 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.browser.results.ResultsListAdapter;
 import com.orzechowski.aidme.browser.search.database.KeywordViewModel;
+import com.orzechowski.aidme.browser.search.database.TagKeyword;
 import com.orzechowski.aidme.browser.search.database.TagKeywordViewModel;
+import com.orzechowski.aidme.database.helper.HelperViewModel;
 import com.orzechowski.aidme.database.tag.TagViewModel;
+import com.orzechowski.aidme.database.tag.TutorialTag;
 import com.orzechowski.aidme.database.tag.TutorialTagViewModel;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
@@ -29,6 +32,8 @@ import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewMo
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -42,6 +47,7 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
     private TagViewModel mTagViewModel;
     private TagKeywordViewModel mTagKeywordViewModel;
     private TutorialTagViewModel mTutorialTagViewModel;
+    private HelperViewModel mHelperViewModel;
     private final Map<Long, Integer> mScoredTutorialIds = new HashMap<>();
 
     public Search(CallbackForTutorial callback)
@@ -59,6 +65,7 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
         mKeywordViewModel = new ViewModelProvider(this).get(KeywordViewModel.class);
         mTutorialTagViewModel = new ViewModelProvider(this).get(TutorialTagViewModel.class);
         mTagKeywordViewModel = new ViewModelProvider(this).get(TagKeywordViewModel.class);
+        mHelperViewModel = new ViewModelProvider(this).get(HelperViewModel.class);
         mAdapter = new ResultsListAdapter(requireActivity(), this);
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         RecyclerView recycler = view.findViewById(R.id.search_rv);
@@ -80,27 +87,54 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mScoredTutorialIds.clear();
                 String [] words = String.valueOf(s).split ("\\W+");
-                mTutorialViewModel.getAll().observe(requireActivity(), tutorials-> {
-                    mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets-> {
-                        for(InstructionSet instructionSet : instructionSets) {
-                            if(instructionSet.getInstructions().contains(s) || instructionSet.getTitle().contains(s)) {
-                                putScore(instructionSet.getTutorialId());
+                mHelperViewModel.getAll().observe(requireActivity(), helpers-> {
+                    List<Tutorial> pickedTutorials = new LinkedList<>();
+                    mTutorialViewModel.getAll().observe(requireActivity(), tutorials-> {
+                        mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets-> {
+                            for(InstructionSet instructionSet : instructionSets) {
+                                if(instructionSet.getInstructions().contains(s) || instructionSet.getTitle().contains(s)) {
+                                    putScore(instructionSet.getTutorialId());
+                                }
                             }
-                        }
-                        for(Tutorial tutorial : tutorials) {
-                            long id = tutorial.getTutorialId();
-                            if(tutorial.getTutorialName().contains(s)) {
-                                putScore(id);
+                            for(Tutorial tutorial : tutorials) {
+                                long id = tutorial.getTutorialId();
+                                if(tutorial.getTutorialName().contains(s)) {
+                                    putScore(id);
+                                }
                             }
-                        }
-                        for(String word : words){
-                            mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
-                                Log.w("turkusowy", "match!");
-                                mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords-> {
+                            for(String word : words){
+                                mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
+                                    Log.w("turkusowy", "match!");
+                                    mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords-> {
+                                        for(TagKeyword tagKeyword : tagKeywords) {
+                                            mTagViewModel.getById(tagKeyword.getTagId()).observe( requireActivity(), tag-> {
+                                                mTutorialTagViewModel.getByTutorialId(tag.getTagId()).observe(requireActivity(), tutorialTags-> {
+                                                    for(TutorialTag tutorialTag : tutorialTags) {
+                                                        putScore(tutorialTag.getTutorialId());
+                                                    }
+                                                    int displayLimit = 20;
+                                                    while(displayLimit>0) {
+                                                        int matchScale = 0;
+                                                        Long tutorialId = null;
+                                                        for(long id : mScoredTutorialIds.keySet()) {
+                                                            int value = Objects.requireNonNull(mScoredTutorialIds.get(id));
+                                                            if(value>matchScale) {
+                                                                matchScale = value;
+                                                                tutorialId = id;
+                                                            }
+                                                        }
+                                                        if(tutorialId!=null) {
 
+                                                        }
+                                                        displayLimit--;
+                                                    }
+                                                });
+                                            });
+                                        }
+                                    });
                                 });
-                            });
-                        }
+                            }
+                        });
                     });
                 });
             }
