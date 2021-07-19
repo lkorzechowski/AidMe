@@ -2,6 +2,7 @@ package com.orzechowski.aidme
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -28,6 +29,7 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
         mCategory = CategoryRecycler(this)
         val searchButton: Button = findViewById(R.id.search_button)
         searchButton.setOnClickListener {
+            searchButton.visibility = View.GONE
             val t: FragmentTransaction = supportFragmentManager.beginTransaction()
             t.remove(mCategory).commit()
             supportFragmentManager.commit {

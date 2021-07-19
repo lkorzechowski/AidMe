@@ -89,53 +89,55 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
                 String [] words = String.valueOf(s).split ("\\W+");
                 mHelperViewModel.getAll().observe(requireActivity(), helpers-> {
                     List<Tutorial> pickedTutorials = new LinkedList<>();
-                    mTutorialViewModel.getAll().observe(requireActivity(), tutorials-> {
-                        mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets-> {
-                            for(InstructionSet instructionSet : instructionSets) {
-                                if(instructionSet.getInstructions().contains(s) || instructionSet.getTitle().contains(s)) {
-                                    putScore(instructionSet.getTutorialId());
-                                }
+                    mTutorialViewModel.getAll().observe(requireActivity(), tutorials->
+                            mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets-> {
+                        for(InstructionSet instructionSet : instructionSets) {
+                            if(instructionSet.getInstructions().contains(s) || instructionSet.getTitle().contains(s)) {
+                                putScore(instructionSet.getTutorialId());
                             }
-                            for(Tutorial tutorial : tutorials) {
-                                long id = tutorial.getTutorialId();
-                                if(tutorial.getTutorialName().contains(s)) {
-                                    putScore(id);
-                                }
+                        }
+                        for(Tutorial tutorial : tutorials) {
+                            long id = tutorial.getTutorialId();
+                            if(tutorial.getTutorialName().contains(s)) {
+                                putScore(id);
                             }
-                            for(String word : words){
-                                mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
-                                    Log.w("turkusowy", "match!");
-                                    mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords-> {
-                                        for(TagKeyword tagKeyword : tagKeywords) {
-                                            mTagViewModel.getById(tagKeyword.getTagId()).observe( requireActivity(), tag-> {
+                        }
+                        for(String word : words){
+                            mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
+                                Log.w("turkusowy", "match!");
+                                mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords-> {
+                                    for(TagKeyword tagKeyword : tagKeywords) {
+                                        mTagViewModel.getById(tagKeyword.getTagId()).observe( requireActivity(), tag->
                                                 mTutorialTagViewModel.getByTutorialId(tag.getTagId()).observe(requireActivity(), tutorialTags-> {
-                                                    for(TutorialTag tutorialTag : tutorialTags) {
-                                                        putScore(tutorialTag.getTutorialId());
+                                            for(TutorialTag tutorialTag : tutorialTags) {
+                                                putScore(tutorialTag.getTutorialId());
+                                            }
+                                            int displayLimit = 20;
+                                            while(displayLimit>0) {
+                                                int matchScale = 0;
+                                                Long tutorialId = null;
+                                                for(long id : mScoredTutorialIds.keySet()) {
+                                                    int value = Objects.requireNonNull(mScoredTutorialIds.get(id));
+                                                    if(value>matchScale) {
+                                                        matchScale = value;
+                                                        tutorialId = id;
                                                     }
-                                                    int displayLimit = 20;
-                                                    while(displayLimit>0) {
-                                                        int matchScale = 0;
-                                                        Long tutorialId = null;
-                                                        for(long id : mScoredTutorialIds.keySet()) {
-                                                            int value = Objects.requireNonNull(mScoredTutorialIds.get(id));
-                                                            if(value>matchScale) {
-                                                                matchScale = value;
-                                                                tutorialId = id;
-                                                            }
-                                                        }
-                                                        if(tutorialId!=null) {
-
-                                                        }
-                                                        displayLimit--;
-                                                    }
-                                                });
-                                            });
-                                        }
-                                    });
+                                                }
+                                                if(tutorialId!=null) {
+                                                    mScoredTutorialIds.remove(tutorialId);
+                                                    mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial-> {
+                                                        pickedTutorials.add(tutorial);
+                                                        mAdapter.setElementList(pickedTutorials, helpers);
+                                                    });
+                                                }
+                                                displayLimit--;
+                                            }
+                                        }));
+                                    }
                                 });
-                            }
-                        });
-                    });
+                            });
+                        }
+                    }));
                 });
             }
 
