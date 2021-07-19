@@ -35,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/search_arrow_separator"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/row_results_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

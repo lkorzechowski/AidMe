@@ -20,6 +20,7 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
     private val mSearch = Search(this)
     private val mResults = ResultsRecycler(this)
     private var returning = false
+    private lateinit var mSearchButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -27,9 +28,9 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
         supportActionBar?.hide()
         setContentView(R.layout.activity_browser)
         mCategory = CategoryRecycler(this)
-        val searchButton: Button = findViewById(R.id.search_button)
-        searchButton.setOnClickListener {
-            searchButton.visibility = View.GONE
+        mSearchButton= findViewById(R.id.search_button)
+        mSearchButton.setOnClickListener {
+            mSearchButton.visibility = View.GONE
             val t: FragmentTransaction = supportFragmentManager.beginTransaction()
             t.remove(mCategory).commit()
             supportFragmentManager.commit {
@@ -87,9 +88,14 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
                     commitBrowser()
                     handled = true
                 }
-            }
-            if(f is ResultsRecycler) {
+            } else if(f is ResultsRecycler) {
+
                 t.remove(mResults).commit()
+                commitBrowser()
+                handled = true
+            } else if(f is Search) {
+                mSearchButton.visibility = View.VISIBLE
+                t.remove(mSearch).commit()
                 commitBrowser()
                 handled = true
             }

@@ -101,7 +101,7 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
                                 putScore(id);
                             }
                         }
-                        for(String word : words){
+                        for(String word : words) {
                             mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
                                 if(keyword!=null) {
                                     mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords -> {
@@ -124,7 +124,7 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
                                                             }
                                                             if (tutorialId != null) {
                                                                 mScoredTutorialIds.remove(tutorialId);
-                                                                mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial -> {
+                                                                mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial-> {
                                                                     pickedTutorials.add(tutorial);
                                                                     mAdapter.setElementList(pickedTutorials, helpers);
                                                                 });
