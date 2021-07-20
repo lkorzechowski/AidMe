@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 @Dao
 public interface KeywordDAO
 {
@@ -22,6 +24,6 @@ public interface KeywordDAO
     @Query("DELETE FROM keyword")
     void deleteAll();
 
-    @Query("SELECT DISTINCT * FROM keyword WHERE UPPER('%' || :partial || '%') LIKE UPPER(word)")
-    LiveData<Keyword> getByPartialWord(String partial);
+    @Query("SELECT * FROM keyword")
+    LiveData<List<Keyword>> getAll();
 }

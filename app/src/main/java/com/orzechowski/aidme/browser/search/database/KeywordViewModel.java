@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class KeywordViewModel extends AndroidViewModel
 {
     private final KeywordRepository mRepository;
@@ -38,8 +40,8 @@ public class KeywordViewModel extends AndroidViewModel
         mRepository.update(keyword);
     }
 
-    public LiveData<Keyword> getByPartialWord(String partial)
+    public LiveData<List<Keyword>> getAll()
     {
-        return mRepository.getByPartialWord(partial);
+        return mRepository.getAll();
     }
 }

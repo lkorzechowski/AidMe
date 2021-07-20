@@ -3,6 +3,7 @@ package com.orzechowski.aidme.browser.search;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.browser.results.ResultsListAdapter;
+import com.orzechowski.aidme.browser.search.database.Keyword;
 import com.orzechowski.aidme.browser.search.database.KeywordViewModel;
 import com.orzechowski.aidme.browser.search.database.TagKeyword;
 import com.orzechowski.aidme.browser.search.database.TagKeywordViewModel;
@@ -84,10 +86,10 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 mScoredTutorialIds.clear();
-                List<Tutorial> pickedTutorials = new LinkedList<>();
-                String [] words = String.valueOf(s).toLowerCase().split("\\W+");
+                String [] words = String.valueOf(s).toLowerCase().split(" ");
                 mHelperViewModel.getAll().observe(requireActivity(), helpers->
                         mTutorialViewModel.getAll().observe(requireActivity(), tutorials->
                             mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets-> {
@@ -102,29 +104,31 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
                                         }
                                     }
                                     for (Tutorial tutorial : tutorials) {
-                                        long id = tutorial.getTutorialId();
-                                        String name = removeSpecialSigns(tutorial.getTutorialName()).toLowerCase();
-                                        if(name.contains(word)) putScore(id, true);
+                                        if(removeSpecialSigns(tutorial.getTutorialName()).toLowerCase().contains(word)) {
+                                            putScore(tutorial.getTutorialId(), true);
+                                        }
                                     }
-                                    mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
-                                        if(keyword!=null) {
-                                            mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords -> {
-                                                for (TagKeyword tagKeyword : tagKeywords) {
-                                                    mTagViewModel.getById(tagKeyword.getTagId()).observe(requireActivity(), tag ->
-                                                            mTutorialTagViewModel.getByTutorialId(tag.getTagId()).observe(requireActivity(), tutorialTags -> {
-                                                                for (TutorialTag tutorialTag : tutorialTags) {
-                                                                    putScore(tutorialTag.getTutorialId(), false);
-                                                                }
-                                                                setAdapter(helpers, pickedTutorials);
-                                                            }));
-                                                }
-                                            });
-                                        } else {
-                                            setAdapter(helpers, pickedTutorials);
+                                    mKeywordViewModel.getAll().observe(requireActivity(), keywords-> {
+                                        for(Keyword keyword : keywords) {
+                                            String obtainedWord = keyword.getWord();
+                                            if(obtainedWord.contains(wordClean) || wordClean.contains(obtainedWord)) {
+                                                mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords -> {
+                                                    for (TagKeyword tagKeyword : tagKeywords) {
+                                                        Log.w("turkusowy", "turkusowy");
+                                                        mTagViewModel.getById(tagKeyword.getTagId()).observe(requireActivity(), tag ->
+                                                                mTutorialTagViewModel.getByTutorialId(tag.getTagId()).observe(requireActivity(), tutorialTags -> {
+                                                                    for (TutorialTag tutorialTag : tutorialTags) {
+                                                                        putScore(tutorialTag.getTutorialId(), false);
+                                                                    }
+                                                                    setAdapter(helpers);
+                                                                }));
+                                                    }
+                                                });
+                                            } else setAdapter(helpers);
                                         }
                                     });
                                 }
-                })));
+                            })));
             }
 
             @Override
@@ -145,10 +149,10 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
                 .replace('ś', 's');
     }
 
-    private void setAdapter(List<Helper> helpers, List<Tutorial> pickedTutorials)
+    private void setAdapter(List<Helper> helpers)
     {
-        int limit = mScoredTutorialIds.size();
-        for(int i = 0; i < limit; i++) {
+        List<Tutorial> pickedTutorials = new LinkedList<>();
+        for(int i = 0; i < mScoredTutorialIds.size(); i++) {
             int match = 0;
             Long tutorialId = null;
             for (long id : mScoredTutorialIds.keySet()) {
@@ -160,7 +164,7 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
             }
             if (tutorialId != null) {
                 mScoredTutorialIds.remove(tutorialId);
-                mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial -> {
+                mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial-> {
                     pickedTutorials.add(tutorial);
                     mAdapter.setElementList(pickedTutorials, helpers);
                 });

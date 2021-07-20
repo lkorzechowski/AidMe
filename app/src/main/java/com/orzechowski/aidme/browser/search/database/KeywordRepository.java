@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 
 import com.orzechowski.aidme.database.GlobalRoomDatabase;
 
+import java.util.List;
+
 public class KeywordRepository
 {
     private final KeywordDAO mDao;
@@ -36,8 +38,8 @@ public class KeywordRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(keyword));
     }
 
-    public LiveData<Keyword> getByPartialWord(String partial)
+    public LiveData<List<Keyword>> getAll()
     {
-        return mDao.getByPartialWord(partial);
+        return mDao.getAll();
     }
 }
