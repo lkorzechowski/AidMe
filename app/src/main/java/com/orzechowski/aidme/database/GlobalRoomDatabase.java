@@ -573,7 +573,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 keywordDAO.insert(new Keyword(7L, "oddychania"));
                 keywordDAO.insert(new Keyword(8L, "oddechu"));
                 keywordDAO.insert(new Keyword(9L, "oddycha"));
-                keywordDAO.insert(new Keyword( 10L, "oddechem"));
+                keywordDAO.insert(new Keyword(10L, "oddechem"));
                 keywordDAO.insert(new Keyword(2L, "oddech"));
                 keywordDAO.insert(new Keyword(3L, "zawał"));
                 keywordDAO.insert(new Keyword(4L, "masaż"));
@@ -588,14 +588,14 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 keywordDAO.insert(new Keyword(17L, "brak"));
                 keywordDAO.insert(new Keyword(18L, "cpr"));
                 keywordDAO.insert(new Keyword(19L, "renanimacja"));
-                keywordDAO.insert(new Keyword(20L, "renimuj"));
+                keywordDAO.insert(new Keyword(20L, "reanimuj"));
                 keywordDAO.insert(new Keyword(21L, "reanimowanie"));
                 keywordDAO.insert(new Keyword(22L, "nieregularny"));
+                keywordDAO.insert(new Keyword(23L, "zawal"));
+                keywordDAO.insert(new Keyword(24L, "masaz"));
+                keywordDAO.insert(new Keyword(25L, "zawalu"));
+                keywordDAO.insert(new Keyword(26L, "zawalem"));
 
-                keywordDAO.insert(new Keyword(23L, "złamanie"));
-                keywordDAO.insert(new Keyword(24L, "złamana"));
-                keywordDAO.insert(new Keyword(25L, "złamane"));
-                keywordDAO.insert(new Keyword(26L, "kość"));
                 keywordDAO.insert(new Keyword(27L, "kości"));
                 keywordDAO.insert(new Keyword(28L, "kończyna"));
                 keywordDAO.insert(new Keyword(29L, "kończyny"));
@@ -612,14 +612,100 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 keywordDAO.insert(new Keyword(40L, "kolano"));
                 keywordDAO.insert(new Keyword(41L, "ręce"));
                 keywordDAO.insert(new Keyword(42L, "nogi"));
+                keywordDAO.insert(new Keyword(43L, "złamanie"));
+                keywordDAO.insert(new Keyword(44L, "złamana"));
+                keywordDAO.insert(new Keyword(45L, "złamane"));
+                keywordDAO.insert(new Keyword(46L, "kość"));
+                keywordDAO.insert(new Keyword(47L, "kosc"));
+                keywordDAO.insert(new Keyword(48L, "kosci"));
+                keywordDAO.insert(new Keyword(49L, "reki"));
+                keywordDAO.insert(new Keyword(50L, "reka"));
+                keywordDAO.insert(new Keyword(51L, "ramie"));
+                keywordDAO.insert(new Keyword(52L, "rece"));
+                keywordDAO.insert(new Keyword(53L, "zlamanie"));
+                keywordDAO.insert(new Keyword(54L, "zlamana"));
+                keywordDAO.insert(new Keyword(55L, "zlamane"));
+                keywordDAO.insert(new Keyword(56L, "przedramie"));
+                keywordDAO.insert(new Keyword(57L, "zamkniete"));
+
+                keywordDAO.insert(new Keyword(58L, "nudności"));
+                keywordDAO.insert(new Keyword(59L, "nadciśnienie"));
+                keywordDAO.insert(new Keyword(60L, "słabość"));
+                keywordDAO.insert(new Keyword(61L, "ból"));
+                keywordDAO.insert(new Keyword(62L, "bólu"));
+                keywordDAO.insert(new Keyword(63L, "bóle"));
+                keywordDAO.insert(new Keyword(64L, "majaczenie"));
+                keywordDAO.insert(new Keyword(65L, "rozkojarzenie"));
+                keywordDAO.insert(new Keyword(66L, "udar"));
+                keywordDAO.insert(new Keyword(67L, "słońce"));
+                keywordDAO.insert(new Keyword(68L, "udaru"));
+                keywordDAO.insert(new Keyword(69L, "słoneczny"));
+                keywordDAO.insert(new Keyword(70L, "gorąco"));
+                keywordDAO.insert(new Keyword(71L, "ciepło"));
+                keywordDAO.insert(new Keyword(72L, "mowa"));
+                keywordDAO.insert(new Keyword(73L, "przytomność"));
+                keywordDAO.insert(new Keyword(74L, "omdlenie"));
+                keywordDAO.insert(new Keyword(75L, "omdlenia"));
+                keywordDAO.insert(new Keyword(76L, "wymowa"));
+                keywordDAO.insert(new Keyword(77L, "pot"));
+                keywordDAO.insert(new Keyword(78L, "pocenie"));
+                keywordDAO.insert(new Keyword(79L, "wymioty"));
+                keywordDAO.insert(new Keyword(80L, "wymiot"));
+                keywordDAO.insert(new Keyword(81L, "bol"));
+                keywordDAO.insert(new Keyword(82L, "bolu"));
+                keywordDAO.insert(new Keyword(83L, "bole"));
+                keywordDAO.insert(new Keyword(84L, "slonce"));
+                keywordDAO.insert(new Keyword(85L, "sloneczny"));
+                keywordDAO.insert(new Keyword(86L, "przytomnosc"));
+                keywordDAO.insert(new Keyword(87L, "cieplo"));
+                keywordDAO.insert(new Keyword(88L, "goraco"));
+                keywordDAO.insert(new Keyword(89L, "slabosc"));
+                keywordDAO.insert(new Keyword(90L, "nadcisnienie"));
+
+                keywordDAO.insert(new Keyword(91L, "zadławienie"));
+                keywordDAO.insert(new Keyword(92L, "dławienie"));
+                keywordDAO.insert(new Keyword(93L, "dławi"));
+                keywordDAO.insert(new Keyword(94L, "dławią"));
+                keywordDAO.insert(new Keyword(95L, "przełykanie"));
+                keywordDAO.insert(new Keyword(96L, "oddycha"));
+                keywordDAO.insert(new Keyword(97L, "oddychanie"));
+                keywordDAO.insert(new Keyword(98L, "tchu"));
+                keywordDAO.insert(new Keyword(99L, "jedzenie"));
+                keywordDAO.insert(new Keyword(100L, "jedzeniem"));
+                keywordDAO.insert(new Keyword(101L, "zatkane"));
+                keywordDAO.insert(new Keyword(102L, "zablokowane"));
+                keywordDAO.insert(new Keyword(103L, "zatkana"));
+                keywordDAO.insert(new Keyword(104L, "zablokowana"));
+                keywordDAO.insert(new Keyword(105L, "niemożność"));
+                keywordDAO.insert(new Keyword(106L, "wyziewy"));
+                keywordDAO.insert(new Keyword(107L, "szarpany"));
+                keywordDAO.insert(new Keyword(108L, "oddech"));
+                keywordDAO.insert(new Keyword(109L, "gardło"));
+                keywordDAO.insert(new Keyword(110L, "gardle"));
+                keywordDAO.insert(new Keyword(111L, "przełyk"));
+                keywordDAO.insert(new Keyword(112L, "przelyk"));
+                keywordDAO.insert(new Keyword(113L, "gardlo"));
+                keywordDAO.insert(new Keyword(114L, "niemoznosc"));
+                keywordDAO.insert(new Keyword(115L, "przelykanie"));
+                keywordDAO.insert(new Keyword(116L, "dlawi"));
+                keywordDAO.insert(new Keyword(117L, "dlawia"));
+                keywordDAO.insert(new Keyword(118L, "zadlawienie"));
 
                 //beginning of tag-keyword relations
-                for(long i = 0L; i < 23L; i++) {
+                for(long i = 0L; i < 27L; i++) {
                     tagKeywordDAO.insert(new TagKeyword(i, i, 12L));
                 }
 
-                for(long i = 23L; i < 43L; i++) {
+                for(long i = 27L; i < 58L; i++) {
                     tagKeywordDAO.insert(new TagKeyword(i, i, 13L));
+                }
+
+                for(long i = 58L; i < 91L; i++) {
+                    tagKeywordDAO.insert(new TagKeyword(i, i, 14L));
+                }
+
+                for(long i = 91L; i < 119L; i++) {
+                    tagKeywordDAO.insert(new TagKeyword(i, i, 19L));
                 }
             });
         }

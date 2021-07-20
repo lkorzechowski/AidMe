@@ -22,6 +22,6 @@ public interface KeywordDAO
     @Query("DELETE FROM keyword")
     void deleteAll();
 
-    @Query("SELECT * FROM keyword WHERE UPPER(word) LIKE UPPER('%' || :partial || '%')")
+    @Query("SELECT DISTINCT * FROM keyword WHERE UPPER('%' || :partial || '%') LIKE UPPER(word)")
     LiveData<Keyword> getByPartialWord(String partial);
 }

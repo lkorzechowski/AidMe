@@ -19,6 +19,7 @@ import com.orzechowski.aidme.browser.results.ResultsListAdapter;
 import com.orzechowski.aidme.browser.search.database.KeywordViewModel;
 import com.orzechowski.aidme.browser.search.database.TagKeyword;
 import com.orzechowski.aidme.browser.search.database.TagKeywordViewModel;
+import com.orzechowski.aidme.database.helper.Helper;
 import com.orzechowski.aidme.database.helper.HelperViewModel;
 import com.orzechowski.aidme.database.tag.TagViewModel;
 import com.orzechowski.aidme.database.tag.TutorialTag;
@@ -85,81 +86,45 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mScoredTutorialIds.clear();
+                List<Tutorial> pickedTutorials = new LinkedList<>();
                 String [] words = String.valueOf(s).toLowerCase().split("\\W+");
-                mHelperViewModel.getAll().observe(requireActivity(), helpers-> {
-                    List<Tutorial> pickedTutorials = new LinkedList<>();
-                    mTutorialViewModel.getAll().observe(requireActivity(), tutorials->
+                mHelperViewModel.getAll().observe(requireActivity(), helpers->
+                        mTutorialViewModel.getAll().observe(requireActivity(), tutorials->
                             mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets-> {
-                        for(InstructionSet instructionSet : instructionSets) {
-                            if(instructionSet.getInstructions().contains(s) || instructionSet.getTitle().contains(s)) {
-                                putScore(instructionSet.getTutorialId());
-                            }
-                        }
-                        for(Tutorial tutorial : tutorials) {
-                            long id = tutorial.getTutorialId();
-                            if(tutorial.getTutorialName().contains(s)) {
-                                putScore(id);
-                            }
-                        }
-                        for(String word : words) {
-                            mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
-                                if(keyword!=null) {
-                                    mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords -> {
-                                        for (TagKeyword tagKeyword : tagKeywords) {
-                                            mTagViewModel.getById(tagKeyword.getTagId()).observe(requireActivity(), tag ->
-                                                    mTutorialTagViewModel.getByTutorialId(tag.getTagId()).observe(requireActivity(), tutorialTags -> {
-                                                        for (TutorialTag tutorialTag : tutorialTags) {
-                                                            putScore(tutorialTag.getTutorialId());
-                                                        }
-                                                        int displayLimit = 20;
-                                                        while (displayLimit > 0) {
-                                                            int matchScale = 0;
-                                                            Long tutorialId = null;
-                                                            for (long id : mScoredTutorialIds.keySet()) {
-                                                                int value = Objects.requireNonNull(mScoredTutorialIds.get(id));
-                                                                if (value > matchScale) {
-                                                                    matchScale = value;
-                                                                    tutorialId = id;
+                                for(String word : words) {
+                                    String wordClean = removeSpecialSigns(word);
+                                    for (InstructionSet instructionSet : instructionSets) {
+                                        if (removeSpecialSigns(instructionSet.getTitle().toLowerCase()).contains(wordClean)) {
+                                            putScore(instructionSet.getTutorialId(), false);
+                                        }
+                                        if (removeSpecialSigns(instructionSet.getInstructions().toLowerCase()).contains(wordClean)) {
+                                            putScore(instructionSet.getTutorialId(), false);
+                                        }
+                                    }
+                                    for (Tutorial tutorial : tutorials) {
+                                        long id = tutorial.getTutorialId();
+                                        String name = removeSpecialSigns(tutorial.getTutorialName()).toLowerCase();
+                                        if(name.contains(word)) putScore(id, true);
+                                    }
+                                    mKeywordViewModel.getByPartialWord(word).observe(requireActivity(), keyword-> {
+                                        if(keyword!=null) {
+                                            mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords -> {
+                                                for (TagKeyword tagKeyword : tagKeywords) {
+                                                    mTagViewModel.getById(tagKeyword.getTagId()).observe(requireActivity(), tag ->
+                                                            mTutorialTagViewModel.getByTutorialId(tag.getTagId()).observe(requireActivity(), tutorialTags -> {
+                                                                for (TutorialTag tutorialTag : tutorialTags) {
+                                                                    putScore(tutorialTag.getTutorialId(), false);
                                                                 }
-                                                            }
-                                                            if (tutorialId != null) {
-                                                                mScoredTutorialIds.remove(tutorialId);
-                                                                mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial-> {
-                                                                    pickedTutorials.add(tutorial);
-                                                                    mAdapter.setElementList(pickedTutorials, helpers);
-                                                                });
-                                                            }
-                                                            displayLimit--;
-                                                        }
-                                                    }));
+                                                                setAdapter(helpers, pickedTutorials);
+                                                            }));
+                                                }
+                                            });
+                                        } else {
+                                            setAdapter(helpers, pickedTutorials);
                                         }
                                     });
-                                } else {
-                                    int displayLimit = 20;
-                                    while (displayLimit > 0) {
-                                        int matchScale = 0;
-                                        Long tutorialId = null;
-                                        for (long id : mScoredTutorialIds.keySet()) {
-                                            int value = Objects.requireNonNull(mScoredTutorialIds.get(id));
-                                            if (value > matchScale) {
-                                                matchScale = value;
-                                                tutorialId = id;
-                                            }
-                                        }
-                                        if (tutorialId != null) {
-                                            mScoredTutorialIds.remove(tutorialId);
-                                            mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial -> {
-                                                pickedTutorials.add(tutorial);
-                                                mAdapter.setElementList(pickedTutorials, helpers);
-                                            });
-                                        }
-                                        displayLimit--;
-                                    }
                                 }
-                            });
-                        }
-                    }));
-                });
+                })));
             }
 
             @Override
@@ -167,14 +132,52 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
         });
     }
 
-    private void putScore(long id)
+    private String removeSpecialSigns(String input)
+    {
+        return input.replace('ł', 'l')
+                .replace('ą', 'a')
+                .replace('ń', 'n')
+                .replace('ę', 'e')
+                .replace('ć', 'c')
+                .replace('ż', 'z')
+                .replace('ź', 'z')
+                .replace('ó', 'o')
+                .replace('ś', 's');
+    }
+
+    private void setAdapter(List<Helper> helpers, List<Tutorial> pickedTutorials)
+    {
+        int limit = mScoredTutorialIds.size();
+        for(int i = 0; i < limit; i++) {
+            int match = 0;
+            Long tutorialId = null;
+            for (long id : mScoredTutorialIds.keySet()) {
+                int value = Objects.requireNonNull(mScoredTutorialIds.get(id));
+                if (value > match) {
+                    match = value;
+                    tutorialId = id;
+                }
+            }
+            if (tutorialId != null) {
+                mScoredTutorialIds.remove(tutorialId);
+                mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial -> {
+                    pickedTutorials.add(tutorial);
+                    mAdapter.setElementList(pickedTutorials, helpers);
+                });
+            }
+        }
+    }
+
+    private void putScore(long id, boolean titleMatch)
     {
         if(mScoredTutorialIds.containsKey(id)) {
             int oldValue = Objects.requireNonNull(mScoredTutorialIds.get(id));
             mScoredTutorialIds.remove(id);
-            mScoredTutorialIds.put(id, oldValue+1);
+            if(!titleMatch) mScoredTutorialIds.put(id, oldValue+1);
+            else mScoredTutorialIds.put(id, oldValue+10);
         } else {
-            mScoredTutorialIds.put(id, 1);
+            if(!titleMatch) mScoredTutorialIds.put(id, 1);
+            else mScoredTutorialIds.put(id, 10);
         }
     }
 
