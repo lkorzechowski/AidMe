@@ -85,7 +85,7 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mScoredTutorialIds.clear();
-                String [] words = String.valueOf(s).split ("\\W+");
+                String [] words = String.valueOf(s).toLowerCase().split("\\W+");
                 mHelperViewModel.getAll().observe(requireActivity(), helpers-> {
                     List<Tutorial> pickedTutorials = new LinkedList<>();
                     mTutorialViewModel.getAll().observe(requireActivity(), tutorials->

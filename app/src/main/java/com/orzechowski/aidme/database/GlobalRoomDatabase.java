@@ -589,11 +589,37 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 keywordDAO.insert(new Keyword(18L, "cpr"));
                 keywordDAO.insert(new Keyword(19L, "renanimacja"));
                 keywordDAO.insert(new Keyword(20L, "renimuj"));
+                keywordDAO.insert(new Keyword(21L, "reanimowanie"));
+                keywordDAO.insert(new Keyword(22L, "nieregularny"));
 
+                keywordDAO.insert(new Keyword(23L, "złamanie"));
+                keywordDAO.insert(new Keyword(24L, "złamana"));
+                keywordDAO.insert(new Keyword(25L, "złamane"));
+                keywordDAO.insert(new Keyword(26L, "kość"));
+                keywordDAO.insert(new Keyword(27L, "kości"));
+                keywordDAO.insert(new Keyword(28L, "kończyna"));
+                keywordDAO.insert(new Keyword(29L, "kończyny"));
+                keywordDAO.insert(new Keyword(30L, "ręka"));
+                keywordDAO.insert(new Keyword(31L, "ręki"));
+                keywordDAO.insert(new Keyword(32L, "noga"));
+                keywordDAO.insert(new Keyword(33L, "nogi"));
+                keywordDAO.insert(new Keyword(34L, "otwarte"));
+                keywordDAO.insert(new Keyword(35L, "zamknięte"));
+                keywordDAO.insert(new Keyword(36L, "nadgarstek"));
+                keywordDAO.insert(new Keyword(37L, "złamania"));
+                keywordDAO.insert(new Keyword(38L, "przedramię"));
+                keywordDAO.insert(new Keyword(39L, "ramię"));
+                keywordDAO.insert(new Keyword(40L, "kolano"));
+                keywordDAO.insert(new Keyword(41L, "ręce"));
+                keywordDAO.insert(new Keyword(42L, "nogi"));
 
                 //beginning of tag-keyword relations
-                for(long i = 0; i < 21L; i++) {
+                for(long i = 0L; i < 23L; i++) {
                     tagKeywordDAO.insert(new TagKeyword(i, i, 12L));
+                }
+
+                for(long i = 23L; i < 43L; i++) {
+                    tagKeywordDAO.insert(new TagKeyword(i, i, 13L));
                 }
             });
         }
