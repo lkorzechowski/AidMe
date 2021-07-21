@@ -6,8 +6,6 @@ import androidx.lifecycle.LiveData;
 
 import com.orzechowski.aidme.database.GlobalRoomDatabase;
 
-import java.util.List;
-
 public class TutorialLinkRepository
 {
     private final TutorialLinkDAO mDao;
@@ -38,8 +36,8 @@ public class TutorialLinkRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(tutorialLink));
     }
 
-    LiveData<List<TutorialLink>> getByOriginId(long tutorialId)
+    LiveData<TutorialLink> getByOriginIdAndPosition(long tutorialId, int instructionNumber)
     {
-        return mDao.getByOriginId(tutorialId);
+        return mDao.getByOriginIdAndPosition(tutorialId, instructionNumber);
     }
 }

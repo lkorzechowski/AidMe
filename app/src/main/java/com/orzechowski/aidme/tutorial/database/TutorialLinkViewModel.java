@@ -8,8 +8,6 @@ import androidx.lifecycle.LiveData;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 public class TutorialLinkViewModel extends AndroidViewModel
 {
     private final TutorialLinkRepository mRepository;
@@ -40,8 +38,8 @@ public class TutorialLinkViewModel extends AndroidViewModel
         mRepository.update(tutorialLink);
     }
 
-    public LiveData<List<TutorialLink>> getByOriginId(long tutorialId)
+    public LiveData<TutorialLink> getByOriginIdAndPosition(long tutorialId, int instructionNumber)
     {
-        return mRepository.getByOriginId(tutorialId);
+        return mRepository.getByOriginIdAndPosition(tutorialId, instructionNumber);
     }
 }

@@ -7,8 +7,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import java.util.List;
-
 @Dao
 public interface TutorialLinkDAO
 {
@@ -24,6 +22,6 @@ public interface TutorialLinkDAO
     @Query("DELETE FROM tutoriallink")
     void deleteAll();
 
-    @Query("SELECT * FROM tutoriallink WHERE originId = :tutorialId")
-    LiveData<List<TutorialLink>> getByOriginId(long tutorialId);
+    @Query("SELECT * FROM tutoriallink WHERE originId = :tutorialId AND instructionNumber = :instructionNumber")
+    LiveData<TutorialLink> getByOriginIdAndPosition(long tutorialId, int instructionNumber);
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tools.AssetObtainer;
+import com.orzechowski.aidme.tutorial.database.TutorialLinkViewModel;
+import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewModel;
 import com.orzechowski.aidme.tutorial.version.database.VersionInstructionViewModel;
@@ -30,7 +33,10 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     private InstructionsListAdapter mAdapter;
     private Player mPlayerInstance;
     private TextView mTextDisplay;
+    private Button mTutorialLink;
     private InstructionSetViewModel mInstructionSetViewModel;
+    private TutorialLinkViewModel mTutorialLinkViewModel;
+    private TutorialViewModel mTutorialViewModel;
     private long mTutorialId;
     private List<Integer> mTutorialInstructions;
     private boolean mAutoplay = true;
@@ -52,8 +58,13 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                 });
         mTutorialId = bundle.getLong("tutorialId");
         mTextDisplay = activity.findViewById(R.id.active_instructions);
-        mInstructionSetViewModel =
-                new ViewModelProvider(this).get(InstructionSetViewModel.class);
+        mTutorialLink = activity.findViewById(R.id.tutorial_link);
+        mInstructionSetViewModel = new ViewModelProvider(this)
+                .get(InstructionSetViewModel.class);
+        mTutorialLinkViewModel = new ViewModelProvider(this)
+                .get(TutorialLinkViewModel.class);
+        mTutorialViewModel = new ViewModelProvider(this)
+                .get(TutorialViewModel.class);
         mAdapter = new InstructionsListAdapter(activity, this);
         mInstructionSetViewModel.getTutorialSize(mTutorialId).observe(activity, size -> {
             synchronized(lock) {
@@ -160,31 +171,45 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             if(mPlayer != null) {
                 mPlayer.setLooping(false);
                 mPlayer.setVolume(1F, 1F);
-                activity.runOnUiThread(() ->
-                        mTextDisplay.setText(set.getInstructions()));
+                activity.runOnUiThread(this::displayText);
                 try {
                     mPlayer.start();
                     sleep(set.getTime());
+                    mTutorialLink.setVisibility(View.GONE);
                     activity.runOnUiThread(() -> {
                         if (mAutoplay) play(position);
                     });
                 } catch (IllegalStateException | InterruptedException e) {
                     mPlayer.stop();
                     mPlayer.release();
+                    mTutorialLink.setVisibility(View.GONE);
                     interrupt();
                 }
             } else {
-                activity.runOnUiThread(() ->
-                        mTextDisplay.setText(set.getInstructions()));
+                activity.runOnUiThread(this::displayText);
                 try {
                     sleep(set.getTime());
+                    mTutorialLink.setVisibility(View.GONE);
                     activity.runOnUiThread(() -> {
                         if (mAutoplay) play(position);
                     });
                 } catch (InterruptedException e) {
                     interrupt();
+                    mTutorialLink.setVisibility(View.GONE);
                 }
             }
+        }
+        private void displayText()
+        {
+            mTextDisplay.setText(set.getInstructions());
+            mTutorialLinkViewModel.getByOriginIdAndPosition(mTutorialId, position).observe(requireActivity(), tutorialLink-> {
+                    if(tutorialLink!=null) {
+                        mTutorialViewModel.getByTutorialId(tutorialLink.getTutorialId()).observe(requireActivity(), tutorial -> {
+                            mTutorialLink.setText(tutorial.getTutorialName());
+                            mTutorialLink.setVisibility(View.VISIBLE);
+                        });
+                    }
+            });
         }
     }
 }
