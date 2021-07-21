@@ -26,6 +26,8 @@ import com.orzechowski.aidme.database.tag.TutorialTag;
 import com.orzechowski.aidme.database.tag.TutorialTagDAO;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialDAO;
+import com.orzechowski.aidme.tutorial.database.TutorialLink;
+import com.orzechowski.aidme.tutorial.database.TutorialLinkDAO;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia;
@@ -44,7 +46,8 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class, VersionInstruction.class,
         TutorialSound.class, Helper.class, Multimedia.class, Category.class, MultimediaInVersion.class,
-        Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class, Keyword.class, TagKeyword.class},
+        Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class, Keyword.class, TagKeyword.class,
+        TutorialLink.class},
         version = 1, exportSchema = false)
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
@@ -63,6 +66,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract CategoryTagDAO categoryTagDAO();
     public abstract KeywordDAO keywordDAO();
     public abstract TagKeywordDAO tagKeywordDAO();
+    public abstract TutorialLinkDAO tutorialLinkDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
@@ -104,6 +108,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 CategoryTagDAO categoryTagDAO = INSTANCE.categoryTagDAO();
                 KeywordDAO keywordDAO = INSTANCE.keywordDAO();
                 TagKeywordDAO tagKeywordDAO = INSTANCE.tagKeywordDAO();
+                TutorialLinkDAO tutorialLinkDAO = INSTANCE.tutorialLinkDAO();
 
                 //beginning of helpers
                 helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka"));
@@ -291,6 +296,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 multimediaInVersionDAO.insert(new MultimediaInVersion(8L, 2L, 7L));
                 multimediaInVersionDAO.insert(new MultimediaInVersion(9L, 1L, 8L));
                 multimediaInVersionDAO.insert(new MultimediaInVersion(10L, 2L, 8L));
+
+                tutorialLinkDAO.insert(new TutorialLink(0L, 6L, 1L, 20));
 
                 //beginning of heatstroke tutorial
                 tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "sun.jpg"));
