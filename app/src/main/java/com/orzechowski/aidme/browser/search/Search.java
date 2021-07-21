@@ -3,7 +3,6 @@ package com.orzechowski.aidme.browser.search;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +50,7 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
     private TutorialTagViewModel mTutorialTagViewModel;
     private HelperViewModel mHelperViewModel;
     private final Map<Long, Integer> mScoredTutorialIds = new HashMap<>();
+    private final List<Tutorial> mPickedTutorials = new LinkedList<>();
 
     public Search(CallbackForTutorial callback)
     {
@@ -89,7 +89,8 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
                 mScoredTutorialIds.clear();
-                String [] words = String.valueOf(s).toLowerCase().split(" ");
+                mPickedTutorials.clear();
+                String [] words = String.valueOf(s).toLowerCase().split("\\W+");
                 mHelperViewModel.getAll().observe(requireActivity(), helpers->
                         mTutorialViewModel.getAll().observe(requireActivity(), tutorials->
                             mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets-> {
@@ -104,7 +105,7 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
                                         }
                                     }
                                     for (Tutorial tutorial : tutorials) {
-                                        if(removeSpecialSigns(tutorial.getTutorialName()).toLowerCase().contains(word)) {
+                                        if(removeSpecialSigns(tutorial.getTutorialName()).toLowerCase().contains(wordClean)) {
                                             putScore(tutorial.getTutorialId(), true);
                                         }
                                     }
@@ -114,9 +115,8 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
                                             if(obtainedWord.contains(wordClean) || wordClean.contains(obtainedWord)) {
                                                 mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords -> {
                                                     for (TagKeyword tagKeyword : tagKeywords) {
-                                                        Log.w("turkusowy", "turkusowy");
                                                         mTagViewModel.getById(tagKeyword.getTagId()).observe(requireActivity(), tag ->
-                                                                mTutorialTagViewModel.getByTutorialId(tag.getTagId()).observe(requireActivity(), tutorialTags -> {
+                                                                mTutorialTagViewModel.getByTagId(tag.getTagId()).observe(requireActivity(), tutorialTags -> {
                                                                     for (TutorialTag tutorialTag : tutorialTags) {
                                                                         putScore(tutorialTag.getTutorialId(), false);
                                                                     }
@@ -151,7 +151,6 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
 
     private void setAdapter(List<Helper> helpers)
     {
-        List<Tutorial> pickedTutorials = new LinkedList<>();
         for(int i = 0; i < mScoredTutorialIds.size(); i++) {
             int match = 0;
             Long tutorialId = null;
@@ -165,8 +164,8 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
             if (tutorialId != null) {
                 mScoredTutorialIds.remove(tutorialId);
                 mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial-> {
-                    pickedTutorials.add(tutorial);
-                    mAdapter.setElementList(pickedTutorials, helpers);
+                    mPickedTutorials.add(tutorial);
+                    mAdapter.setElementList(mPickedTutorials, helpers);
                 });
             }
         }
