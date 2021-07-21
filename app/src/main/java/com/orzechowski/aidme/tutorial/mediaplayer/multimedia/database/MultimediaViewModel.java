@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 public class MultimediaViewModel extends AndroidViewModel
 {
     private final MultimediaRepository mRepository;
@@ -36,8 +38,8 @@ public class MultimediaViewModel extends AndroidViewModel
         mRepository.update(multimedia);
     }
 
-    public LiveData<Multimedia> getByMediaIdAndTutorialId(long mediaId, long tutorialId)
+    public LiveData<List<Multimedia>> getByTutorialId(long tutorialId)
     {
-        return mRepository.getByMediaIdAndTutorialId(mediaId, tutorialId);
+        return mRepository.getByTutorialId(tutorialId);
     }
 }

@@ -1,6 +1,5 @@
 package com.orzechowski.aidme.tutorial.mediaplayer.multimedia;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.VideoView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tools.AssetObtainer;
@@ -26,7 +26,6 @@ public class MultimediaPlayer extends Fragment
     VideoView mVideoView;
     ImageView mImageView;
     Play mPlayThread;
-    Activity mActivity;
     AssetObtainer assetObtainer = new AssetObtainer();
     public Long mTutorialId;
     List<Multimedia> mMultimedias = new LinkedList<>();
@@ -41,9 +40,9 @@ public class MultimediaPlayer extends Fragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        mActivity = requireActivity();
         mVideoView = view.findViewById(R.id.video_embed);
         mImageView = view.findViewById(R.id.image_embed);
+        getPlayer(0);
     }
 
     public void appendMultimedia(Multimedia media)
@@ -77,13 +76,14 @@ public class MultimediaPlayer extends Fragment
         @Override
         public void run()
         {
+            FragmentActivity activity = requireActivity();
             int position = currentMedia.getPosition();
             int displayTime = currentMedia.getDisplayTime();
             boolean loopBool = currentMedia.getLoop();
             int size = mMultimedias.size();
             if(!loopBool) mMultimedias.remove(currentMedia);
             if(currentMedia.getType()) {
-                mActivity.runOnUiThread(() -> {
+                activity.runOnUiThread(() -> {
                     mImageView.setVisibility(View.VISIBLE);
                     mVideoView.setVisibility(View.GONE);
                     try {
@@ -96,12 +96,12 @@ public class MultimediaPlayer extends Fragment
                         sleep(displayTime);
                         getPlayer(position);
                     } catch (InterruptedException e) {
-                        mActivity.runOnUiThread(() -> mImageView.setVisibility(View.GONE));
+                        activity.runOnUiThread(() -> mImageView.setVisibility(View.GONE));
                         interrupt();
                     }
                 }
             } else if(!currentMedia.getType()) {
-                mActivity.runOnUiThread(() -> {
+                activity.runOnUiThread(() -> {
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.GONE);
                     try {

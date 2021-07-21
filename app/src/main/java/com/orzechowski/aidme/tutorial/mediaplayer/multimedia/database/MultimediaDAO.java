@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 @Dao
 public interface MultimediaDAO
 {
@@ -22,6 +24,6 @@ public interface MultimediaDAO
     @Query("DELETE FROM multimedia")
     void deleteAll();
 
-    @Query("SELECT * FROM multimedia WHERE multimediaId = :multimediaId AND tutorialId = :tutorialId")
-    LiveData<Multimedia> getByMediaIdAndTutorialId(long multimediaId, long tutorialId);
+    @Query("SELECT * FROM multimedia WHERE tutorialId = :tutorialId")
+    LiveData<List<Multimedia>> getByTutorialId(long tutorialId);
 }

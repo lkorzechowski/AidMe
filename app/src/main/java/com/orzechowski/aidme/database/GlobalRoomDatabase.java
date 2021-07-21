@@ -385,7 +385,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 tagDAO.insert(new Tag(18L, "dogs", 2));
                 tagDAO.insert(new Tag(19L, "choking", null));
                 tagDAO.insert(new Tag(20L, "horses", 2));
-                tagDAO.insert(new Tag(21L, "danger", null));
+                tagDAO.insert(new Tag(21L, "aggressive dog", null));
                 tagDAO.insert(new Tag(22L, "cats", 2));
                 tagDAO.insert(new Tag(23L, "rodents", 2));
                 tagDAO.insert(new Tag(24L, "rats", 3));
@@ -677,6 +677,51 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 keywordDAO.insert(new Keyword(103L, "zadlawienie"));
                 keywordDAO.insert(new Keyword(104L, "wypluc"));
 
+                keywordDAO.insert(new Keyword(105L, "wstrzasy"));
+                keywordDAO.insert(new Keyword(106L, "krwotok"));
+                keywordDAO.insert(new Keyword(107L, "krew"));
+                keywordDAO.insert(new Keyword(108L, "krwawienie"));
+                keywordDAO.insert(new Keyword(109L, "krwawi"));
+                keywordDAO.insert(new Keyword(110L, "wykrwawia"));
+                keywordDAO.insert(new Keyword(111L, "wykrwawi"));
+                keywordDAO.insert(new Keyword(112L, "traci"));
+                keywordDAO.insert(new Keyword(113L, "krwi"));
+                keywordDAO.insert(new Keyword(114L, "utrata"));
+                keywordDAO.insert(new Keyword(115L, "przytomnosc"));
+                keywordDAO.insert(new Keyword(116L, "slabosc"));
+                keywordDAO.insert(new Keyword(117L, "niskie"));
+                keywordDAO.insert(new Keyword(118L, "cisnienie"));
+                keywordDAO.insert(new Keyword(119L, "wychlodzenie"));
+                keywordDAO.insert(new Keyword(120L, "bladosc"));
+                keywordDAO.insert(new Keyword(121L, "blady"));
+                keywordDAO.insert(new Keyword(122L, "blada"));
+                keywordDAO.insert(new Keyword(123L, "pot"));
+                keywordDAO.insert(new Keyword(124L, "pocenie"));
+                keywordDAO.insert(new Keyword(125L, "niska"));
+                keywordDAO.insert(new Keyword(126L, "temperatura"));
+                keywordDAO.insert(new Keyword(127L, "zaczerwienienie"));
+                keywordDAO.insert(new Keyword(128L, "czerwona"));
+                keywordDAO.insert(new Keyword(129L, "skora"));
+                keywordDAO.insert(new Keyword(130L, "skapomocz"));
+
+                keywordDAO.insert(new Keyword(131L, "woda"));
+                keywordDAO.insert(new Keyword(132L, "tonie"));
+                keywordDAO.insert(new Keyword(133L, "topi"));
+                keywordDAO.insert(new Keyword(134L, "wodzie"));
+                keywordDAO.insert(new Keyword(135L, "plywanie"));
+                keywordDAO.insert(new Keyword(136L, "plywania"));
+                keywordDAO.insert(new Keyword(137L, "hipotermia"));
+
+                keywordDAO.insert(new Keyword(138L, "gryzie"));
+                keywordDAO.insert(new Keyword(139L, "ugryzl"));
+                keywordDAO.insert(new Keyword(140L, "szczeka"));
+                keywordDAO.insert(new Keyword(141L, "goni"));
+                keywordDAO.insert(new Keyword(142L, "atakuje"));
+                keywordDAO.insert(new Keyword(143L, "skacze"));
+                keywordDAO.insert(new Keyword(144L, "warczy"));
+                keywordDAO.insert(new Keyword(145L, "obszczekuje"));
+                keywordDAO.insert(new Keyword(146L, "agresywny"));
+
                 //beginning of tag-keyword relations
                 for(long i = 0L; i < 27L; i++) {
                     tagKeywordDAO.insert(new TagKeyword(i, i, 12L));
@@ -692,6 +737,18 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
 
                 for(long i = 79L; i < 105L; i++) {
                     tagKeywordDAO.insert(new TagKeyword(i, i, 19L));
+                }
+
+                for(long i = 105; i < 131; i++) {
+                    tagKeywordDAO.insert(new TagKeyword(i, i, 35L));
+                }
+
+                for(long i = 131; i < 138; i++) {
+                    tagKeywordDAO.insert(new TagKeyword(i, i, 38L));
+                }
+
+                for(long i = 138; i < 147; i++) {
+                    tagKeywordDAO.insert(new TagKeyword(i, i, 21L));
                 }
             });
         }

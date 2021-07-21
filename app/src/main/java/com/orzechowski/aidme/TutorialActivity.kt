@@ -8,6 +8,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.orzechowski.aidme.tutorial.instructions.InstructionsRecycler
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.MultimediaPlayer
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersionViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.SoundAdapter
@@ -36,7 +37,6 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         val versionId = intent.extras?.getLong("versionId") ?: -1L
         val tutorialId = intent.extras?.getLong("tutorialId") ?: -1L
         mMediaPlayer.mTutorialId = tutorialId
-
         if(!versionGlobalSounds.isNullOrEmpty()) {
             mSoundAdapter = SoundAdapter(
                 versionId,
@@ -51,17 +51,15 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         }
         val mediaInVersionViewModel = MultimediaInVersionViewModel(Application())
         val mediaViewModel = MultimediaViewModel(Application())
-        mediaInVersionViewModel.getByVersionId(versionId).observe(this, { list ->
-            for(id: Long in list) {
-                mediaViewModel.getByMediaIdAndTutorialId(id, tutorialId).observe(this,
-                    { item->
-                        mMediaPlayer.appendMultimedia(item)
-                        if(id==list[list.size-1]) mMediaPlayer.getPlayer(0)
-                    })
-            }
-            supportFragmentManager.commit {
-                add(R.id.layout_multimedia, mMediaPlayer)
-            }
+        mediaInVersionViewModel.getByVersionId(versionId).observe(this, { multimediaList ->
+                mediaViewModel.getByTutorialId(tutorialId).observe(this, {
+                    for(multimedia : Multimedia in it) {
+                        if(multimediaList.contains(multimedia.multimediaId)) mMediaPlayer.appendMultimedia(multimedia)
+                    }
+                    supportFragmentManager.commit {
+                        add(R.id.layout_multimedia, mMediaPlayer)
+                    }
+                })
         })
     }
 

@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 
 import com.orzechowski.aidme.database.GlobalRoomDatabase;
 
+import java.util.List;
+
 public class MultimediaRepository
 {
     private final MultimediaDAO mDao;
@@ -36,8 +38,8 @@ public class MultimediaRepository
         GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(multimedia));
     }
 
-    LiveData<Multimedia> getByMediaIdAndTutorialId(long mediaId, long tutorialId)
+    LiveData<List<Multimedia>> getByTutorialId(long tutorialId)
     {
-        return mDao.getByMediaIdAndTutorialId(mediaId, tutorialId);
+        return mDao.getByTutorialId(tutorialId);
     }
 }
