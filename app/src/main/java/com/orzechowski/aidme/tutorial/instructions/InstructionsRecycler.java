@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tools.AssetObtainer;
+import com.orzechowski.aidme.tutorial.database.TutorialLink;
 import com.orzechowski.aidme.tutorial.database.TutorialLinkViewModel;
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
@@ -41,7 +42,13 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     private List<Integer> mTutorialInstructions;
     private boolean mAutoplay = true;
     private int mSize;
+    private final CallbackForTutorialLink mCallback;
     private final Object lock = new Object();
+
+    public InstructionsRecycler(CallbackForTutorialLink callbackForTutorialLink)
+    {
+        mCallback = callbackForTutorialLink;
+    }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater,
@@ -207,9 +214,15 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
                         mTutorialViewModel.getByTutorialId(tutorialLink.getTutorialId()).observe(requireActivity(), tutorial -> {
                             mTutorialLink.setText(tutorial.getTutorialName());
                             mTutorialLink.setVisibility(View.VISIBLE);
+                            mTutorialLink.setOnClickListener(v-> mCallback.serveNewTutorial(tutorialLink));
                         });
                     }
             });
         }
+    }
+
+    public interface CallbackForTutorialLink
+    {
+        void serveNewTutorial(TutorialLink tutorialLink);
     }
 }

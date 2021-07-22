@@ -1,11 +1,12 @@
 package com.orzechowski.aidme
 
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import com.orzechowski.aidme.tutorial.database.TutorialLink
 import com.orzechowski.aidme.tutorial.instructions.InstructionsRecycler
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.MultimediaPlayer
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
@@ -14,10 +15,11 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.SoundAdapter
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
 
-class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
+class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial), InstructionsRecycler.CallbackForTutorialLink
 {
     private lateinit var mSoundAdapter: SoundAdapter
     private val mMediaPlayer = MultimediaPlayer()
+    private val mInstructionsRecycler = InstructionsRecycler(this)
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -28,7 +30,8 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
         setup(intent.extras?.getString("versionGlobalSounds"))
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            add<InstructionsRecycler>(R.id.layout_instructions_list, args = bundle)
+            mInstructionsRecycler.arguments = bundle
+            add(R.id.layout_instructions_list, mInstructionsRecycler)
         }
     }
 
@@ -69,5 +72,12 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial)
             mSoundAdapter.destroy()
         } catch(ignored: UninitializedPropertyAccessException){}
         super.onStop()
+    }
+
+    override fun serveNewTutorial(tutorialLink: TutorialLink)
+    {
+        val newTutorial = Intent(this@TutorialActivity, VersionActivity::class.java)
+        newTutorial.putExtra("tutorialId", tutorialLink.tutorialId)
+        startActivity(newTutorial)
     }
 }
