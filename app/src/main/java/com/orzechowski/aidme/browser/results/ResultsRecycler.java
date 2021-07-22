@@ -46,9 +46,6 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
         mAdapter = new ResultsListAdapter(requireActivity(), this);
         tutorialTagViewModel.getByTagId(tagId).observe(requireActivity(), tutorialTags-> {
             List<Tutorial> tutorials = new LinkedList<>();
-            for(TutorialTag tutorialTag : tutorialTags) {
-                tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId()).observe(requireActivity(), tutorials::add);
-            }
             helperTagViewModel.getByTagId(tagId).observe(requireActivity(), helperTags-> {
                 List<Helper> helpers = new LinkedList<>();
                 for(HelperTag helperTag : helperTags) {
@@ -56,7 +53,12 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
                 }
                 helperViewModel.getById(1L).observe(requireActivity(), creator-> {
                     helpers.add(creator);
-                    mAdapter.setElementList(tutorials, helpers);
+                    for(TutorialTag tutorialTag : tutorialTags) {
+                        tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId()).observe(requireActivity(), tutorial-> {
+                            tutorials.add(tutorial);
+                            mAdapter.setElementList(tutorials, helpers);
+                        });
+                    }
                 });
                 //programatically adding myself here, because tags are also used for suggesting numbers
                 //to call for help, I ought not to have any, as I am not a medical professional.
