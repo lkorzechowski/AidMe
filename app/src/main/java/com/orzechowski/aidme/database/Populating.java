@@ -579,6 +579,108 @@ public class Populating
         keywordDAO.insert(new Keyword(282L, "jezyk"));
         keywordDAO.insert(new Keyword(283L, "podniebienie"));
         keywordDAO.insert(new Keyword(284L, "wargi"));
+
+        keywordDAO.insert(new Keyword(285L, "obciecie"));
+        keywordDAO.insert(new Keyword(286L, "obciety"));
+        keywordDAO.insert(new Keyword(287L, "obcieta"));
+        keywordDAO.insert(new Keyword(288L, "obciete"));
+        keywordDAO.insert(new Keyword(289L, "odcieta"));
+        keywordDAO.insert(new Keyword(290L, "odciety"));
+        keywordDAO.insert(new Keyword(291L, "odciete"));
+        keywordDAO.insert(new Keyword(292L, "wyrwany"));
+        keywordDAO.insert(new Keyword(293L, "wyrwana"));
+        keywordDAO.insert(new Keyword(294L, "wyrwane"));
+        keywordDAO.insert(new Keyword(295L, "odjeta"));
+        keywordDAO.insert(new Keyword(296L, "odjety"));
+        keywordDAO.insert(new Keyword(297L, "odjecie"));
+        keywordDAO.insert(new Keyword(298L, "sciety"));
+        keywordDAO.insert(new Keyword(299L, "scieta"));
+        keywordDAO.insert(new Keyword(300L, "sciete"));
+        keywordDAO.insert(new Keyword(301L, "pozbawiony"));
+        keywordDAO.insert(new Keyword(302L, "pozbawiona"));
+        keywordDAO.insert(new Keyword(303L, "pozbawione"));
+        keywordDAO.insert(new Keyword(304L, "amputowanie"));
+        keywordDAO.insert(new Keyword(305L, "amputowany"));
+        keywordDAO.insert(new Keyword(306L, "amputowane"));
+        keywordDAO.insert(new Keyword(307L, "amputowana"));
+
+        keywordDAO.insert(new Keyword(308L, "poryw"));
+        keywordDAO.insert(new Keyword(309L, "przeprawa"));
+        keywordDAO.insert(new Keyword(310L, "sztorm"));
+        keywordDAO.insert(new Keyword(311L, "opady"));
+        keywordDAO.insert(new Keyword(312L, "blyskawice"));
+        keywordDAO.insert(new Keyword(313L, "urwanie"));
+        keywordDAO.insert(new Keyword(314L, "wicher"));
+        keywordDAO.insert(new Keyword(315L, "zawierucha"));
+        keywordDAO.insert(new Keyword(316L, "nawalnica"));
+        keywordDAO.insert(new Keyword(317L, "nawalnicy"));
+        keywordDAO.insert(new Keyword(318L, "pozoga"));
+
+        keywordDAO.insert(new Keyword(319L, "ognisko"));
+        keywordDAO.insert(new Keyword(320L, "niedopal"));
+        keywordDAO.insert(new Keyword(321L, "zaplon"));
+        keywordDAO.insert(new Keyword(322L, "zar"));
+        keywordDAO.insert(new Keyword(323L, "drzewo"));
+        keywordDAO.insert(new Keyword(324L, "drzewa"));
+        keywordDAO.insert(new Keyword(325L, "krzew"));
+        keywordDAO.insert(new Keyword(326L, "krzewy"));
+        keywordDAO.insert(new Keyword(327L, "dicz"));
+        keywordDAO.insert(new Keyword(328L, "plener"));
+        keywordDAO.insert(new Keyword(329L, "srodowisko"));
+
+        keywordDAO.insert(new Keyword(330L, "drganie"));
+        keywordDAO.insert(new Keyword(331L, "drgania"));
+        keywordDAO.insert(new Keyword(332L, "wstrzas"));
+        keywordDAO.insert(new Keyword(333L, "wstrzasy"));
+        keywordDAO.insert(new Keyword(334L, "sypkie"));
+
+        keywordDAO.insert(new Keyword(335L, "snieg"));
+        keywordDAO.insert(new Keyword(336L, "zawieja"));
+        keywordDAO.insert(new Keyword(337L, "calun"));
+        keywordDAO.insert(new Keyword(338L, "zamiec"));
+
+        keywordDAO.insert(new Keyword(339L, "huk"));
+        keywordDAO.insert(new Keyword(340L, "nawal"));
+        keywordDAO.insert(new Keyword(341L, "natlok"));
+        keywordDAO.insert(new Keyword(342L, "zaspa"));
+        keywordDAO.insert(new Keyword(343L, "zaspy"));
+        keywordDAO.insert(new Keyword(344L, "masa"));
+
+        keywordDAO.insert(new Keyword(345L, "traba"));
+        keywordDAO.insert(new Keyword(346L, "raban"));
+        keywordDAO.insert(new Keyword(347L, "zefir"));
+        keywordDAO.insert(new Keyword(348L, "cyklon"));
+        keywordDAO.insert(new Keyword(349L, "tajfun"));
+        keywordDAO.insert(new Keyword(350L, "wietrzysko"));
+        keywordDAO.insert(new Keyword(351L, "zawieja"));
+        keywordDAO.insert(new Keyword(352L, "halny"));
+
+        keywordDAO.insert(new Keyword(353L, "potop"));
+        keywordDAO.insert(new Keyword(354L, "zalanie"));
+        keywordDAO.insert(new Keyword(355L, "zalana"));
+        keywordDAO.insert(new Keyword(356L, "rzeka"));
+        keywordDAO.insert(new Keyword(357L, "wylala"));
+        keywordDAO.insert(new Keyword(358L, "wylalo"));
+        keywordDAO.insert(new Keyword(359L, "rozlew"));
+        keywordDAO.insert(new Keyword(360L, "rozlalo"));
+        keywordDAO.insert(new Keyword(361L, "zalalo"));
+        keywordDAO.insert(new Keyword(362L, "zalala"));
+        keywordDAO.insert(new Keyword(363L, "potok"));
+
+        keywordDAO.insert(new Keyword(364L, "hipotermia"));
+        keywordDAO.insert(new Keyword(365L, "wyziebienie"));
+        keywordDAO.insert(new Keyword(366L, "wyziebiony"));
+        keywordDAO.insert(new Keyword(367L, "wyziebiona"));
+        keywordDAO.insert(new Keyword(368L, "przemarzniecie"));
+        keywordDAO.insert(new Keyword(369L, "przemarzniety"));
+        keywordDAO.insert(new Keyword(370L, "przemarznieta"));
+        keywordDAO.insert(new Keyword(371L, "przemarzniete"));
+        keywordDAO.insert(new Keyword(372L, "oziebienie"));
+        keywordDAO.insert(new Keyword(373L, "schlodzenie"));
+        keywordDAO.insert(new Keyword(374L, "ochlodazenie"));
+        keywordDAO.insert(new Keyword(375L, "zmarzniecie"));
+        keywordDAO.insert(new Keyword(376L, "zamarzniecie"));
+        keywordDAO.insert(new Keyword(377L, "ziebica"));
     }
 
     public void populateTagKeywords(TagKeywordDAO tagKeywordDAO)
@@ -586,73 +688,83 @@ public class Populating
         for(long i = 0L; i < 27L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 12L));
         }
-
         for(long i = 27L; i < 53L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 13L));
         }
-
         for(long i = 53L; i < 79L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 14L));
         }
-
         for(long i = 79L; i < 105L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 19L));
         }
-
         for(long i = 105L; i < 131L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 35L));
         }
-
         for(long i = 131L; i < 138L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 38L));
         }
-
         for(long i = 138L; i < 147L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 21L));
         }
-
         for(long i = 147L; i < 164L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 7L));
         }
-
         for(long i = 164L; i < 168L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 6L));
         }
-
         for(long i = 168L; i < 182L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 8L));
         }
-
         for(long i = 182L; i < 196L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 9L));
         }
-
         for(long i = 196L; i < 208L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 10L));
         }
-
         for(long i = 208L; i < 219L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 16L));
         }
-
         for(long i = 220L; i < 231L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 31L));
         }
-
         for(long i = 231L; i < 239L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 32L));
         }
-
         for(long i = 239L; i < 255L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 33L));
         }
-
         for(long i = 255L; i < 268L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 34L));
         }
-
         for(long i = 268L; i < 285L; i++) {
             tagKeywordDAO.insert(new TagKeyword(i, i, 36L));
+        }
+        for(long i = 285L; i < 308L; i++) {
+            tagKeywordDAO.insert(new TagKeyword(i, i, 37L));
+        }
+        for(long i = 308L; i < 319L; i++) {
+            tagKeywordDAO.insert(new TagKeyword(i, i, 41L));
+        }
+        for(long i = 319L; i < 330L; i++) {
+            tagKeywordDAO.insert(new TagKeyword(i, i, 42L));
+        }
+        for(long i = 330L; i < 335L; i++) {
+            tagKeywordDAO.insert(new TagKeyword(i, i, 43L));
+        }
+        for(long i = 335L; i < 339L; i++) {
+            tagKeywordDAO.insert(new TagKeyword(i, i, 46L));
+        }
+        for(long i = 339L; i < 345L; i++) {
+            tagKeywordDAO.insert(new TagKeyword(i, i, 44L));
+        }
+        for(long i = 345L; i < 353L; i++) {
+            tagKeywordDAO.insert(new TagKeyword(i, i, 45L));
+        }
+        for(long i = 353L; i < 364L; i++) {
+            tagKeywordDAO.insert(new TagKeyword(i, i, 47L));
+        }
+        for(long i = 364L; i < 378L; i++) {
+            tagKeywordDAO.insert(new TagKeyword(i, i, 48L));
         }
     }
 }
