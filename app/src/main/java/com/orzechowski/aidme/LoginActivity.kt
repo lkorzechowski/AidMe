@@ -1,5 +1,6 @@
 package com.orzechowski.aidme
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -48,6 +49,10 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        submitButton.setOnClickListener {
+            val creator = Intent(this@LoginActivity, CreatorActivity::class.java)
+            startActivity(creator)
         }
     }
 

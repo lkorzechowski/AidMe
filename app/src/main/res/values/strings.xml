@@ -29,6 +29,10 @@
     <string name="password_repeat">Powtórz hasło</string>
     <string name="phone_icon_description">Ikonka telefonu</string>
     <string name="default_author_unknown_label">Autor nieznany</string>
+    <string name="instruction_creator_header_description">Instrucje - dodaj dowolną ilość, przypisz do dowolnej ilości wersji, dodaj narrację</string>
+    <string name="version_creator_header_description">Wersje - dodaj dowolną ilość. Czy instrukcje w poradniku powinny różnić się zależnie od sytuacji? Czy niektóre kroki można pominąć?</string>
+    <string name="multimedia_creator_header_description">Multimedia - zdjęcia, filmiki, początek i koniec. Mają się powtarzać, czy mają się wyświetlać nieustannie? Jeżeli nie zostaną ustawione na powtarzanie, zostaną odjęte z kolejki po jednym wyświetleniu.</string>
+    <string name="plus">+</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
