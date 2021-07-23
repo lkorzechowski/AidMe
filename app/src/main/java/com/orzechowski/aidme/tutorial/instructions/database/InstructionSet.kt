@@ -10,4 +10,5 @@ class InstructionSet(
                 val instructions: String,
                 val time: Int,
                 val tutorialId: Long,
-                val position: Int)
+                val position: Int,
+                val narrationFileName: String?)

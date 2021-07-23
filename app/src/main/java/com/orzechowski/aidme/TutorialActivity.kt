@@ -59,8 +59,10 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial), Instruct
                     for(multimedia : Multimedia in it) {
                         if(multimediaList.contains(multimedia.multimediaId)) mMediaPlayer.appendMultimedia(multimedia)
                     }
-                    supportFragmentManager.commit {
-                        add(R.id.layout_multimedia, mMediaPlayer)
+                    if(supportFragmentManager.fragments.size==1) {
+                        supportFragmentManager.commit {
+                            add(R.id.layout_multimedia, mMediaPlayer)
+                        }
                     }
                 })
         })

@@ -26,7 +26,6 @@ import com.orzechowski.aidme.tutorial.version.database.VersionInstructionViewMod
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.List;
 
 public class InstructionsRecycler extends Fragment implements InstructionsListAdapter.OnClickListener
@@ -163,12 +162,12 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
             } catch (InterruptedException | IllegalStateException e) {
                 interrupt();
             }
-            String fileName = "s" + mTutorialId + "_" + position+".m4a";
-            Uri uri;
-            try {
-                uri = Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), fileName));
-            } catch (IOException e) {
-                uri = null;
+            Uri uri = null;
+            String fileName = set.getNarrationFileName();
+            if(fileName!=null) {
+                try {
+                    uri = Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), fileName));
+                } catch (Exception ignored) {}
             }
             FragmentActivity activity = requireActivity();
             MediaPlayer mPlayer = null;
