@@ -28,7 +28,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class InstructionsRecycler extends Fragment implements InstructionsListAdapter.OnClickListener
+public class InstructionsRecycler
+        extends Fragment implements InstructionsListAdapter.OnClickListener
 {
     private InstructionsListAdapter mAdapter;
     private Player mPlayerInstance;
@@ -50,10 +51,9 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater,
-                             ViewGroup group, Bundle savedInstanceState)
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup group, Bundle bundle)
     {
-        Bundle bundle = requireArguments();
+        bundle = requireArguments();
         FragmentActivity activity = requireActivity();
         VersionInstructionViewModel versionInstructionViewModel = new ViewModelProvider(this)
                 .get(VersionInstructionViewModel.class);
@@ -208,12 +208,15 @@ public class InstructionsRecycler extends Fragment implements InstructionsListAd
         private void displayText()
         {
             mTextDisplay.setText(set.getInstructions());
-            mTutorialLinkViewModel.getByOriginIdAndPosition(mTutorialId, position).observe(requireActivity(), tutorialLink-> {
+            mTutorialLinkViewModel.getByOriginIdAndPosition(mTutorialId, position)
+                    .observe(requireActivity(), tutorialLink-> {
                     if(tutorialLink!=null) {
-                        mTutorialViewModel.getByTutorialId(tutorialLink.getTutorialId()).observe(requireActivity(), tutorial -> {
+                        mTutorialViewModel.getByTutorialId(tutorialLink.getTutorialId())
+                                .observe(requireActivity(), tutorial -> {
                             mTutorialLink.setText(tutorial.getTutorialName());
                             mTutorialLink.setVisibility(View.VISIBLE);
-                            mTutorialLink.setOnClickListener(v-> mCallback.serveNewTutorial(tutorialLink));
+                            mTutorialLink.setOnClickListener(v->
+                                    mCallback.serveNewTutorial(tutorialLink));
                         });
                     }
             });

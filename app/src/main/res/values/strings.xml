@@ -33,6 +33,10 @@
     <string name="version_creator_header_description">Wersje - dodaj dowolną ilość. Czy instrukcje w poradniku powinny różnić się zależnie od sytuacji? Czy niektóre kroki można pominąć?</string>
     <string name="multimedia_creator_header_description">Multimedia - zdjęcia, filmiki, początek i koniec. Mają się powtarzać, czy mają się wyświetlać nieustannie? Jeżeli nie zostaną ustawione na powtarzanie, zostaną odjęte z kolejki po jednym wyświetleniu.</string>
     <string name="plus">+</string>
+    <string name="new_title_hint">Tytuł</string>
+    <string name="new_text_hint">Treść</string>
+    <string name="new_instruction_time_hint">Czas trwania instrukcji</string>
+    <string name="delete_new_instruction_description">Ten przycisk usuwa instrukcję</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
