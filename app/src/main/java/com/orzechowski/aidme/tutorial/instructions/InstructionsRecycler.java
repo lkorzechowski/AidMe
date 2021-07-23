@@ -181,8 +181,8 @@ public class InstructionsRecycler
                 try {
                     mPlayer.start();
                     sleep(set.getTime());
-                    mTutorialLink.setVisibility(View.GONE);
                     activity.runOnUiThread(() -> {
+                        mTutorialLink.setVisibility(View.GONE);
                         if (mAutoplay) play(position);
                     });
                 } catch (IllegalStateException | InterruptedException e) {
