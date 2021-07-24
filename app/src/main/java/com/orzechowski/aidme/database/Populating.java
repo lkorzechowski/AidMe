@@ -999,7 +999,7 @@ public class Populating
 
     public void populateSounds(TutorialSoundDAO tutorialSoundDAO)
     {
-        tutorialSoundDAO.insert(new TutorialSound(0L, 45000L, true, 545L, 0L));
+        tutorialSoundDAO.insert(new TutorialSound(0L, 45000L, true, 545L, 0L, "g0_0.mp3"));
     }
 
     public void populateLinks(TutorialLinkDAO tutorialLinkDAO)

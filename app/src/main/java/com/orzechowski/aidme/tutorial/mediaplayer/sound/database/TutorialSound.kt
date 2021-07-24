@@ -9,4 +9,5 @@ class TutorialSound(
                 val soundStart: Long,
                 val soundLoop: Boolean,
                 val interval: Long,
-                val tutorialId: Long)
+                val tutorialId: Long,
+                val fileName: String)

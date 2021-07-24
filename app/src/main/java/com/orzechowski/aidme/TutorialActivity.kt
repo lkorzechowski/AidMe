@@ -42,7 +42,6 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial), Instruct
         mMediaPlayer.mTutorialId = tutorialId
         if(!versionGlobalSounds.isNullOrEmpty()) {
             mSoundAdapter = SoundAdapter(
-                versionId,
                 intent.extras?.getBoolean("delayGlobalSound") ?: false,
                 versionGlobalSounds, this
             )

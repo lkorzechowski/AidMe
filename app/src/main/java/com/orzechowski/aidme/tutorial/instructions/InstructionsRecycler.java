@@ -43,7 +43,6 @@ public class InstructionsRecycler
     private boolean mAutoplay = true;
     private int mSize;
     private final CallbackForTutorialLink mCallback;
-    private final Object lock = new Object();
 
     public InstructionsRecycler(CallbackForTutorialLink callbackForTutorialLink)
     {
@@ -72,24 +71,16 @@ public class InstructionsRecycler
         mTutorialViewModel = new ViewModelProvider(this)
                 .get(TutorialViewModel.class);
         mAdapter = new InstructionsListAdapter(activity, this);
-        mInstructionSetViewModel.getTutorialSize(mTutorialId).observe(activity, size -> {
-            synchronized(lock) {
-                mSize = size;
-                lock.notifyAll();
-            }
-        });
-        synchronized (lock) {
-            try {
-                lock.wait(10);
-            } catch (InterruptedException ignored) {}
-        }
-        mInstructionSetViewModel.getByTutorialId(mTutorialId)
-                .observe(activity, instructions->mAdapter.setElementList(instructions));
         View view = inflater.inflate(R.layout.fragment_recycler_tutorial, group, false);
-        RecyclerView recycler = view.findViewById(R.id.tutorial_rv);
-        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
-                LinearLayoutManager.VERTICAL, false));
-        recycler.setAdapter(mAdapter);
+        mInstructionSetViewModel.getTutorialSize(mTutorialId).observe(activity, size -> {
+            mSize = size;
+            mInstructionSetViewModel.getByTutorialId(mTutorialId)
+                    .observe(activity, instructions->mAdapter.setElementList(instructions));
+            RecyclerView recycler = view.findViewById(R.id.tutorial_rv);
+            recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+                    LinearLayoutManager.VERTICAL, false));
+            recycler.setAdapter(mAdapter);
+        });
         return view;
     }
 

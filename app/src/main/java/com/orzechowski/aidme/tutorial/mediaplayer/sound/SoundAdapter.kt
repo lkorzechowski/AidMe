@@ -11,8 +11,7 @@ import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
 import java.util.*
 import kotlin.collections.ArrayList
 
-class SoundAdapter (private val mVersionId: Long,
-                    private val mDelayGlobalSound: Boolean,
+class SoundAdapter (private val mDelayGlobalSound: Boolean,
                     private val mVersionSounds: String,
                     private val mActivity: Activity)
 {
@@ -40,13 +39,12 @@ class SoundAdapter (private val mVersionId: Long,
                             return@Thread
                         }
                     }
-                    val resourceUri: Uri =
-                        assetObtainer
-                            .getFileFromAssets(mActivity,"g$mVersionId"+"_$i"+".mp3")
-                            .toUri()
+                    val sound: TutorialSound = mSounds[i]
+                    val resourceUri: Uri = assetObtainer
+                        .getFileFromAssets(mActivity, sound.fileName).toUri()
                     lateinit var player: MediaPlayer
                     try {
-                        while(mSounds[i].soundLoop || mInit) {
+                        while(sound.soundLoop || mInit) {
                             player = MediaPlayer.create(mActivity, resourceUri)
                             player.setAudioAttributes(AudioAttributes.Builder()
                                 .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED)
@@ -56,7 +54,7 @@ class SoundAdapter (private val mVersionId: Long,
                                 .build())
                             player.setVolume(0.5f, 0.5f)
                             player.start()
-                            Thread.sleep(mSounds[i].interval)
+                            Thread.sleep(sound.interval)
                             player.release()
                         }
                     } catch (e: InterruptedException) {

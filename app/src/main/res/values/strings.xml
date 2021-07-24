@@ -37,6 +37,11 @@
     <string name="new_text_hint">Treść</string>
     <string name="new_instruction_time_hint">Czas trwania instrukcji</string>
     <string name="delete_new_instruction_description">Ten przycisk usuwa instrukcję</string>
+    <string name="new_multimedia_filename_display_info">Wstaw plik medialny (zdjęcie/filmik)</string>
+    <string name="new_multimedia_display_time_input_hint">Podaj czas wyświetlania zdjęcia/filmiku, możesz zostawić to pole puste. W przypadku zdjęcia wyświetlane będzie ono stale, w przypadku filmiku zostanie on odtworzony od początku do końca.</string>
+    <string name="new_multimedia_display_time_info_text">Czas wyświetlania w sekundach</string>
+    <string name="new_multimedia_loop_checkbox_info">Zaznacz jeżeli multimedia mają być w pętli</string>
+    <string name="zero">000000</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
