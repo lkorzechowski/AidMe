@@ -819,6 +819,15 @@ public class Populating
         instructionDAO.insert(new InstructionSet(26L, "Sprawdzanie krwiobiegu - niewezwana pomoc", "Jeżeli jest z tobą osoba towarzysząca, poproś ją o sprawdzanie co kilka minut ukrwienia kończyny poniżej opatrunku…", 9000, 1L, 18, "s1_18.aac"));
         instructionDAO.insert(new InstructionSet(27L, "Upomnienie o krwiobiegu", "…w celu upewnienia się, że sztywny opatrunek go nie tamuje. W przypadku gdy stopień ukrwienia jest obniżony, należy poluzować opatrunek.", 9000, 1L, 19, "s1_19.aac"));
         instructionDAO.insert(new InstructionSet(28L, "Wstrząs", "Ryzyko wstrząsu, spowodowanego utratą dużej ilości krwi omówione jest w oddzielnym poradniku. W razie potrzeby naciśnij tutaj aby do niego przejść.", 10000, 1L, 20, "s1_20.aac"));
+        //tutorial 3
+        instructionDAO.insert(new InstructionSet(29L, "Wstęp", "Ułóż psa na ziemi bokiem, uspokajaj go, nie podnoś głosu.", 5000, 3L, 0, null));
+        instructionDAO.insert(new InstructionSet(30L, "Wymuszanie powietrza z płuc", "Płaską ręką uderz w klatkę piersiową psa, tak, by jak najwięcej powietrza opuściło płuca.", 5000, 3L, 1, null));
+        instructionDAO.insert(new InstructionSet(31L, "Powtórne uderzenia", "Spróbuj powtórzyć to działanie trzy lub cztery razy.", 5000, 3L, 2, null));
+        instructionDAO.insert(new InstructionSet(32L, "Próba wydobycia przedmiotu", "Sprawdź, czy nie jesteś w stanie wyjąć obiektu z pyska psa nie wkładając ręki głęboko.", 5000, 3L, 3, null));
+        instructionDAO.insert(new InstructionSet(33L, "Uniesienie za tylne nogi", "Ostatecznie podnieś psa na nogi i unieś go za tylne łapy, tak aby był skierowany pyskiem w dół.", 5000, 3L, 4, null));
+        instructionDAO.insert(new InstructionSet(34L, "Potrząsanie psem", "Jeżeli jesteś w stanie, spróbuj energicznie podnosić i opuszczać psa.", 5000, 3L, 5, null));
+        instructionDAO.insert(new InstructionSet(35L, "W razie niepowodzenia", "Jeżeli nie udało ci się wyjąć obiektu, zadzwoń na pogotowie weterynaryjne lub zabierz natychmiast pupila do weterynarza.", 5000, 3L, 6, null));
+        instructionDAO.insert(new InstructionSet(36L, "Numer pogotowia", "Numer alarmowy do pogotowia weterynaryjnego to 983.", 5000, 3L, 7, null));
     }
 
     public void populateVersions(VersionDAO versionDAO)
