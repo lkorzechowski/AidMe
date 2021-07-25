@@ -9,6 +9,8 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia;
@@ -34,7 +36,11 @@ public class MultimediaComposer extends Fragment
     {
         FragmentActivity activity = requireActivity();
         mAdapter = new MultimediaComposerAdapter(activity);
-        return inflater.inflate(R.layout.fragment_multimedia_composer, container, false);
+        View view = inflater.inflate(R.layout.fragment_multimedia_composer, container, false);
+        RecyclerView recycler = view.findViewById(R.id.new_multimedia_rv);
+        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setAdapter(mAdapter);
+        return view;
     }
 
     @Override

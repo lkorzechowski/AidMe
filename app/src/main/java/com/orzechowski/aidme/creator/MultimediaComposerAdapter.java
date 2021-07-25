@@ -41,7 +41,7 @@ public class MultimediaComposerAdapter
     {
         Multimedia multimedia = mMultimedias.get(position);
         holder.fileName.setText(multimedia.getFullFileName());
-        holder.displayTime.setText(multimedia.getDisplayTime());
+        holder.displayTime.setText(String.valueOf(multimedia.getDisplayTime()));
         holder.loopCheckBox.setChecked(multimedia.getLoop());
     }
 

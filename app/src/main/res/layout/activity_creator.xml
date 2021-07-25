@@ -18,7 +18,7 @@
     <LinearLayout
         android:id="@+id/layout_version_creator"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/version_creator_header"
         app:layout_constraintBottom_toTopOf="@id/instruction_creator_header" />
@@ -34,7 +34,7 @@
     <LinearLayout
         android:id="@+id/layout_instruction_creator"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/instruction_creator_header"
         app:layout_constraintBottom_toTopOf="@id/multimedia_creator_header" />
@@ -50,7 +50,7 @@
     <LinearLayout
         android:id="@+id/layout_multimedia_creator"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/multimedia_creator_header" />
 
