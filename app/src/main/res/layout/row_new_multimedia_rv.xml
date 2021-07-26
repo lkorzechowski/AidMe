@@ -3,7 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
+
+    <ImageView
+        android:id="@+id/delete_new_multimedia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/delete_new_media"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_delete" />
 
     <TextView
         android:id="@+id/new_multimedia_filename_display"
@@ -11,19 +21,19 @@
         android:layout_height="wrap_content"
         android:paddingTop="24dp"
         android:paddingBottom="24dp"
-        android:text="@string/new_multimedia_filename_display_info"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/new_multimedia_upload_button"
+        app:layout_constraintBottom_toBottomOf="@id/new_multimedia_upload_button"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/new_multimedia_uplaod_button"
+        android:id="@+id/new_multimedia_upload_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/plus"
         android:textAlignment="center"
         android:textStyle="bold"
         android:textSize="36sp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/delete_new_multimedia"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <View
@@ -33,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/new_multimedia_filename_display" />
 
     <TextView
-        android:id="@+id/new_multimedia_display_time_info"
+        android:id="@+id/new_multimedia_display_time_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_multimedia_display_time_info_text"
@@ -48,25 +58,31 @@
         android:autofillHints="false"
         android:inputType="number"
         android:hint="@string/zero"
+        android:background="@android:drawable/title_bar"
+        android:backgroundTint="#151515"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/new_multimedia_filename_display" />
+        app:layout_constraintTop_toTopOf="@id/new_multimedia_display_time_label"
+        app:layout_constraintBottom_toBottomOf="@id/new_multimedia_display_time_label" />
 
     <TextView
-        android:id="@+id/new_multimedia_checkbox_info"
+        android:id="@+id/new_multimedia_checkbox_label"
         android:paddingTop="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_multimedia_loop_checkbox_info"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/new_multimedia_display_time_input" />
+        app:layout_constraintTop_toBottomOf="@id/new_multimedia_display_time_label" />
 
     <CheckBox
         android:id="@+id/new_multimedia_loop_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/new_multimedia_display_time_input"
-        app:layout_constraintTop_toBottomOf="@id/new_multimedia_display_time_input" />
+        app:layout_constraintTop_toTopOf="@id/new_multimedia_checkbox_label"
+        app:layout_constraintBottom_toBottomOf="@id/new_multimedia_checkbox_label" />
 
     <View
         android:layout_width="match_parent"

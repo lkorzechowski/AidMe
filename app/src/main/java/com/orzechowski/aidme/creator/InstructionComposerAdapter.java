@@ -40,8 +40,9 @@ public class InstructionComposerAdapter
         InstructionSet set = mInstructions.get(position);
         holder.title.setText(set.getTitle());
         holder.content.setText(set.getInstructions());
-        holder.displayTime.setText(set.getTime());
-        holder.position.setText(set.getPosition()+1);
+        holder.displayTime.setText(String.valueOf(set.getTime()));
+        holder.position.setText(String.valueOf(set.getPosition()+1));
+        holder.narrationFile.setText(set.getNarrationFileName());
     }
 
     @Override
@@ -60,14 +61,15 @@ public class InstructionComposerAdapter
     public static class InstructionsViewHolder extends RecyclerView.ViewHolder
     {
         EditText title, content, displayTime;
-        TextView position;
+        TextView position, narrationFile;
 
         public InstructionsViewHolder(@NonNull View itemView)
         {
             super(itemView);
+            narrationFile = itemView.findViewById(R.id.new_instruction_narration_filename_display);
             title = itemView.findViewById(R.id.new_instruction_title);
             content = itemView.findViewById(R.id.new_instruction_text);
-            displayTime = itemView.findViewById(R.id.new_instruction_time);
+            displayTime = itemView.findViewById(R.id.new_instruction_time_input);
             position = itemView.findViewById(R.id.new_instruction_position);
         }
     }

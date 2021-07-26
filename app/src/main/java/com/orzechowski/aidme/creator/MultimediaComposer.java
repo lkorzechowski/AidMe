@@ -47,7 +47,7 @@ public class MultimediaComposer extends Fragment
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState)
     {
         Button addMultimediaButton = view.findViewById(R.id.new_multimedia_button);
-        addMultimediaButton.setOnClickListener(v -> {
+        addMultimediaButton.setOnClickListener(v-> {
             multimediaList.add(new Multimedia(0, 0, 0, false, "", false, multimediaList.size()));
             mAdapter.setElementList(multimediaList);
         });

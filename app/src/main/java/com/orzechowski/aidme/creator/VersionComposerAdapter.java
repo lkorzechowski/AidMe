@@ -49,6 +49,12 @@ public class VersionComposerAdapter
         else return 0;
     }
 
+    public void setElementList(List<Version> versions)
+    {
+        mVersions = versions;
+        notifyDataSetChanged();
+    }
+
     public static class VersionViewHolder extends RecyclerView.ViewHolder
     {
         EditText versionText;

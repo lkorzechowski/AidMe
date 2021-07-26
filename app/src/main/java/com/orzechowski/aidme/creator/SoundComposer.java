@@ -13,17 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class InstructionComposer extends Fragment
+public class SoundComposer extends Fragment
 {
-    private InstructionComposerAdapter mAdapter;
-    private final List<InstructionSet> instructionList = new LinkedList<>();
+    private SoundComposerAdapter mAdapter;
+    private final List<TutorialSound> soundList = new LinkedList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -35,9 +35,9 @@ public class InstructionComposer extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         FragmentActivity activity = requireActivity();
-        mAdapter = new InstructionComposerAdapter(activity);
-        View view = inflater.inflate(R.layout.fragment_instruction_composer, container, false);
-        RecyclerView recycler = view.findViewById(R.id.new_instruction_rv);
+        mAdapter = new SoundComposerAdapter(activity);
+        View view = inflater.inflate(R.layout.fragment_sound_composer, container, false);
+        RecyclerView recycler = view.findViewById(R.id.new_sound_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
         return view;
@@ -46,10 +46,10 @@ public class InstructionComposer extends Fragment
     @Override
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState)
     {
-        Button addInstructionButton = view.findViewById(R.id.new_instruction_button);
-        addInstructionButton.setOnClickListener(v-> {
-            instructionList.add(new InstructionSet(0, "", "", 0, 0, instructionList.size(), ""));
-            mAdapter.setElementList(instructionList);
+        Button addSoundButton = view.findViewById(R.id.new_sound_button);
+        addSoundButton.setOnClickListener(v-> {
+            soundList.add(new TutorialSound(0, 0, false, 0, 0, ""));
+            mAdapter.setElementList(soundList);
         });
     }
 }

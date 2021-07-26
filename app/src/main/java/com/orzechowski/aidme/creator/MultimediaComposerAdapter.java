@@ -69,7 +69,7 @@ public class MultimediaComposerAdapter
         {
             super(itemView);
             fileName = itemView.findViewById(R.id.new_multimedia_filename_display);
-            uploadButton = itemView.findViewById(R.id.new_multimedia_uplaod_button);
+            uploadButton = itemView.findViewById(R.id.new_multimedia_upload_button);
             displayTime = itemView.findViewById(R.id.new_multimedia_display_time_input);
             loopCheckBox = itemView.findViewById(R.id.new_multimedia_loop_checkbox);
         }
