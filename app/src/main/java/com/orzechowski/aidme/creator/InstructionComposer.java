@@ -21,9 +21,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InstructionComposer extends Fragment
+        implements InstructionComposerAdapter.DeleteInstruction
 {
     private InstructionComposerAdapter mAdapter;
-    private final List<InstructionSet> instructionList = new LinkedList<>();
+    private final List<InstructionSet> mInstructions = new LinkedList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -35,10 +36,12 @@ public class InstructionComposer extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         FragmentActivity activity = requireActivity();
-        mAdapter = new InstructionComposerAdapter(activity);
-        View view = inflater.inflate(R.layout.fragment_instruction_composer, container, false);
+        mAdapter = new InstructionComposerAdapter(activity, this);
+        View view = inflater.inflate(R.layout.fragment_instruction_composer, container,
+                false);
         RecyclerView recycler = view.findViewById(R.id.new_instruction_rv);
-        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+                LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
         return view;
     }
@@ -48,8 +51,22 @@ public class InstructionComposer extends Fragment
     {
         Button addInstructionButton = view.findViewById(R.id.new_instruction_button);
         addInstructionButton.setOnClickListener(v-> {
-            instructionList.add(new InstructionSet(0, "", "", 0, 0, instructionList.size(), ""));
-            mAdapter.setElementList(instructionList);
+            mInstructions.add(new InstructionSet(0, "", "", 0,
+                    0, mInstructions.size(), ""));
+            mAdapter.setElementList(mInstructions);
         });
+    }
+
+    @Override
+    public void onClick(InstructionSet instructionSet)
+    {
+        mInstructions.remove(instructionSet);
+        for(int i = instructionSet.getPosition(); i < mInstructions.size(); i++) {
+            InstructionSet set = mInstructions.get(i);
+            mInstructions.set(i,
+                    new InstructionSet(0, set.getTitle(), set.getInstructions(),
+                            set.getTime(), 0, i, set.getNarrationFileName()));
+        }
+        mAdapter.setElementList(mInstructions);
     }
 }

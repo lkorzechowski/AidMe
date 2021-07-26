@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,10 +21,12 @@ public class InstructionComposerAdapter
 {
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
+    private final DeleteInstruction mDeleteListener;
 
-    public InstructionComposerAdapter(Activity activity)
+    public InstructionComposerAdapter(Activity activity, DeleteInstruction deleteListener)
     {
         mInflater = LayoutInflater.from(activity);
+        mDeleteListener = deleteListener;
     }
 
     @NonNull
@@ -39,10 +42,12 @@ public class InstructionComposerAdapter
     {
         InstructionSet set = mInstructions.get(position);
         holder.title.setText(set.getTitle());
+        holder.instruction = set;
         holder.content.setText(set.getInstructions());
         holder.displayTime.setText(String.valueOf(set.getTime()));
         holder.position.setText(String.valueOf(set.getPosition()+1));
         holder.narrationFile.setText(set.getNarrationFileName());
+        holder.deleteListener = mDeleteListener;
     }
 
     @Override
@@ -62,6 +67,9 @@ public class InstructionComposerAdapter
     {
         EditText title, content, displayTime;
         TextView position, narrationFile;
+        ImageView deleteInstruction;
+        DeleteInstruction deleteListener;
+        InstructionSet instruction;
 
         public InstructionsViewHolder(@NonNull View itemView)
         {
@@ -71,6 +79,13 @@ public class InstructionComposerAdapter
             content = itemView.findViewById(R.id.new_instruction_text);
             displayTime = itemView.findViewById(R.id.new_instruction_time_input);
             position = itemView.findViewById(R.id.new_instruction_position);
+            deleteInstruction = itemView.findViewById(R.id.delete_new_instruction);
+            deleteInstruction.setOnClickListener(v-> deleteListener.onClick(instruction));
         }
+    }
+
+    public interface DeleteInstruction
+    {
+        void onClick(InstructionSet instructionSet);
     }
 }
