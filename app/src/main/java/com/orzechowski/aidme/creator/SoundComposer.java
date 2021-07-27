@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SoundComposer extends Fragment
+public class SoundComposer extends Fragment implements SoundComposerAdapter.DeleteSound
 {
     private SoundComposerAdapter mAdapter;
     private final List<TutorialSound> soundList = new LinkedList<>();
@@ -35,7 +35,7 @@ public class SoundComposer extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         FragmentActivity activity = requireActivity();
-        mAdapter = new SoundComposerAdapter(activity);
+        mAdapter = new SoundComposerAdapter(activity, this);
         View view = inflater.inflate(R.layout.fragment_sound_composer, container, false);
         RecyclerView recycler = view.findViewById(R.id.new_sound_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
@@ -51,5 +51,12 @@ public class SoundComposer extends Fragment
             soundList.add(new TutorialSound(0, 0, false, 0, 0, ""));
             mAdapter.setElementList(soundList);
         });
+    }
+
+    @Override
+    public void onClick(TutorialSound tutorialSound)
+    {
+        soundList.remove(tutorialSound);
+        mAdapter.setElementList(soundList);
     }
 }

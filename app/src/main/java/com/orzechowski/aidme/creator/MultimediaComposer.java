@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MultimediaComposer extends Fragment
+public class MultimediaComposer extends Fragment implements MultimediaComposerAdapter.DeleteMultimedia
 {
     private MultimediaComposerAdapter mAdapter;
     private final List<Multimedia> multimediaList = new LinkedList<>();
@@ -35,7 +35,7 @@ public class MultimediaComposer extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         FragmentActivity activity = requireActivity();
-        mAdapter = new MultimediaComposerAdapter(activity);
+        mAdapter = new MultimediaComposerAdapter(activity, this);
         View view = inflater.inflate(R.layout.fragment_multimedia_composer, container, false);
         RecyclerView recycler = view.findViewById(R.id.new_multimedia_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
@@ -51,5 +51,12 @@ public class MultimediaComposer extends Fragment
             multimediaList.add(new Multimedia(0, 0, 0, false, "", false, multimediaList.size()));
             mAdapter.setElementList(multimediaList);
         });
+    }
+
+    @Override
+    public void onClick(Multimedia multimedia)
+    {
+        multimediaList.remove(multimedia);
+        mAdapter.setElementList(multimediaList);
     }
 }

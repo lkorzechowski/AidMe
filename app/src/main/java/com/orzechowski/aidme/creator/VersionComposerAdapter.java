@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +21,12 @@ public class VersionComposerAdapter
 {
     private List<Version> mVersions = null;
     private final LayoutInflater mInflater;
+    private final DeleteVersion mDeleteListener;
 
-    public VersionComposerAdapter(Activity activity)
+    public VersionComposerAdapter(Activity activity, DeleteVersion deleteListener)
     {
         mInflater = LayoutInflater.from(activity);
+        mDeleteListener = deleteListener;
     }
 
     @NonNull
@@ -40,6 +43,8 @@ public class VersionComposerAdapter
         Version version = mVersions.get(position);
         holder.versionText.setText(version.getText());
         holder.soundDelay.setChecked(version.getDelayGlobalSound());
+        holder.version = version;
+        holder.deleteListener = mDeleteListener;
     }
 
     @Override
@@ -59,12 +64,22 @@ public class VersionComposerAdapter
     {
         EditText versionText;
         CheckBox soundDelay;
+        ImageView deleteVersion;
+        DeleteVersion deleteListener;
+        Version version;
 
         public VersionViewHolder(@NonNull View itemView)
         {
             super(itemView);
             versionText = itemView.findViewById(R.id.new_version_text);
             soundDelay = itemView.findViewById(R.id.new_version_delay_sound_checkbox);
+            deleteVersion = itemView.findViewById(R.id.delete_new_version);
+            deleteVersion.setOnClickListener(v-> deleteListener.onClick(version));
         }
+    }
+
+    public interface DeleteVersion
+    {
+        void onClick(Version version);
     }
 }

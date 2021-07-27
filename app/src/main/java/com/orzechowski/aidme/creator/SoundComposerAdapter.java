@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,10 +23,12 @@ public class SoundComposerAdapter
 {
     private List<TutorialSound> mSounds = null;
     private final LayoutInflater mInflater;
+    private final DeleteSound mDeleteListener;
 
-    public SoundComposerAdapter(Activity activity)
+    public SoundComposerAdapter(Activity activity, DeleteSound deleteListener)
     {
         mInflater = LayoutInflater.from(activity);
+        mDeleteListener = deleteListener;
     }
 
     @NonNull
@@ -44,6 +47,8 @@ public class SoundComposerAdapter
         holder.soundLoop.setChecked(sound.getSoundLoop());
         holder.playInterval.setText(String.valueOf(sound.getInterval()));
         holder.fileName.setText(sound.getFileName());
+        holder.sound = sound;
+        holder.deleteListener = mDeleteListener;
     }
 
     @Override
@@ -65,6 +70,9 @@ public class SoundComposerAdapter
         CheckBox soundLoop;
         TextView fileName;
         Button uploadSoundButton;
+        TutorialSound sound;
+        DeleteSound deleteListener;
+        ImageView deleteSound;
 
         public SoundViewHolder(@NonNull View itemView)
         {
@@ -74,6 +82,13 @@ public class SoundComposerAdapter
             soundStart = itemView.findViewById(R.id.new_sound_start_input);
             fileName = itemView.findViewById(R.id.new_sound_filename_display);
             soundLoop = itemView.findViewById(R.id.new_sound_loop_checkbox);
+            deleteSound = itemView.findViewById(R.id.delete_new_sound);
+            deleteSound.setOnClickListener(v-> deleteListener.onClick(sound));
         }
+    }
+
+    public interface DeleteSound
+    {
+        void onClick(TutorialSound tutorialSound);
     }
 }

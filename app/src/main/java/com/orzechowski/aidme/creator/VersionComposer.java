@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VersionComposer extends Fragment
+public class VersionComposer extends Fragment implements VersionComposerAdapter.DeleteVersion
 {
     private VersionComposerAdapter mAdapter;
     private final List<Version> versionList = new LinkedList<>();
@@ -35,7 +35,7 @@ public class VersionComposer extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         FragmentActivity activity = requireActivity();
-        mAdapter = new VersionComposerAdapter(activity);
+        mAdapter = new VersionComposerAdapter(activity, this);
         View view = inflater.inflate(R.layout.fragment_version_composer, container, false);
         RecyclerView recycler = view.findViewById(R.id.new_version_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
@@ -51,5 +51,12 @@ public class VersionComposer extends Fragment
             versionList.add(new Version(0, "", 0, true, null, false, false, null));
             mAdapter.setElementList(versionList);
         });
+    }
+
+    @Override
+    public void onClick(Version version)
+    {
+        versionList.remove(version);
+        mAdapter.setElementList(versionList);
     }
 }

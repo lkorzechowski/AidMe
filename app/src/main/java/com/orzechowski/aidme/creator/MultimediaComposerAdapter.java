@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,10 +23,12 @@ public class MultimediaComposerAdapter
 {
     private List<Multimedia> mMultimedias = null;
     private final LayoutInflater mInflater;
+    private final DeleteMultimedia mDeleteListener;
 
-    public MultimediaComposerAdapter(Activity activity)
+    public MultimediaComposerAdapter(Activity activity, DeleteMultimedia deleteListener)
     {
         mInflater = LayoutInflater.from(activity);
+        mDeleteListener = deleteListener;
     }
 
     @NonNull
@@ -43,6 +46,8 @@ public class MultimediaComposerAdapter
         holder.fileName.setText(multimedia.getFullFileName());
         holder.displayTime.setText(String.valueOf(multimedia.getDisplayTime()));
         holder.loopCheckBox.setChecked(multimedia.getLoop());
+        holder.deleteListener = mDeleteListener;
+        holder.multimedia = multimedia;
     }
 
     @Override
@@ -64,6 +69,9 @@ public class MultimediaComposerAdapter
         Button uploadButton;
         EditText displayTime;
         CheckBox loopCheckBox;
+        ImageView deleteMultimedia;
+        DeleteMultimedia deleteListener;
+        Multimedia multimedia;
 
         public MultimediaViewHolder(@NonNull View itemView)
         {
@@ -72,6 +80,13 @@ public class MultimediaComposerAdapter
             uploadButton = itemView.findViewById(R.id.new_multimedia_upload_button);
             displayTime = itemView.findViewById(R.id.new_multimedia_display_time_input);
             loopCheckBox = itemView.findViewById(R.id.new_multimedia_loop_checkbox);
+            deleteMultimedia = itemView.findViewById(R.id.delete_new_multimedia);
+            deleteMultimedia.setOnClickListener(v-> deleteListener.onClick(multimedia));
         }
+    }
+
+    public interface DeleteMultimedia
+    {
+        void onClick(Multimedia multimedia);
     }
 }
