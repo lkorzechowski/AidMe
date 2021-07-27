@@ -1,9 +1,12 @@
 package com.orzechowski.aidme.creator;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,12 +24,12 @@ public class InstructionComposerAdapter
 {
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
-    private final DeleteInstruction mDeleteListener;
+    private final FragmentCallback mListener;
 
-    public InstructionComposerAdapter(Activity activity, DeleteInstruction deleteListener)
+    public InstructionComposerAdapter(Activity activity, FragmentCallback listener)
     {
         mInflater = LayoutInflater.from(activity);
-        mDeleteListener = deleteListener;
+        mListener = listener;
     }
 
     @NonNull
@@ -47,7 +50,7 @@ public class InstructionComposerAdapter
         holder.displayTime.setText(String.valueOf(set.getTime()));
         holder.position.setText(String.valueOf(set.getPosition()+1));
         holder.narrationFile.setText(set.getNarrationFileName());
-        holder.deleteListener = mDeleteListener;
+        holder.callback = mListener;
     }
 
     @Override
@@ -68,7 +71,8 @@ public class InstructionComposerAdapter
         EditText title, content, displayTime;
         TextView position, narrationFile;
         ImageView deleteInstruction;
-        DeleteInstruction deleteListener;
+        FragmentCallback callback;
+        Button uploadNarration;
         InstructionSet instruction;
 
         public InstructionsViewHolder(@NonNull View itemView)
@@ -79,13 +83,63 @@ public class InstructionComposerAdapter
             content = itemView.findViewById(R.id.new_instruction_text);
             displayTime = itemView.findViewById(R.id.new_instruction_time_input);
             position = itemView.findViewById(R.id.new_instruction_position);
+            uploadNarration = itemView.findViewById(R.id.new_instruction_narration_upload_button);
             deleteInstruction = itemView.findViewById(R.id.delete_new_instruction);
-            deleteInstruction.setOnClickListener(v-> deleteListener.onClick(instruction));
+            deleteInstruction.setOnClickListener(v-> callback.delete(instruction));
+            title.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count)
+                {
+                    if(instruction!=null && callback!=null) {
+                        callback.modifyTitle(String.valueOf(title.getText()), instruction.getPosition());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+            content.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count)
+                {
+                    if(instruction!=null  && callback!=null) {
+                        callback.modifyContent(String.valueOf(content.getText()), instruction.getPosition());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+            displayTime.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count)
+                {
+                    String timeText = String.valueOf(displayTime.getText());
+                    if(instruction!=null  && callback!=null && !timeText.isEmpty()) {
+                        callback.modifyDisplayTime(Integer.parseInt(timeText), instruction.getPosition());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
         }
     }
 
-    public interface DeleteInstruction
+    public interface FragmentCallback
     {
-        void onClick(InstructionSet instructionSet);
+        void delete(InstructionSet instructionSet);
+        void modifyTitle(String title, int position);
+        void modifyContent(String content, int position);
+        void modifyDisplayTime(int time, int position);
     }
 }

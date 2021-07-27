@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InstructionComposer extends Fragment
-        implements InstructionComposerAdapter.DeleteInstruction
+        implements InstructionComposerAdapter.FragmentCallback
 {
     private InstructionComposerAdapter mAdapter;
     private final List<InstructionSet> mInstructions = new LinkedList<>();
@@ -58,15 +58,30 @@ public class InstructionComposer extends Fragment
     }
 
     @Override
-    public void onClick(InstructionSet instructionSet)
+    public void delete(InstructionSet instructionSet)
     {
         mInstructions.remove(instructionSet);
         for(int i = instructionSet.getPosition(); i < mInstructions.size(); i++) {
-            InstructionSet set = mInstructions.get(i);
-            mInstructions.set(i,
-                    new InstructionSet(0, set.getTitle(), set.getInstructions(),
-                            set.getTime(), 0, i, set.getNarrationFileName()));
+            mInstructions.get(i).setPosition(i);
         }
         mAdapter.setElementList(mInstructions);
+    }
+
+    @Override
+    public void modifyTitle(String title, int position)
+    {
+        mInstructions.get(position).setTitle(title);
+    }
+
+    @Override
+    public void modifyContent(String content, int position)
+    {
+        mInstructions.get(position).setInstructions(content);
+    }
+
+    @Override
+    public void modifyDisplayTime(int time, int position)
+    {
+        mInstructions.get(position).setTime(time);
     }
 }
