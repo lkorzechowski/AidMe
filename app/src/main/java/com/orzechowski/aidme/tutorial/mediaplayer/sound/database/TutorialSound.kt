@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity
 class TutorialSound(
     @PrimaryKey val soundId: Long,
-                val soundStart: Long,
-                val soundLoop: Boolean,
-                val interval: Long,
+                var soundStart: Long,
+                var soundLoop: Boolean,
+                var interval: Long,
                 val tutorialId: Long,
                 val fileName: String)

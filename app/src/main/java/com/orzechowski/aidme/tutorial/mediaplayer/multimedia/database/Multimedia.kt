@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 class Multimedia(
     @PrimaryKey val multimediaId: Long,
                 val tutorialId: Long,
-                val displayTime: Int,
+                var displayTime: Int,
                 val type: Boolean,  //true = image, false = video
                 val fullFileName: String,
-                val loop: Boolean,
+                var loop: Boolean,
                 val position: Int)

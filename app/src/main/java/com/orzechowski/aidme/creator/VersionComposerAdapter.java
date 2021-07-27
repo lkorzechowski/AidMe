@@ -1,6 +1,8 @@
 package com.orzechowski.aidme.creator;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +23,12 @@ public class VersionComposerAdapter
 {
     private List<Version> mVersions = null;
     private final LayoutInflater mInflater;
-    private final DeleteVersion mDeleteListener;
+    private final FragmentCallback mCallback;
 
-    public VersionComposerAdapter(Activity activity, DeleteVersion deleteListener)
+    public VersionComposerAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
-        mDeleteListener = deleteListener;
+        mCallback = callback;
     }
 
     @NonNull
@@ -44,7 +46,7 @@ public class VersionComposerAdapter
         holder.versionText.setText(version.getText());
         holder.soundDelay.setChecked(version.getDelayGlobalSound());
         holder.version = version;
-        holder.deleteListener = mDeleteListener;
+        holder.callback = mCallback;
     }
 
     @Override
@@ -65,7 +67,7 @@ public class VersionComposerAdapter
         EditText versionText;
         CheckBox soundDelay;
         ImageView deleteVersion;
-        DeleteVersion deleteListener;
+        FragmentCallback callback;
         Version version;
 
         public VersionViewHolder(@NonNull View itemView)
@@ -74,12 +76,34 @@ public class VersionComposerAdapter
             versionText = itemView.findViewById(R.id.new_version_text);
             soundDelay = itemView.findViewById(R.id.new_version_delay_sound_checkbox);
             deleteVersion = itemView.findViewById(R.id.delete_new_version);
-            deleteVersion.setOnClickListener(v-> deleteListener.onClick(version));
+            deleteVersion.setOnClickListener(v-> callback.delete(version));
+            versionText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count)
+                {
+                    if(version!=null  && callback!=null) {
+                        callback.modifyText(String.valueOf(versionText.getText()), version.getVersionId());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+            soundDelay.setOnCheckedChangeListener((buttonView, isChecked)-> {
+                if(version!=null && callback!=null) {
+                    callback.modifyDelay(isChecked, version.getVersionId());
+                }
+            });
         }
     }
 
-    public interface DeleteVersion
+    public interface FragmentCallback
     {
-        void onClick(Version version);
+        void delete(Version version);
+        void modifyText(String text, Long versionId);
+        void modifyDelay(boolean delay, Long versionId);
     }
 }

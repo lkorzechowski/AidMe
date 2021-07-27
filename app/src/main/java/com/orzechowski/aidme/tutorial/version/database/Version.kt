@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity
 class Version(
     @PrimaryKey val versionId: Long,
-                val text: String,
+                var text: String,
                 val tutorialId: Long,
-                val delayGlobalSound: Boolean,
+                var delayGlobalSound: Boolean,
                 val sounds: String?,
                 val hasChildren: Boolean,
                 val hasParent: Boolean,

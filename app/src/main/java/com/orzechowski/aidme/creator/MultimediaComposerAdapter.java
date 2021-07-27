@@ -1,6 +1,8 @@
 package com.orzechowski.aidme.creator;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +25,12 @@ public class MultimediaComposerAdapter
 {
     private List<Multimedia> mMultimedias = null;
     private final LayoutInflater mInflater;
-    private final DeleteMultimedia mDeleteListener;
+    private final FragmentCallback mCallback;
 
-    public MultimediaComposerAdapter(Activity activity, DeleteMultimedia deleteListener)
+    public MultimediaComposerAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
-        mDeleteListener = deleteListener;
+        mCallback = callback;
     }
 
     @NonNull
@@ -46,7 +48,7 @@ public class MultimediaComposerAdapter
         holder.fileName.setText(multimedia.getFullFileName());
         holder.displayTime.setText(String.valueOf(multimedia.getDisplayTime()));
         holder.loopCheckBox.setChecked(multimedia.getLoop());
-        holder.deleteListener = mDeleteListener;
+        holder.callback = mCallback;
         holder.multimedia = multimedia;
     }
 
@@ -70,7 +72,7 @@ public class MultimediaComposerAdapter
         EditText displayTime;
         CheckBox loopCheckBox;
         ImageView deleteMultimedia;
-        DeleteMultimedia deleteListener;
+        FragmentCallback callback;
         Multimedia multimedia;
 
         public MultimediaViewHolder(@NonNull View itemView)
@@ -81,12 +83,35 @@ public class MultimediaComposerAdapter
             displayTime = itemView.findViewById(R.id.new_multimedia_display_time_input);
             loopCheckBox = itemView.findViewById(R.id.new_multimedia_loop_checkbox);
             deleteMultimedia = itemView.findViewById(R.id.delete_new_multimedia);
-            deleteMultimedia.setOnClickListener(v-> deleteListener.onClick(multimedia));
+            deleteMultimedia.setOnClickListener(v-> callback.delete(multimedia));
+            displayTime.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count)
+                {
+                    String timeText = String.valueOf(displayTime.getText());
+                    if(multimedia!=null  && callback!=null && !timeText.isEmpty()) {
+                        callback.modifyDisplayTime(Integer.parseInt(timeText), multimedia.getPosition());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+            loopCheckBox.setOnCheckedChangeListener((buttonView, isChecked)-> {
+                if(multimedia!=null && callback!=null) {
+                    callback.modifyLoop(isChecked, multimedia.getPosition());
+                }
+            });
         }
     }
 
-    public interface DeleteMultimedia
+    public interface FragmentCallback
     {
-        void onClick(Multimedia multimedia);
+        void delete(Multimedia multimedia);
+        void modifyDisplayTime(int time, int position);
+        void modifyLoop(boolean loop, int position);
     }
 }

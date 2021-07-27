@@ -1,6 +1,8 @@
 package com.orzechowski.aidme.creator;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +25,12 @@ public class SoundComposerAdapter
 {
     private List<TutorialSound> mSounds = null;
     private final LayoutInflater mInflater;
-    private final DeleteSound mDeleteListener;
+    private final FragmentCallback mCallback;
 
-    public SoundComposerAdapter(Activity activity, DeleteSound deleteListener)
+    public SoundComposerAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
-        mDeleteListener = deleteListener;
+        mCallback = callback;
     }
 
     @NonNull
@@ -48,7 +50,7 @@ public class SoundComposerAdapter
         holder.playInterval.setText(String.valueOf(sound.getInterval()));
         holder.fileName.setText(sound.getFileName());
         holder.sound = sound;
-        holder.deleteListener = mDeleteListener;
+        holder.callback = mCallback;
     }
 
     @Override
@@ -71,7 +73,7 @@ public class SoundComposerAdapter
         TextView fileName;
         Button uploadSoundButton;
         TutorialSound sound;
-        DeleteSound deleteListener;
+        FragmentCallback callback;
         ImageView deleteSound;
 
         public SoundViewHolder(@NonNull View itemView)
@@ -83,12 +85,52 @@ public class SoundComposerAdapter
             fileName = itemView.findViewById(R.id.new_sound_filename_display);
             soundLoop = itemView.findViewById(R.id.new_sound_loop_checkbox);
             deleteSound = itemView.findViewById(R.id.delete_new_sound);
-            deleteSound.setOnClickListener(v-> deleteListener.onClick(sound));
+            deleteSound.setOnClickListener(v-> callback.delete(sound));
+            soundLoop.setOnCheckedChangeListener((buttonView, isChecked)-> {
+                if(sound!=null && callback!=null) {
+                    callback.modifyLoop(isChecked, sound.getSoundId());
+                }
+            });
+            soundStart.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count)
+                {
+                    String startText = String.valueOf(soundStart.getText());
+                    if(sound!=null  && callback!=null && !startText.isEmpty()) {
+                        callback.modifyStart(Integer.parseInt(startText), sound.getSoundId());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+            playInterval.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count)
+                {
+                    String intervalText = String.valueOf(playInterval.getText());
+                    if(sound!=null  && callback!=null && !intervalText.isEmpty()) {
+                        callback.modifyInterval(Integer.parseInt(intervalText), sound.getSoundId());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
         }
     }
 
-    public interface DeleteSound
+    public interface FragmentCallback
     {
-        void onClick(TutorialSound tutorialSound);
+        void delete(TutorialSound tutorialSound);
+        void modifyLoop(boolean loop, Long soundId);
+        void modifyStart(int start, Long soundId);
+        void modifyInterval(int interval, Long soundId);
     }
 }

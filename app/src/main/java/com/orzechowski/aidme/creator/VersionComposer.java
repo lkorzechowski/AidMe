@@ -20,10 +20,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VersionComposer extends Fragment implements VersionComposerAdapter.DeleteVersion
+public class VersionComposer extends Fragment implements VersionComposerAdapter.FragmentCallback
 {
     private VersionComposerAdapter mAdapter;
-    private final List<Version> versionList = new LinkedList<>();
+    private final List<Version> mVersions = new LinkedList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -48,15 +48,29 @@ public class VersionComposer extends Fragment implements VersionComposerAdapter.
     {
         Button addVersionButton = view.findViewById(R.id.new_version_button);
         addVersionButton.setOnClickListener(v-> {
-            versionList.add(new Version(0, "", 0, true, null, false, false, null));
-            mAdapter.setElementList(versionList);
+            mVersions.add(new Version(mVersions.size(), "", 0, true, null, false, false, null));
+            mAdapter.setElementList(mVersions);
         });
     }
 
     @Override
-    public void onClick(Version version)
+    public void delete(Version version)
     {
-        versionList.remove(version);
-        mAdapter.setElementList(versionList);
+        mVersions.remove(version);
+        mAdapter.setElementList(mVersions);
+    }
+
+    @Override
+    public void modifyText(String text, Long versionId)
+    {
+        mVersions.get(versionId.intValue()).setText(text);
+        mAdapter.setElementList(mVersions);
+    }
+
+    @Override
+    public void modifyDelay(boolean delay, Long versionId)
+    {
+        mVersions.get(versionId.intValue()).setDelayGlobalSound(delay);
+        mAdapter.setElementList(mVersions);
     }
 }

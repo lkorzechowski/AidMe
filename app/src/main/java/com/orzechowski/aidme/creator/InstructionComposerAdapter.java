@@ -24,12 +24,12 @@ public class InstructionComposerAdapter
 {
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
-    private final FragmentCallback mListener;
+    private final FragmentCallback mCallback;
 
-    public InstructionComposerAdapter(Activity activity, FragmentCallback listener)
+    public InstructionComposerAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
-        mListener = listener;
+        mCallback = callback;
     }
 
     @NonNull
@@ -50,7 +50,7 @@ public class InstructionComposerAdapter
         holder.displayTime.setText(String.valueOf(set.getTime()));
         holder.position.setText(String.valueOf(set.getPosition()+1));
         holder.narrationFile.setText(set.getNarrationFileName());
-        holder.callback = mListener;
+        holder.callback = mCallback;
     }
 
     @Override

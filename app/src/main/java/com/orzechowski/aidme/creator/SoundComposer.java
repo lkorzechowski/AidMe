@@ -20,10 +20,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SoundComposer extends Fragment implements SoundComposerAdapter.DeleteSound
+public class SoundComposer extends Fragment implements SoundComposerAdapter.FragmentCallback
 {
     private SoundComposerAdapter mAdapter;
-    private final List<TutorialSound> soundList = new LinkedList<>();
+    private final List<TutorialSound> mSounds = new LinkedList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -48,15 +48,36 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Dele
     {
         Button addSoundButton = view.findViewById(R.id.new_sound_button);
         addSoundButton.setOnClickListener(v-> {
-            soundList.add(new TutorialSound(0, 0, false, 0, 0, ""));
-            mAdapter.setElementList(soundList);
+            mSounds.add(new TutorialSound(mSounds.size(), 0, false, 0, 0, ""));
+            mAdapter.setElementList(mSounds);
         });
     }
 
     @Override
-    public void onClick(TutorialSound tutorialSound)
+    public void delete(TutorialSound tutorialSound)
     {
-        soundList.remove(tutorialSound);
-        mAdapter.setElementList(soundList);
+        mSounds.remove(tutorialSound);
+        mAdapter.setElementList(mSounds);
+    }
+
+    @Override
+    public void modifyLoop(boolean loop, Long soundId)
+    {
+        mSounds.get(soundId.intValue()).setSoundLoop(loop);
+        mAdapter.setElementList(mSounds);
+    }
+
+    @Override
+    public void modifyStart(int start, Long soundId)
+    {
+        mSounds.get(soundId.intValue()).setSoundStart(start);
+        mAdapter.setElementList(mSounds);
+    }
+
+    @Override
+    public void modifyInterval(int interval, Long soundId)
+    {
+        mSounds.get(soundId.intValue()).setInterval(interval);
+        mAdapter.setElementList(mSounds);
     }
 }

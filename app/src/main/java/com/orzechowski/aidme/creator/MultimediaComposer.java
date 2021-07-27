@@ -20,10 +20,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MultimediaComposer extends Fragment implements MultimediaComposerAdapter.DeleteMultimedia
+public class MultimediaComposer extends Fragment implements MultimediaComposerAdapter.FragmentCallback
 {
     private MultimediaComposerAdapter mAdapter;
-    private final List<Multimedia> multimediaList = new LinkedList<>();
+    private final List<Multimedia> mMultimedias = new LinkedList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -48,15 +48,29 @@ public class MultimediaComposer extends Fragment implements MultimediaComposerAd
     {
         Button addMultimediaButton = view.findViewById(R.id.new_multimedia_button);
         addMultimediaButton.setOnClickListener(v-> {
-            multimediaList.add(new Multimedia(0, 0, 0, false, "", false, multimediaList.size()));
-            mAdapter.setElementList(multimediaList);
+            mMultimedias.add(new Multimedia(0, 0, 0, false, "", false, mMultimedias.size()));
+            mAdapter.setElementList(mMultimedias);
         });
     }
 
     @Override
-    public void onClick(Multimedia multimedia)
+    public void delete(Multimedia multimedia)
     {
-        multimediaList.remove(multimedia);
-        mAdapter.setElementList(multimediaList);
+        mMultimedias.remove(multimedia);
+        mAdapter.setElementList(mMultimedias);
+    }
+
+    @Override
+    public void modifyDisplayTime(int time, int position)
+    {
+        mMultimedias.get(position).setDisplayTime(time);
+        mAdapter.setElementList(mMultimedias);
+    }
+
+    @Override
+    public void modifyLoop(boolean loop, int position)
+    {
+        mMultimedias.get(position).setLoop(loop);
+        mAdapter.setElementList(mMultimedias);
     }
 }
