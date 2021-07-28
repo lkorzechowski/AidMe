@@ -19,6 +19,10 @@ class CreatorActivity : AppCompatActivity()
     private val mMultimediaComposer = MultimediaComposer()
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer()
+    private lateinit var mVersions: List<Version>
+    private lateinit var mMultimedias: List<Multimedia>
+    private lateinit var mInstructions: List<InstructionSet>
+    private lateinit var mSounds: List<TutorialSound>
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -27,10 +31,10 @@ class CreatorActivity : AppCompatActivity()
         setContentView(R.layout.activity_creator)
         val progressButtonOne = findViewById<Button>(R.id.creator_step_one_button)
         progressButtonOne.setOnClickListener {
-            val versions: List<Version> = mVersionComposer.versions
-            val multimedias: List<Multimedia> = mMultimediaComposer.multimedias
-            val instructions: List<InstructionSet> = mInstructionComposer.instructions
-            val sounds: List<TutorialSound> = mSoundComposer.sounds
+            mVersions = mVersionComposer.versions
+            mMultimedias = mMultimediaComposer.multimedias
+            mInstructions = mInstructionComposer.instructions
+            mSounds = mSoundComposer.sounds
         }
         supportFragmentManager.commit {
             add(R.id.layout_version_creator, mVersionComposer)
