@@ -14,8 +14,8 @@ public class MultimediaInVersionRepository
 
     MultimediaInVersionRepository(Application application)
     {
-        GlobalRoomDatabase globalRoomDatabase = GlobalRoomDatabase.getDatabase(application);
-        mDao = globalRoomDatabase.multimediaInVersionDAO();
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.multimediaInVersionDAO();
     }
 
     void deleteAll()

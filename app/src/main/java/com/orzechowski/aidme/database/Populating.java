@@ -24,6 +24,8 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersion;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersionDAO;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersion;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersionDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundDAO;
 import com.orzechowski.aidme.tutorial.version.database.Version;
@@ -833,23 +835,29 @@ public class Populating
     public void populateVersions(VersionDAO versionDAO)
     {
         //tutorial 0
-        versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", 0L, true,"0", false, false,  null));
-        versionDAO.insert(new Version(1L, "Wiem, co robię, potrzebne mi jest tylko tempo!", 0L, false, "0", false, false, null));
+        versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", 0L, true, false, false,  null));
+        versionDAO.insert(new Version(1L, "Wiem, co robię, potrzebne mi jest tylko tempo!", 0L, false, false, false, null));
         //tutorial 1
-        versionDAO.insert(new Version(9L, "Złamana ręka", 1L, false, null, true, false, null));
-        versionDAO.insert(new Version(10L, "Złamana noga", 1L, false, null, true, false, null));
-        versionDAO.insert(new Version(3L, "Udało mi się wezwać pomoc, jestem z ofiarą do czasu jej przybycia", 1L, false, null, true, true, 9L));
-        versionDAO.insert(new Version(4L, "Muszę sam/a zawieźć ofiarę do szpitala", 1L, false, null, true, true, 9L));
-        versionDAO.insert(new Version(11L, "Udało mi się wezwać pomoc, jestem z ofiarą do czasu jej przybycia", 1L, false, null, true, true, 10L));
-        versionDAO.insert(new Version(12L, "Muszę sam/a zawieźć ofiarę do szpitala", 1L, false, null, true, true, 10L));
-        versionDAO.insert(new Version(5L, "Złamanie zamknięte", 1L, false, null, false, true, 3L));
-        versionDAO.insert(new Version(6L, "Złamanie otwarte", 1L, false, null, false, true, 3L));
-        versionDAO.insert(new Version(7L, "Złamanie zamknięte", 1L, false, null, false, true, 4L));
-        versionDAO.insert(new Version(8L, "Złamanie otwarte", 1L, false, null, false, true, 4L));
-        versionDAO.insert(new Version(13L, "Złamanie zamknięte", 1L, false, null, false, true, 11L));
-        versionDAO.insert(new Version(14L, "Złamanie otwarte", 1L, false, null, false, true, 11L));
-        versionDAO.insert(new Version(15L, "Złamanie zamknięte", 1L, false, null, false, true, 12L));
-        versionDAO.insert(new Version(16L, "Złamanie otwarte", 1L, false, null, false, true, 12L));
+        versionDAO.insert(new Version(9L, "Złamana ręka", 1L, false, true, false, null));
+        versionDAO.insert(new Version(10L, "Złamana noga", 1L, false, true, false, null));
+        versionDAO.insert(new Version(3L, "Udało mi się wezwać pomoc, jestem z ofiarą do czasu jej przybycia", 1L, false, true, true, 9L));
+        versionDAO.insert(new Version(4L, "Muszę sam/a zawieźć ofiarę do szpitala", 1L, false, true, true, 9L));
+        versionDAO.insert(new Version(11L, "Udało mi się wezwać pomoc, jestem z ofiarą do czasu jej przybycia", 1L, false, true, true, 10L));
+        versionDAO.insert(new Version(12L, "Muszę sam/a zawieźć ofiarę do szpitala", 1L, false, true, true, 10L));
+        versionDAO.insert(new Version(5L, "Złamanie zamknięte", 1L, false, false, true, 3L));
+        versionDAO.insert(new Version(6L, "Złamanie otwarte", 1L, false, false, true, 3L));
+        versionDAO.insert(new Version(7L, "Złamanie zamknięte", 1L, false, false, true, 4L));
+        versionDAO.insert(new Version(8L, "Złamanie otwarte", 1L, false, false, true, 4L));
+        versionDAO.insert(new Version(13L, "Złamanie zamknięte", 1L, false, false, true, 11L));
+        versionDAO.insert(new Version(14L, "Złamanie otwarte", 1L, false, false, true, 11L));
+        versionDAO.insert(new Version(15L, "Złamanie zamknięte", 1L, false, false, true, 12L));
+        versionDAO.insert(new Version(16L, "Złamanie otwarte", 1L, false, false, true, 12L));
+    }
+
+    public void populateVersionSounds(SoundInVersionDAO soundInVersionDAO)
+    {
+        soundInVersionDAO.insert(new SoundInVersion(0L, 0L, 0L));
+        soundInVersionDAO.insert(new SoundInVersion(1L, 0L, 1L));
     }
 
     public void populateTutorials(TutorialDAO tutorialDAO)

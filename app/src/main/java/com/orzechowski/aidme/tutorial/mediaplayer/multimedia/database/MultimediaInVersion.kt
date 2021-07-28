@@ -7,5 +7,4 @@ import androidx.room.PrimaryKey
 class MultimediaInVersion(
     @PrimaryKey val multimediaInVersionId: Long,
                 val multimediaId: Long,
-                val versionId: Long
-)
+                val versionId: Long)

@@ -12,34 +12,29 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class SoundAdapter (private val mDelayGlobalSound: Boolean,
-                    private val mVersionSounds: String,
+                    private val mVersionSounds: List<Long>,
+                    private val mSounds: List<TutorialSound>,
                     private val mActivity: Activity)
 {
-    var mSounds: List<TutorialSound> = LinkedList()
     private val mThreads: ArrayList<Thread> = ArrayList()
     private var mInit = true
     private val assetObtainer = AssetObtainer()
 
-    fun setData(sounds: List<TutorialSound>)
-    {
-        mSounds = sounds
-    }
-
     fun deploy()
     {
-        for(i in mSounds.indices) {
-            if(mVersionSounds.contains(i.toString(), true))
+        for(i in mSounds) {
+            if(mVersionSounds.contains(i.soundId))
             {
                 mThreads.add(Thread {
                     if (mDelayGlobalSound) {
                         try {
-                            Thread.sleep(mSounds[i].soundStart)
+                            Thread.sleep(i.soundStart)
                         } catch (e: InterruptedException) {
                             Thread.interrupted()
                             return@Thread
                         }
                     }
-                    val sound: TutorialSound = mSounds[i]
+                    val sound: TutorialSound = i
                     val resourceUri: Uri = assetObtainer
                         .getFileFromAssets(mActivity, sound.fileName).toUri()
                     lateinit var player: MediaPlayer
@@ -62,8 +57,9 @@ class SoundAdapter (private val mDelayGlobalSound: Boolean,
                         player.release()
                         Thread.interrupted()
                     }
+                }.also {
+                    it.start()
                 })
-                mThreads[i].start()
             }
         }
     }

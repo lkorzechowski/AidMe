@@ -9,7 +9,6 @@ class Version(
                 var text: String,
                 val tutorialId: Long,
                 var delayGlobalSound: Boolean,
-                val sounds: String?,
                 val hasChildren: Boolean,
                 val hasParent: Boolean,
                 val parentVersionId: Long?)

@@ -34,6 +34,8 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersion;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersionDAO;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersion;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersionDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundDAO;
 import com.orzechowski.aidme.tutorial.version.database.Version;
@@ -47,7 +49,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class, VersionInstruction.class,
         TutorialSound.class, Helper.class, Multimedia.class, Category.class, TutorialLink.class,
         Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class, MultimediaInVersion.class,
-        Keyword.class, TagKeyword.class}, version = 1, exportSchema = false)
+        Keyword.class, TagKeyword.class, SoundInVersion.class}, version = 1, exportSchema = false)
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
     public abstract VersionDAO versionDao();
@@ -66,6 +68,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract KeywordDAO keywordDAO();
     public abstract TagKeywordDAO tagKeywordDAO();
     public abstract TutorialLinkDAO tutorialLinkDAO();
+    public abstract SoundInVersionDAO soundInVersionDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
@@ -108,6 +111,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 KeywordDAO keywordDAO = INSTANCE.keywordDAO();
                 TagKeywordDAO tagKeywordDAO = INSTANCE.tagKeywordDAO();
                 TutorialLinkDAO tutorialLinkDAO = INSTANCE.tutorialLinkDAO();
+                SoundInVersionDAO soundInVersionDAO = INSTANCE.soundInVersionDAO();
 
                 helperTagDAO.insert(new HelperTag(0L, 1L, 11L));
                 populating.populateHelpers(helperDAO);
@@ -125,6 +129,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 populating.populateMultimediaInVersion(multimediaInVersionDAO);
                 populating.populateSounds(tutorialSoundDAO);
                 populating.populateLinks(tutorialLinkDAO);
+                populating.populateVersionSounds(soundInVersionDAO);
             });
         }
     };
