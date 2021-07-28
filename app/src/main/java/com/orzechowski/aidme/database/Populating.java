@@ -822,14 +822,23 @@ public class Populating
         instructionDAO.insert(new InstructionSet(27L, "Upomnienie o krwiobiegu", "…w celu upewnienia się, że sztywny opatrunek go nie tamuje. W przypadku gdy stopień ukrwienia jest obniżony, należy poluzować opatrunek.", 9000, 1L, 19, "s1_19.aac"));
         instructionDAO.insert(new InstructionSet(28L, "Wstrząs", "Ryzyko wstrząsu, spowodowanego utratą dużej ilości krwi omówione jest w oddzielnym poradniku. W razie potrzeby naciśnij tutaj aby do niego przejść.", 10000, 1L, 20, "s1_20.aac"));
         //tutorial 3
-        instructionDAO.insert(new InstructionSet(29L, "Wstęp", "Ułóż psa na ziemi bokiem, uspokajaj go, nie podnoś głosu.", 5000, 3L, 0, null));
+        instructionDAO.insert(new InstructionSet(29L, "Ułożenie psa", "Ułóż psa na ziemi bokiem, uspokajaj go, nie podnoś głosu.", 5000, 3L, 0, null));
         instructionDAO.insert(new InstructionSet(30L, "Wymuszanie powietrza z płuc", "Płaską ręką uderz w klatkę piersiową psa, tak, by jak najwięcej powietrza opuściło płuca.", 5000, 3L, 1, null));
-        instructionDAO.insert(new InstructionSet(31L, "Powtórne uderzenia", "Spróbuj powtórzyć to działanie trzy lub cztery razy.", 5000, 3L, 2, null));
-        instructionDAO.insert(new InstructionSet(32L, "Próba wydobycia przedmiotu", "Sprawdź, czy nie jesteś w stanie wyjąć obiektu z pyska psa nie wkładając ręki głęboko.", 5000, 3L, 3, null));
-        instructionDAO.insert(new InstructionSet(33L, "Uniesienie za tylne nogi", "Ostatecznie podnieś psa na nogi i unieś go za tylne łapy, tak aby był skierowany pyskiem w dół.", 5000, 3L, 4, null));
-        instructionDAO.insert(new InstructionSet(34L, "Potrząsanie psem", "Jeżeli jesteś w stanie, spróbuj energicznie podnosić i opuszczać psa.", 5000, 3L, 5, null));
-        instructionDAO.insert(new InstructionSet(35L, "W razie niepowodzenia", "Jeżeli nie udało ci się wyjąć obiektu, zadzwoń na pogotowie weterynaryjne lub zabierz natychmiast pupila do weterynarza.", 5000, 3L, 6, null));
+        instructionDAO.insert(new InstructionSet(31L, "Powtórne uderzenia", "Spróbuj powtórzyć to trzy lub cztery razy.", 5000, 3L, 2, null));
+        instructionDAO.insert(new InstructionSet(32L, "Próba wydobycia przedmiotu", "Sprawdź, czy nie jesteś w stanie wyjąć przedmiotu z pyska psa nie wkładając ręki głęboko.", 5000, 3L, 3, null));
+        instructionDAO.insert(new InstructionSet(33L, "Uniesienie za tylne łapy", "Ostatecznie podnieś psa na nogi i unieś go za tylne łapy, tak aby był skierowany pyskiem w dół.", 5000, 3L, 4, null));
+        instructionDAO.insert(new InstructionSet(34L, "Potrząsanie psem", "Jeżeli jesteś w stanie, spróbuj energicznie podnosić i opuszczać psa, lub nawet nim potrząsać.", 5000, 3L, 5, null));
+        instructionDAO.insert(new InstructionSet(35L, "W razie niepowodzenia", "Jeżeli nie udało ci się wydobyć obiektu, zabierz natychmiast pupila do weterynarza lub zadzwoń na pogotowie weterynaryjne.", 5000, 3L, 6, null));
         instructionDAO.insert(new InstructionSet(36L, "Numer pogotowia", "Numer alarmowy do pogotowia weterynaryjnego to 983.", 5000, 3L, 7, null));
+        //tutorial 5
+        instructionDAO.insert(new InstructionSet(37L, "Ułożenie kota", "Ułóż kota na ziemi bokiem, nie podnoś głosu.", 5000, 5L, 0, null));
+        instructionDAO.insert(new InstructionSet(38L, "Wymuszenie powietrza z płuc", "Płaską ręką klepnij w klatkę piersiową kota, tak, by jak najwięcej powietrza opuściło płuca.", 5000, 5L, 1, null));
+        instructionDAO.insert(new InstructionSet(39L, "Powtórne uderzenia", "Spróbuj powtórzyć to trzy lub cztery razy.", 5000, 5L, 2, null));
+        instructionDAO.insert(new InstructionSet(40L, "Próba wydobycia przedmiotu", "Sprawdź, czy nie jesteś w stanie wyjąć przedmiotu z pyszczka kota nie wkładając palców głęboko.", 5000, 5L, 3, null));
+        instructionDAO.insert(new InstructionSet(41L, "Uniesienie za tylne łapy", "Ostatecznie podnieś kota na nogi i unieś go za tyle łapy, tak aby był skierowany pyszczkiem w dół.", 5000, 5L, 4, null));
+        instructionDAO.insert(new InstructionSet(42L, "Potrząsanie kotem", "Potrząsaj nim energicznie.", 5000, 5L, 5, null));
+        instructionDAO.insert(new InstructionSet(44L, "W razie niepowodzenia", "Jeżeli nie udało ci się wydobyć obiektu, zabierz natychmiast pupila do weterynarza lub zadzwoń na pogotowie weterynaryjne.", 5000, 5L, 6, null));
+        instructionDAO.insert(new InstructionSet(45L, "Numer pogotowia", "Numer alarmowy do pogotowia weterynaryjnego to 983.", 5000, 5L, 7, null));
     }
 
     public void populateVersions(VersionDAO versionDAO)
@@ -852,6 +861,10 @@ public class Populating
         versionDAO.insert(new Version(14L, "Złamanie otwarte", 1L, false, false, true, 11L));
         versionDAO.insert(new Version(15L, "Złamanie zamknięte", 1L, false, false, true, 12L));
         versionDAO.insert(new Version(16L, "Złamanie otwarte", 1L, false, false, true, 12L));
+        //tutorial 3
+        versionDAO.insert(new Version(17L, "default", 3L, false, false, false, null));
+        //tutorial 5
+        versionDAO.insert(new Version(18L, "default", 5L, false, false, false, null));
     }
 
     public void populateVersionSounds(SoundInVersionDAO soundInVersionDAO)
@@ -983,6 +996,26 @@ public class Populating
         versionInstructionDAO.insert(new VersionInstruction(102L, 16L, 16));
         versionInstructionDAO.insert(new VersionInstruction(103L, 16L, 19));
         versionInstructionDAO.insert(new VersionInstruction(104L, 16L, 20));
+
+        //tutorial 3
+        versionInstructionDAO.insert(new VersionInstruction(105L, 17L, 0));
+        versionInstructionDAO.insert(new VersionInstruction(106L, 17L, 1));
+        versionInstructionDAO.insert(new VersionInstruction(107L, 17L, 2));
+        versionInstructionDAO.insert(new VersionInstruction(108L, 17L, 3));
+        versionInstructionDAO.insert(new VersionInstruction(109L, 17L, 4));
+        versionInstructionDAO.insert(new VersionInstruction(110L, 17L, 5));
+        versionInstructionDAO.insert(new VersionInstruction(111L, 17L, 6));
+        versionInstructionDAO.insert(new VersionInstruction(112L, 17L, 7));
+
+        //tutorial 5
+        versionInstructionDAO.insert(new VersionInstruction(113L, 18L, 0));
+        versionInstructionDAO.insert(new VersionInstruction(114L, 18L, 1));
+        versionInstructionDAO.insert(new VersionInstruction(115L, 18L, 2));
+        versionInstructionDAO.insert(new VersionInstruction(116L, 18L, 3));
+        versionInstructionDAO.insert(new VersionInstruction(117L, 18L, 4));
+        versionInstructionDAO.insert(new VersionInstruction(118L, 18L, 5));
+        versionInstructionDAO.insert(new VersionInstruction(119L, 18L, 6));
+        versionInstructionDAO.insert(new VersionInstruction(120L, 18L, 7));
     }
 
     public void populateMultimediaInVersion(MultimediaInVersionDAO multimediaInVersionDAO)

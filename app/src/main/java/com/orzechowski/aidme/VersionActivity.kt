@@ -9,10 +9,10 @@ import com.orzechowski.aidme.tutorial.version.VersionRecycler
 import com.orzechowski.aidme.tutorial.version.database.Version
 
 class VersionActivity : AppCompatActivity(R.layout.activity_version),
-VersionListAdapter.OnClickListener
+VersionListAdapter.OnClickListener, VersionRecycler.ActivityCallback
 {
     private val bundle = Bundle()
-    private val mVersionRecycler = VersionRecycler()
+    private val mVersionRecycler = VersionRecycler(this)
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -39,5 +39,10 @@ VersionListAdapter.OnClickListener
             tutorial.putExtra("delayGlobalSound", version.delayGlobalSound)
             startActivity(tutorial)
         }
+    }
+
+    override fun defaultVersion(version: Version)
+    {
+        onClick(version)
     }
 }
