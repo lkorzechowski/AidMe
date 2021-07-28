@@ -54,9 +54,15 @@ public class VersionComposer extends Fragment implements VersionComposerAdapter.
     }
 
     @Override
-    public void delete(Version version)
+    public void delete(Version versionToDelete)
     {
-        mVersions.remove(version);
+        mVersions.remove(versionToDelete);
+        for(int i = (int) versionToDelete.getVersionId(); i < mVersions.size(); i++)
+        {
+            Version version = mVersions.get(i);
+            mVersions.remove(version);
+            mVersions.add(new Version(i, version.getText(), 0, version.getDelayGlobalSound(), null, false, false, null));
+        }
         mAdapter.setElementList(mVersions);
     }
 
@@ -64,13 +70,11 @@ public class VersionComposer extends Fragment implements VersionComposerAdapter.
     public void modifyText(String text, Long versionId)
     {
         mVersions.get(versionId.intValue()).setText(text);
-        mAdapter.setElementList(mVersions);
     }
 
     @Override
     public void modifyDelay(boolean delay, Long versionId)
     {
         mVersions.get(versionId.intValue()).setDelayGlobalSound(delay);
-        mAdapter.setElementList(mVersions);
     }
 }

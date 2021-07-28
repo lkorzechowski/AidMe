@@ -11,4 +11,4 @@ class Multimedia(
                 val type: Boolean,  //true = image, false = video
                 val fullFileName: String,
                 var loop: Boolean,
-                val position: Int)
+                var position: Int)

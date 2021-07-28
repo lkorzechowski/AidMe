@@ -57,6 +57,12 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
     public void delete(TutorialSound tutorialSound)
     {
         mSounds.remove(tutorialSound);
+        for(int i = (int) tutorialSound.getSoundId(); i < mSounds.size(); i++)
+        {
+            TutorialSound sound = mSounds.get(i);
+            mSounds.remove(sound);
+            mSounds.add(new TutorialSound(i, sound.getSoundStart(), sound.getSoundLoop(), sound.getInterval(), 0, sound.getFileName()));
+        }
         mAdapter.setElementList(mSounds);
     }
 
@@ -64,20 +70,17 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
     public void modifyLoop(boolean loop, Long soundId)
     {
         mSounds.get(soundId.intValue()).setSoundLoop(loop);
-        mAdapter.setElementList(mSounds);
     }
 
     @Override
     public void modifyStart(int start, Long soundId)
     {
         mSounds.get(soundId.intValue()).setSoundStart(start);
-        mAdapter.setElementList(mSounds);
     }
 
     @Override
     public void modifyInterval(int interval, Long soundId)
     {
         mSounds.get(soundId.intValue()).setInterval(interval);
-        mAdapter.setElementList(mSounds);
     }
 }

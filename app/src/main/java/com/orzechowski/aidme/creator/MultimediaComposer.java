@@ -57,6 +57,9 @@ public class MultimediaComposer extends Fragment implements MultimediaComposerAd
     public void delete(Multimedia multimedia)
     {
         mMultimedias.remove(multimedia);
+        for(int i = multimedia.getPosition(); i < mMultimedias.size(); i++) {
+            mMultimedias.get(i).setPosition(i);
+        }
         mAdapter.setElementList(mMultimedias);
     }
 
@@ -64,13 +67,11 @@ public class MultimediaComposer extends Fragment implements MultimediaComposerAd
     public void modifyDisplayTime(int time, int position)
     {
         mMultimedias.get(position).setDisplayTime(time);
-        mAdapter.setElementList(mMultimedias);
     }
 
     @Override
     public void modifyLoop(boolean loop, int position)
     {
         mMultimedias.get(position).setLoop(loop);
-        mAdapter.setElementList(mMultimedias);
     }
 }

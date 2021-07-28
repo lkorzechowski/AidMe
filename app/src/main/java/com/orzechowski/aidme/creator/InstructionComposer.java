@@ -71,20 +71,17 @@ public class InstructionComposer extends Fragment
     public void modifyTitle(String title, int position)
     {
         mInstructions.get(position).setTitle(title);
-        mAdapter.setElementList(mInstructions);
     }
 
     @Override
     public void modifyContent(String content, int position)
     {
         mInstructions.get(position).setInstructions(content);
-        mAdapter.setElementList(mInstructions);
     }
 
     @Override
     public void modifyDisplayTime(int time, int position)
     {
         mInstructions.get(position).setTime(time);
-        mAdapter.setElementList(mInstructions);
     }
 }
