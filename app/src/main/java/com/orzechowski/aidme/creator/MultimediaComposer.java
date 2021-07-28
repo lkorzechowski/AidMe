@@ -25,6 +25,11 @@ public class MultimediaComposer extends Fragment implements MultimediaComposerAd
     private MultimediaComposerAdapter mAdapter;
     private final List<Multimedia> mMultimedias = new LinkedList<>();
 
+    public List<Multimedia> getMultimedias()
+    {
+        return mMultimedias;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

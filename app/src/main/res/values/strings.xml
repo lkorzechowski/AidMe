@@ -58,6 +58,7 @@
     <string name="new_instruction_title">Tytuł, do 32 znaków</string>
     <string name="new_instruction_time_label">Czas trwania</string>
     <string name="new_instruction_time_input">Ile czasu trwa narracja? Czytanie trwa dłużej.</string>
+    <string name="creator_step_one_button">Dalej</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

@@ -25,6 +25,11 @@ public class VersionComposer extends Fragment implements VersionComposerAdapter.
     private VersionComposerAdapter mAdapter;
     private final List<Version> mVersions = new LinkedList<>();
 
+    public List<Version> getVersions()
+    {
+        return mVersions;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

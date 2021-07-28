@@ -25,6 +25,11 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
     private SoundComposerAdapter mAdapter;
     private final List<TutorialSound> mSounds = new LinkedList<>();
 
+    public List<TutorialSound> getSounds()
+    {
+        return mSounds;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

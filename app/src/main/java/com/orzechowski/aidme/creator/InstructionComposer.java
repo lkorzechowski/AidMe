@@ -26,6 +26,11 @@ public class InstructionComposer extends Fragment
     private InstructionComposerAdapter mAdapter;
     private final List<InstructionSet> mInstructions = new LinkedList<>();
 
+    public List<InstructionSet> getInstructions()
+    {
+        return mInstructions;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
