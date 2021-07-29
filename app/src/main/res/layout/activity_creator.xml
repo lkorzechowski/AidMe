@@ -11,50 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/version_creator_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/version_creator_heading"
-            android:textStyle="bold"
-            android:textSize="36sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/version_creator_subheading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/version_creator_subheading"
-            app:layout_constraintTop_toBottomOf="@+id/version_creator_heading"
-            app:layout_constraintBottom_toTopOf="@id/layout_version_creator" />
-
         <LinearLayout
             android:id="@+id/layout_version_creator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/version_creator_subheading"
-            app:layout_constraintBottom_toTopOf="@id/instruction_creator_heading" />
-
-        <TextView
-            android:id="@+id/instruction_creator_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/instruction_creator_heading"
-            android:textStyle="bold"
-            android:textSize="36sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_version_creator" />
-
-        <TextView
-            android:id="@+id/instruction_creator_subheading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/instruction_creator_subheading"
-            app:layout_constraintTop_toBottomOf="@id/instruction_creator_heading"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/layout_instruction_creator" />
 
         <LinearLayout
@@ -62,26 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/instruction_creator_subheading"
-            app:layout_constraintBottom_toTopOf="@id/multimedia_creator_heading" />
-
-        <TextView
-            android:id="@+id/multimedia_creator_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/multimedia_creator_heading"
-            android:textStyle="bold"
-            android:textSize="36sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_instruction_creator" />
-
-        <TextView
-            android:id="@+id/multimedia_creator_subheading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/multimedia_creator_subheading"
-            app:layout_constraintTop_toBottomOf="@id/multimedia_creator_heading"
+            app:layout_constraintTop_toBottomOf="@id/layout_version_creator"
             app:layout_constraintBottom_toTopOf="@id/layout_multimedia_creator" />
 
         <LinearLayout
@@ -89,26 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/multimedia_creator_subheading"
-            app:layout_constraintBottom_toTopOf="@id/sound_creator_heading" />
-
-        <TextView
-            android:id="@+id/sound_creator_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sound_creator_heading"
-            android:textStyle="bold"
-            android:textSize="36sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_multimedia_creator" />
-
-        <TextView
-            android:id="@+id/sound_creator_subheading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sound_creator_subheading"
-            app:layout_constraintTop_toBottomOf="@id/sound_creator_heading"
+            app:layout_constraintTop_toBottomOf="@id/layout_instruction_creator"
             app:layout_constraintBottom_toTopOf="@id/layout_sound_creator" />
 
         <LinearLayout
@@ -116,11 +40,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/sound_creator_subheading"
-            app:layout_constraintBottom_toTopOf="@+id/creator_step_one_button" />
+            app:layout_constraintTop_toBottomOf="@id/layout_multimedia_creator"
+            app:layout_constraintBottom_toTopOf="@+id/creator_step_button" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_version_tree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/creator_step_button" />
 
         <Button
-            android:id="@+id/creator_step_one_button"
+            android:id="@+id/creator_step_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/creator_step_one_button"
