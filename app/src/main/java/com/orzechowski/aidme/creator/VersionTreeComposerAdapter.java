@@ -71,12 +71,11 @@ public class VersionTreeComposerAdapter
         {
             super(itemView);
             versionButton = itemView.findViewById(R.id.version_tree_button);
-            versionButton.setOnClickListener(v-> callback.reassign(version, level));
         }
     }
 
     public interface FragmentCallback
     {
-        void reassign(Version version, int level);
+        void giveParent(Version version, int level);
     }
 }
