@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,56 +7,61 @@
     android:layout_height="match_parent"
     tools:context=".CreatorActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/layout_version_creator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/layout_instruction_creator" />
-
-        <LinearLayout
-            android:id="@+id/layout_instruction_creator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/layout_version_creator"
-            app:layout_constraintBottom_toTopOf="@id/layout_multimedia_creator" />
-
-        <LinearLayout
-            android:id="@+id/layout_multimedia_creator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/layout_instruction_creator"
-            app:layout_constraintBottom_toTopOf="@id/layout_sound_creator" />
-
-        <LinearLayout
-            android:id="@+id/layout_sound_creator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/layout_multimedia_creator"
-            app:layout_constraintBottom_toTopOf="@+id/creator_step_button" />
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_version_tree"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/creator_step_button" />
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/creator_step_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/creator_step_one_button"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            <LinearLayout
+                android:id="@+id/layout_version_creator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/layout_instruction_creator" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/layout_instruction_creator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/layout_version_creator"
+                app:layout_constraintBottom_toTopOf="@id/layout_multimedia_creator" />
 
-</ScrollView>
+            <LinearLayout
+                android:id="@+id/layout_multimedia_creator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/layout_instruction_creator"
+                app:layout_constraintBottom_toTopOf="@id/layout_sound_creator" />
+
+            <LinearLayout
+                android:id="@+id/layout_sound_creator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/layout_multimedia_creator"
+                app:layout_constraintBottom_toTopOf="@+id/creator_step_one_button" />
+
+            <Button
+                android:id="@+id/creator_step_one_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/creator_step_one_button"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_version_tree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

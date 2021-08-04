@@ -1,6 +1,7 @@
 package com.orzechowski.aidme
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
@@ -28,8 +29,8 @@ class CreatorActivity : AppCompatActivity()
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creator)
-        val progressButton = findViewById<Button>(R.id.creator_step_button)
-        progressButton.setOnClickListener {
+        val progressButtonOne = findViewById<Button>(R.id.creator_step_one_button)
+        progressButtonOne.setOnClickListener {
             mVersions = mVersionComposer.versions
             mMultimedias = mMultimediaComposer.multimedias
             mInstructions = mInstructionComposer.instructions
@@ -44,15 +45,10 @@ class CreatorActivity : AppCompatActivity()
                     is SoundComposer -> t.remove(mSoundComposer).commit()
                 }
             }
+            progressButtonOne.visibility = View.GONE
             mVersionTreeComposer = VersionTreeComposer(mVersions)
             supportFragmentManager.commit {
                 add(R.id.layout_version_tree, mVersionTreeComposer)
-            }
-            progressButton.setOnClickListener {
-                for(f in fragmentList) {
-                    val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    if(f is VersionTreeComposer) t.remove(mVersionTreeComposer).commit()
-                }
             }
         }
         supportFragmentManager.commit {
@@ -63,3 +59,10 @@ class CreatorActivity : AppCompatActivity()
         }
     }
 }
+
+//progressButton.setOnClickListener {
+//                for(f in fragmentList) {
+//                    val t: FragmentTransaction = supportFragmentManager.beginTransaction()
+//                    if(f is VersionTreeComposer) t.remove(mVersionTreeComposer).commit()
+//                }
+//            }

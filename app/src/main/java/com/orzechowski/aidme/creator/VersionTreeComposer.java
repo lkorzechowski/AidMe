@@ -72,10 +72,15 @@ public class VersionTreeComposer
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
-                                 int direction)
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-
+                if(direction==2) {
+                    Version version = mLevelOneVersions.get(viewHolder.getLayoutPosition());
+                    mLevelOneVersions.remove(version);
+                    mLevelTwoVersions.add(version);
+                    mLevelOneAdapter.setElementList(mLevelOneVersions);
+                    mLevelTwoAdapter.setElementList(mLevelTwoVersions);
+                }
             }
         };
         ItemTouchHelper itemTouchHelperOne = new ItemTouchHelper(callbackOne);
@@ -92,10 +97,18 @@ public class VersionTreeComposer
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
-                                 int direction)
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-
+                Version version = mLevelTwoVersions.get(viewHolder.getLayoutPosition());
+                mLevelTwoVersions.remove(version);
+                if(direction==2) {
+                    mLevelThreeVersions.add(version);
+                    mLevelThreeAdapter.setElementList(mLevelThreeVersions);
+                } else if (direction==1) {
+                    mLevelOneVersions.add(version);
+                    mLevelOneAdapter.setElementList(mLevelOneVersions);
+                }
+                mLevelTwoAdapter.setElementList(mLevelTwoVersions);
             }
         };
         ItemTouchHelper itemTouchHelperTwo = new ItemTouchHelper(callbackTwo);
@@ -112,10 +125,18 @@ public class VersionTreeComposer
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
-                                 int direction)
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-
+                Version version = mLevelThreeVersions.get(viewHolder.getLayoutPosition());
+                mLevelThreeVersions.remove(version);
+                if(direction==2) {
+                    mLevelFourVersions.add(version);
+                    mLevelFourAdapter.setElementList(mLevelFourVersions);
+                } else if(direction==1) {
+                    mLevelTwoVersions.add(version);
+                    mLevelTwoAdapter.setElementList(mLevelTwoVersions);
+                }
+                mLevelThreeAdapter.setElementList(mLevelThreeVersions);
             }
         };
         ItemTouchHelper itemTouchHelperThree = new ItemTouchHelper(callbackThree);
@@ -132,10 +153,15 @@ public class VersionTreeComposer
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
-                                 int direction)
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-
+                if(direction==1) {
+                    Version version = mLevelFourVersions.get(viewHolder.getLayoutPosition());
+                    mLevelFourVersions.remove(version);
+                    mLevelThreeVersions.add(version);
+                    mLevelFourAdapter.setElementList(mLevelFourVersions);
+                    mLevelThreeAdapter.setElementList(mLevelThreeVersions);
+                }
             }
         };
         ItemTouchHelper itemTouchHelperFour = new ItemTouchHelper(callbackFour);
