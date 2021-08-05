@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".creator.VersionTreeComposer">
 
@@ -27,7 +27,6 @@
         android:id="@+id/version_tree_level_one_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/unassigned_version_rv"
@@ -93,5 +92,30 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/version_tree_level_four_label"
         tools:listitem="@layout/row_version_tree_rv" />
+
+    <TextView
+        android:id="@+id/version_text_rv_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/version_text_rv_header"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/version_text_rv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/yellow1"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/version_text_rv" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/version_text_rv"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/row_version_text_rv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
