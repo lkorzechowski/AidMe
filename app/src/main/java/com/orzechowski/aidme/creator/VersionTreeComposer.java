@@ -78,9 +78,9 @@ public class VersionTreeComposer
                     Version version = mLevelOneVersions.get(viewHolder.getLayoutPosition());
                     mLevelOneVersions.remove(version);
                     mLevelTwoVersions.add(version);
-                    mLevelOneAdapter.setElementList(mLevelOneVersions);
                     mLevelTwoAdapter.setElementList(mLevelTwoVersions);
                 }
+                mLevelOneAdapter.setElementList(mLevelOneVersions);
             }
         };
         ItemTouchHelper itemTouchHelperOne = new ItemTouchHelper(callbackOne);
@@ -159,9 +159,9 @@ public class VersionTreeComposer
                     Version version = mLevelFourVersions.get(viewHolder.getLayoutPosition());
                     mLevelFourVersions.remove(version);
                     mLevelThreeVersions.add(version);
-                    mLevelFourAdapter.setElementList(mLevelFourVersions);
                     mLevelThreeAdapter.setElementList(mLevelThreeVersions);
                 }
+                mLevelFourAdapter.setElementList(mLevelFourVersions);
             }
         };
         ItemTouchHelper itemTouchHelperFour = new ItemTouchHelper(callbackFour);

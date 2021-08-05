@@ -41,7 +41,7 @@ public class VersionTreeComposerAdapter
     public void onBindViewHolder(@NonNull VersionViewHolder holder, int position)
     {
         Version version = mVersions.get(position);
-        holder.versionButton.setText(version.getText());
+        holder.versionButton.setText(String.valueOf(version.getVersionId()));
         holder.callback = mCallback;
         holder.version = version;
         holder.level = mLevel;
