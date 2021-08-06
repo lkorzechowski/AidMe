@@ -821,6 +821,13 @@ public class Populating
         instructionDAO.insert(new InstructionSet(26L, "Sprawdzanie krwiobiegu - niewezwana pomoc", "Jeżeli jest z tobą osoba towarzysząca, poproś ją o sprawdzanie co kilka minut ukrwienia kończyny poniżej opatrunku…", 9000, 1L, 18, "s1_18.aac"));
         instructionDAO.insert(new InstructionSet(27L, "Upomnienie o krwiobiegu", "…w celu upewnienia się, że sztywny opatrunek go nie tamuje. W przypadku gdy stopień ukrwienia jest obniżony, należy poluzować opatrunek.", 9000, 1L, 19, "s1_19.aac"));
         instructionDAO.insert(new InstructionSet(28L, "Wstrząs", "Ryzyko wstrząsu, spowodowanego utratą dużej ilości krwi omówione jest w oddzielnym poradniku. W razie potrzeby naciśnij tutaj aby do niego przejść.", 10000, 1L, 20, "s1_20.aac"));
+        //tutorial 2
+        instructionDAO.insert(new InstructionSet(56L, "Podstawowe kroki", "Zabierz ofiarę do chłodnego miejsca i pomóż jej zdjąć jak najwięcej ubrań. Zadzwoń na pogotowie.", 5000, 2L, 0, null));
+        instructionDAO.insert(new InstructionSet(57L, "Usadzenie ofiary", "Pomóż ofierze usiąść w wygodnym miejscu.", 5000, 2L, 1, null));
+        instructionDAO.insert(new InstructionSet(58L, "Obniżenie temperatury ciała", "Postaraj się obniżyć temperaturę ciała w dowolny możliwy sposób. Sugerujemy polewanie wodą, okrycie wilgotnym materiałem, lód oraz uruchomienie wentylacji.", 5000, 2L, 2, null));
+        instructionDAO.insert(new InstructionSet(59L, "Zaprzestania ochładzania", "Jeżeli uważasz, że temperatura ciała ofiary jest dostatecznie niska, pomóż jej się osuszyć i zaprzestań ochładzania.", 5000, 2L, 3, null));
+        instructionDAO.insert(new InstructionSet(60L, "Powrót do ochładzania", "Temperatura może znowu wzrosnąć, jeżeli do tego dojdzie, wróć do ochładzania ofiary.", 5000, 2L, 4, null));
+        instructionDAO.insert(new InstructionSet(61L, "Masaż serca", "Jeżeli ofiara straciła przytomność i nie ma regularnego oddechu, skieruj się do poradnika udzielania masażu serca klikając w link na ekranie i podążaj za instrukcjami.", 5000, 2L, 5, null));
         //tutorial 3
         instructionDAO.insert(new InstructionSet(29L, "Ułożenie psa", "Ułóż psa na ziemi bokiem, uspokajaj go, nie podnoś głosu.", 5000, 3L, 0, null));
         instructionDAO.insert(new InstructionSet(30L, "Wymuszanie powietrza z płuc", "Płaską ręką uderz w klatkę piersiową psa, tak, by jak najwięcej powietrza opuściło płuca.", 5000, 3L, 1, null));
@@ -839,6 +846,23 @@ public class Populating
         instructionDAO.insert(new InstructionSet(42L, "Potrząsanie kotem", "Potrząsaj nim energicznie.", 5000, 5L, 5, null));
         instructionDAO.insert(new InstructionSet(44L, "W razie niepowodzenia", "Jeżeli nie udało ci się wydobyć obiektu, zabierz natychmiast pupila do weterynarza lub zadzwoń na pogotowie weterynaryjne.", 5000, 5L, 6, null));
         instructionDAO.insert(new InstructionSet(45L, "Numer pogotowia", "Numer alarmowy do pogotowia weterynaryjnego to 983.", 5000, 5L, 7, null));
+        //tutorial 6
+        instructionDAO.insert(new InstructionSet(46L, "Wstęp", "Jeżeli ofiara utraciła dużą ilość krwi lub innych płynów", 5000, 6L, 0, null));
+        instructionDAO.insert(new InstructionSet(47L, "Ułożenie ofiary", "Ułóż ofiarę, najlepiej na kocu lub ubraniach", 5000, 6L, 1, null));
+        instructionDAO.insert(new InstructionSet(48L, "Dopływ krwi do organów", "Unieś oraz wesprzyj jej nogi, tak, aby były wyżej od klatki piersiowej, w celu zapewnienia większego zasobu krwi organom witalnym.", 5000, 6L, 2, null));
+        instructionDAO.insert(new InstructionSet(49L, "Udrożnienie krwiobiegu", "Rozepnij guziki w okolicach szyi, na spodniach, na rękawach, zdejmij biżuterię, tak aby nic nie tamowało krwiobiegu.", 5000, 6L, 3, null));
+        instructionDAO.insert(new InstructionSet(50L, "Uspokojenie ofiary", "Pozostań przy ofierze, niepokój i strach mogą nasilić atak.", 5000, 6L, 4, null));
+        instructionDAO.insert(new InstructionSet(51L, "Jedzenie i picie", "Ofiara nie powinna jeść ani pić, ponieważ może to osłabić działanie anastetyka.", 5000, 6L, 5, null));
+        instructionDAO.insert(new InstructionSet(52L, "Zachowanie ciepła", "W celu zachowania ciepła otul ofiarę kocem lub ubraniami.", 5000, 6L, 6, null));
+        instructionDAO.insert(new InstructionSet(53L, "Jak nie zachowywać ciepła", "Nie próbuj rozgrzewać ofiary źródłami ciepła takimi jak gorąca woda.", 5000, 6L, 7, null));
+        instructionDAO.insert(new InstructionSet(54L, "Utrata przytomności", "Jeżeli ofiara straci przytomność, sprawdzaj, czy ma regularny oddech.", 5000, 6L, 8, null));
+        instructionDAO.insert(new InstructionSet(55L, "Masaż serca", "Jeśli ofiera nie ma regularnego oddechu, skieruj się do poradnika udzielania masażu serca klikając w link na ekranie, i podążaj za instrukcjami.", 5000, 6L, 9, null));
+        //tutorial 7
+        instructionDAO.insert(new InstructionSet(62L, "Ułożenie ofiary", "Ofiara powinna leżeć na ziemi. Jej głowa powinna być jak najniżej.", 5000, 7L, 0, null));
+        instructionDAO.insert(new InstructionSet(63L, "Masaż serca", "Jeżeli ofiara straciła przytomność i nie ma regularnego oddechu, natychmiast rozpocznij masaż serca. Naciśnij tutaj aby przejść do poradnika udzielania masażu serca.", 5000, 7L, 1, null));
+        instructionDAO.insert(new InstructionSet(64L, "Zmiana ubrań", "Jeżeli ofiara oddycha lub udało ci się przywrócić jej oddech, należy pomóc jej pozbyć się wilgotnych ubrań i zapewnić jej suche okrycie.", 5000, 7L, 2, null));
+        instructionDAO.insert(new InstructionSet(65L, "Wezwanie pomocy", "Koniecznie zadzwoń na pogotowie. Płuca ofiary mogły napełnić się wodą, musi zostać zbadana.", 5000, 7L, 3, null));
+        instructionDAO.insert(new InstructionSet(66L, "Dalsze kroki", "Jeżeli istnieje taka możliwość i ofiara odzyskała pełną przytomność, znajdź więcej suchego okrycia, lub podaj jej ciepły napój. Monitoruj stan ofiary do czasu przybycia pogotowia.", 5000, 7L, 4, null));
     }
 
     public void populateVersions(VersionDAO versionDAO)
@@ -861,10 +885,16 @@ public class Populating
         versionDAO.insert(new Version(14L, "Złamanie otwarte", 1L, false, false, true, 11L));
         versionDAO.insert(new Version(15L, "Złamanie zamknięte", 1L, false, false, true, 12L));
         versionDAO.insert(new Version(16L, "Złamanie otwarte", 1L, false, false, true, 12L));
+        //tutorial 2
+        versionDAO.insert(new Version(20L, "default", 2L, false, false, false, null));
         //tutorial 3
         versionDAO.insert(new Version(17L, "default", 3L, false, false, false, null));
         //tutorial 5
         versionDAO.insert(new Version(18L, "default", 5L, false, false, false, null));
+        //tutorial 6
+        versionDAO.insert(new Version(19L, "default", 6L, false, false, false, null));
+        //tutorial 7
+        versionDAO.insert(new Version(21L, "default", 7L, false, false, false, null));
     }
 
     public void populateVersionSounds(SoundInVersionDAO soundInVersionDAO)
@@ -997,6 +1027,14 @@ public class Populating
         versionInstructionDAO.insert(new VersionInstruction(103L, 16L, 19));
         versionInstructionDAO.insert(new VersionInstruction(104L, 16L, 20));
 
+        //tutorial 2
+        versionInstructionDAO.insert(new VersionInstruction(131L, 20L, 0));
+        versionInstructionDAO.insert(new VersionInstruction(132L, 20L, 1));
+        versionInstructionDAO.insert(new VersionInstruction(133L, 20L, 2));
+        versionInstructionDAO.insert(new VersionInstruction(134L, 20L, 3));
+        versionInstructionDAO.insert(new VersionInstruction(135L, 20L, 4));
+        versionInstructionDAO.insert(new VersionInstruction(136L, 20L, 5));
+
         //tutorial 3
         versionInstructionDAO.insert(new VersionInstruction(105L, 17L, 0));
         versionInstructionDAO.insert(new VersionInstruction(106L, 17L, 1));
@@ -1016,6 +1054,25 @@ public class Populating
         versionInstructionDAO.insert(new VersionInstruction(118L, 18L, 5));
         versionInstructionDAO.insert(new VersionInstruction(119L, 18L, 6));
         versionInstructionDAO.insert(new VersionInstruction(120L, 18L, 7));
+
+        //tutorial 6
+        versionInstructionDAO.insert(new VersionInstruction(121L, 19L, 0));
+        versionInstructionDAO.insert(new VersionInstruction(122L, 19L, 1));
+        versionInstructionDAO.insert(new VersionInstruction(123L, 19L, 2));
+        versionInstructionDAO.insert(new VersionInstruction(124L, 19L, 3));
+        versionInstructionDAO.insert(new VersionInstruction(125L, 19L, 4));
+        versionInstructionDAO.insert(new VersionInstruction(126L, 19L, 5));
+        versionInstructionDAO.insert(new VersionInstruction(127L, 19L, 6));
+        versionInstructionDAO.insert(new VersionInstruction(128L, 19L, 7));
+        versionInstructionDAO.insert(new VersionInstruction(129L, 19L, 8));
+        versionInstructionDAO.insert(new VersionInstruction(130L, 19L, 9));
+
+        //tutorial 7
+        versionInstructionDAO.insert(new VersionInstruction(137L, 21L, 0));
+        versionInstructionDAO.insert(new VersionInstruction(138L, 21L, 1));
+        versionInstructionDAO.insert(new VersionInstruction(139L, 21L, 2));
+        versionInstructionDAO.insert(new VersionInstruction(140L, 21L, 3));
+        versionInstructionDAO.insert(new VersionInstruction(141L, 21L, 4));
     }
 
     public void populateMultimediaInVersion(MultimediaInVersionDAO multimediaInVersionDAO)
@@ -1055,5 +1112,7 @@ public class Populating
     public void populateLinks(TutorialLinkDAO tutorialLinkDAO)
     {
         tutorialLinkDAO.insert(new TutorialLink(0L, 6L, 1L, 20));
+        tutorialLinkDAO.insert(new TutorialLink(1L, 0L, 6L, 9));
+        tutorialLinkDAO.insert(new TutorialLink(2L, 0L, 7L, 1));
     }
 }

@@ -59,7 +59,7 @@
     <string name="new_instruction_time_label">Czas trwania</string>
     <string name="new_instruction_time_input">Ile czasu trwa narracja? Czytanie trwa dłużej.</string>
     <string name="creator_step_one_button">Dalej</string>
-    <string name="fragment_version_tree_heading">Na tym etapie utworzysz drzewko z wersji. Wybierz dowolną z poniższych nieprzypisanych jeszcze wersji i określ na którym poziomie ma się znaleźć (ograniczenie do 4 poziomów), jeżeli nie jest na najwyższym poziomie musisz przypisać jej rodzica.</string>
+    <string name="fragment_version_tree_heading">Na tym etapie utworzysz drzewko z wersji. Wybierz dowolną z poniższych wersji i przesuń ją w dół na odpowiedni poziom (ograniczenie do 4 poziomów), jeżeli nie jest na najwyższym poziomie musisz przypisać jej rodzica.</string>
     <string name="version_text_rv_header">Nazwy poszczególnych wersji</string>
     <string-array name="services">
         <item>Numer alarmowy</item>

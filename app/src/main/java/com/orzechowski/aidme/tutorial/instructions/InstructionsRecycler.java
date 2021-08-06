@@ -179,20 +179,20 @@ public class InstructionsRecycler
                 } catch (IllegalStateException | InterruptedException e) {
                     mPlayer.stop();
                     mPlayer.release();
-                    mTutorialLink.setVisibility(View.GONE);
+                    activity.runOnUiThread(() -> mTutorialLink.setVisibility(View.GONE));
                     interrupt();
                 }
             } else {
                 activity.runOnUiThread(this::displayText);
                 try {
                     sleep(set.getTime());
-                    mTutorialLink.setVisibility(View.GONE);
                     activity.runOnUiThread(() -> {
+                        mTutorialLink.setVisibility(View.GONE);
                         if (mAutoplay) play(position);
                     });
                 } catch (InterruptedException e) {
                     interrupt();
-                    mTutorialLink.setVisibility(View.GONE);
+                    activity.runOnUiThread(() -> mTutorialLink.setVisibility(View.GONE));
                 }
             }
         }
