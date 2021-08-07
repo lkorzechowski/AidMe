@@ -13,15 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/fragment_version_tree_heading"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/unassigned_version_rv" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/unassigned_version_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/fragment_version_tree_heading"
-        app:layout_constraintBottom_toTopOf="@id/version_tree_level_one_label"
-        tools:listitem="@layout/row_version_tree_rv" />
+        app:layout_constraintBottom_toTopOf="@id/version_tree_level_one_label" />
 
     <TextView
         android:id="@+id/version_tree_level_one_label"
@@ -29,7 +21,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/unassigned_version_rv"
+        app:layout_constraintTop_toBottomOf="@id/fragment_version_tree_heading"
         app:layout_constraintBottom_toTopOf="@id/version_tree_first_level_rv" />
 
     <androidx.recyclerview.widget.RecyclerView
