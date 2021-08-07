@@ -61,6 +61,8 @@
     <string name="creator_step_one_button">Dalej</string>
     <string name="fragment_version_tree_heading">Na tym etapie utworzysz drzewko z wersji. Wybierz dowolną z poniższych wersji i przesuń ją w dół na odpowiedni poziom (ograniczenie do 4 poziomów), jeżeli nie jest na najwyższym poziomie musisz przypisać jej rodzica.</string>
     <string name="version_text_rv_header">Nazwy poszczególnych wersji</string>
+    <string name="parent_asignment_label">Przypisz rodzica wersji którą przemieściłeś/aś poziom niżej. Naciśnij strzałkę w dół aby przemieścić wersję dalej w dół.</string>
+    <string name="cancel">Anuluj</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

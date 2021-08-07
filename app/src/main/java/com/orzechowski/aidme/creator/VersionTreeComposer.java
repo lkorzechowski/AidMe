@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -24,15 +25,16 @@ public class VersionTreeComposer extends Fragment
         implements VersionTreeComposerAdapter.OnClickListener
 {
     private VersionTreeComposerAdapter mLevelOneAdapter, mLevelTwoAdapter, mLevelThreeAdapter,
-            mLevelFourAdapter;
+            mLevelFourAdapter, mParentPickingAdapter;
     private VersionTextAdapter mVersionTextAdapter;
     private final List<Version> mAllVersions;
     private final List<Version> mLevelOneVersions;
     private final List<Version> mLevelTwoVersions = new LinkedList<>();
     private final List<Version> mLevelThreeVersions = new LinkedList<>();
     private final List<Version> mLevelFourVersions = new LinkedList<>();
-    private int mParentPicking = 0;
     private Version mCurrentlyMovedVersion = null;
+    private int mMovedFromLevel;
+    private ConstraintLayout mPrimaryLayout, mSecondaryLayout;
 
     public VersionTreeComposer(List<Version> versions)
     {
@@ -46,11 +48,41 @@ public class VersionTreeComposer extends Fragment
         FragmentActivity activity = requireActivity();
         View view = inflater
                 .inflate(R.layout.fragment_version_tree_composer, container, false);
+        Button cancelAddingParent = view.findViewById(R.id.parent_assignment_cancel);
+        cancelAddingParent.setOnClickListener(v -> {
+            if(mMovedFromLevel==1) {
+                mLevelTwoVersions.remove(mCurrentlyMovedVersion);
+                mLevelOneVersions.add(mCurrentlyMovedVersion);
+            } else if(mMovedFromLevel==2) {
+                mLevelThreeVersions.remove(mCurrentlyMovedVersion);
+                mLevelTwoVersions.add(mCurrentlyMovedVersion);
+            } else if(mMovedFromLevel==3) {
+                mLevelFourVersions.remove(mCurrentlyMovedVersion);
+                mLevelTwoVersions.add(mCurrentlyMovedVersion);
+            }
+            mSecondaryLayout.setVisibility(View.GONE);
+            mPrimaryLayout.setVisibility(View.VISIBLE);
+        });
+        Button moveFurtherDown = view.findViewById(R.id.parent_assignment_move_further_down);
+        moveFurtherDown.setOnClickListener(v -> {
+            if(mMovedFromLevel==1 && mLevelTwoVersions.size()>1) {
+                mLevelTwoVersions.remove(mCurrentlyMovedVersion);
+                mLevelThreeVersions.add(mCurrentlyMovedVersion);
+                pickParent(2);
+            } else if(mMovedFromLevel==2 && mLevelThreeVersions.size()>1) {
+                mLevelThreeVersions.remove(mCurrentlyMovedVersion);
+                mLevelFourVersions.add(mCurrentlyMovedVersion);
+                pickParent(3);
+            }
+        });
+        mPrimaryLayout = view.findViewById(R.id.version_tree_primary_layout);
+        mSecondaryLayout = view.findViewById(R.id.version_tree_secondary_layout);
         RecyclerView versionTextRecycler = view.findViewById(R.id.version_text_rv);
         RecyclerView levelOneRecycler = view.findViewById(R.id.version_tree_first_level_rv);
         RecyclerView levelTwoRecycler = view.findViewById(R.id.version_tree_second_level_rv);
         RecyclerView levelThreeRecycler = view.findViewById(R.id.version_tree_third_level_rv);
         RecyclerView levelFourRecycler = view.findViewById(R.id.version_tree_fourth_level_rv);
+        RecyclerView parentPickingRecycler = view.findViewById(R.id.parent_assignment_rv);
         versionTextRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));
         levelOneRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
@@ -61,19 +93,20 @@ public class VersionTreeComposer extends Fragment
                 LinearLayoutManager.HORIZONTAL, false));
         levelFourRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
+        parentPickingRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
         mVersionTextAdapter = new VersionTextAdapter(activity);
-        mLevelOneAdapter = new VersionTreeComposerAdapter(activity, this, 1);
-        mLevelTwoAdapter = new VersionTreeComposerAdapter(activity, this, 2);
-        mLevelThreeAdapter = new VersionTreeComposerAdapter(activity, this, 3);
-        mLevelFourAdapter = new VersionTreeComposerAdapter(activity, this, 4);
+        mLevelOneAdapter = new VersionTreeComposerAdapter(activity, 1, this);
+        mLevelTwoAdapter = new VersionTreeComposerAdapter(activity, 2, this);
+        mLevelThreeAdapter = new VersionTreeComposerAdapter(activity, 3, this);
+        mLevelFourAdapter = new VersionTreeComposerAdapter(activity, 4, this);
+        mParentPickingAdapter = new VersionTreeComposerAdapter(activity, 0, this);
         versionTextRecycler.setAdapter(mVersionTextAdapter);
         levelOneRecycler.setAdapter(mLevelOneAdapter);
         levelTwoRecycler.setAdapter(mLevelTwoAdapter);
         levelThreeRecycler.setAdapter(mLevelThreeAdapter);
         levelFourRecycler.setAdapter(mLevelFourAdapter);
-        TextView levelTwoLabel = view.findViewById(R.id.version_tree_level_two_label);
-        TextView levelThreeLabel = view.findViewById(R.id.version_tree_level_three_label);
-        TextView levelFourLabel = view.findViewById(R.id.version_tree_level_four_label);
+        parentPickingRecycler.setAdapter(mParentPickingAdapter);
         ItemTouchHelper.SimpleCallback callbackOne = new ItemTouchHelper
                 .SimpleCallback(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP)
         {
@@ -88,17 +121,15 @@ public class VersionTreeComposer extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                if(mCurrentlyMovedVersion==null) {
-                    if (direction == 2) {
-                        Version version = mLevelOneVersions.get(viewHolder.getLayoutPosition());
-                        mLevelOneVersions.remove(version);
-                        mLevelTwoVersions.add(version);
-                        mLevelTwoAdapter.setElementList(mLevelTwoVersions);
-                        levelTwoLabel.setVisibility(View.VISIBLE);
-                        mParentPicking = 1;
-                        mCurrentlyMovedVersion = version;
-                        mLevelOneAdapter.setParent();
-                    }
+                if (direction == 2) {
+                    Version version = mLevelOneVersions.get(viewHolder.getLayoutPosition());
+                    mLevelOneVersions.remove(version);
+                    mLevelTwoVersions.add(version);
+                    mLevelTwoAdapter.setElementList(mLevelTwoVersions);
+                    mCurrentlyMovedVersion = version;
+                    mPrimaryLayout.setVisibility(View.GONE);
+                    mSecondaryLayout.setVisibility(View.VISIBLE);
+                    pickParent(1);
                 }
                 mLevelOneAdapter.setElementList(mLevelOneVersions);
             }
@@ -119,20 +150,18 @@ public class VersionTreeComposer extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                if(mCurrentlyMovedVersion==null) {
-                    Version version = mLevelTwoVersions.get(viewHolder.getLayoutPosition());
-                    mLevelTwoVersions.remove(version);
-                    if (direction == 2) {
-                        mLevelThreeVersions.add(version);
-                        mLevelThreeAdapter.setElementList(mLevelThreeVersions);
-                        levelThreeLabel.setVisibility(View.VISIBLE);
-                        mParentPicking = 2;
-                        mCurrentlyMovedVersion = version;
-                        mLevelTwoAdapter.setParent();
-                    } else if (direction == 1) {
-                        mLevelOneVersions.add(version);
-                        mLevelOneAdapter.setElementList(mLevelOneVersions);
-                    }
+                Version version = mLevelTwoVersions.get(viewHolder.getLayoutPosition());
+                mLevelTwoVersions.remove(version);
+                if (direction == 2) {
+                    mLevelThreeVersions.add(version);
+                    mLevelThreeAdapter.setElementList(mLevelThreeVersions);
+                    mCurrentlyMovedVersion = version;
+                    mPrimaryLayout.setVisibility(View.GONE);
+                    mSecondaryLayout.setVisibility(View.VISIBLE);
+                    pickParent(2);
+                } else if (direction == 1) {
+                    mLevelOneVersions.add(version);
+                    mLevelOneAdapter.setElementList(mLevelOneVersions);
                 }
                 mLevelTwoAdapter.setElementList(mLevelTwoVersions);
             }
@@ -153,20 +182,18 @@ public class VersionTreeComposer extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                if(mCurrentlyMovedVersion==null) {
-                    Version version = mLevelThreeVersions.get(viewHolder.getLayoutPosition());
-                    mLevelThreeVersions.remove(version);
-                    if (direction == 2) {
-                        mLevelFourVersions.add(version);
-                        mLevelFourAdapter.setElementList(mLevelFourVersions);
-                        levelFourLabel.setVisibility(View.VISIBLE);
-                        mParentPicking = 3;
-                        mCurrentlyMovedVersion = version;
-                        mLevelThreeAdapter.setParent();
-                    } else if (direction == 1) {
-                        mLevelTwoVersions.add(version);
-                        mLevelTwoAdapter.setElementList(mLevelTwoVersions);
-                    }
+                Version version = mLevelThreeVersions.get(viewHolder.getLayoutPosition());
+                mLevelThreeVersions.remove(version);
+                if (direction == 2) {
+                    mLevelFourVersions.add(version);
+                    mLevelFourAdapter.setElementList(mLevelFourVersions);
+                    mCurrentlyMovedVersion = version;
+                    mPrimaryLayout.setVisibility(View.GONE);
+                    mSecondaryLayout.setVisibility(View.VISIBLE);
+                    pickParent(3);
+                } else if (direction == 1) {
+                    mLevelTwoVersions.add(version);
+                    mLevelTwoAdapter.setElementList(mLevelTwoVersions);
                 }
                 mLevelThreeAdapter.setElementList(mLevelThreeVersions);
             }
@@ -187,13 +214,11 @@ public class VersionTreeComposer extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                if(mCurrentlyMovedVersion==null) {
-                    if (direction == 1) {
-                        Version version = mLevelFourVersions.get(viewHolder.getLayoutPosition());
-                        mLevelFourVersions.remove(version);
-                        mLevelThreeVersions.add(version);
-                        mLevelThreeAdapter.setElementList(mLevelThreeVersions);
-                    }
+                if (direction == 1) {
+                    Version version = mLevelFourVersions.get(viewHolder.getLayoutPosition());
+                    mLevelFourVersions.remove(version);
+                    mLevelThreeVersions.add(version);
+                    mLevelThreeAdapter.setElementList(mLevelThreeVersions);
                 }
                 mLevelFourAdapter.setElementList(mLevelFourVersions);
             }
@@ -210,22 +235,23 @@ public class VersionTreeComposer extends Fragment
         mVersionTextAdapter.setElementList(mAllVersions);
     }
 
-    @Override
-    public void onClick(Version version, int level)
+    public void pickParent(int level)
     {
-        if(mParentPicking==level) {
-            mCurrentlyMovedVersion.setParentVersionId(version.getVersionId());
-            mCurrentlyMovedVersion.setHasParent(true);
-            version.setHasChildren(true);
-            if(level==1) {
-                mLevelOneAdapter.parentSet();
-            } else if(level==2) {
-                mLevelTwoAdapter.parentSet();
-            } else if(level==3) {
-                mLevelThreeAdapter.parentSet();
-            }
-            mParentPicking = 0;
-            mCurrentlyMovedVersion = null;
+        if(level==1) {
+            mParentPickingAdapter.setElementList(mLevelOneVersions);
+            mMovedFromLevel = 1;
+        } else if(level==2) {
+            mParentPickingAdapter.setElementList(mLevelTwoVersions);
+            mMovedFromLevel = 2;
+        } else if(level==3) {
+            mParentPickingAdapter.setElementList(mLevelThreeVersions);
+            mMovedFromLevel = 3;
         }
+    }
+
+    @Override
+    public void callback(Version version)
+    {
+
     }
 }

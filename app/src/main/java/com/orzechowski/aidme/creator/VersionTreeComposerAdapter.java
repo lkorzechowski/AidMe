@@ -1,7 +1,6 @@
 package com.orzechowski.aidme.creator;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,9 @@ public class VersionTreeComposerAdapter
     private List<Version> mVersions = null;
     private final LayoutInflater mInflater;
     private final int mLevel;
-    private final OnClickListener mListener;
-    private boolean mIsParent = false;
+    private OnClickListener mListener;
 
-    public VersionTreeComposerAdapter(Activity activity, OnClickListener listener, int level)
+    public VersionTreeComposerAdapter(Activity activity, int level, OnClickListener listener)
     {
         mInflater = LayoutInflater.from(activity);
         mLevel = level;
@@ -36,7 +34,7 @@ public class VersionTreeComposerAdapter
     public VersionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_version_tree_rv, parent, false);
-        return new VersionViewHolder(row, mListener);
+        return new VersionViewHolder(row);
     }
 
     @Override
@@ -44,10 +42,9 @@ public class VersionTreeComposerAdapter
     {
         Version version = mVersions.get(position);
         holder.versionButton.setText(String.valueOf(version.getVersionId()));
-        if(mIsParent) holder.versionButton.setBackgroundColor(Color.RED);
-        else holder.versionButton.setBackgroundColor(Color.GREEN);
         holder.version = version;
         holder.level = mLevel;
+        holder.listener = mListener;
     }
 
     @Override
@@ -57,20 +54,9 @@ public class VersionTreeComposerAdapter
         else return 0;
     }
 
-    public void setParent()
-    {
-        mIsParent = true;
-    }
-
     public void setElementList(List<Version> versions)
     {
         mVersions = versions;
-        notifyDataSetChanged();
-    }
-
-    public void parentSet()
-    {
-        mIsParent = false;
         notifyDataSetChanged();
     }
 
@@ -79,25 +65,24 @@ public class VersionTreeComposerAdapter
     {
         Version version;
         Button versionButton;
-        OnClickListener listenerForThisRow;
         int level;
+        OnClickListener listener;
 
-        public VersionViewHolder(@NonNull View itemView, OnClickListener listener)
+        public VersionViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            listenerForThisRow = listener;
             versionButton = itemView.findViewById(R.id.version_tree_button);
         }
 
         @Override
         public void onClick(View v)
         {
-            listenerForThisRow.onClick(version, level);
+            listener.callback(version);
         }
     }
 
     public interface OnClickListener
     {
-        void onClick(Version version, int level);
+        void callback(Version version);
     }
 }
