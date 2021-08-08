@@ -96,10 +96,10 @@ public class VersionTreeComposer extends Fragment
         parentPickingRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
         mVersionTextAdapter = new VersionTextAdapter(activity);
-        mLevelOneAdapter = new VersionTreeComposerAdapter(activity, 1, this);
-        mLevelTwoAdapter = new VersionTreeComposerAdapter(activity, 2, this);
-        mLevelThreeAdapter = new VersionTreeComposerAdapter(activity, 3, this);
-        mLevelFourAdapter = new VersionTreeComposerAdapter(activity, 4, this);
+        mLevelOneAdapter = new VersionTreeComposerAdapter(activity, 1, null);
+        mLevelTwoAdapter = new VersionTreeComposerAdapter(activity, 2, null);
+        mLevelThreeAdapter = new VersionTreeComposerAdapter(activity, 3, null);
+        mLevelFourAdapter = new VersionTreeComposerAdapter(activity, 4, null);
         mParentPickingAdapter = new VersionTreeComposerAdapter(activity, 0, this);
         versionTextRecycler.setAdapter(mVersionTextAdapter);
         levelOneRecycler.setAdapter(mLevelOneAdapter);
@@ -107,7 +107,7 @@ public class VersionTreeComposer extends Fragment
         levelThreeRecycler.setAdapter(mLevelThreeAdapter);
         levelFourRecycler.setAdapter(mLevelFourAdapter);
         parentPickingRecycler.setAdapter(mParentPickingAdapter);
-        ItemTouchHelper.SimpleCallback callbackOne = new ItemTouchHelper
+        ItemTouchHelper itemTouchHelperOne = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP)
         {
             @Override
@@ -133,10 +133,9 @@ public class VersionTreeComposer extends Fragment
                 }
                 mLevelOneAdapter.setElementList(mLevelOneVersions);
             }
-        };
-        ItemTouchHelper itemTouchHelperOne = new ItemTouchHelper(callbackOne);
+        });
         itemTouchHelperOne.attachToRecyclerView(levelOneRecycler);
-        ItemTouchHelper.SimpleCallback callbackTwo = new ItemTouchHelper
+        ItemTouchHelper itemTouchHelperTwo = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP)
         {
             @Override
@@ -165,10 +164,9 @@ public class VersionTreeComposer extends Fragment
                 }
                 mLevelTwoAdapter.setElementList(mLevelTwoVersions);
             }
-        };
-        ItemTouchHelper itemTouchHelperTwo = new ItemTouchHelper(callbackTwo);
+        });
         itemTouchHelperTwo.attachToRecyclerView(levelTwoRecycler);
-        ItemTouchHelper.SimpleCallback callbackThree = new ItemTouchHelper
+        ItemTouchHelper itemTouchHelperThree = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP)
         {
             @Override
@@ -197,10 +195,9 @@ public class VersionTreeComposer extends Fragment
                 }
                 mLevelThreeAdapter.setElementList(mLevelThreeVersions);
             }
-        };
-        ItemTouchHelper itemTouchHelperThree = new ItemTouchHelper(callbackThree);
+        });
         itemTouchHelperThree.attachToRecyclerView(levelThreeRecycler);
-        ItemTouchHelper.SimpleCallback callbackFour = new ItemTouchHelper
+        ItemTouchHelper itemTouchHelperFour = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP)
         {
             @Override
@@ -222,8 +219,7 @@ public class VersionTreeComposer extends Fragment
                 }
                 mLevelFourAdapter.setElementList(mLevelFourVersions);
             }
-        };
-        ItemTouchHelper itemTouchHelperFour = new ItemTouchHelper(callbackFour);
+        });
         itemTouchHelperFour.attachToRecyclerView(levelFourRecycler);
         return view;
     }
@@ -243,7 +239,7 @@ public class VersionTreeComposer extends Fragment
         } else if(level==2) {
             mParentPickingAdapter.setElementList(mLevelTwoVersions);
             mMovedFromLevel = 2;
-        } else if(level==3) {
+        } else {
             mParentPickingAdapter.setElementList(mLevelThreeVersions);
             mMovedFromLevel = 3;
         }
@@ -252,6 +248,22 @@ public class VersionTreeComposer extends Fragment
     @Override
     public void callback(Version version)
     {
-
+        int index;
+        mSecondaryLayout.setVisibility(View.GONE);
+        mPrimaryLayout.setVisibility(View.VISIBLE);
+        version.setHasChildren(true);
+        if(mMovedFromLevel==1) {
+            index = mLevelTwoVersions.size()-1;
+            mLevelTwoVersions.get(index).setHasParent(true);
+            mLevelTwoVersions.get(index).setParentVersionId(version.getVersionId());
+        } else if(mMovedFromLevel==2) {
+            index = mLevelThreeVersions.size()-1;
+            mLevelThreeVersions.get(index).setHasParent(true);
+            mLevelThreeVersions.get(index).setParentVersionId(version.getVersionId());
+        } else {
+            index = mLevelFourVersions.size()-1;
+            mLevelFourVersions.get(index).setHasParent(true);
+            mLevelFourVersions.get(index).setParentVersionId(version.getVersionId());
+        }
     }
 }

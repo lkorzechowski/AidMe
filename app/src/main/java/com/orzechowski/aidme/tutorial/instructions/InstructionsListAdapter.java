@@ -29,9 +29,9 @@ public class InstructionsListAdapter
 
     @NonNull
     @Override
-    public InstructionsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
+    public InstructionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View row = mInflater.inflate(R.layout.row_instructions_rv, viewGroup, false);
+        View row = mInflater.inflate(R.layout.row_instructions_rv, parent, false);
         return new InstructionsViewHolder(row, mListener);
     }
 
@@ -61,23 +61,22 @@ public class InstructionsListAdapter
             implements View.OnClickListener
     {
         TextView title, brief;
-        OnClickListener listenerForThisRow;
+        OnClickListener listener;
         InstructionSet thisInstructionSet;
 
-        public InstructionsViewHolder(@NonNull View viewForThisRow,
-                                      OnClickListener listenerFromActivity)
+        public InstructionsViewHolder(@NonNull View itemView, OnClickListener fragmentListener)
         {
-            super(viewForThisRow);
-            title = viewForThisRow.findViewById(R.id.title);
-            brief = viewForThisRow.findViewById(R.id.brief);
-            listenerForThisRow = listenerFromActivity;
-            viewForThisRow.setOnClickListener(this);
+            super(itemView);
+            title = itemView.findViewById(R.id.title);
+            brief = itemView.findViewById(R.id.brief);
+            listener = fragmentListener;
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
-            listenerForThisRow.onClick(thisInstructionSet);
+            listener.onClick(thisInstructionSet);
         }
     }
 
