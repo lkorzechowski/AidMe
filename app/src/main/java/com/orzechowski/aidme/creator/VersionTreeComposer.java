@@ -69,10 +69,12 @@ public class VersionTreeComposer extends Fragment
                 mLevelTwoVersions.remove(mCurrentlyMovedVersion);
                 mLevelThreeVersions.add(mCurrentlyMovedVersion);
                 pickParent(2);
+                mLevelThreeAdapter.setElementList(mLevelThreeVersions);
             } else if(mMovedFromLevel==2 && mLevelThreeVersions.size()>1) {
                 mLevelThreeVersions.remove(mCurrentlyMovedVersion);
                 mLevelFourVersions.add(mCurrentlyMovedVersion);
                 pickParent(3);
+                mLevelFourAdapter.setElementList(mLevelFourVersions);
             }
         });
         mPrimaryLayout = view.findViewById(R.id.version_tree_primary_layout);
@@ -121,14 +123,11 @@ public class VersionTreeComposer extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                if (direction == 2) {
-                    Version version = mLevelOneVersions.get(viewHolder.getLayoutPosition());
-                    mLevelOneVersions.remove(version);
-                    mLevelTwoVersions.add(version);
+                if (direction == 2 && mLevelOneVersions.size()>1) {
+                    mCurrentlyMovedVersion = mLevelOneVersions.get(viewHolder.getLayoutPosition());
+                    mLevelOneVersions.remove(mCurrentlyMovedVersion);
+                    mLevelTwoVersions.add(mCurrentlyMovedVersion);
                     mLevelTwoAdapter.setElementList(mLevelTwoVersions);
-                    mCurrentlyMovedVersion = version;
-                    mPrimaryLayout.setVisibility(View.GONE);
-                    mSecondaryLayout.setVisibility(View.VISIBLE);
                     pickParent(1);
                 }
                 mLevelOneAdapter.setElementList(mLevelOneVersions);
@@ -149,17 +148,17 @@ public class VersionTreeComposer extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                Version version = mLevelTwoVersions.get(viewHolder.getLayoutPosition());
-                mLevelTwoVersions.remove(version);
-                if (direction == 2) {
-                    mLevelThreeVersions.add(version);
+                mCurrentlyMovedVersion = mLevelTwoVersions.get(viewHolder.getLayoutPosition());
+                if (direction == 2 && mLevelTwoVersions.size()>1) {
+                    mLevelTwoVersions.remove(mCurrentlyMovedVersion);
+                    mLevelThreeVersions.add(mCurrentlyMovedVersion);
                     mLevelThreeAdapter.setElementList(mLevelThreeVersions);
-                    mCurrentlyMovedVersion = version;
-                    mPrimaryLayout.setVisibility(View.GONE);
-                    mSecondaryLayout.setVisibility(View.VISIBLE);
                     pickParent(2);
                 } else if (direction == 1) {
-                    mLevelOneVersions.add(version);
+                    mLevelTwoVersions.remove(mCurrentlyMovedVersion);
+                    mCurrentlyMovedVersion.setParentVersionId(null);
+                    mCurrentlyMovedVersion.setHasParent(false);
+                    mLevelOneVersions.add(mCurrentlyMovedVersion);
                     mLevelOneAdapter.setElementList(mLevelOneVersions);
                 }
                 mLevelTwoAdapter.setElementList(mLevelTwoVersions);
@@ -180,18 +179,17 @@ public class VersionTreeComposer extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                Version version = mLevelThreeVersions.get(viewHolder.getLayoutPosition());
-                mLevelThreeVersions.remove(version);
-                if (direction == 2) {
-                    mLevelFourVersions.add(version);
+                mCurrentlyMovedVersion = mLevelThreeVersions.get(viewHolder.getLayoutPosition());
+                if (direction == 2 && mLevelThreeVersions.size()>1) {
+                    mLevelThreeVersions.remove(mCurrentlyMovedVersion);
+                    mLevelFourVersions.add(mCurrentlyMovedVersion);
                     mLevelFourAdapter.setElementList(mLevelFourVersions);
-                    mCurrentlyMovedVersion = version;
-                    mPrimaryLayout.setVisibility(View.GONE);
-                    mSecondaryLayout.setVisibility(View.VISIBLE);
                     pickParent(3);
                 } else if (direction == 1) {
-                    mLevelTwoVersions.add(version);
+                    mLevelThreeVersions.remove(mCurrentlyMovedVersion);
+                    mLevelTwoVersions.add(mCurrentlyMovedVersion);
                     mLevelTwoAdapter.setElementList(mLevelTwoVersions);
+                    pickParent(1);
                 }
                 mLevelThreeAdapter.setElementList(mLevelThreeVersions);
             }
@@ -216,6 +214,7 @@ public class VersionTreeComposer extends Fragment
                     mLevelFourVersions.remove(version);
                     mLevelThreeVersions.add(version);
                     mLevelThreeAdapter.setElementList(mLevelThreeVersions);
+                    pickParent(2);
                 }
                 mLevelFourAdapter.setElementList(mLevelFourVersions);
             }
@@ -233,6 +232,8 @@ public class VersionTreeComposer extends Fragment
 
     public void pickParent(int level)
     {
+        mPrimaryLayout.setVisibility(View.GONE);
+        mSecondaryLayout.setVisibility(View.VISIBLE);
         if(level==1) {
             mParentPickingAdapter.setElementList(mLevelOneVersions);
             mMovedFromLevel = 1;
