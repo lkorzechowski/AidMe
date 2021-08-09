@@ -24,7 +24,6 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial), Instruct
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        this.setContentView(R.layout.activity_tutorial)
         supportActionBar?.hide()
         val bundle = intent.extras!!
 

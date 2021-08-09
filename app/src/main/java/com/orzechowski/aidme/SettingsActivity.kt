@@ -13,7 +13,7 @@ import com.orzechowski.aidme.settings.HelperRecycler
 import com.orzechowski.aidme.settings.Policy
 
 
-class SettingsActivity : AppCompatActivity(), Contact.OnClickListener
+class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.OnClickListener
 {
     private val mPolicy = Policy()
     private val mHelpers = HelperRecycler()
@@ -24,14 +24,11 @@ class SettingsActivity : AppCompatActivity(), Contact.OnClickListener
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
-
         val policyButton = findViewById<Button>(R.id.policy_button)
         val contributorButton = findViewById<Button>(R.id.contributor_button)
         val downloadAllTutorialsButton = findViewById<Button>(R.id.download_all_tutorials)
         val contactButton = findViewById<Button>(R.id.contact_button)
         mParentLayout = findViewById(R.id.settings_parent_layout)
-
         policyButton.setOnClickListener {
             mParentLayout.visibility = View.INVISIBLE
             supportFragmentManager.commit {
@@ -39,7 +36,6 @@ class SettingsActivity : AppCompatActivity(), Contact.OnClickListener
                 add(R.id.fragment_layout, mPolicy)
             }
         }
-
         contributorButton.setOnClickListener {
             mParentLayout.visibility = View.INVISIBLE
             supportFragmentManager.commit {
@@ -47,11 +43,9 @@ class SettingsActivity : AppCompatActivity(), Contact.OnClickListener
                 add(R.id.fragment_layout, mHelpers)
             }
         }
-
         downloadAllTutorialsButton.setOnClickListener {
 
         }
-
         contactButton.setOnClickListener {
             mParentLayout.visibility = View.INVISIBLE
             supportFragmentManager.commit {
@@ -92,7 +86,8 @@ class SettingsActivity : AppCompatActivity(), Contact.OnClickListener
         if (!handled) super.onBackPressed()
     }
 
-    override fun onClick() {
+    override fun onClick()
+    {
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
         t.remove(mContact).commit()
         supportFragmentManager.commit {

@@ -31,19 +31,15 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         FragmentActivity activity = requireActivity();
         mAdapter = new SoundComposerAdapter(activity, this);
-        View view = inflater.inflate(R.layout.fragment_sound_composer, container, false);
+        View view = inflater
+                .inflate(R.layout.fragment_sound_composer, container, false);
         RecyclerView recycler = view.findViewById(R.id.new_sound_rv);
-        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+                LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
         return view;
     }
@@ -53,7 +49,8 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
     {
         Button addSoundButton = view.findViewById(R.id.new_sound_button);
         addSoundButton.setOnClickListener(v-> {
-            mSounds.add(new TutorialSound(mSounds.size(), 0, false, 0, 0, ""));
+            mSounds.add(new TutorialSound(mSounds.size(), 0,
+                    false, 0, 0, ""));
             mAdapter.setElementList(mSounds);
         });
     }
@@ -66,7 +63,8 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
         {
             TutorialSound sound = mSounds.get(i);
             mSounds.remove(sound);
-            mSounds.add(new TutorialSound(i, sound.getSoundStart(), sound.getSoundLoop(), sound.getInterval(), 0, sound.getFileName()));
+            mSounds.add(new TutorialSound(i, sound.getSoundStart(),
+                    sound.getSoundLoop(), sound.getInterval(), 0, sound.getFileName()));
         }
         mAdapter.setElementList(mSounds);
     }

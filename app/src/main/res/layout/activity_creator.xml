@@ -51,7 +51,7 @@
                 android:id="@+id/creator_step_one_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/creator_step_one_button"
+                android:text="@string/next"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -61,7 +61,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_version_tree"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_version_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,6 +93,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/row_version_tree_rv" />
 
+        <Button
+            android:id="@+id/version_tree_finalize_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

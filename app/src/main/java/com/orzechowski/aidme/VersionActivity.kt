@@ -17,7 +17,6 @@ VersionListAdapter.OnClickListener, VersionRecycler.ActivityCallback
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        this.setContentView(R.layout.activity_version)
         supportActionBar?.hide()
         bundle.putLong("tutorialId", intent.getLongExtra("tutorialId", -1L))
         supportFragmentManager.commit {

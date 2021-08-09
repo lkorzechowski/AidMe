@@ -35,11 +35,13 @@ public class VersionTreeComposer extends Fragment
     private Version mCurrentlyMovedVersion = null;
     private int mMovedFromLevel;
     private ConstraintLayout mPrimaryLayout, mSecondaryLayout;
+    private final CallbackToActivity mCallback;
 
-    public VersionTreeComposer(List<Version> versions)
+    public VersionTreeComposer(List<Version> versions, CallbackToActivity callback)
     {
         mAllVersions = versions;
         mLevelOneVersions = versions;
+        mCallback = callback;
     }
 
     @Override
@@ -76,6 +78,13 @@ public class VersionTreeComposer extends Fragment
                 pickParent(3);
                 mLevelFourAdapter.setElementList(mLevelFourVersions);
             }
+        });
+        Button versionTreeFinalizeButton = view.findViewById(R.id.version_tree_finalize_button);
+        versionTreeFinalizeButton.setOnClickListener(v -> {
+            mLevelOneVersions.addAll(mLevelTwoVersions);
+            mLevelOneVersions.addAll(mLevelThreeVersions);
+            mLevelOneVersions.addAll(mLevelFourVersions);
+            mCallback.callback(mLevelOneVersions);
         });
         mPrimaryLayout = view.findViewById(R.id.version_tree_primary_layout);
         mSecondaryLayout = view.findViewById(R.id.version_tree_secondary_layout);
@@ -266,5 +275,10 @@ public class VersionTreeComposer extends Fragment
             mLevelFourVersions.get(index).setHasParent(true);
             mLevelFourVersions.get(index).setParentVersionId(version.getVersionId());
         }
+    }
+
+    public interface CallbackToActivity
+    {
+        void callback(List<Version> versions);
     }
 }

@@ -8,7 +8,8 @@ import androidx.fragment.app.commit
 import com.orzechowski.aidme.login.LoginFragment
 import com.orzechowski.aidme.login.RegisterFragment
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(R.layout.activity_login)
+{
     private val mLogin = LoginFragment()
     private val mRegister = RegisterFragment()
 
@@ -16,7 +17,6 @@ class LoginActivity : AppCompatActivity() {
     {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        setContentView(R.layout.activity_login)
         commitLogin()
         val switchButton = findViewById<Button>(R.id.login_switch_mode_button)
         val submitButton = findViewById<Button>(R.id.login_submit_button)
