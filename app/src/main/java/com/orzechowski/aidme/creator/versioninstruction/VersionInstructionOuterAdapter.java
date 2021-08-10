@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.creator;
+package com.orzechowski.aidme.creator.versioninstruction;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
+import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionInnerAdapter.OnClickListener;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.version.database.Version;
 
@@ -23,11 +24,13 @@ public class VersionInstructionOuterAdapter
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
     private final Activity mActivity;
+    private final OnClickListener mListener;
 
-    public VersionInstructionOuterAdapter(Activity activity)
+    public VersionInstructionOuterAdapter(Activity activity, OnClickListener listener)
     {
         mActivity = activity;
         mInflater = LayoutInflater.from(activity);
+        mListener = listener;
     }
 
     @NonNull
@@ -36,7 +39,7 @@ public class VersionInstructionOuterAdapter
     {
         View row = mInflater
                 .inflate(R.layout.row_outer_version_instruction_rv, parent, false);
-        return new VersionViewHolder(row, mActivity);
+        return new VersionViewHolder(row, mActivity, mListener);
     }
 
     @Override
@@ -44,7 +47,7 @@ public class VersionInstructionOuterAdapter
     {
         Version version = mVersions.get(position);
         holder.version = version;
-        holder.instructions = mInstructions;
+        holder.adapter.setElementList(mInstructions);
         holder.label.setText(String.format("Treść wersji: %s", version.getText()));
     }
 
@@ -65,21 +68,20 @@ public class VersionInstructionOuterAdapter
     public static class VersionViewHolder extends RecyclerView.ViewHolder
     {
         Version version;
-        List<InstructionSet> instructions;
         RecyclerView recycler;
         TextView label;
         VersionInstructionInnerAdapter adapter;
 
-        public VersionViewHolder(@NonNull View itemView, Activity requestActivity)
+        public VersionViewHolder(@NonNull View itemView, Activity requestActivity,
+                                 OnClickListener listener)
         {
             super(itemView);
             label = itemView.findViewById(R.id.version_instruction_label);
             recycler = itemView.findViewById(R.id.version_instruction_inner_rv);
             recycler.setLayoutManager(new LinearLayoutManager(itemView.getContext(),
                     LinearLayoutManager.HORIZONTAL, false));
-            adapter = new VersionInstructionInnerAdapter(requestActivity);
+            adapter = new VersionInstructionInnerAdapter(requestActivity, version, listener);
             recycler.setAdapter(adapter);
-            adapter.setElementList(instructions);
         }
     }
 }

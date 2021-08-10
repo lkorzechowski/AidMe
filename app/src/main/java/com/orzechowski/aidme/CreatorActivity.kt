@@ -5,11 +5,17 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
-import com.orzechowski.aidme.creator.*
+import com.orzechowski.aidme.creator.InstructionComposer
+import com.orzechowski.aidme.creator.MultimediaComposer
+import com.orzechowski.aidme.creator.SoundComposer
+import com.orzechowski.aidme.creator.VersionComposer
+import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
+import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
 import com.orzechowski.aidme.tutorial.version.database.Version
+import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
 
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     VersionTreeComposer.CallbackToActivity
@@ -24,6 +30,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mMultimedias: List<Multimedia>
     private lateinit var mInstructions: List<InstructionSet>
     private lateinit var mSounds: List<TutorialSound>
+    private lateinit var mVersionInstructions: List<VersionInstruction>
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -40,7 +47,11 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             supportFragmentManager.beginTransaction().remove(mVersionComposer).commit()
             supportFragmentManager.beginTransaction().remove(mSoundComposer).commit()
             progressButton.visibility = View.GONE
-            mVersionTreeComposer = VersionTreeComposer(mVersions, this)
+            mVersionTreeComposer =
+                VersionTreeComposer(
+                    mVersions,
+                    this
+                )
             supportFragmentManager.commit {
                 add(R.id.layout_version_tree, mVersionTreeComposer)
             }
@@ -56,6 +67,11 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     override fun callback(versions: MutableList<Version>)
     {
         mVersions = versions
+        mVersionInstructionComposer =
+            VersionInstructionComposer(
+                mVersions,
+                mInstructions
+            )
         supportFragmentManager.beginTransaction().remove(mVersionTreeComposer).commit()
         supportFragmentManager.commit {
             add(R.id.layout_version_instruction, mVersionInstructionComposer)

@@ -1,10 +1,11 @@
-package com.orzechowski.aidme.creator;
+package com.orzechowski.aidme.creator.versiontree;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -118,6 +119,7 @@ public class VersionTreeComposer extends Fragment
         levelThreeRecycler.setAdapter(mLevelThreeAdapter);
         levelFourRecycler.setAdapter(mLevelFourAdapter);
         parentPickingRecycler.setAdapter(mParentPickingAdapter);
+        Toast hasChildren = Toast.makeText(getContext(), "Ta wersja ma już wersje potomne", Toast.LENGTH_SHORT);
         ItemTouchHelper itemTouchHelperOne = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP)
         {
@@ -134,10 +136,14 @@ public class VersionTreeComposer extends Fragment
             {
                 if (direction == 2 && mLevelOneVersions.size()>1) {
                     mCurrentlyMovedVersion = mLevelOneVersions.get(viewHolder.getLayoutPosition());
-                    mLevelOneVersions.remove(mCurrentlyMovedVersion);
-                    mLevelTwoVersions.add(mCurrentlyMovedVersion);
-                    mLevelTwoAdapter.setElementList(mLevelTwoVersions);
-                    pickParent(1);
+                    if(!mCurrentlyMovedVersion.getHasChildren()) {
+                        mLevelOneVersions.remove(mCurrentlyMovedVersion);
+                        mLevelTwoVersions.add(mCurrentlyMovedVersion);
+                        mLevelTwoAdapter.setElementList(mLevelTwoVersions);
+                        pickParent(1);
+                    } else {
+                        hasChildren.show();
+                    }
                 }
                 mLevelOneAdapter.setElementList(mLevelOneVersions);
             }
@@ -158,17 +164,21 @@ public class VersionTreeComposer extends Fragment
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
                 mCurrentlyMovedVersion = mLevelTwoVersions.get(viewHolder.getLayoutPosition());
-                if (direction == 2 && mLevelTwoVersions.size()>1) {
-                    mLevelTwoVersions.remove(mCurrentlyMovedVersion);
-                    mLevelThreeVersions.add(mCurrentlyMovedVersion);
-                    mLevelThreeAdapter.setElementList(mLevelThreeVersions);
-                    pickParent(2);
-                } else if (direction == 1) {
-                    mLevelTwoVersions.remove(mCurrentlyMovedVersion);
-                    mCurrentlyMovedVersion.setParentVersionId(null);
-                    mCurrentlyMovedVersion.setHasParent(false);
-                    mLevelOneVersions.add(mCurrentlyMovedVersion);
-                    mLevelOneAdapter.setElementList(mLevelOneVersions);
+                if(!mCurrentlyMovedVersion.getHasChildren()) {
+                    if (direction == 2 && mLevelTwoVersions.size() > 1) {
+                        mLevelTwoVersions.remove(mCurrentlyMovedVersion);
+                        mLevelThreeVersions.add(mCurrentlyMovedVersion);
+                        mLevelThreeAdapter.setElementList(mLevelThreeVersions);
+                        pickParent(2);
+                    } else if (direction == 1) {
+                        mLevelTwoVersions.remove(mCurrentlyMovedVersion);
+                        mCurrentlyMovedVersion.setParentVersionId(null);
+                        mCurrentlyMovedVersion.setHasParent(false);
+                        mLevelOneVersions.add(mCurrentlyMovedVersion);
+                        mLevelOneAdapter.setElementList(mLevelOneVersions);
+                    }
+                } else {
+                    hasChildren.show();
                 }
                 mLevelTwoAdapter.setElementList(mLevelTwoVersions);
             }
@@ -189,16 +199,20 @@ public class VersionTreeComposer extends Fragment
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
                 mCurrentlyMovedVersion = mLevelThreeVersions.get(viewHolder.getLayoutPosition());
-                if (direction == 2 && mLevelThreeVersions.size()>1) {
-                    mLevelThreeVersions.remove(mCurrentlyMovedVersion);
-                    mLevelFourVersions.add(mCurrentlyMovedVersion);
-                    mLevelFourAdapter.setElementList(mLevelFourVersions);
-                    pickParent(3);
-                } else if (direction == 1) {
-                    mLevelThreeVersions.remove(mCurrentlyMovedVersion);
-                    mLevelTwoVersions.add(mCurrentlyMovedVersion);
-                    mLevelTwoAdapter.setElementList(mLevelTwoVersions);
-                    pickParent(1);
+                if(!mCurrentlyMovedVersion.getHasChildren()) {
+                    if (direction == 2 && mLevelThreeVersions.size() > 1) {
+                        mLevelThreeVersions.remove(mCurrentlyMovedVersion);
+                        mLevelFourVersions.add(mCurrentlyMovedVersion);
+                        mLevelFourAdapter.setElementList(mLevelFourVersions);
+                        pickParent(3);
+                    } else if (direction == 1) {
+                        mLevelThreeVersions.remove(mCurrentlyMovedVersion);
+                        mLevelTwoVersions.add(mCurrentlyMovedVersion);
+                        mLevelTwoAdapter.setElementList(mLevelTwoVersions);
+                        pickParent(1);
+                    }
+                } else {
+                    hasChildren.show();
                 }
                 mLevelThreeAdapter.setElementList(mLevelThreeVersions);
             }

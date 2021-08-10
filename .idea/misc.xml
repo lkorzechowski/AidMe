@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/drawable/ic_arrow_down.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_recycler_version_instruction.xml" value="0.125" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_instruction.xml" value="0.1" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_tree_composer.xml" value="0.1296875" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_inner_version_instruction_rv.xml" value="0.125" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_instruction_text_rv.xml" value="0.125" />

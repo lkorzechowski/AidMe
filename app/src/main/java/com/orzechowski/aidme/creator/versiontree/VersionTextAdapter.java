@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.creator;
+package com.orzechowski.aidme.creator.versiontree;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

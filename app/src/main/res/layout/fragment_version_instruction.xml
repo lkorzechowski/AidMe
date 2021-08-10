@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".creator.VersionInstructionComposer">
+    tools:context=".creator.versioninstruction.VersionInstructionComposer">
 
     <TextView
         android:id="@+id/version_instruction_heading"
@@ -22,12 +22,31 @@
         app:layout_constraintBottom_toTopOf="@id/instruction_text_label"
         tools:listitem="@layout/row_outer_version_instruction_rv" />
 
+    <Button
+        android:id="@+id/version_tree_finalize_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        app:layout_constraintBottom_toTopOf="@id/instruction_text_label"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/instruction_text_label"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/instruction_text_rv_label"
-        app:layout_constraintTop_toBottomOf="@id/version_instruction_outer_rv" />
+        app:layout_constraintBottom_toTopOf="@id/instruction_text_rv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/yellow1"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/instruction_text_rv" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/instruction_text_rv"
