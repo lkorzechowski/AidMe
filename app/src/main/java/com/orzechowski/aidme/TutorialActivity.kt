@@ -9,8 +9,8 @@ import com.orzechowski.aidme.tutorial.database.TutorialLink
 import com.orzechowski.aidme.tutorial.instructions.InstructionsRecycler
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.MultimediaPlayer
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
-import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersionViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimediaViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.SoundAdapter
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersionViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
@@ -51,7 +51,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial), Instruct
                 mSoundAdapter.deploy()
             })
         })
-        val mediaInVersionViewModel = ViewModelProvider(this).get(MultimediaInVersionViewModel::class.java)
+        val mediaInVersionViewModel = ViewModelProvider(this).get(VersionMultimediaViewModel::class.java)
         val mediaViewModel = ViewModelProvider(this).get(MultimediaViewModel::class.java)
         mediaInVersionViewModel.getByVersionId(versionId).observe(this, { multimediaList ->
                 mediaViewModel.getByTutorialId(tutorialId).observe(this, {

@@ -10,20 +10,20 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface MultimediaInVersionDAO
+public interface VersionMultimediaDAO
 {
     @Insert
-    void insert(MultimediaInVersion multimediaInVersion);
+    void insert(VersionMultimedia versionMultimedia);
 
     @Delete
-    void delete(MultimediaInVersion multimediaInVersion);
+    void delete(VersionMultimedia versionMultimedia);
 
     @Update
-    void update(MultimediaInVersion multimediaInVersion);
+    void update(VersionMultimedia versionMultimedia);
 
-    @Query("DELETE FROM multimediainversion")
+    @Query("DELETE FROM versionmultimedia")
     void deleteAll();
 
-    @Query("SELECT multimediaId FROM multimediainversion WHERE versionId = :versionId")
+    @Query("SELECT multimediaId FROM versionmultimedia WHERE versionId = :versionId")
     LiveData<List<Long>> getByVersionId(long versionId);
 }

@@ -22,8 +22,8 @@ import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaDAO;
-import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersion;
-import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaInVersionDAO;
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimedia;
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimediaDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersion;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersionDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound;
@@ -1075,17 +1075,17 @@ public class Populating
         versionInstructionDAO.insert(new VersionInstruction(141L, 21L, 4));
     }
 
-    public void populateMultimediaInVersion(MultimediaInVersionDAO multimediaInVersionDAO)
+    public void populateMultimediaInVersion(VersionMultimediaDAO versionMultimediaDAO)
     {
         //tutorial 0
-        multimediaInVersionDAO.insert(new MultimediaInVersion(0L, 0L, 0L));
-        multimediaInVersionDAO.insert(new MultimediaInVersion(1L, 0L, 1L));
+        versionMultimediaDAO.insert(new VersionMultimedia(0L, 0L, 0L));
+        versionMultimediaDAO.insert(new VersionMultimedia(1L, 0L, 1L));
 
         //tutorial 1
-        multimediaInVersionDAO.insert(new MultimediaInVersion(7L, 1L, 7L));
-        multimediaInVersionDAO.insert(new MultimediaInVersion(8L, 2L, 7L));
-        multimediaInVersionDAO.insert(new MultimediaInVersion(9L, 1L, 8L));
-        multimediaInVersionDAO.insert(new MultimediaInVersion(10L, 2L, 8L));
+        versionMultimediaDAO.insert(new VersionMultimedia(7L, 1L, 7L));
+        versionMultimediaDAO.insert(new VersionMultimedia(8L, 2L, 7L));
+        versionMultimediaDAO.insert(new VersionMultimedia(9L, 1L, 8L));
+        versionMultimediaDAO.insert(new VersionMultimedia(10L, 2L, 8L));
     }
 
     public void populateMultimedia(MultimediaDAO multimediaDAO)
