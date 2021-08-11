@@ -18,7 +18,7 @@ import com.orzechowski.aidme.tutorial.version.database.Version
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
 
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
-    VersionTreeComposer.CallbackToActivity
+    VersionTreeComposer.CallbackToActivity, VersionInstructionComposer.CallbackToActivity
 {
     private val mInstructionComposer = InstructionComposer()
     private val mMultimediaComposer = MultimediaComposer()
@@ -30,7 +30,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mMultimedias: List<Multimedia>
     private lateinit var mInstructions: List<InstructionSet>
     private lateinit var mSounds: List<TutorialSound>
-    private lateinit var mVersionInstructions: List<VersionInstruction>
+    private lateinit var mVersionInstructions: Collection<VersionInstruction>
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -64,17 +64,24 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
     }
 
-    override fun callback(versions: MutableList<Version>)
+    override fun finalizeVersionTree(versions: MutableList<Version>)
     {
         mVersions = versions
         mVersionInstructionComposer =
             VersionInstructionComposer(
                 mVersions,
-                mInstructions
+                mInstructions,
+                this
             )
         supportFragmentManager.beginTransaction().remove(mVersionTreeComposer).commit()
         supportFragmentManager.commit {
             add(R.id.layout_version_instruction, mVersionInstructionComposer)
         }
+    }
+
+    override fun finalizeVersionInstructions(versionInstructions: Collection<VersionInstruction>)
+    {
+        mVersionInstructions = versionInstructions
+        supportFragmentManager.beginTransaction().remove(mVersionInstructionComposer).commit()
     }
 }

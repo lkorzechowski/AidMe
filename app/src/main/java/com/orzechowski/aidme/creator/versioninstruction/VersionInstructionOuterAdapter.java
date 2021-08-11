@@ -11,26 +11,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionInnerAdapter.OnClickListener;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.version.database.Version;
 
 import java.util.List;
 
 public class VersionInstructionOuterAdapter
-    extends RecyclerView.Adapter<VersionInstructionOuterAdapter.VersionViewHolder>
+        extends RecyclerView.Adapter<VersionInstructionOuterAdapter.VersionViewHolder>
 {
     private List<Version> mVersions = null;
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
     private final Activity mActivity;
-    private final OnClickListener mListener;
+    private final CallbackToFragment mCallback;
 
-    public VersionInstructionOuterAdapter(Activity activity, OnClickListener listener)
+    public VersionInstructionOuterAdapter(Activity activity, CallbackToFragment callback)
     {
         mActivity = activity;
         mInflater = LayoutInflater.from(activity);
-        mListener = listener;
+        mCallback = callback;
     }
 
     @NonNull
@@ -39,7 +38,7 @@ public class VersionInstructionOuterAdapter
     {
         View row = mInflater
                 .inflate(R.layout.row_outer_version_instruction_rv, parent, false);
-        return new VersionViewHolder(row, mActivity, mListener);
+        return new VersionViewHolder(row, mActivity, mCallback);
     }
 
     @Override
@@ -66,22 +65,43 @@ public class VersionInstructionOuterAdapter
     }
 
     public static class VersionViewHolder extends RecyclerView.ViewHolder
+            implements VersionInstructionInnerAdapter.OnClickListener
     {
         Version version;
         RecyclerView recycler;
         TextView label;
         VersionInstructionInnerAdapter adapter;
+        CallbackToFragment callback;
 
         public VersionViewHolder(@NonNull View itemView, Activity requestActivity,
-                                 OnClickListener listener)
+                                 CallbackToFragment callbackToFragment)
         {
             super(itemView);
+            callback = callbackToFragment;
             label = itemView.findViewById(R.id.version_instruction_label);
             recycler = itemView.findViewById(R.id.version_instruction_inner_rv);
             recycler.setLayoutManager(new LinearLayoutManager(itemView.getContext(),
                     LinearLayoutManager.HORIZONTAL, false));
-            adapter = new VersionInstructionInnerAdapter(requestActivity, version, listener);
+            adapter = new VersionInstructionInnerAdapter(requestActivity, this);
             recycler.setAdapter(adapter);
         }
+
+        @Override
+        public void select(InstructionSet instructionSet)
+        {
+            callback.select(instructionSet, version);
+        }
+
+        @Override
+        public void unselect(InstructionSet instructionSet)
+        {
+            callback.unselect(instructionSet, version);
+        }
+    }
+
+    public interface CallbackToFragment
+    {
+        void select(InstructionSet instructionSet, Version version);
+        void unselect(InstructionSet instructionSet, Version version);
     }
 }

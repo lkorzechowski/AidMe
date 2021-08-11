@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
-import com.orzechowski.aidme.tutorial.version.database.Version;
 
 import java.util.List;
 
@@ -21,14 +20,11 @@ public class VersionInstructionInnerAdapter
 {
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
-    private final Version mVersion;
     private final OnClickListener mListener;
 
-    public VersionInstructionInnerAdapter(Activity activity, Version version,
-                                          OnClickListener listener)
+    public VersionInstructionInnerAdapter(Activity activity, OnClickListener listener)
     {
         mInflater = LayoutInflater.from(activity);
-        mVersion = version;
         mListener = listener;
     }
 
@@ -47,7 +43,6 @@ public class VersionInstructionInnerAdapter
         InstructionSet instructionSet = mInstructions.get(position);
         holder.instructionSet = instructionSet;
         holder.instructionNumberButton.setText(String.valueOf(instructionSet.getPosition()));
-        holder.version = mVersion;
     }
 
     @Override
@@ -69,12 +64,15 @@ public class VersionInstructionInnerAdapter
         InstructionSet instructionSet;
         Button instructionNumberButton;
         OnClickListener listener;
-        Version version;
+        boolean selected = false;
 
-        public InstructionViewHolder(@NonNull View itemView, OnClickListener fragmentListener)
+        public InstructionViewHolder(@NonNull View itemView,
+                                     OnClickListener fragmentListener)
         {
             super(itemView);
             instructionNumberButton = itemView.findViewById(R.id.instruction_number_button);
+            instructionNumberButton.setBackgroundColor(Color
+                    .argb(100, 0, 200, 0));
             listener = fragmentListener;
             instructionNumberButton.setOnClickListener(this);
         }
@@ -82,13 +80,23 @@ public class VersionInstructionInnerAdapter
         @Override
         public void onClick(View v)
         {
-            instructionNumberButton.setBackgroundColor(Color.RED);
-            listener.callback(instructionSet, version);
+            if(!selected) {
+                instructionNumberButton.setBackgroundColor(Color
+                        .argb(100, 200, 0, 0));
+                listener.select(instructionSet);
+                selected = true;
+            } else {
+                instructionNumberButton.setBackgroundColor(Color
+                        .argb(100, 0, 200, 0));
+                listener.unselect(instructionSet);
+                selected = false;
+            }
         }
     }
 
     public interface OnClickListener
     {
-        void callback(InstructionSet instructionSet, Version version);
+        void select(InstructionSet instructionSet);
+        void unselect(InstructionSet instructionSet);
     }
 }

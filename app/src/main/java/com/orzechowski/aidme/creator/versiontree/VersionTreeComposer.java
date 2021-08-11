@@ -85,7 +85,7 @@ public class VersionTreeComposer extends Fragment
             mLevelOneVersions.addAll(mLevelTwoVersions);
             mLevelOneVersions.addAll(mLevelThreeVersions);
             mLevelOneVersions.addAll(mLevelFourVersions);
-            mCallback.callback(mLevelOneVersions);
+            mCallback.finalizeVersionTree(mLevelOneVersions);
         });
         mPrimaryLayout = view.findViewById(R.id.version_tree_primary_layout);
         mSecondaryLayout = view.findViewById(R.id.version_tree_secondary_layout);
@@ -293,6 +293,6 @@ public class VersionTreeComposer extends Fragment
 
     public interface CallbackToActivity
     {
-        void callback(List<Version> versions);
+        void finalizeVersionTree(List<Version> versions);
     }
 }

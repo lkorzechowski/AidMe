@@ -23,7 +23,7 @@
         tools:listitem="@layout/row_outer_version_instruction_rv" />
 
     <Button
-        android:id="@+id/version_tree_finalize_button"
+        android:id="@+id/version_instruction_finalize_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next"
