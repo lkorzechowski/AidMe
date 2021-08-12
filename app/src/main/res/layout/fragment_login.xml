@@ -18,7 +18,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_email" />
+        app:srcCompat="@drawable/ic_email"/>
 
     <TextView
         android:id="@+id/login_header_email"
@@ -27,13 +27,13 @@
         android:layout_marginTop="16dp"
         android:text="@string/login_email_address_header"
         android:textAlignment="center"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/yellow1"
-        app:layout_constraintBottom_toTopOf="@+id/login_email_input" />
+        app:layout_constraintBottom_toTopOf="@+id/login_email_input"/>
 
     <EditText
         android:id="@+id/login_email_input"
@@ -48,13 +48,13 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/login_header_email" />
+        app:layout_constraintTop_toBottomOf="@id/login_header_email"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/yellow1"
-        app:layout_constraintTop_toBottomOf="@+id/login_email_input" />
+        app:layout_constraintTop_toBottomOf="@+id/login_email_input"/>
 
     <ImageView
         android:id="@+id/login_passoword_icon"
@@ -68,7 +68,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login_email_input"
-        app:srcCompat="@drawable/ic_password" />
+        app:srcCompat="@drawable/ic_password"/>
 
     <TextView
         android:id="@+id/login_header_password"
@@ -77,13 +77,13 @@
         android:layout_marginTop="16dp"
         android:text="@string/login_password_header"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/login_email_input" />
+        app:layout_constraintTop_toBottomOf="@id/login_email_input"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/yellow1"
-        app:layout_constraintBottom_toTopOf="@+id/login_password_input" />
+        app:layout_constraintBottom_toTopOf="@+id/login_password_input"/>
 
     <EditText
         android:id="@+id/login_password_input"
@@ -98,12 +98,12 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/login_header_password" />
+        app:layout_constraintTop_toBottomOf="@id/login_header_password"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/yellow1"
-        app:layout_constraintTop_toBottomOf="@+id/login_password_input" />
+        app:layout_constraintTop_toBottomOf="@+id/login_password_input"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

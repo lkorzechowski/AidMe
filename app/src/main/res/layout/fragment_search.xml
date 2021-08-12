@@ -18,7 +18,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="20sp"
-        android:inputType="textNoSuggestions" />
+        android:inputType="textNoSuggestions"/>
 
     <ImageView
         android:id="@+id/search_arrow_separator"
@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_input"
         app:srcCompat="@drawable/ic_arrow_down"
-        android:contentDescription="@string/image_default_no_description" />
+        android:contentDescription="@string/image_default_no_description"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_rv"

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="@string/fragment_version_tree_heading"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/version_tree_level_one_label" />
+            app:layout_constraintBottom_toTopOf="@id/version_tree_level_one_label"/>
 
         <TextView
             android:id="@+id/version_tree_level_one_label"
@@ -29,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_version_tree_heading"
-            app:layout_constraintBottom_toTopOf="@id/version_tree_first_level_rv" />
+            app:layout_constraintBottom_toTopOf="@id/version_tree_first_level_rv"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/version_tree_first_level_rv"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/version_tree_level_one_label"
             app:layout_constraintBottom_toTopOf="@id/version_tree_level_two_label"
-            tools:listitem="@layout/row_version_tree_rv" />
+            tools:listitem="@layout/row_version_tree_rv"/>
 
         <TextView
             android:id="@+id/version_tree_level_two_label"
@@ -47,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/version_tree_first_level_rv"
-            app:layout_constraintBottom_toTopOf="@id/version_tree_second_level_rv" />
+            app:layout_constraintBottom_toTopOf="@id/version_tree_second_level_rv"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/version_tree_second_level_rv"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/version_tree_level_two_label"
             app:layout_constraintBottom_toTopOf="@id/version_tree_level_three_label"
-            tools:listitem="@layout/row_version_tree_rv" />
+            tools:listitem="@layout/row_version_tree_rv"/>
 
         <TextView
             android:id="@+id/version_tree_level_three_label"
@@ -65,7 +65,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/version_tree_second_level_rv"
-            app:layout_constraintBottom_toTopOf="@id/version_tree_third_level_rv" />
+            app:layout_constraintBottom_toTopOf="@id/version_tree_third_level_rv"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/version_tree_third_level_rv"
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/version_tree_level_three_label"
             app:layout_constraintBottom_toTopOf="@id/version_tree_level_four_label"
-            tools:listitem="@layout/row_version_tree_rv" />
+            tools:listitem="@layout/row_version_tree_rv"/>
 
         <TextView
             android:id="@+id/version_tree_level_four_label"
@@ -83,7 +83,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/version_tree_third_level_rv"
-            app:layout_constraintBottom_toTopOf="@id/version_tree_fourth_level_rv" />
+            app:layout_constraintBottom_toTopOf="@id/version_tree_fourth_level_rv"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/version_tree_fourth_level_rv"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/version_tree_level_four_label"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/row_version_tree_rv" />
+            tools:listitem="@layout/row_version_tree_rv"/>
 
         <Button
             android:id="@+id/version_tree_finalize_button"
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -116,14 +116,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/parent_asignment_label"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/parent_assignment_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/parent_assignment_label"
-            app:layout_constraintBottom_toTopOf="@id/parent_assignment_cancel" />
+            app:layout_constraintBottom_toTopOf="@id/parent_assignment_cancel"/>
 
         <Button
             android:id="@+id/parent_assignment_cancel"
@@ -133,7 +133,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/parent_assignment_rv"
-            app:layout_constraintBottom_toTopOf="@id/parent_assignment_move_further_down" />
+            app:layout_constraintBottom_toTopOf="@id/parent_assignment_move_further_down"/>
 
         <Button
             android:id="@+id/parent_assignment_move_further_down"
@@ -143,7 +143,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parent_assignment_cancel" />
+            app:layout_constraintTop_toBottomOf="@id/parent_assignment_cancel"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -155,7 +155,7 @@
         android:layout_marginBottom="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/version_text_rv" />
+        app:layout_constraintBottom_toTopOf="@id/version_text_rv"/>
 
     <View
         android:layout_width="match_parent"
@@ -163,13 +163,13 @@
         android:background="@color/yellow1"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@id/version_text_rv" />
+        app:layout_constraintBottom_toTopOf="@id/version_text_rv"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/version_text_rv"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/row_version_text_rv" />
+        tools:listitem="@layout/row_version_text_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

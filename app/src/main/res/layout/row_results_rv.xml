@@ -11,7 +11,7 @@
         android:layout_height="80dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/image_default_no_description" />
+        android:contentDescription="@string/image_default_no_description"/>
 
     <TextView
         android:id="@+id/result_name_text"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/result_image"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/author"
@@ -31,13 +31,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/result_image"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <View
         android:id="@+id/rv_divider_result"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/yellow1"
-        app:layout_constraintTop_toBottomOf="@+id/author" />
+        app:layout_constraintTop_toBottomOf="@+id/author"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

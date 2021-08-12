@@ -40,7 +40,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="?android:attr/buttonBarButtonStyle" />
+                style="?android:attr/buttonBarButtonStyle"/>
 
             <Button
                 android:id="@+id/themes_button_dark"
@@ -51,7 +51,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="?android:attr/buttonBarButtonStyle" />
+                style="?android:attr/buttonBarButtonStyle"/>
 
 
             <Button
@@ -63,7 +63,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="?android:attr/buttonBarButtonStyle" />
+                style="?android:attr/buttonBarButtonStyle"/>
 
         </LinearLayout>
 
@@ -74,7 +74,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/download_all_tutorials"
             android:textSize="24sp"
-            app:layout_constraintTop_toBottomOf="@id/themes_buttons_layout" />
+            app:layout_constraintTop_toBottomOf="@id/themes_buttons_layout"/>
 
 
         <Button
@@ -84,7 +84,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/app_policy"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <Button
             android:id="@+id/contact_button"
@@ -93,7 +93,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/contact"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@id/policy_button" />
+            app:layout_constraintBottom_toTopOf="@id/policy_button"/>
 
         <Button
             android:id="@+id/contributor_button"
@@ -102,13 +102,14 @@
             android:layout_marginTop="10dp"
             android:text="@string/contributor_list"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@id/contact_button" />
+            app:layout_constraintBottom_toTopOf="@id/contact_button"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" />
+        android:orientation="vertical"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

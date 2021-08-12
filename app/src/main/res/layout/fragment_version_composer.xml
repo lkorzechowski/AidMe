@@ -16,7 +16,7 @@
         android:textSize="36sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/version_creator_subheading"
@@ -24,14 +24,14 @@
         android:layout_height="wrap_content"
         android:text="@string/version_creator_subheading"
         app:layout_constraintTop_toBottomOf="@+id/version_creator_heading"
-        app:layout_constraintBottom_toTopOf="@id/new_version_rv" />
+        app:layout_constraintBottom_toTopOf="@id/new_version_rv"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/new_version_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/version_creator_subheading"
-        tools:listitem="@layout/row_new_version_rv" />
+        tools:listitem="@layout/row_new_version_rv"/>
 
     <Button
         android:id="@+id/new_version_button"
@@ -43,6 +43,6 @@
         android:textStyle="bold"
         android:textSize="40sp"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/new_version_rv" />
+        app:layout_constraintTop_toBottomOf="@id/new_version_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

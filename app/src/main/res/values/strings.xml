@@ -65,6 +65,7 @@
     <string name="cancel">Anuluj</string>
     <string name="version_instruction_heading">Przypisz instrukcje do poszczególnych wersji. Naciśnij na numer instrukcji aby została przypisana.</string>
     <string name="instruction_text_rv_label">Treść poszczególnych instrukcji</string>
+    <string name="version_multimedia_heading">Przypisz multimedia do poszczególnych wersji. Jeżeli nie widzisz wstawionych przez ciebie multimediów, nie udało się ich pobrać. Spróbuj zmienić format.</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

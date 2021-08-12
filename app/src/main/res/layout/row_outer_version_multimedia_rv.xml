@@ -5,19 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".tutorial.mediaplayer.multimedia.MultimediaPlayer">
+    tools:context=".creator.versionmultimedia.VersionMultimediaOuterAdapter">
 
     <VideoView
-        android:id="@+id/video_embed"
+        android:id="@+id/new_video_embed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/version_multimedia_inner_rv"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
-        android:id="@+id/image_embed"
+        android:id="@+id/new_image_embed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/version_multimedia_inner_rv"
         android:contentDescription="@string/image_default_no_description"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/version_multimedia_inner_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/row_inner_version_instruction_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
