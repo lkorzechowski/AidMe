@@ -1,6 +1,10 @@
 package com.orzechowski.aidme.creator;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContentResolverCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
@@ -26,11 +32,13 @@ public class MultimediaComposerAdapter
     private List<Multimedia> mMultimedias = null;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
+    private final Activity mActivity;
 
     public MultimediaComposerAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
         mCallback = callback;
+        mActivity = activity;
     }
 
     @NonNull
@@ -38,7 +46,7 @@ public class MultimediaComposerAdapter
     public MultimediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_new_multimedia_rv, parent, false);
-        return new MultimediaViewHolder(row);
+        return new MultimediaViewHolder(row, mActivity);
     }
 
     @Override
@@ -74,10 +82,12 @@ public class MultimediaComposerAdapter
         ImageView deleteMultimedia;
         FragmentCallback callback;
         Multimedia multimedia;
+        Activity activity;
 
-        public MultimediaViewHolder(@NonNull View itemView)
+        public MultimediaViewHolder(@NonNull View itemView, Activity requestActivity)
         {
             super(itemView);
+            activity = requestActivity;
             fileName = itemView.findViewById(R.id.new_multimedia_filename_display);
             uploadButton = itemView.findViewById(R.id.new_multimedia_upload_button);
             displayTime = itemView.findViewById(R.id.new_multimedia_display_time_input);
@@ -93,7 +103,8 @@ public class MultimediaComposerAdapter
                 {
                     String timeText = String.valueOf(displayTime.getText());
                     if(multimedia!=null  && callback!=null && !timeText.isEmpty()) {
-                        callback.modifyDisplayTime(Integer.parseInt(timeText), multimedia.getPosition());
+                        callback.modifyDisplayTime(Integer.parseInt(timeText),
+                                multimedia.getPosition());
                     }
                 }
 
@@ -103,6 +114,20 @@ public class MultimediaComposerAdapter
             loopCheckBox.setOnCheckedChangeListener((buttonView, isChecked)-> {
                 if(multimedia!=null && callback!=null) {
                     callback.modifyLoop(isChecked, multimedia.getPosition());
+                }
+            });
+            uploadButton.setOnClickListener(v -> {
+                if(ActivityCompat.checkSelfPermission(activity, Manifest.permission
+                        .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions(activity,
+                            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                            121);
+                } else {
+                    Cursor cursor = ContentResolverCompat.query(activity.getContentResolver(),
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            null, null, null,
+                            null, null);
                 }
             });
         }
