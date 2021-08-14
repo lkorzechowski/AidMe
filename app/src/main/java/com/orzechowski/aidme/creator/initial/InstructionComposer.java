@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.creator;
+package com.orzechowski.aidme.creator.initial;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,12 +29,6 @@ public class InstructionComposer extends Fragment
     public List<InstructionSet> getInstructions()
     {
         return mInstructions;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.creator;
+package com.orzechowski.aidme.creator.initial;
 
 import android.Manifest;
 import android.app.Activity;
@@ -124,10 +124,12 @@ public class MultimediaComposerAdapter
                             new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
                             121);
                 } else {
+                    String[] column = new String[]{MediaStore.Images.Thumbnails.DATA};
                     Cursor cursor = ContentResolverCompat.query(activity.getContentResolver(),
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            null, null, null,
+                            column, null, null,
                             null, null);
+                    callback.addImage(cursor, multimedia.getPosition());
                 }
             });
         }
@@ -138,5 +140,6 @@ public class MultimediaComposerAdapter
         void delete(Multimedia multimedia);
         void modifyDisplayTime(int time, int position);
         void modifyLoop(boolean loop, int position);
+        void addImage(Cursor cursor, int position);
     }
 }

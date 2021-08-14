@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.creator.VersionTextAdapter;
+import com.orzechowski.aidme.creator.initial.VersionTextAdapter;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimedia;
 import com.orzechowski.aidme.tutorial.version.database.Version;

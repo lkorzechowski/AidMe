@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.creator;
+package com.orzechowski.aidme.creator.initial;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

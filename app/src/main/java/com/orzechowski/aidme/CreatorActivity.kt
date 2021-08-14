@@ -1,14 +1,15 @@
 package com.orzechowski.aidme
 
+import android.database.Cursor
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
-import com.orzechowski.aidme.creator.InstructionComposer
-import com.orzechowski.aidme.creator.MultimediaComposer
-import com.orzechowski.aidme.creator.SoundComposer
-import com.orzechowski.aidme.creator.VersionComposer
+import com.orzechowski.aidme.creator.initial.InstructionComposer
+import com.orzechowski.aidme.creator.initial.MultimediaComposer
+import com.orzechowski.aidme.creator.initial.SoundComposer
+import com.orzechowski.aidme.creator.initial.VersionComposer
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
@@ -18,10 +19,11 @@ import com.orzechowski.aidme.tutorial.version.database.Version
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
 
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
-    VersionTreeComposer.CallbackToActivity, VersionInstructionComposer.CallbackToActivity
+    VersionTreeComposer.CallbackToActivity, VersionInstructionComposer.CallbackToActivity,
+        MultimediaComposer.CallbackToActivity
 {
     private val mInstructionComposer = InstructionComposer()
-    private val mMultimediaComposer = MultimediaComposer()
+    private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer()
     private lateinit var mVersionTreeComposer: VersionTreeComposer
@@ -83,5 +85,10 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         mVersionInstructions = versionInstructions
         supportFragmentManager.beginTransaction().remove(mVersionInstructionComposer).commit()
+    }
+
+    override fun callImageGallery(cursor: Cursor, position: Int)
+    {
+        TODO("Not yet implemented")
     }
 }
