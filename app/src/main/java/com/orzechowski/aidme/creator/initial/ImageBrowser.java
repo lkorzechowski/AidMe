@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class ImageBrowser extends Fragment
         View view = inflater.inflate(R.layout.fragment_image_browser, container, false);
         GridView gridView = view.findViewById(R.id.image_grid);
         gridView.setAdapter(new ImageAdapter(requireContext(), mCursor));
+        Log.w("turkusowy", String.valueOf(mCursor.getCount()));
         return view;
     }
 

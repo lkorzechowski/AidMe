@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,11 +125,11 @@ public class MultimediaComposerAdapter
                             new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
                             121);
                 } else {
-                    String[] column = new String[]{MediaStore.Images.Thumbnails.DATA};
                     Cursor cursor = ContentResolverCompat.query(activity.getContentResolver(),
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            column, null, null,
-                            null, null);
+                            new String[]{MediaStore.Images.Thumbnails.DATA},
+                            null, null, null, null);
+                    Log.w("turkusowy", String.valueOf(cursor.getCount()));
                     callback.addImage(cursor, multimedia.getPosition());
                 }
             });

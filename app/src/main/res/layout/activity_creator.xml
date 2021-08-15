@@ -8,6 +8,7 @@
     tools:context=".CreatorActivity">
 
     <ScrollView
+        android:id="@+id/initial_creator_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -65,6 +66,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_version_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_image_browser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

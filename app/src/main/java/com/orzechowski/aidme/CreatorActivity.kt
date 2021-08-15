@@ -4,12 +4,10 @@ import android.database.Cursor
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
-import com.orzechowski.aidme.creator.initial.InstructionComposer
-import com.orzechowski.aidme.creator.initial.MultimediaComposer
-import com.orzechowski.aidme.creator.initial.SoundComposer
-import com.orzechowski.aidme.creator.initial.VersionComposer
+import com.orzechowski.aidme.creator.initial.*
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
@@ -49,11 +47,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             supportFragmentManager.beginTransaction().remove(mVersionComposer).commit()
             supportFragmentManager.beginTransaction().remove(mSoundComposer).commit()
             progressButton.visibility = View.GONE
-            mVersionTreeComposer =
-                VersionTreeComposer(
-                    mVersions,
-                    this
-                )
+            mVersionTreeComposer = VersionTreeComposer(mVersions, this)
             supportFragmentManager.commit {
                 add(R.id.layout_version_tree, mVersionTreeComposer)
             }
@@ -69,12 +63,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     override fun finalizeVersionTree(versions: MutableList<Version>)
     {
         mVersions = versions
-        mVersionInstructionComposer =
-            VersionInstructionComposer(
-                mVersions,
-                mInstructions,
-                this
-            )
+        mVersionInstructionComposer = VersionInstructionComposer(mVersions, mInstructions,
+            this)
         supportFragmentManager.beginTransaction().remove(mVersionTreeComposer).commit()
         supportFragmentManager.commit {
             add(R.id.layout_version_instruction, mVersionInstructionComposer)
@@ -89,6 +79,10 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
 
     override fun callImageGallery(cursor: Cursor, position: Int)
     {
-        TODO("Not yet implemented")
+        findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.GONE
+        val browser = ImageBrowser(cursor)
+        supportFragmentManager.commit {
+            add(R.id.layout_image_browser, browser)
+        }
     }
 }
