@@ -1,6 +1,5 @@
 package com.orzechowski.aidme
 
-import android.database.Cursor
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -77,10 +76,10 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         supportFragmentManager.beginTransaction().remove(mVersionInstructionComposer).commit()
     }
 
-    override fun callImageGallery(cursor: Cursor, position: Int)
+    override fun callImageGallery()
     {
         findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.GONE
-        val browser = ImageBrowser(cursor)
+        val browser = ImageBrowserLoader()
         supportFragmentManager.commit {
             add(R.id.layout_image_browser, browser)
         }

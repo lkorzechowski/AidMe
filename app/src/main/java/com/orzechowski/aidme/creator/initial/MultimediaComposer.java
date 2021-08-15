@@ -1,6 +1,5 @@
 package com.orzechowski.aidme.creator.initial;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +25,7 @@ public class MultimediaComposer extends Fragment implements MultimediaComposerAd
     private MultimediaComposerAdapter mAdapter;
     private final List<Multimedia> mMultimedias = new LinkedList<>();
     private final CallbackToActivity mCallback;
+    private int mCurrentPositionClicked;
 
     public MultimediaComposer(CallbackToActivity callback)
     {
@@ -88,13 +88,14 @@ public class MultimediaComposer extends Fragment implements MultimediaComposerAd
     }
 
     @Override
-    public void addImage(Cursor cursor, int position)
+    public void addImage(int position)
     {
-        mCallback.callImageGallery(cursor, position);
+        mCurrentPositionClicked = position;
+        mCallback.callImageGallery();
     }
 
     public interface CallbackToActivity
     {
-        void callImageGallery(Cursor cursor, int position);
+        void callImageGallery();
     }
 }

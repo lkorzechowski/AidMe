@@ -3,11 +3,8 @@ package com.orzechowski.aidme.creator.initial;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +13,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContentResolverCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
@@ -124,13 +121,10 @@ public class MultimediaComposerAdapter
                     ActivityCompat.requestPermissions(activity,
                             new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
                             121);
+                    Toast.makeText(activity, R.string.request_read_external_storage_info,
+                            Toast.LENGTH_SHORT).show();
                 } else {
-                    Cursor cursor = ContentResolverCompat.query(activity.getContentResolver(),
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            new String[]{MediaStore.Images.Thumbnails.DATA},
-                            null, null, null, null);
-                    Log.w("turkusowy", String.valueOf(cursor.getCount()));
-                    callback.addImage(cursor, multimedia.getPosition());
+                    callback.addImage(multimedia.getPosition());
                 }
             });
         }
@@ -141,6 +135,6 @@ public class MultimediaComposerAdapter
         void delete(Multimedia multimedia);
         void modifyDisplayTime(int time, int position);
         void modifyLoop(boolean loop, int position);
-        void addImage(Cursor cursor, int position);
+        void addImage(int position);
     }
 }
