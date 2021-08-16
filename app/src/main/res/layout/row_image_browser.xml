@@ -5,11 +5,11 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/browser_rv_image_view"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:id="@+id/mediastoreImageView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/image_default_no_description"/>

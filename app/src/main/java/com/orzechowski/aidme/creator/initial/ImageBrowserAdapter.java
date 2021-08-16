@@ -29,10 +29,17 @@ public class ImageBrowserAdapter extends RecyclerView.Adapter<ImageBrowserAdapte
         void OnClickImage(Uri imageUri);
         void OnClickVideo(Uri videoUri);
     }
+
     public ImageBrowserAdapter(Activity activity, OnClickThumbListener listener)
     {
         mActivity = activity;
         mOnClickThumbListener = listener;
+    }
+
+    public void setElementList(Cursor cursor)
+    {
+        mCursor = cursor;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -48,7 +55,7 @@ public class ImageBrowserAdapter extends RecyclerView.Adapter<ImageBrowserAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         Bitmap bitmap = getBitmapFromMediaStore(position);
-        if(bitmap!=null) holder.getImageView().setImageBitmap(bitmap);
+        if(bitmap!=null) holder.imageView.setImageBitmap(bitmap);
     }
 
     @Override
@@ -59,18 +66,13 @@ public class ImageBrowserAdapter extends RecyclerView.Adapter<ImageBrowserAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        private final ImageView imageView;
+        ImageView imageView;
 
         public ViewHolder(View itemView)
         {
             super(itemView);
-            imageView = itemView.findViewById(R.id.mediastoreImageView);
+            imageView = itemView.findViewById(R.id.browser_rv_image_view);
             imageView.setOnClickListener(this);
-        }
-
-        public ImageView getImageView()
-        {
-            return imageView;
         }
 
         @Override
@@ -82,41 +84,25 @@ public class ImageBrowserAdapter extends RecyclerView.Adapter<ImageBrowserAdapte
 
     private Bitmap getBitmapFromMediaStore(int position)
     {
-        int idIndex = mCursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
         mCursor.moveToPosition(position);
         switch(mCursor.getInt(getMediaTypeIndex())) {
             case MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE:
                 return MediaStore.Images.Thumbnails.getThumbnail(
                         mActivity.getContentResolver(),
-                        mCursor.getLong(idIndex),
+                        mCursor.getLong(getIdIndex()),
                         MediaStore.Images.Thumbnails.MICRO_KIND,
                         null
                 );
             case MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO:
                 return MediaStore.Video.Thumbnails.getThumbnail(
                         mActivity.getContentResolver(),
-                        mCursor.getLong(idIndex),
+                        mCursor.getLong(getIdIndex()),
                         MediaStore.Video.Thumbnails.MICRO_KIND,
                         null
                 );
             default:
                 return null;
         }
-    }
-
-    private Cursor swapCursor(Cursor cursor)
-    {
-        if(mCursor==cursor) return null;
-        Cursor oldCursor = mCursor;
-        mCursor = cursor;
-        if(cursor!=null) notifyDataSetChanged();
-        return oldCursor;
-    }
-
-    public void changeCursor(Cursor cursor)
-    {
-        Cursor oldCursor = swapCursor(cursor);
-        if(oldCursor!=null) oldCursor.close();
     }
 
     private void getOnClickUri(int position)
@@ -144,5 +130,10 @@ public class ImageBrowserAdapter extends RecyclerView.Adapter<ImageBrowserAdapte
     private int getDataIndex()
     {
         return mCursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
+    }
+
+    private int getIdIndex()
+    {
+        return mCursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
     }
 }

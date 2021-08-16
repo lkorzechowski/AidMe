@@ -65,13 +65,13 @@ public class ImageBrowserLoader extends Fragment
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data)
     {
-        mImageBrowserAdapter.changeCursor(data);
+        mImageBrowserAdapter.setElementList(data);
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader)
     {
-        mImageBrowserAdapter.changeCursor(null);
+        mImageBrowserAdapter.setElementList(null);
     }
 
     @Override
