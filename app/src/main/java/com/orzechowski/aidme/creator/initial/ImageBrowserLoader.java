@@ -34,6 +34,7 @@ public class ImageBrowserLoader extends Fragment
         imageRecycler.setLayoutManager(new GridLayoutManager(activity, 3));
         mImageBrowserAdapter = new ImageBrowserAdapter(activity, this);
         imageRecycler.setAdapter(mImageBrowserAdapter);
+        LoaderManager.getInstance(requireActivity()).initLoader(0, null, this);
         return view;
     }
 
@@ -41,30 +42,24 @@ public class ImageBrowserLoader extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args)
     {
-        String[] projection = {
-                MediaStore.Files.FileColumns._ID,
-                MediaStore.Files.FileColumns.DATE_ADDED,
-                MediaStore.Files.FileColumns.DATA,
-                MediaStore.Files.FileColumns.MEDIA_TYPE
-        };
         String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
-                + " OR "
+                + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE + " OR "
                 + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
                 + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
         return new CursorLoader(
                 requireContext(),
                 MediaStore.Files.getContentUri("external"),
-                projection,
+                null,
                 selection,
                 null,
-                MediaStore.Files.FileColumns.DATE_ADDED + " DESC"
+                null
         );
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data)
     {
+        data.moveToFirst();
         mImageBrowserAdapter.setElementList(data);
     }
 
