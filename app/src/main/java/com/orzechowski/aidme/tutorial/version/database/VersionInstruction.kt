@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class VersionInstruction(
+data class VersionInstruction(
     @PrimaryKey val versionInstructionId: Long,
                 val versionId: Long,
                 val instructionPosition: Int)

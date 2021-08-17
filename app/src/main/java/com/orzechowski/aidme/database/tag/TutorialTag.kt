@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class TutorialTag(
+data class TutorialTag(
     @PrimaryKey val tutorialTagId: Long,
                 val tutorialId: Long,
                 val tagId: Long)

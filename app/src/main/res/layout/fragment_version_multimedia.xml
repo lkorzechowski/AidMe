@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/version_multimedia_heading"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/version_multimedia_outer_rv"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/version_multimedia_heading"
         app:layout_constraintBottom_toTopOf="@id/version_text_label"
-        tools:listitem="@layout/row_outer_version_multimedia_rv" />
+        tools:listitem="@layout/row_outer_version_multimedia_rv"/>
 
     <Button
         android:id="@+id/version_multimedia_finalize_button"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:text="@string/next"
         app:layout_constraintBottom_toTopOf="@id/version_text_label"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/version_text_label"
@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/instruction_text_rv_label"
-        app:layout_constraintBottom_toTopOf="@id/version_text_rv" />
+        app:layout_constraintBottom_toTopOf="@id/version_text_rv"/>
 
     <View
         android:layout_width="match_parent"
@@ -46,13 +46,13 @@
         android:background="@color/yellow1"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@id/version_text_rv" />
+        app:layout_constraintBottom_toTopOf="@id/version_text_rv"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/version_text_rv"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/row_version_text_rv" />
+        tools:listitem="@layout/row_version_text_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

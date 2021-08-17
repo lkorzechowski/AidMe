@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class VersionMultimedia(
+data class VersionMultimedia(
     @PrimaryKey val versionMultimediaId: Long,
                 val multimediaId: Long,
                 val versionId: Long)

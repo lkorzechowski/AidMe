@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.creator.initial;
+package com.orzechowski.aidme.creator.initial.imagebrowser;
 
 import android.app.Activity;
 import android.database.Cursor;

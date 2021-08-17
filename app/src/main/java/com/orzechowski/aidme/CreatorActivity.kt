@@ -6,7 +6,11 @@ import android.widget.Button
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
-import com.orzechowski.aidme.creator.initial.*
+import com.orzechowski.aidme.creator.initial.InstructionComposer
+import com.orzechowski.aidme.creator.initial.MultimediaComposer
+import com.orzechowski.aidme.creator.initial.SoundComposer
+import com.orzechowski.aidme.creator.initial.VersionComposer
+import com.orzechowski.aidme.creator.initial.imagebrowser.ImageBrowserLoader
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
@@ -79,7 +83,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     override fun callImageGallery()
     {
         findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.GONE
-        val browser = ImageBrowserLoader()
+        val browser =
+            ImageBrowserLoader()
         supportFragmentManager.commit {
             add(R.id.layout_image_browser, browser)
         }

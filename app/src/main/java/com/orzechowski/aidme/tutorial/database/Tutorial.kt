@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Tutorial(
+data class Tutorial(
     @PrimaryKey val tutorialId: Long,
                 val tutorialName: String,
                 val authorId: Long,

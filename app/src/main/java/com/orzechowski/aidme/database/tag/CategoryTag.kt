@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class CategoryTag(
+data class CategoryTag(
     @PrimaryKey val categoryTagId: Long,
                 val categoryId: Long,
                 val tagId: Long)

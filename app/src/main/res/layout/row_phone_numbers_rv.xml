@@ -14,7 +14,7 @@
         android:paddingEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/number"
-        app:layout_constraintTop_toTopOf="@id/icon_phone" />
+        app:layout_constraintTop_toTopOf="@id/icon_phone"/>
 
     <TextView
         android:id="@+id/number"
@@ -22,14 +22,14 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/icon_phone"
-        app:layout_constraintTop_toTopOf="@id/icon_phone" />
+        app:layout_constraintTop_toTopOf="@id/icon_phone"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/yellow1"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/icon_phone" />
+        app:layout_constraintTop_toBottomOf="@id/icon_phone"/>
 
     <ImageView
         android:id="@+id/icon_phone"
@@ -39,6 +39,6 @@
         android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/phone_icon_description" />
+        android:contentDescription="@string/phone_icon_description"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

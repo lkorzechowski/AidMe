@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Category(
+data class Category(
     @PrimaryKey val categoryId: Long,
                 val categoryName: String,
                 val hasSubcategories: Boolean,

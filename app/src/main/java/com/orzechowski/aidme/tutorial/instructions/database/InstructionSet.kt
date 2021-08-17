@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class InstructionSet(
+data class InstructionSet(
     @PrimaryKey val instructionSetId: Long,
                 var title: String,
                 var instructions: String,

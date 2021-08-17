@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Version(
+data class Version(
     @PrimaryKey val versionId: Long,
                 var text: String,
                 val tutorialId: Long,

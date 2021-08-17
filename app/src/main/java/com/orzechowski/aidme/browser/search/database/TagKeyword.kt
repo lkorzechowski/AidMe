@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class TagKeyword(
+data class TagKeyword(
     @PrimaryKey val tagKeywordId: Long,
                 val keywordId: Long,
                 val tagId: Long)

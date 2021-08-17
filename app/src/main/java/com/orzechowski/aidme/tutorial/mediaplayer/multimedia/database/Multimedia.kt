@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Multimedia(
+data class Multimedia(
     @PrimaryKey val multimediaId: Long,
                 val tutorialId: Long,
                 var displayTime: Int,

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class TutorialSound(
+data class TutorialSound(
     @PrimaryKey val soundId: Long,
                 var soundStart: Long,
                 var soundLoop: Boolean,
