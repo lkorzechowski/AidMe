@@ -1,27 +1,27 @@
 package com.orzechowski.aidme.creator.initial.imagebrowser;
 
 import android.app.Activity;
+import android.content.ContentUris;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.orzechowski.aidme.R;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class ImageBrowserLoader extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, ImageBrowserAdapter.OnClickThumbListener
 {
     private ImageBrowserAdapter mImageBrowserAdapter;
 
@@ -31,53 +31,46 @@ public class ImageBrowserLoader extends Fragment
         Activity activity = requireActivity();
         View view = inflater.inflate(R.layout.fragment_image_browser, container, false);
         RecyclerView imageRecycler = view.findViewById(R.id.image_recycler_grid);
-        imageRecycler.setLayoutManager(new GridLayoutManager(activity, 3));
-        mImageBrowserAdapter = new ImageBrowserAdapter(activity, this);
+        imageRecycler.setLayoutManager(
+                new StaggeredGridLayoutManager(3, RecyclerView.VERTICAL));
+        mImageBrowserAdapter = new ImageBrowserAdapter();
         imageRecycler.setAdapter(mImageBrowserAdapter);
-        LoaderManager.getInstance(requireActivity()).initLoader(0, null, this);
+        ContentObserver contentObserver = new ContentObserver(null) {
+            @Override
+            public void onChange(boolean selfChange) {
+                loadPhotos();
+            }
+        };
+        activity.getContentResolver().registerContentObserver(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, contentObserver
+        );
         return view;
     }
 
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args)
+    public void loadPhotos()
     {
-        String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE + " OR "
-                + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
-        return new CursorLoader(
-                requireContext(),
-                MediaStore.Files.getContentUri("external"),
+        Uri uri;
+        if(Build.VERSION.SDK_INT >= 29) uri =
+                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        else uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        Cursor cursor = requireActivity().getContentResolver().query(
+                uri,
+                new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.WIDTH, MediaStore.Images.Media.HEIGHT},
                 null,
-                selection,
                 null,
-                null
-        );
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data)
-    {
-        data.moveToFirst();
-        mImageBrowserAdapter.setElementList(data);
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader)
-    {
-        mImageBrowserAdapter.setElementList(null);
-    }
-
-    @Override
-    public void OnClickImage(Uri imageUri)
-    {
-
-    }
-
-    @Override
-    public void OnClickVideo(Uri videoUri)
-    {
-
+                "${MediaStore.Images.Media.DISPLAY_NAME} ASC");
+        List<Image> images = new LinkedList<>();
+        while(cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
+            images.add(new Image(id,
+                    cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media
+                            .DISPLAY_NAME)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT)),
+                    ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)));
+        }
+        mImageBrowserAdapter.setElementList(images);
+        cursor.close();
     }
 }
