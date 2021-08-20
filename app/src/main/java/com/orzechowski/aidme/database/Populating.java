@@ -905,14 +905,14 @@ public class Populating
 
     public void populateTutorials(TutorialDAO tutorialDAO)
     {
-        tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 1L, "heart_massage.jpg"));
-        tutorialDAO.insert(new Tutorial(1L, "Złamana kończyna", 1L, "broken_bone.jpeg"));
-        tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "sun.jpg"));
-        tutorialDAO.insert(new Tutorial(3L, "Dławiący się pies", 1L, "choking_dog.jpeg"));
-        tutorialDAO.insert(new Tutorial(4L, "Agresywny pies", 1L, "barking_dog.jpg"));
-        tutorialDAO.insert(new Tutorial(5L, "Dławiący się kot", 1L, "choking_cat.jpeg"));
-        tutorialDAO.insert(new Tutorial(6L, "Wstrząs", 1L, "circulatory_shock.jpeg"));
-        tutorialDAO.insert(new Tutorial(7L, "Podtopienie", 1L, "drowning.jpeg"));
+        tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 1L, "heart_massage.jpg", 0));
+        tutorialDAO.insert(new Tutorial(1L, "Złamana kończyna", 1L, "broken_bone.jpeg", 0));
+        tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "sun.jpg", 0));
+        tutorialDAO.insert(new Tutorial(3L, "Dławiący się pies", 1L, "choking_dog.jpeg", 0));
+        tutorialDAO.insert(new Tutorial(4L, "Agresywny pies", 1L, "barking_dog.jpg", 0));
+        tutorialDAO.insert(new Tutorial(5L, "Dławiący się kot", 1L, "choking_cat.jpeg", 0));
+        tutorialDAO.insert(new Tutorial(6L, "Wstrząs", 1L, "circulatory_shock.jpeg", 0));
+        tutorialDAO.insert(new Tutorial(7L, "Podtopienie", 1L, "drowning.jpeg", 3));
     }
 
     public void populateVersionInstructions(VersionInstructionDAO versionInstructionDAO)

@@ -8,5 +8,4 @@ data class TutorialLink(
     @PrimaryKey val tutorialLinkId: Long,
                 val tutorialId: Long,
                 val originId: Long,
-                val instructionNumber: Int
-)
+                val instructionNumber: Int)

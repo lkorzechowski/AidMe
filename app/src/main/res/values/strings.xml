@@ -68,6 +68,7 @@
     <string name="version_multimedia_heading">Przypisz multimedia do poszczególnych wersji. Jeżeli nie widzisz wstawionych przez ciebie multimediów, nie udało się ich pobrać. Spróbuj zmienić format.</string>
     <string name="image_grid_header">Wybierz obraz</string>
     <string name="request_read_external_storage_info">Po udostępneniu plików naciśnij przycisk ponownie</string>
+    <string name="star">star</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

@@ -45,23 +45,59 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ResultViewHolder resultHolder, int rowNumber)
+    public void onBindViewHolder(@NonNull ResultViewHolder holder, int rowNumber)
     {
         Tutorial tutorial = mTutorials.get(rowNumber);
         long authorId = tutorial.getAuthorId();
         for (Helper helper : mHelpers) {
             if(authorId == helper.getHelperId()) {
-                resultHolder.author.setText(String.format("Autor: %s %s %s",
+                holder.author.setText(String.format("Autor: %s %s %s",
                         helper.getTitle(), helper.getName(), helper.getSurname()));
             }
         }
-        resultHolder.thisResult = tutorial;
-        resultHolder.name.setText(tutorial.getTutorialName());
+        holder.thisResult = tutorial;
+        holder.name.setText(tutorial.getTutorialName());
         Uri uri = null;
         try {
             uri = Uri.fromFile(mAssetObtainer.getFileFromAssets(mContext, tutorial.getMiniatureName()));
         } catch(IOException ignored) {}
-        if(uri != null) resultHolder.image.setImageURI(uri);
+        if(uri != null) holder.image.setImageURI(uri);
+        float rating = tutorial.getRating();
+        if(rating>4.75) {
+            holder.starFive.setImageResource(R.drawable.ic_full_star);
+        } else if(rating>4.25) {
+            holder.starFive.setImageResource(R.drawable.ic_half_star);
+        } else {
+            holder.starFive.setImageResource(R.drawable.ic_empty_star);
+        }
+        if(rating>3.75) {
+            holder.starFour.setImageResource(R.drawable.ic_full_star);
+        } else if(rating>4.25) {
+            holder.starFour.setImageResource(R.drawable.ic_half_star);
+        } else {
+            holder.starFour.setImageResource(R.drawable.ic_empty_star);
+        }
+        if(rating>2.75) {
+            holder.starThree.setImageResource(R.drawable.ic_full_star);
+        } else if(rating>2.25) {
+            holder.starThree.setImageResource(R.drawable.ic_half_star);
+        } else {
+            holder.starThree.setImageResource(R.drawable.ic_empty_star);
+        }
+        if(rating>1.75) {
+            holder.starTwo.setImageResource(R.drawable.ic_full_star);
+        } else if(rating>1.25) {
+            holder.starTwo.setImageResource(R.drawable.ic_half_star);
+        } else {
+            holder.starTwo.setImageResource(R.drawable.ic_empty_star);
+        }
+        if(rating>0.75) {
+            holder.starOne.setImageResource(R.drawable.ic_full_star);
+        } else if(rating>0.25) {
+            holder.starOne.setImageResource(R.drawable.ic_half_star);
+        } else {
+            holder.starOne.setImageResource(R.drawable.ic_empty_star);
+        }
     }
 
     @Override
@@ -81,7 +117,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     public static class ResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         TextView name, author;
-        ImageView image;
+        ImageView image, starOne, starTwo, starThree, starFour, starFive;
         OnClickListener listenerForThisRow;
         Tutorial thisResult;
 
@@ -91,6 +127,11 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
             name = viewForThisRow.findViewById(R.id.result_name_text);
             image = viewForThisRow.findViewById(R.id.result_image);
             author = viewForThisRow.findViewById(R.id.author);
+            starOne = viewForThisRow.findViewById(R.id.star_one);
+            starTwo = viewForThisRow.findViewById(R.id.star_two);
+            starThree = viewForThisRow.findViewById(R.id.star_three);
+            starFour = viewForThisRow.findViewById(R.id.star_four);
+            starFive = viewForThisRow.findViewById(R.id.star_five);
             listenerForThisRow = listener;
             viewForThisRow.setOnClickListener(this);
         }

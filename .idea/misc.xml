@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/drawable/ic_arrow_down.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/drawable/ic_empty_star.xml" value="0.11510416666666666" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/drawable/ic_full_star.xml" value="0.11510416666666666" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/drawable/ic_half_star.xml" value="0.11510416666666666" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_image_browser.xml" value="0.1359375" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_recycler_version_instruction.xml" value="0.125" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_instruction.xml" value="0.1" />
