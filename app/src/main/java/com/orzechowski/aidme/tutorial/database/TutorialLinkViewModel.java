@@ -6,13 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.jetbrains.annotations.NotNull;
-
 public class TutorialLinkViewModel extends AndroidViewModel
 {
     private final TutorialLinkRepository mRepository;
 
-    public TutorialLinkViewModel(@NonNull @NotNull Application application)
+    public TutorialLinkViewModel(@NonNull Application application)
     {
         super(application);
         mRepository = new TutorialLinkRepository(application);

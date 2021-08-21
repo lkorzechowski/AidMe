@@ -6,15 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public class HelperViewModel extends AndroidViewModel
 {
     private final HelperRepository mRepository;
 
-    public HelperViewModel(@NonNull @NotNull Application application)
+    public HelperViewModel(@NonNull Application application)
     {
         super(application);
         mRepository = new HelperRepository(application);

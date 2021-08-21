@@ -25,17 +25,17 @@ public class KeywordRepository
 
     public void insert(Keyword keyword)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.insert(keyword));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(keyword));
     }
 
     public void delete(Keyword keyword)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.delete(keyword));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(keyword));
     }
 
     public void update(Keyword keyword)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(keyword));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(keyword));
     }
 
     public LiveData<List<Keyword>> getAll()

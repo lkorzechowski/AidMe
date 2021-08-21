@@ -14,6 +14,8 @@ import com.orzechowski.aidme.browser.search.database.Keyword;
 import com.orzechowski.aidme.browser.search.database.KeywordDAO;
 import com.orzechowski.aidme.browser.search.database.TagKeyword;
 import com.orzechowski.aidme.browser.search.database.TagKeywordDAO;
+import com.orzechowski.aidme.browser.userrating.Rating;
+import com.orzechowski.aidme.browser.userrating.RatingDAO;
 import com.orzechowski.aidme.database.helper.Helper;
 import com.orzechowski.aidme.database.helper.HelperDAO;
 import com.orzechowski.aidme.database.tag.CategoryTag;
@@ -49,7 +51,9 @@ import java.util.concurrent.Executors;
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class, VersionInstruction.class,
         TutorialSound.class, Helper.class, Multimedia.class, Category.class, TutorialLink.class,
         Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class, VersionMultimedia.class,
-        Keyword.class, TagKeyword.class, SoundInVersion.class}, version = 1, exportSchema = false)
+        Keyword.class, TagKeyword.class, SoundInVersion.class, Rating.class},
+        version = 1, exportSchema = false)
+
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
     public abstract VersionDAO versionDao();
@@ -69,6 +73,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract TagKeywordDAO tagKeywordDAO();
     public abstract TutorialLinkDAO tutorialLinkDAO();
     public abstract SoundInVersionDAO soundInVersionDAO();
+    public abstract RatingDAO ratingDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
 
@@ -113,7 +118,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 TutorialLinkDAO tutorialLinkDAO = INSTANCE.tutorialLinkDAO();
                 SoundInVersionDAO soundInVersionDAO = INSTANCE.soundInVersionDAO();
 
-                helperTagDAO.insert(new HelperTag(0L, 1L, 11L));
+                populating.populateHelperTags(helperTagDAO);
                 populating.populateHelpers(helperDAO);
                 populating.populateTutorials(tutorialDAO);
                 populating.populateVersions(versionDAO);

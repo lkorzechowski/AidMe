@@ -6,15 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public class TagKeywordViewModel extends AndroidViewModel
 {
     private final TagKeywordRepository mRepository;
 
-    public TagKeywordViewModel(@NonNull @NotNull Application application)
+    public TagKeywordViewModel(@NonNull Application application)
     {
         super(application);
         mRepository = new TagKeywordRepository(application);

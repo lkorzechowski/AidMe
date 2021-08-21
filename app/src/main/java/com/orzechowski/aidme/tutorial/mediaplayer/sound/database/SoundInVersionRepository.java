@@ -30,12 +30,12 @@ public class SoundInVersionRepository
 
     void delete(SoundInVersion soundInVersion)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.delete(soundInVersion));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(soundInVersion));
     }
 
     void update(SoundInVersion soundInVersion)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(soundInVersion));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(soundInVersion));
     }
 
     LiveData<List<Long>> getByVersionId(long versionId)

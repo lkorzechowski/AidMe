@@ -36,7 +36,7 @@ public class CategoryTagRepository
 
     public void update(CategoryTag categoryTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(categoryTag));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(categoryTag));
     }
 
     public LiveData<List<CategoryTag>> getByCategoryId(long categoryId)

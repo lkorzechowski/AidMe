@@ -6,13 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.jetbrains.annotations.NotNull;
-
 public class TagViewModel extends AndroidViewModel
 {
     private final TagRepository mRepository;
 
-    public TagViewModel(@NonNull @NotNull Application application)
+    public TagViewModel(@NonNull Application application)
     {
         super(application);
         mRepository = new TagRepository(application);

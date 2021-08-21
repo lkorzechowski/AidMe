@@ -39,32 +39,39 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnCl
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         long tagId = requireArguments().getLong("tagId");
-        TutorialTagViewModel tutorialTagViewModel = new ViewModelProvider(this).get(TutorialTagViewModel.class);
-        TutorialViewModel tutorialViewModel = new ViewModelProvider(this).get(TutorialViewModel.class);
-        HelperTagViewModel helperTagViewModel = new ViewModelProvider(this).get(HelperTagViewModel.class);
-        HelperViewModel helperViewModel = new ViewModelProvider(this).get(HelperViewModel.class);
+        TutorialTagViewModel tutorialTagViewModel = new ViewModelProvider(this)
+                .get(TutorialTagViewModel.class);
+        TutorialViewModel tutorialViewModel = new ViewModelProvider(this)
+                .get(TutorialViewModel.class);
+        HelperTagViewModel helperTagViewModel = new ViewModelProvider(this)
+                .get(HelperTagViewModel.class);
+        HelperViewModel helperViewModel = new ViewModelProvider(this)
+                .get(HelperViewModel.class);
         mAdapter = new ResultsListAdapter(requireActivity(), this);
         tutorialTagViewModel.getByTagId(tagId).observe(requireActivity(), tutorialTags-> {
             List<Tutorial> tutorials = new LinkedList<>();
             helperTagViewModel.getByTagId(tagId).observe(requireActivity(), helperTags-> {
                 List<Helper> helpers = new LinkedList<>();
                 for(HelperTag helperTag : helperTags) {
-                    helperViewModel.getById(helperTag.getHelperId()).observe(requireActivity(), helpers::add);
+                    helperViewModel.getById(helperTag.getHelperId())
+                            .observe(requireActivity(), helpers::add);
                 }
                 helperViewModel.getById(1L).observe(requireActivity(), creator-> {
                     helpers.add(creator);
                     for(TutorialTag tutorialTag : tutorialTags) {
-                        tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId()).observe(requireActivity(), tutorial-> {
+                        tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId())
+                                .observe(requireActivity(), tutorial-> {
                             tutorials.add(tutorial);
                             mAdapter.setElementList(tutorials, helpers);
                         });
                     }
                 });
-                //programatically adding myself here, because tags are also used for suggesting numbers
+                //programatically adding myself here, because tags are used for suggesting numbers
                 //to call for help, I ought not to have any, as I am not a medical professional.
             });
         });
-        View view = inflater.inflate(R.layout.fragment_recycler_results, container, false);
+        View view = inflater
+                .inflate(R.layout.fragment_recycler_results, container, false);
         RecyclerView recycler = view.findViewById(R.id.results_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));

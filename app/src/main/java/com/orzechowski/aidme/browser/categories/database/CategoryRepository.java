@@ -24,7 +24,7 @@ public class CategoryRepository {
 
     public void insert(Category category)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(() -> mDao.insert(category));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(category));
     }
 
     public void delete(Category category)

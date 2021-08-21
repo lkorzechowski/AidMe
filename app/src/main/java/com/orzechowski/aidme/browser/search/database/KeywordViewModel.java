@@ -6,15 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public class KeywordViewModel extends AndroidViewModel
 {
     private final KeywordRepository mRepository;
 
-    public KeywordViewModel(@NonNull @NotNull Application application)
+    public KeywordViewModel(@NonNull Application application)
     {
         super(application);
         mRepository = new KeywordRepository(application);

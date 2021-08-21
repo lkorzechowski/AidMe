@@ -30,12 +30,12 @@ public class VersionInstructionRepository
 
     public void delete(VersionInstruction versionInstruction)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.delete(versionInstruction));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(versionInstruction));
     }
 
     public void update(VersionInstruction versionInstruction)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(versionInstruction));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(versionInstruction));
     }
 
     public LiveData<List<Integer>> getByVersionId(long versionId)

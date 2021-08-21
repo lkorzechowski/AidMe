@@ -6,15 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public class CategoryTagViewModel extends AndroidViewModel
 {
     private final CategoryTagRepository mRepository;
 
-    public CategoryTagViewModel(@NonNull @NotNull Application application)
+    public CategoryTagViewModel(@NonNull Application application)
     {
         super(application);
         mRepository = new CategoryTagRepository(application);

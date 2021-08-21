@@ -1,7 +1,6 @@
 package com.orzechowski.aidme.browser.results;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
+import com.orzechowski.aidme.browser.userrating.Rating;
+import com.orzechowski.aidme.browser.userrating.RatingViewModel;
 import com.orzechowski.aidme.database.helper.Helper;
 import com.orzechowski.aidme.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
@@ -24,16 +29,16 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
 {
     private List<Tutorial> mTutorials = null;
     private final LayoutInflater mInflater;
-    private final OnClickListener mListener;
     private final AssetObtainer mAssetObtainer = new AssetObtainer();
-    private final Context mContext;
+    private final Activity mActivity;
     private List<Helper> mHelpers;
+    private final OnClickListener mListener;
 
-    public ResultsListAdapter(Activity activity, OnClickListener listener)
+    public ResultsListAdapter(Activity activity, OnClickListener onClickListener)
     {
         mInflater = LayoutInflater.from(activity);
-        mListener = listener;
-        mContext = activity.getBaseContext();
+        mActivity = activity;
+        mListener = onClickListener;
     }
 
     @NonNull
@@ -41,7 +46,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_results_rv, viewGroup, false);
-        return new ResultViewHolder(row, mListener);
+        return new ResultViewHolder(row, mListener, mActivity);
     }
 
     @Override
@@ -59,7 +64,8 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         holder.name.setText(tutorial.getTutorialName());
         Uri uri = null;
         try {
-            uri = Uri.fromFile(mAssetObtainer.getFileFromAssets(mContext, tutorial.getMiniatureName()));
+            uri = Uri.fromFile(mAssetObtainer
+                    .getFileFromAssets(mActivity, tutorial.getMiniatureName()));
         } catch(IOException ignored) {}
         if(uri != null) holder.image.setImageURI(uri);
         float rating = tutorial.getRating();
@@ -114,14 +120,17 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         notifyDataSetChanged();
     }
 
-    public static class ResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public static class ResultViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener
     {
         TextView name, author;
         ImageView image, starOne, starTwo, starThree, starFour, starFive;
-        OnClickListener listenerForThisRow;
+        OnClickListener listener;
         Tutorial thisResult;
+        ConstraintLayout starLayout;
 
-        public ResultViewHolder(@NonNull View viewForThisRow, OnClickListener listener)
+        public ResultViewHolder(@NonNull View viewForThisRow, OnClickListener listenerForThisRow,
+                                Activity activity)
         {
             super(viewForThisRow);
             name = viewForThisRow.findViewById(R.id.result_name_text);
@@ -132,14 +141,33 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
             starThree = viewForThisRow.findViewById(R.id.star_three);
             starFour = viewForThisRow.findViewById(R.id.star_four);
             starFive = viewForThisRow.findViewById(R.id.star_five);
-            listenerForThisRow = listener;
+            starLayout = viewForThisRow.findViewById(R.id.star_rating_layout);
+            starLayout.setOnClickListener(v -> {
+                RatingViewModel ratingViewModel =
+                        new ViewModelProvider((ViewModelStoreOwner) activity)
+                                .get(RatingViewModel.class);
+                ratingViewModel.getAll().observe((LifecycleOwner) activity, ratings -> {
+                    long tutorialId = thisResult.getTutorialId();
+                    boolean match = false;
+                    for(Rating rating : ratings) {
+                        if(rating.getTutorialId()==tutorialId) {
+                            match = true;
+                        }
+                    }
+                    if(!match) {
+                        ratingViewModel.insert(new Rating(ratings.size(), tutorialId));
+                    }
+                });
+
+            });
+            listener = listenerForThisRow;
             viewForThisRow.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
-            listenerForThisRow.onClick(thisResult);
+            listener.onClick(thisResult);
         }
     }
 

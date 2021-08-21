@@ -10,6 +10,8 @@ import com.orzechowski.aidme.database.helper.Helper;
 import com.orzechowski.aidme.database.helper.HelperDAO;
 import com.orzechowski.aidme.database.tag.CategoryTag;
 import com.orzechowski.aidme.database.tag.CategoryTagDAO;
+import com.orzechowski.aidme.database.tag.HelperTag;
+import com.orzechowski.aidme.database.tag.HelperTagDAO;
 import com.orzechowski.aidme.database.tag.Tag;
 import com.orzechowski.aidme.database.tag.TagDAO;
 import com.orzechowski.aidme.database.tag.TutorialTag;
@@ -1114,5 +1116,10 @@ public class Populating
         tutorialLinkDAO.insert(new TutorialLink(0L, 6L, 1L, 20));
         tutorialLinkDAO.insert(new TutorialLink(1L, 0L, 6L, 9));
         tutorialLinkDAO.insert(new TutorialLink(2L, 0L, 7L, 1));
+    }
+
+    public void populateHelperTags(HelperTagDAO helperTagDAO)
+    {
+        helperTagDAO.insert(new HelperTag(0L, 1L, 11L));
     }
 }

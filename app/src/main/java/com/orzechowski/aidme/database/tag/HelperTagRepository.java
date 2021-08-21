@@ -36,7 +36,7 @@ public class HelperTagRepository
 
     public void update(HelperTag helperTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(helperTag));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(helperTag));
     }
 
     public LiveData<List<HelperTag>> getByHelperId(long helperId)

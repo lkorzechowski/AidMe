@@ -6,15 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public class HelperTagViewModel extends AndroidViewModel
 {
     private final HelperTagRepository mRepository;
 
-    public HelperTagViewModel(@NonNull @NotNull Application application)
+    public HelperTagViewModel(@NonNull Application application)
     {
         super(application);
         mRepository = new HelperTagRepository(application);

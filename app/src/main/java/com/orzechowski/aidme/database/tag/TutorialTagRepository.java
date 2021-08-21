@@ -36,7 +36,7 @@ public class TutorialTagRepository
 
     public void update(TutorialTag tutorialTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(tutorialTag));
+        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(tutorialTag));
     }
 
     public LiveData<List<TutorialTag>> getByTutorialId(long tutorialId)
