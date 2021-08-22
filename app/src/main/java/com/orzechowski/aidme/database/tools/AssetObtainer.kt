@@ -1,10 +1,11 @@
-package com.orzechowski.aidme.tools
+package com.orzechowski.aidme.database.tools
 
 import android.content.Context
 import java.io.File
 import java.io.IOException
 
-class AssetObtainer {
+class AssetObtainer
+{
     @Throws(IOException::class)
     fun getFileFromAssets(context: Context, fileName: String):
             File = File(context.cacheDir, fileName)

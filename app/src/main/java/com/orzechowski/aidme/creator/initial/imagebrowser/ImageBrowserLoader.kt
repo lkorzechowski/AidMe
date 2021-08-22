@@ -18,9 +18,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ImageBrowserLoader : Fragment()
+class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
+    ImageBrowserAdapter.FragmentCallback
 {
-    private var mImageBrowserAdapter = ImageBrowserAdapter()
+    private var mImageBrowserAdapter = ImageBrowserAdapter(this)
     private val mContentObserver: ContentObserver = object : ContentObserver(null) {
         override fun onChange(selfChange: Boolean) {
             setAdapterImages()
@@ -80,5 +81,15 @@ class ImageBrowserLoader : Fragment()
                 photos.toList()
             } ?: listOf()
         }
+    }
+
+    override fun imageClick(image: Image)
+    {
+        mCallback.imageSubmitted(image)
+    }
+
+    interface ActivityCallback
+    {
+        fun imageSubmitted(image: Image)
     }
 }

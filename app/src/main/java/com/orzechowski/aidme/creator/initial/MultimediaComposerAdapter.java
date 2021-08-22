@@ -51,7 +51,7 @@ public class MultimediaComposerAdapter
     public void onBindViewHolder(@NonNull MultimediaViewHolder holder, int position)
     {
         Multimedia multimedia = mMultimedias.get(position);
-        holder.fileName.setText(multimedia.getFullFileName());
+        holder.fileName.setText(multimedia.getFileUriString());
         holder.displayTime.setText(String.valueOf(multimedia.getDisplayTime()));
         holder.loopCheckBox.setChecked(multimedia.getLoop());
         holder.callback = mCallback;

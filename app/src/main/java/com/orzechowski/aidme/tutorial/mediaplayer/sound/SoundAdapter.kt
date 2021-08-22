@@ -6,7 +6,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.core.net.toUri
-import com.orzechowski.aidme.tools.AssetObtainer
+import com.orzechowski.aidme.database.tools.AssetObtainer
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
 import java.util.*
 import kotlin.collections.ArrayList

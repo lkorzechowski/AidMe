@@ -20,12 +20,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MultimediaComposer extends Fragment implements MultimediaComposerAdapter.FragmentCallback
+public class MultimediaComposer extends Fragment
+        implements MultimediaComposerAdapter.FragmentCallback
 {
     private MultimediaComposerAdapter mAdapter;
     private final List<Multimedia> mMultimedias = new LinkedList<>();
     private final CallbackToActivity mCallback;
     private int mCurrentPositionClicked;
+
+    public int getCurrentPosition()
+    {
+        return mCurrentPositionClicked;
+    }
 
     public MultimediaComposer(CallbackToActivity callback)
     {
@@ -48,9 +54,11 @@ public class MultimediaComposer extends Fragment implements MultimediaComposerAd
     {
         FragmentActivity activity = requireActivity();
         mAdapter = new MultimediaComposerAdapter(activity, this);
-        View view = inflater.inflate(R.layout.fragment_multimedia_composer, container, false);
+        View view = inflater.inflate(R.layout.fragment_multimedia_composer, container,
+                false);
         RecyclerView recycler = view.findViewById(R.id.new_multimedia_rv);
-        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+                LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
         return view;
     }
@@ -60,7 +68,8 @@ public class MultimediaComposer extends Fragment implements MultimediaComposerAd
     {
         Button addMultimediaButton = view.findViewById(R.id.new_multimedia_button);
         addMultimediaButton.setOnClickListener(v-> {
-            mMultimedias.add(new Multimedia(0, 0, 0, false, "", false, mMultimedias.size()));
+            mMultimedias.add(new Multimedia(0, 0, 0,
+                    false, "", false, mMultimedias.size()));
             mAdapter.setElementList(mMultimedias);
         });
     }

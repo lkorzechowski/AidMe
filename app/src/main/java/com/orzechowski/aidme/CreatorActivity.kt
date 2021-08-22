@@ -10,6 +10,7 @@ import com.orzechowski.aidme.creator.initial.InstructionComposer
 import com.orzechowski.aidme.creator.initial.MultimediaComposer
 import com.orzechowski.aidme.creator.initial.SoundComposer
 import com.orzechowski.aidme.creator.initial.VersionComposer
+import com.orzechowski.aidme.creator.initial.imagebrowser.Image
 import com.orzechowski.aidme.creator.initial.imagebrowser.ImageBrowserLoader
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
@@ -21,12 +22,14 @@ import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
 
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     VersionTreeComposer.CallbackToActivity, VersionInstructionComposer.CallbackToActivity,
-        MultimediaComposer.CallbackToActivity
+        MultimediaComposer.CallbackToActivity, ImageBrowserLoader.ActivityCallback
 {
     private val mInstructionComposer = InstructionComposer()
     private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer()
+    private lateinit var mImageBrowser: ImageBrowserLoader
+    private val mImages = mutableListOf<Image>()
     private lateinit var mVersionTreeComposer: VersionTreeComposer
     private lateinit var mVersionInstructionComposer: VersionInstructionComposer
     private lateinit var mVersions: List<Version>
@@ -83,10 +86,18 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     override fun callImageGallery()
     {
         findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.GONE
-        val browser =
-            ImageBrowserLoader()
+        mImageBrowser = ImageBrowserLoader(this)
         supportFragmentManager.commit {
-            add(R.id.layout_image_browser, browser)
+            add(R.id.layout_image_browser, mImageBrowser)
         }
+    }
+
+    override fun imageSubmitted(image: Image)
+    {
+        mImages.add(image)
+        supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
+        mMultimedias[mMultimediaComposer.currentPosition].fileUriString = image.contentUri
+            .toString()
+        findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.VISIBLE
     }
 }

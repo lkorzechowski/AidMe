@@ -914,7 +914,7 @@ public class Populating
         tutorialDAO.insert(new Tutorial(4L, "Agresywny pies", 1L, "barking_dog.jpg", 0));
         tutorialDAO.insert(new Tutorial(5L, "Dławiący się kot", 1L, "choking_cat.jpeg", 0));
         tutorialDAO.insert(new Tutorial(6L, "Wstrząs", 1L, "circulatory_shock.jpeg", 0));
-        tutorialDAO.insert(new Tutorial(7L, "Podtopienie", 1L, "drowning.jpeg", 3));
+        tutorialDAO.insert(new Tutorial(7L, "Podtopienie", 1L, "drowning.jpeg", 0));
     }
 
     public void populateVersionInstructions(VersionInstructionDAO versionInstructionDAO)
@@ -1093,10 +1093,10 @@ public class Populating
     public void populateMultimedia(MultimediaDAO multimediaDAO)
     {
         //tutorial 0
-        multimediaDAO.insert(new Multimedia(0L, 0L, -1,false, "m0_0.mp4" ,true, 0));
+        multimediaDAO.insert(new Multimedia(0L, 0L, -1,false, "android.resource://com.orzechowski.aidme/raw/m0_0",true, 0));
         //tutorial 1
-        multimediaDAO.insert(new Multimedia(1L, 1L, 5000, true, "m1_0.jpg", true, 0));
-        multimediaDAO.insert(new Multimedia(2L, 1L, 5000, true, "m1_1.jpg", true, 1));
+        multimediaDAO.insert(new Multimedia(1L, 1L, 5000, true, "android.resource://com.orzechowski.aidme/raw/m1_0", true, 0));
+        multimediaDAO.insert(new Multimedia(2L, 1L, 5000, true, "android.resource://com.orzechowski.aidme/raw/m1_1", true, 1));
     }
 
     public void populateHelpers(HelperDAO helperDAO)

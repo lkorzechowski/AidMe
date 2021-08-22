@@ -19,7 +19,7 @@ import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.browser.userrating.Rating;
 import com.orzechowski.aidme.browser.userrating.RatingViewModel;
 import com.orzechowski.aidme.database.helper.Helper;
-import com.orzechowski.aidme.tools.AssetObtainer;
+import com.orzechowski.aidme.database.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 
 import java.io.IOException;

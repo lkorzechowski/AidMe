@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.browser.categories.database.Category;
-import com.orzechowski.aidme.tools.AssetObtainer;
+import com.orzechowski.aidme.database.tools.AssetObtainer;
 
 import java.io.IOException;
 import java.util.List;

@@ -15,6 +15,12 @@ import java.util.List;
 public class ImageBrowserAdapter extends RecyclerView.Adapter<ImageBrowserAdapter.ImageViewHolder>
 {
     private List<Image> mImages;
+    private final FragmentCallback mCallback;
+
+    public ImageBrowserAdapter(FragmentCallback callback)
+    {
+        mCallback = callback;
+    }
 
     public void setElementList(List<Image> images)
     {
@@ -28,13 +34,15 @@ public class ImageBrowserAdapter extends RecyclerView.Adapter<ImageBrowserAdapte
     {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_image_browser, parent, false);
-        return new ImageViewHolder(view);
+        return new ImageViewHolder(view, mCallback);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position)
     {
-        holder.imageView.setImageURI(mImages.get(position).getContentUri());
+        Image image = mImages.get(position);
+        holder.image = image;
+        holder.imageView.setImageURI(image.getContentUri());
     }
 
     @Override
@@ -47,18 +55,26 @@ public class ImageBrowserAdapter extends RecyclerView.Adapter<ImageBrowserAdapte
             implements View.OnClickListener
     {
         ImageView imageView;
+        Image image;
+        FragmentCallback callback;
 
-        public ImageViewHolder(View itemView)
+        public ImageViewHolder(View itemView, FragmentCallback fragmentCallback)
         {
             super(itemView);
             imageView = itemView.findViewById(R.id.browser_rv_image_view);
+            callback = fragmentCallback;
             imageView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
-
+            callback.imageClick(image);
         }
+    }
+
+    public interface FragmentCallback
+    {
+        void imageClick(Image image);
     }
 }

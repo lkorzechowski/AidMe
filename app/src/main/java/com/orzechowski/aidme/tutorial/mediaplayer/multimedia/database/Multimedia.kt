@@ -9,6 +9,6 @@ data class Multimedia(
                 val tutorialId: Long,
                 var displayTime: Int,
                 val type: Boolean,  //true = image, false = video
-                val fullFileName: String,
+                var fileUriString: String,
                 var loop: Boolean,
                 var position: Int)

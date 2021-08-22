@@ -76,6 +76,8 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract RatingDAO ratingDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
+    public static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(4);
 
     public static GlobalRoomDatabase getDatabase(final Context context)
     {
@@ -89,15 +91,11 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
         return INSTANCE;
     }
 
-    public static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(4);
-
     private static final RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback()
     {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-
             databaseWriteExecutor.execute(()-> {
                 Populating populating = new Populating();
                 TutorialDAO tutorialDAO = INSTANCE.tutorialDao();

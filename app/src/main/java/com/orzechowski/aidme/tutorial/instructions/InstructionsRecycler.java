@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.tools.AssetObtainer;
+import com.orzechowski.aidme.database.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.TutorialLink;
 import com.orzechowski.aidme.tutorial.database.TutorialLinkViewModel;
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
