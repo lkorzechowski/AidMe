@@ -52,17 +52,29 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             supportFragmentManager.beginTransaction().remove(mMultimediaComposer).commit()
             supportFragmentManager.beginTransaction().remove(mVersionComposer).commit()
             supportFragmentManager.beginTransaction().remove(mSoundComposer).commit()
-            progressButton.visibility = View.GONE
             mVersionTreeComposer = VersionTreeComposer(mVersions, this)
             supportFragmentManager.commit {
                 add(R.id.layout_version_tree, mVersionTreeComposer)
             }
+            findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.GONE
         }
+        commitInitial()
+    }
+
+    private fun commitInitial()
+    {
         supportFragmentManager.commit {
             add(R.id.layout_version_creator, mVersionComposer)
             add(R.id.layout_instruction_creator, mInstructionComposer)
             add(R.id.layout_multimedia_creator, mMultimediaComposer)
             add(R.id.layout_sound_creator, mSoundComposer)
+        }
+    }
+
+    private fun commitVersionInstruction()
+    {
+        supportFragmentManager.commit {
+            add(R.id.layout_version_instruction, mVersionInstructionComposer)
         }
     }
 
@@ -72,9 +84,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         mVersionInstructionComposer = VersionInstructionComposer(mVersions, mInstructions,
             this)
         supportFragmentManager.beginTransaction().remove(mVersionTreeComposer).commit()
-        supportFragmentManager.commit {
-            add(R.id.layout_version_instruction, mVersionInstructionComposer)
-        }
+        commitVersionInstruction()
     }
 
     override fun finalizeVersionInstructions(versionInstructions: Collection<VersionInstruction>)
@@ -96,8 +106,37 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         mImages.add(image)
         supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
-        mMultimedias[mMultimediaComposer.currentPosition].fileUriString = image.contentUri
-            .toString()
+        mMultimediaComposer.multimedias[mMultimediaComposer.currentPosition].fileUriString =
+            image.contentUri.toString()
+        mMultimediaComposer.resetAdapterElements()
         findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.VISIBLE
+    }
+
+    override fun onBackPressed()
+    {
+        val fragmentList: List<*> = supportFragmentManager.fragments
+        var handled = false
+        for(f in fragmentList) {
+            when(f) {
+                is ImageBrowserLoader -> {
+                    supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
+                    findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.VISIBLE
+                    handled = true
+                }
+                is VersionTreeComposer -> {
+                    supportFragmentManager.beginTransaction().remove(mVersionTreeComposer).commit()
+                    findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.VISIBLE
+                    commitInitial()
+                    handled = true
+                }
+                is VersionInstructionComposer -> {
+                    supportFragmentManager.beginTransaction().remove(mVersionInstructionComposer)
+                        .commit()
+                    commitVersionInstruction()
+                    handled = true
+                }
+            }
+        }
+        if(!handled) super.onBackPressed()
     }
 }

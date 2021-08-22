@@ -15,7 +15,8 @@ import com.orzechowski.aidme.tutorial.mediaplayer.sound.SoundAdapter
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersionViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
 
-class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial), InstructionsRecycler.CallbackForTutorialLink
+class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
+    InstructionsRecycler.CallbackForTutorialLink
 {
     private lateinit var mSoundAdapter: SoundAdapter
     private val mMediaPlayer = MultimediaPlayer()
@@ -26,7 +27,6 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial), Instruct
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         val bundle = intent.extras!!
-
         setup()
         supportFragmentManager.commit {
             setReorderingAllowed(true)
@@ -40,7 +40,8 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial), Instruct
         val tutorialId = intent.extras?.getLong("tutorialId") ?: -1L
         val versionId = intent.extras?.getLong("versionId") ?: -1L
         mMediaPlayer.mTutorialId = tutorialId
-        val soundInVersionViewModel = ViewModelProvider(this).get(SoundInVersionViewModel::class.java)
+        val soundInVersionViewModel = ViewModelProvider(this)
+            .get(SoundInVersionViewModel::class.java)
         val soundViewModel = ViewModelProvider(this).get(TutorialSoundViewModel::class.java)
         soundInVersionViewModel.getByVersionId(versionId).observe(this, { soundsInVersion ->
             soundViewModel.getByTutorialId(tutorialId).observe(this, { sounds ->
@@ -51,12 +52,15 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial), Instruct
                 mSoundAdapter.deploy()
             })
         })
-        val mediaInVersionViewModel = ViewModelProvider(this).get(VersionMultimediaViewModel::class.java)
+        val mediaInVersionViewModel = ViewModelProvider(this)
+            .get(VersionMultimediaViewModel::class.java)
         val mediaViewModel = ViewModelProvider(this).get(MultimediaViewModel::class.java)
         mediaInVersionViewModel.getByVersionId(versionId).observe(this, { multimediaList ->
-                mediaViewModel.getByTutorialId(tutorialId).observe(this, {
+                mediaViewModel.getByTutorialId(tutorialId)
+                    .observe(this, {
                     for(multimedia : Multimedia in it) {
-                        if(multimediaList.contains(multimedia.multimediaId)) mMediaPlayer.appendMultimedia(multimedia)
+                        if(multimediaList.contains(multimedia.multimediaId))
+                            mMediaPlayer.appendMultimedia(multimedia)
                     }
                     if(supportFragmentManager.fragments.size==1) {
                         supportFragmentManager.commit {

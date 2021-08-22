@@ -61,8 +61,8 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.
         val fragmentList: List<*> = supportFragmentManager.fragments
         var handled = false
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-        for (f in fragmentList) {
-            if (f is Policy) {
+        for(f in fragmentList) {
+            if(f is Policy) {
                 handled = f.onBackPressed()
                 t.remove(mPolicy).commit()
                 if(handled) break
@@ -83,7 +83,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.
                 t.remove(mContactForm).commit()
             }
         }
-        if (!handled) super.onBackPressed()
+        if(!handled) super.onBackPressed()
     }
 
     override fun onClick()

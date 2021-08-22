@@ -68,7 +68,6 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
                     cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
                 val widthColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH)
                 val heightColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT)
-
                 while(cursor.moveToNext()) {
                     val id = cursor.getLong(idColumn)
                     val displayName = cursor.getString(displayNameColumn)

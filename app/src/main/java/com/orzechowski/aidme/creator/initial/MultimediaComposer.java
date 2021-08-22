@@ -70,7 +70,7 @@ public class MultimediaComposer extends Fragment
         addMultimediaButton.setOnClickListener(v-> {
             mMultimedias.add(new Multimedia(0, 0, 0,
                     false, "", false, mMultimedias.size()));
-            mAdapter.setElementList(mMultimedias);
+            resetAdapterElements();
         });
     }
 
@@ -81,6 +81,11 @@ public class MultimediaComposer extends Fragment
         for(int i = multimedia.getPosition(); i < mMultimedias.size(); i++) {
             mMultimedias.get(i).setPosition(i);
         }
+        resetAdapterElements();
+    }
+
+    public void resetAdapterElements()
+    {
         mAdapter.setElementList(mMultimedias);
     }
 
