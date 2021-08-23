@@ -55,19 +55,23 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
                 MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
             } else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             requireActivity().contentResolver.query(uri, arrayOf(MediaStore.Images.Media._ID),
-                null, null, "${MediaStore.Images.Media.DATE_ADDED} ASC"
+                null, null, null
             )?.use { cursor ->
                 val photos = mutableListOf<Image>()
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
                 while(cursor.moveToNext()) {
-                    val id = cursor.getLong(idColumn)
-                    val contentUri = ContentUris.withAppendedId(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-                    photos.add(Image(id, contentUri))
+                    photos.add(Image(ContentUris.withAppendedId(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cursor.getLong(idColumn))))
                 }
-                photos
+                photos.toList()
             } ?: listOf()
         }
+    }
+
+    override fun onDestroy()
+    {
+        super.onDestroy()
+        requireActivity().contentResolver.unregisterContentObserver(mContentObserver)
     }
 
     override fun imageClick(image: Image)
