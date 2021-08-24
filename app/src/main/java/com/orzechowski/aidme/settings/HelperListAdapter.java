@@ -56,7 +56,8 @@ public class HelperListAdapter extends RecyclerView.Adapter<HelperListAdapter.He
         notifyDataSetChanged();
     }
 
-    public static class HelperViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public static class HelperViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener
     {
         TextView nameDisplay;
         Helper thisHelper;

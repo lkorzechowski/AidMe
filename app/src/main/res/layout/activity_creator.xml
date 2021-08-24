@@ -60,17 +60,7 @@
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_version_tree"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_version_instruction"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_image_browser"
+        android:id="@+id/fragment_overlay_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

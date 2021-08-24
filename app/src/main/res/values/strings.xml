@@ -69,6 +69,10 @@
     <string name="image_grid_header">Wybierz obraz</string>
     <string name="request_read_external_storage_info">Po udostępneniu plików naciśnij przycisk ponownie</string>
     <string name="star">star</string>
+    <string name="category_rv_header_default">Musisz teraz określić kategorię nowego poradnika aby umiejscowić go w katalogu. Wybierz z poniższej listy główną kategorię a następnie kolejne bardziej szczegółowe.</string>
+    <string name="instructions_not_provided">Nie podano instrukcji</string>
+    <string name="version_instructions_not_assigned">Nie przypisano żadnych instrukcji do wersji</string>
+    <string name="version_multimedia_not_assigned">Nie przypisano multimediów</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

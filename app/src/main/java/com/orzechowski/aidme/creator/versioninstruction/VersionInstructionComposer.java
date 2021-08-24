@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -42,15 +44,23 @@ public class VersionInstructionComposer extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
+        if(mVersions.size()==1) {
+            for(InstructionSet set: mInstructions) {
+                mVersionInstructions.add(new VersionInstruction(0, 0,
+                        set.getPosition()));
+            }
+            mCallback.finalizeVersionInstructions(mVersionInstructions);
+        }
         FragmentActivity activity = requireActivity();
         View view = inflater.inflate(R.layout.fragment_version_instruction,
                 container, false);
         Button finalizeInstructions = view.findViewById(R.id.version_instruction_finalize_button);
         finalizeInstructions.setOnClickListener(v -> {
             if(mVersionInstructions.isEmpty()) {
-
+                Toast.makeText(activity, R.string.version_instructions_not_assigned,
+                        Toast.LENGTH_SHORT).show();
             } else {
                 mCallback.finalizeVersionInstructions(mVersionInstructions);
             }

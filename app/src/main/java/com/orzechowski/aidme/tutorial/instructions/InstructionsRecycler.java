@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,8 +24,6 @@ import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewModel;
 import com.orzechowski.aidme.tutorial.version.database.VersionInstructionViewModel;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -50,11 +49,12 @@ public class InstructionsRecycler
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup group, Bundle bundle)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup group, Bundle bundle)
     {
         bundle = requireArguments();
         FragmentActivity activity = requireActivity();
-        VersionInstructionViewModel versionInstructionViewModel = new ViewModelProvider(this)
+        ViewModelProvider provider = new ViewModelProvider(this);
+        VersionInstructionViewModel versionInstructionViewModel = provider
                 .get(VersionInstructionViewModel.class);
         versionInstructionViewModel.getByVersionId(bundle.getLong("versionId"))
                 .observe(activity, instructionNumbers -> {
@@ -64,12 +64,9 @@ public class InstructionsRecycler
         mTutorialId = bundle.getLong("tutorialId");
         mTextDisplay = activity.findViewById(R.id.active_instructions);
         mTutorialLink = activity.findViewById(R.id.tutorial_link);
-        mInstructionSetViewModel = new ViewModelProvider(this)
-                .get(InstructionSetViewModel.class);
-        mTutorialLinkViewModel = new ViewModelProvider(this)
-                .get(TutorialLinkViewModel.class);
-        mTutorialViewModel = new ViewModelProvider(this)
-                .get(TutorialViewModel.class);
+        mInstructionSetViewModel = provider.get(InstructionSetViewModel.class);
+        mTutorialLinkViewModel = provider.get(TutorialLinkViewModel.class);
+        mTutorialViewModel = provider.get(TutorialViewModel.class);
         mAdapter = new InstructionsListAdapter(activity, this);
         View view = inflater.inflate(R.layout.fragment_recycler_tutorial, group, false);
         mInstructionSetViewModel.getTutorialSize(mTutorialId).observe(activity, size -> {

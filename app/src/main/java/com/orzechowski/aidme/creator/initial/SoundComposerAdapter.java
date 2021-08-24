@@ -38,7 +38,7 @@ public class SoundComposerAdapter
     public SoundViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_new_sound_rv, parent, false);
-        return new SoundViewHolder(row);
+        return new SoundViewHolder(row, mCallback);
     }
 
     @Override
@@ -50,7 +50,6 @@ public class SoundComposerAdapter
         holder.playInterval.setText(String.valueOf(sound.getInterval()));
         holder.fileName.setText(sound.getFileName());
         holder.sound = sound;
-        holder.callback = mCallback;
     }
 
     @Override
@@ -73,10 +72,9 @@ public class SoundComposerAdapter
         TextView fileName;
         Button uploadSoundButton;
         TutorialSound sound;
-        FragmentCallback callback;
         ImageView deleteSound;
 
-        public SoundViewHolder(@NonNull View itemView)
+        public SoundViewHolder(@NonNull View itemView, FragmentCallback callback)
         {
             super(itemView);
             playInterval = itemView.findViewById(R.id.new_sound_interval_input);

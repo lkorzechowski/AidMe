@@ -36,7 +36,7 @@ public class VersionComposerAdapter
     public VersionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_new_version_rv, parent, false);
-        return new VersionViewHolder(row);
+        return new VersionViewHolder(row, mCallback);
     }
 
     @Override
@@ -46,7 +46,6 @@ public class VersionComposerAdapter
         holder.versionText.setText(version.getText());
         holder.soundDelay.setChecked(version.getDelayGlobalSound());
         holder.version = version;
-        holder.callback = mCallback;
     }
 
     @Override
@@ -67,10 +66,9 @@ public class VersionComposerAdapter
         EditText versionText;
         CheckBox soundDelay;
         ImageView deleteVersion;
-        FragmentCallback callback;
         Version version;
 
-        public VersionViewHolder(@NonNull View itemView)
+        public VersionViewHolder(@NonNull View itemView, FragmentCallback callback)
         {
             super(itemView);
             versionText = itemView.findViewById(R.id.new_version_text);

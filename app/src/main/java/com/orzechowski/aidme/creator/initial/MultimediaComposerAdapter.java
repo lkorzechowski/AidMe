@@ -44,7 +44,7 @@ public class MultimediaComposerAdapter
     public MultimediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_new_multimedia_rv, parent, false);
-        return new MultimediaViewHolder(row, mActivity);
+        return new MultimediaViewHolder(row, mActivity, mCallback);
     }
 
     @Override
@@ -54,7 +54,6 @@ public class MultimediaComposerAdapter
         holder.fileName.setText(multimedia.getFileUriString());
         holder.displayTime.setText(String.valueOf(multimedia.getDisplayTime()));
         holder.loopCheckBox.setChecked(multimedia.getLoop());
-        holder.callback = mCallback;
         holder.multimedia = multimedia;
     }
 
@@ -78,11 +77,11 @@ public class MultimediaComposerAdapter
         EditText displayTime;
         CheckBox loopCheckBox;
         ImageView deleteMultimedia;
-        FragmentCallback callback;
         Multimedia multimedia;
         Activity activity;
 
-        public MultimediaViewHolder(@NonNull View itemView, Activity requestActivity)
+        public MultimediaViewHolder(@NonNull View itemView, Activity requestActivity,
+                                    FragmentCallback callback)
         {
             super(itemView);
             activity = requestActivity;

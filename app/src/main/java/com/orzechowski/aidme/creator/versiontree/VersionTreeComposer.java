@@ -47,8 +47,11 @@ public class VersionTreeComposer extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
+        if(mAllVersions.size()==1) {
+            mCallback.finalizeVersionTree(mAllVersions);
+        }
         FragmentActivity activity = requireActivity();
         View view = inflater
                 .inflate(R.layout.fragment_version_tree_composer, container, false);
@@ -120,7 +123,8 @@ public class VersionTreeComposer extends Fragment
         levelThreeRecycler.setAdapter(mLevelThreeAdapter);
         levelFourRecycler.setAdapter(mLevelFourAdapter);
         parentPickingRecycler.setAdapter(mParentPickingAdapter);
-        Toast hasChildren = Toast.makeText(getContext(), "Ta wersja ma już wersje potomne", Toast.LENGTH_SHORT);
+        Toast hasChildren = Toast.makeText(getContext(), "Ta wersja ma już wersje potomne",
+                Toast.LENGTH_SHORT);
         ItemTouchHelper itemTouchHelperOne = new ItemTouchHelper(new ItemTouchHelper
                 .SimpleCallback(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP)
         {

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.tutorial.version.database.Version;
 import com.orzechowski.aidme.tutorial.version.database.VersionViewModel;
-
-import org.jetbrains.annotations.NotNull;
 
 public class VersionRecycler extends Fragment
 {
@@ -28,8 +27,7 @@ public class VersionRecycler extends Fragment
     }
 
     @Override
-    public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         mVersionViewModel = new ViewModelProvider(this).get(VersionViewModel.class);
         long tutorialId = requireArguments().getLong("tutorialId");

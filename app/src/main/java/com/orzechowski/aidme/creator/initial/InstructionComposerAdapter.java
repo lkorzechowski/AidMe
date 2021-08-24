@@ -37,7 +37,7 @@ public class InstructionComposerAdapter
     public InstructionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_new_instruction_rv, parent, false);
-        return new InstructionsViewHolder(row);
+        return new InstructionsViewHolder(row, mCallback);
     }
 
     @Override
@@ -50,7 +50,6 @@ public class InstructionComposerAdapter
         holder.displayTime.setText(String.valueOf(set.getTime()));
         holder.position.setText(String.valueOf(set.getPosition()+1));
         holder.narrationFile.setText(set.getNarrationFileName());
-        holder.callback = mCallback;
     }
 
     @Override
@@ -71,11 +70,10 @@ public class InstructionComposerAdapter
         EditText title, content, displayTime;
         TextView position, narrationFile;
         ImageView deleteInstruction;
-        FragmentCallback callback;
         Button uploadNarration;
         InstructionSet instruction;
 
-        public InstructionsViewHolder(@NonNull View itemView)
+        public InstructionsViewHolder(@NonNull View itemView, FragmentCallback callback)
         {
             super(itemView);
             narrationFile = itemView.findViewById(R.id.new_instruction_narration_filename_display);
