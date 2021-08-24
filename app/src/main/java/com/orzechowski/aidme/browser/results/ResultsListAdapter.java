@@ -109,8 +109,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     @Override
     public int getItemCount()
     {
-        if(mTutorials!=null) return mTutorials.size();
-        else return 0;
+        return (mTutorials==null) ? 0 : mTutorials.size();
     }
 
     public void setElementList(List<Tutorial> tutorials, List<Helper> helpers)

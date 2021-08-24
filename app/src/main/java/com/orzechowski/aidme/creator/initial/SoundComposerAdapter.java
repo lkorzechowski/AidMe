@@ -55,8 +55,7 @@ public class SoundComposerAdapter
     @Override
     public int getItemCount()
     {
-        if(mSounds!=null) return mSounds.size();
-        else return 0;
+        return (mSounds==null) ? 0 : mSounds.size();
     }
 
     public void setElementList(List<TutorialSound> sounds)

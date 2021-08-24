@@ -53,8 +53,7 @@ public class VersionMultimediaOuterAdapter
     @Override
     public int getItemCount()
     {
-        if(mMultimedias!=null) return mMultimedias.size();
-        else return 0;
+        return(mMultimedias==null) ? 0 : mMultimedias.size();
     }
 
     public void setElementList(List<Multimedia> multimedia, List<Version> versions)

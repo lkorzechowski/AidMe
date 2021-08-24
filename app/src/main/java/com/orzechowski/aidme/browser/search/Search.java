@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -29,8 +30,6 @@ import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewModel;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -57,10 +56,10 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
     }
 
     @Override
-    public View onCreateView(
-            @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
-        mInstructionSetViewModel = new ViewModelProvider(this).get(InstructionSetViewModel.class);
+        mInstructionSetViewModel = new ViewModelProvider(this)
+                .get(InstructionSetViewModel.class);
         mTutorialViewModel = new ViewModelProvider(this).get(TutorialViewModel.class);
         mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
         mKeywordViewModel = new ViewModelProvider(this).get(KeywordViewModel.class);
@@ -77,7 +76,7 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
     }
 
     @Override
-    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState)
+    public void onViewCreated(@NonNull View view, @Nullable Bundle bundle)
     {
         EditText searchInput = view.findViewById(R.id.search_input);
         searchInput.addTextChangedListener(new TextWatcher() {

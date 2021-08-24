@@ -19,7 +19,8 @@ import com.orzechowski.aidme.database.tools.AssetObtainer;
 import java.io.IOException;
 import java.util.List;
 
-public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>
+public class CategoryListAdapter
+        extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>
 {
     private List<Category> mCategories = null;
     private final LayoutInflater mInflater;
@@ -52,7 +53,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         if(categoryName.length() > 20) categoryHolder.name.setTextSize(20);
         Uri uri = null;
         try {
-            uri = Uri.fromFile(assetObtainer.getFileFromAssets(mContext, category.getMiniatureName()));
+            uri = Uri.fromFile(assetObtainer
+                    .getFileFromAssets(mContext, category.getMiniatureName()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,8 +64,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     @Override
     public int getItemCount()
     {
-        if(mCategories!=null) return mCategories.size();
-        else return 0;
+        return (mCategories==null) ? 0 : mCategories.size();
     }
 
     public void setElementList(List<Category> categories)

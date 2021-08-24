@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,8 +18,6 @@ import com.orzechowski.aidme.browser.categories.database.CategoryViewModel;
 import com.orzechowski.aidme.database.tag.CategoryTag;
 import com.orzechowski.aidme.database.tag.CategoryTagViewModel;
 import com.orzechowski.aidme.database.tag.TagViewModel;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,14 +38,15 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.On
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         FragmentActivity activity = requireActivity();
         mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
         mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         mCategoryTagViewModel = new ViewModelProvider(this).get(CategoryTagViewModel.class);
         mAdapter = new CategoryListAdapter(activity, this);
-        View view = inflater.inflate(R.layout.fragment_recycler_browser, container, false);
+        View view = inflater
+                .inflate(R.layout.fragment_recycler_browser, container, false);
         RecyclerView recycler = view.findViewById(R.id.browser_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));

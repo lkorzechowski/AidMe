@@ -41,13 +41,14 @@ public class VersionMultimediaInnerAdapter
     public void onBindViewHolder(@NonNull VersionViewHolder holder, int position)
     {
         Version version = mVersions.get(position);
+        holder.version = version;
+        holder.versionNumberButton.setText(String.valueOf(version.getVersionId()));
     }
 
     @Override
     public int getItemCount()
     {
-        if(mVersions!=null) return mVersions.size();
-        else return 0;
+        return(mVersions==null) ? 0 : mVersions.size();
     }
 
     public void setElementList(List<Version> versions)

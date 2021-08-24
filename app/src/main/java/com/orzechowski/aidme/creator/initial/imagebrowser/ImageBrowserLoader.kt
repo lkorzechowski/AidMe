@@ -2,6 +2,7 @@ package com.orzechowski.aidme.creator.initial.imagebrowser
 
 import android.content.ContentUris
 import android.database.ContentObserver
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,7 +17,7 @@ import com.orzechowski.aidme.R
 class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
     ImageBrowserAdapter.FragmentCallback
 {
-    private var mImageBrowserAdapter = ImageBrowserAdapter(this)
+    private var mImageBrowserAdapter = ImageBrowserAdapter(activity, this)
     private val mContentObserver: ContentObserver = object : ContentObserver(null) {
         override fun onChange(selfChange: Boolean) {
             setAdapterImages()
@@ -42,9 +43,9 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
         mImageBrowserAdapter.setElementList(loadImages())
     }
 
-    private fun loadImages(): List<Image>
+    private fun loadImages(): List<Uri>
     {
-        val photos = mutableListOf<Image>()
+        val uris = mutableListOf<Uri>()
         val uri = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
         } else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -53,10 +54,11 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
         )?.use { cursor ->
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
             while(cursor.moveToNext()) {
-                photos.add(Image(ContentUris.withAppendedId(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cursor.getLong(idColumn))))
+                val id = cursor.getLong(idColumn)
+                uris.add(ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    id))
             }
-            return photos.toList()
+            return uris.toList()
         } ?: return listOf()
     }
 
@@ -66,13 +68,13 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
         requireActivity().contentResolver.unregisterContentObserver(mContentObserver)
     }
 
-    override fun imageClick(image: Image)
+    override fun imageClick(uri: Uri)
     {
-        mCallback.imageSubmitted(image)
+        mCallback.imageSubmitted(uri)
     }
 
     interface ActivityCallback
     {
-        fun imageSubmitted(image: Image)
+        fun imageSubmitted(uri: Uri)
     }
 }

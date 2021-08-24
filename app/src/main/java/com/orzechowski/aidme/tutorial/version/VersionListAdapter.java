@@ -45,8 +45,7 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
     @Override
     public int getItemCount()
     {
-        if(mVersionList!=null) return mVersionList.size();
-        else return 0;
+        return (mVersionList==null) ? 0 : mVersionList.size();
     }
 
     public void setElementList(List<Version> versions)

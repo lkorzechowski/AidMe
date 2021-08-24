@@ -1,5 +1,6 @@
 package com.orzechowski.aidme
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -12,7 +13,6 @@ import com.orzechowski.aidme.creator.initial.InstructionComposer
 import com.orzechowski.aidme.creator.initial.MultimediaComposer
 import com.orzechowski.aidme.creator.initial.SoundComposer
 import com.orzechowski.aidme.creator.initial.VersionComposer
-import com.orzechowski.aidme.creator.initial.imagebrowser.Image
 import com.orzechowski.aidme.creator.initial.imagebrowser.ImageBrowserLoader
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
@@ -32,7 +32,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private val mSoundComposer = SoundComposer()
     private val mCategoryAssignment = CategoryAssignment()
     private lateinit var mImageBrowser: ImageBrowserLoader
-    private val mImages = mutableListOf<Image>()
     private lateinit var mVersionTreeComposer: VersionTreeComposer
     private lateinit var mVersionInstructionComposer: VersionInstructionComposer
     private lateinit var mVersions: MutableList<Version>
@@ -133,12 +132,11 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
     }
 
-    override fun imageSubmitted(image: Image)
+    override fun imageSubmitted(uri: Uri)
     {
-        mImages.add(image)
         supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
         mMultimediaComposer.multimedias[mMultimediaComposer.currentPosition].fileUriString =
-            image.contentUri.toString()
+            uri.toString()
         mMultimediaComposer.resetAdapterElements()
         findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.VISIBLE
     }

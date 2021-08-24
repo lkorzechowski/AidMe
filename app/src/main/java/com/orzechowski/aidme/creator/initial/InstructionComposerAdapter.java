@@ -55,8 +55,7 @@ public class InstructionComposerAdapter
     @Override
     public int getItemCount()
     {
-        if(mInstructions!=null) return mInstructions.size();
-        else return 0;
+        return (mInstructions == null) ? 0 : mInstructions.size();
     }
 
     public void setElementList(List<InstructionSet> instructions)

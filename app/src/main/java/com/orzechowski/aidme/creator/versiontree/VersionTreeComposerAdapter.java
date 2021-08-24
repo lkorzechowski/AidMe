@@ -49,8 +49,7 @@ public class VersionTreeComposerAdapter
     @Override
     public int getItemCount()
     {
-        if(mVersions!=null) return mVersions.size();
-        else return 0;
+        return (mVersions==null) ? 0 : mVersions.size();
     }
 
     public void setElementList(List<Version> versions)
