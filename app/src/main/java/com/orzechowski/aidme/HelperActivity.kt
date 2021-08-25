@@ -32,10 +32,18 @@ class HelperActivity : AppCompatActivity()
                 helperToggleButton.setIconResource(R.drawable.ic_cross)
             }
         }
-        val createTutorialButton = findViewById<Button>(R.id.helper_create_tutorial)
+        val createTutorialButton = findViewById<Button>(R.id.helper_create_tutorial_button)
         createTutorialButton.setOnClickListener {
             val creator = Intent(this@HelperActivity, CreatorActivity::class.java)
             startActivity(creator)
+        }
+        val profileSettingsButton = findViewById<Button>(R.id.helper_settings_button)
+        profileSettingsButton.setOnClickListener {
+
+        }
+        val chatButton = findViewById<Button>(R.id.helper_chat_button)
+        chatButton.setOnClickListener {
+
         }
     }
 }

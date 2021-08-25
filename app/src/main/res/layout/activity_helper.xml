@@ -24,12 +24,31 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/helper_create_tutorial"
+        android:id="@+id/helper_create_tutorial_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/helper_create_tutorial"
         android:textSize="20sp"
         android:layout_marginTop="36dp"
+        app:icon="@drawable/ic_brush"
         app:layout_constraintTop_toBottomOf="@id/helper_toggle_help"/>
+
+    <Button
+        android:id="@+id/helper_settings_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/helper_settings_button"
+        android:textSize="20sp"
+        app:icon="@drawable/ic_cog"
+        app:layout_constraintTop_toBottomOf="@+id/helper_create_tutorial_button" />
+
+    <Button
+        android:id="@+id/helper_chat_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/helper_chat_button"
+        android:textSize="20sp"
+        app:icon="@drawable/ic_chat"
+        app:layout_constraintTop_toBottomOf="@id/helper_settings_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
