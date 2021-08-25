@@ -25,10 +25,27 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
 {
     private SoundComposerAdapter mAdapter;
     private final List<TutorialSound> mSounds = new LinkedList<>();
+    private final CallbackToActivity mCallback;
+    private int mCurrentPosition;
+
+    public SoundComposer(CallbackToActivity callback)
+    {
+        mCallback = callback;
+    }
+
+    public int getCurrentPosition()
+    {
+        return mCurrentPosition;
+    }
 
     public List<TutorialSound> getSounds()
     {
         return mSounds;
+    }
+
+    public void resetAdapterElements()
+    {
+        mAdapter.setElementList(mSounds);
     }
 
     @Override
@@ -51,8 +68,8 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
         Button addSoundButton = view.findViewById(R.id.new_sound_button);
         addSoundButton.setOnClickListener(v-> {
             mSounds.add(new TutorialSound(mSounds.size(), 0,
-                    false, 0, 0, ""));
-            mAdapter.setElementList(mSounds);
+                    false, 0, 0, "", ""));
+            resetAdapterElements();
         });
     }
 
@@ -65,9 +82,10 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
             TutorialSound sound = mSounds.get(i);
             mSounds.remove(sound);
             mSounds.add(new TutorialSound(i, sound.getSoundStart(),
-                    sound.getSoundLoop(), sound.getInterval(), 0, sound.getFileName()));
+                    sound.getSoundLoop(), sound.getInterval(), 0, sound.getFileName(),
+                    sound.getFileUriString()));
         }
-        mAdapter.setElementList(mSounds);
+        resetAdapterElements();
     }
 
     @Override
@@ -86,5 +104,17 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
     public void modifyInterval(int interval, Long soundId)
     {
         mSounds.get(soundId.intValue()).setInterval(interval);
+    }
+
+    @Override
+    public void addSound(int position)
+    {
+        mCurrentPosition = position;
+        mCallback.callSoundRecycler();
+    }
+
+    public interface CallbackToActivity
+    {
+        void callSoundRecycler();
     }
 }

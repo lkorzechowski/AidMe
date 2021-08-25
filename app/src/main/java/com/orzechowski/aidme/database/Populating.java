@@ -1108,7 +1108,7 @@ public class Populating
 
     public void populateSounds(TutorialSoundDAO tutorialSoundDAO)
     {
-        tutorialSoundDAO.insert(new TutorialSound(0L, 45000L, true, 545L, 0L, "g0_0.mp3"));
+        tutorialSoundDAO.insert(new TutorialSound(0L, 45000L, true, 545L, 0L, "g0_0", "android.resource://com.orzechowski.aidme/raw/g0_0"));
     }
 
     public void populateLinks(TutorialLinkDAO tutorialLinkDAO)

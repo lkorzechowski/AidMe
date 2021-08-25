@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ScrollView
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.orzechowski.aidme.creator.categorypicker.CategoryAssignment
@@ -14,6 +15,8 @@ import com.orzechowski.aidme.creator.initial.MultimediaComposer
 import com.orzechowski.aidme.creator.initial.SoundComposer
 import com.orzechowski.aidme.creator.initial.VersionComposer
 import com.orzechowski.aidme.creator.initial.imagebrowser.ImageBrowserLoader
+import com.orzechowski.aidme.creator.initial.soundbrowser.Sound
+import com.orzechowski.aidme.creator.initial.soundbrowser.SoundBrowserLoader
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
@@ -24,13 +27,16 @@ import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
 
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     VersionTreeComposer.CallbackToActivity, VersionInstructionComposer.CallbackToActivity,
-        MultimediaComposer.CallbackToActivity, ImageBrowserLoader.ActivityCallback
+        MultimediaComposer.CallbackToActivity, ImageBrowserLoader.ActivityCallback,
+        SoundComposer.CallbackToActivity, SoundBrowserLoader.ActivityCallback
 {
     private val mInstructionComposer = InstructionComposer()
     private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
-    private val mSoundComposer = SoundComposer()
+    private val mSoundComposer = SoundComposer(this)
     private val mCategoryAssignment = CategoryAssignment()
+    private lateinit var mView: ScrollView
+    private lateinit var mSoundBrowser: SoundBrowserLoader
     private lateinit var mImageBrowser: ImageBrowserLoader
     private lateinit var mVersionTreeComposer: VersionTreeComposer
     private lateinit var mVersionInstructionComposer: VersionInstructionComposer
@@ -70,9 +76,10 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 supportFragmentManager.beginTransaction().remove(mSoundComposer).commit()
                 mVersionTreeComposer = VersionTreeComposer(mVersions, this)
                 commitVersionTree()
-                findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.GONE
+                mView.visibility = View.GONE
             }
         }
+        mView = findViewById(R.id.initial_creator_view)
         commitInitial()
     }
 
@@ -125,10 +132,19 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
 
     override fun callImageGallery()
     {
-        findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.GONE
+        mView.visibility = View.GONE
         mImageBrowser = ImageBrowserLoader(this)
         supportFragmentManager.commit {
             add(R.id.fragment_overlay_layout, mImageBrowser)
+        }
+    }
+
+    override fun callSoundRecycler()
+    {
+        mView.visibility = View.GONE
+        mSoundBrowser = SoundBrowserLoader(this)
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mSoundBrowser)
         }
     }
 
@@ -138,7 +154,17 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         mMultimediaComposer.multimedias[mMultimediaComposer.currentPosition].fileUriString =
             uri.toString()
         mMultimediaComposer.resetAdapterElements()
-        findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.VISIBLE
+        mView.visibility = View.VISIBLE
+    }
+
+    override fun soundSubmitted(sound: Sound)
+    {
+        val position = mSoundComposer.currentPosition
+        supportFragmentManager.beginTransaction().remove(mSoundBrowser).commit()
+        mSoundComposer.sounds[position].fileName = sound.displayName
+        mSoundComposer.sounds[position].fileUriString = sound.uri.toString()
+        mSoundComposer.resetAdapterElements()
+        mView.visibility = View.VISIBLE
     }
 
     override fun onBackPressed()
@@ -149,12 +175,12 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             when(f) {
                 is ImageBrowserLoader -> {
                     supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
-                    findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.VISIBLE
+                    mView.visibility = View.VISIBLE
                     handled = true
                 }
                 is VersionTreeComposer -> {
                     supportFragmentManager.beginTransaction().remove(mVersionTreeComposer).commit()
-                    findViewById<ScrollView>(R.id.initial_creator_view).visibility = View.VISIBLE
+                    mView.visibility = View.VISIBLE
                     commitInitial()
                     handled = true
                 }
@@ -169,8 +195,24 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     commitVersionInstruction(mVersions)
                     handled = true
                 }
+                is SoundBrowserLoader -> {
+                    supportFragmentManager.beginTransaction().remove(mSoundBrowser).commit()
+                    mView.visibility = View.VISIBLE
+                    handled = true
+                }
             }
         }
         if(!handled) super.onBackPressed()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>,
+                                            @NonNull grantResults: IntArray)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode==121) {
+            callImageGallery()
+        } else if(requestCode==122) {
+            callSoundRecycler()
+        }
     }
 }

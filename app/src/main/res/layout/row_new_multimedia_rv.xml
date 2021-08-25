@@ -15,6 +15,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_delete"/>
 
+    <ImageView
+        android:id="@+id/new_image_miniature"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/image_default_no_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/new_multimedia_upload_button"
+        app:layout_constraintBottom_toBottomOf="@id/new_multimedia_upload_button"/>
+
     <TextView
         android:id="@+id/new_multimedia_filename_display"
         android:layout_width="wrap_content"

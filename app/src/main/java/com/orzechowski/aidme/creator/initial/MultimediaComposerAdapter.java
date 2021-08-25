@@ -3,6 +3,7 @@ package com.orzechowski.aidme.creator.initial;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -55,6 +55,10 @@ public class MultimediaComposerAdapter
         holder.displayTime.setText(String.valueOf(multimedia.getDisplayTime()));
         holder.loopCheckBox.setChecked(multimedia.getLoop());
         holder.multimedia = multimedia;
+        if(!multimedia.getFileUriString().isEmpty()) {
+            holder.miniature.setVisibility(View.VISIBLE);
+            holder.miniature.setImageURI(Uri.parse(multimedia.getFileUriString()));
+        } else holder.miniature.setVisibility(View.GONE);
     }
 
     @Override
@@ -75,7 +79,7 @@ public class MultimediaComposerAdapter
         Button uploadButton;
         EditText displayTime;
         CheckBox loopCheckBox;
-        ImageView deleteMultimedia;
+        ImageView deleteMultimedia, miniature;
         Multimedia multimedia;
         Activity activity;
 
@@ -88,6 +92,7 @@ public class MultimediaComposerAdapter
             uploadButton = itemView.findViewById(R.id.new_multimedia_upload_button);
             displayTime = itemView.findViewById(R.id.new_multimedia_display_time_input);
             loopCheckBox = itemView.findViewById(R.id.new_multimedia_loop_checkbox);
+            miniature = itemView.findViewById(R.id.new_image_miniature);
             deleteMultimedia = itemView.findViewById(R.id.delete_new_multimedia);
             deleteMultimedia.setOnClickListener(v-> callback.delete(multimedia));
             displayTime.addTextChangedListener(new TextWatcher() {
@@ -119,8 +124,6 @@ public class MultimediaComposerAdapter
                     ActivityCompat.requestPermissions(activity,
                             new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
                             121);
-                    Toast.makeText(activity, R.string.request_read_external_storage_info,
-                            Toast.LENGTH_SHORT).show();
                 } else {
                     callback.addImage(multimedia.getPosition());
                 }

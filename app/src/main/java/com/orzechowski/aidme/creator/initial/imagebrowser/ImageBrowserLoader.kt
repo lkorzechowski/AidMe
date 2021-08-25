@@ -17,7 +17,7 @@ import com.orzechowski.aidme.R
 class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
     ImageBrowserAdapter.FragmentCallback
 {
-    private var mImageBrowserAdapter = ImageBrowserAdapter(activity, this)
+    private lateinit var mImageBrowserAdapter: ImageBrowserAdapter
     private val mContentObserver: ContentObserver = object : ContentObserver(null) {
         override fun onChange(selfChange: Boolean) {
             setAdapterImages()
@@ -30,6 +30,7 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
         val view = inflater.inflate(R.layout.fragment_image_browser, container, false)
         val imageRecycler: RecyclerView = view.findViewById(R.id.image_recycler_grid)
         imageRecycler.layoutManager = StaggeredGridLayoutManager(3, RecyclerView.VERTICAL)
+        mImageBrowserAdapter = ImageBrowserAdapter(requireActivity(), this)
         imageRecycler.adapter = mImageBrowserAdapter
         requireActivity().contentResolver.registerContentObserver(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, mContentObserver

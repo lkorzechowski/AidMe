@@ -5,8 +5,6 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
-import androidx.core.net.toUri
-import com.orzechowski.aidme.database.tools.AssetObtainer
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
 import java.util.*
 import kotlin.collections.ArrayList
@@ -18,7 +16,6 @@ class SoundAdapter (private val mDelayGlobalSound: Boolean,
 {
     private val mThreads: ArrayList<Thread> = ArrayList()
     private var mInit = true
-    private val assetObtainer = AssetObtainer()
 
     fun deploy()
     {
@@ -35,8 +32,7 @@ class SoundAdapter (private val mDelayGlobalSound: Boolean,
                         }
                     }
                     val sound: TutorialSound = i
-                    val resourceUri: Uri = assetObtainer
-                        .getFileFromAssets(mActivity, sound.fileName).toUri()
+                    val resourceUri: Uri = Uri.parse(sound.fileUriString)
                     lateinit var player: MediaPlayer
                     try {
                         while(sound.soundLoop || mInit) {

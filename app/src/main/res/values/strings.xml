@@ -67,7 +67,6 @@
     <string name="instruction_text_rv_label">Treść poszczególnych instrukcji</string>
     <string name="version_multimedia_heading">Przypisz multimedia do poszczególnych wersji. Jeżeli nie widzisz wstawionych przez ciebie multimediów, nie udało się ich pobrać. Spróbuj zmienić format.</string>
     <string name="image_grid_header">Wybierz obraz</string>
-    <string name="request_read_external_storage_info">Po udostępneniu plików naciśnij przycisk ponownie</string>
     <string name="star">star</string>
     <string name="category_rv_header_default">Musisz teraz określić kategorię nowego poradnika aby umiejscowić go w katalogu. Wybierz z poniższej listy główną kategorię a następnie kolejne bardziej szczegółowe.</string>
     <string name="instructions_not_provided">Nie podano instrukcji</string>

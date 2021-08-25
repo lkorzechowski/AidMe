@@ -1,6 +1,8 @@
 package com.orzechowski.aidme.creator.initial;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
@@ -26,11 +29,13 @@ public class SoundComposerAdapter
     private List<TutorialSound> mSounds = null;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
+    private final Activity mActivity;
 
     public SoundComposerAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
         mCallback = callback;
+        mActivity = activity;
     }
 
     @NonNull
@@ -38,7 +43,7 @@ public class SoundComposerAdapter
     public SoundViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_new_sound_rv, parent, false);
-        return new SoundViewHolder(row, mCallback);
+        return new SoundViewHolder(row, mActivity, mCallback);
     }
 
     @Override
@@ -72,10 +77,13 @@ public class SoundComposerAdapter
         Button uploadSoundButton;
         TutorialSound sound;
         ImageView deleteSound;
+        Activity activity;
 
-        public SoundViewHolder(@NonNull View itemView, FragmentCallback callback)
+        public SoundViewHolder(@NonNull View itemView, Activity requestActivity,
+                               FragmentCallback callback)
         {
             super(itemView);
+            activity = requestActivity;
             playInterval = itemView.findViewById(R.id.new_sound_interval_input);
             uploadSoundButton = itemView.findViewById(R.id.new_sound_upload_button);
             soundStart = itemView.findViewById(R.id.new_sound_start_input);
@@ -86,6 +94,17 @@ public class SoundComposerAdapter
             soundLoop.setOnCheckedChangeListener((buttonView, isChecked)-> {
                 if(sound!=null && callback!=null) {
                     callback.modifyLoop(isChecked, sound.getSoundId());
+                }
+            });
+            uploadSoundButton.setOnClickListener(v -> {
+                if(ActivityCompat.checkSelfPermission(activity, Manifest.permission
+                        .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions(activity,
+                            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                            122);
+                } else {
+                    callback.addSound((int)sound.getSoundId());
                 }
             });
             soundStart.addTextChangedListener(new TextWatcher() {
@@ -129,5 +148,6 @@ public class SoundComposerAdapter
         void modifyLoop(boolean loop, Long soundId);
         void modifyStart(int start, Long soundId);
         void modifyInterval(int interval, Long soundId);
+        void addSound(int position);
     }
 }

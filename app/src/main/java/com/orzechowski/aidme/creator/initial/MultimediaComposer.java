@@ -27,16 +27,16 @@ public class MultimediaComposer extends Fragment
     private MultimediaComposerAdapter mAdapter;
     private final List<Multimedia> mMultimedias = new LinkedList<>();
     private final CallbackToActivity mCallback;
-    private int mCurrentPositionClicked;
-
-    public int getCurrentPosition()
-    {
-        return mCurrentPositionClicked;
-    }
+    private int mCurrentPosition;
 
     public MultimediaComposer(CallbackToActivity callback)
     {
         mCallback = callback;
+    }
+
+    public int getCurrentPosition()
+    {
+        return mCurrentPosition;
     }
 
     public List<Multimedia> getMultimedias()
@@ -105,7 +105,7 @@ public class MultimediaComposer extends Fragment
     @Override
     public void addImage(int position)
     {
-        mCurrentPositionClicked = position;
+        mCurrentPosition = position;
         mCallback.callImageGallery();
     }
 
