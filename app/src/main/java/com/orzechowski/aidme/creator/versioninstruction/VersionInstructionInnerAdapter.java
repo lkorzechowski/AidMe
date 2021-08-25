@@ -64,14 +64,15 @@ public class VersionInstructionInnerAdapter
         Button instructionNumberButton;
         OnClickListener listener;
         boolean selected = false;
+        int red = Color.argb(100, 200, 0, 0);
+        int green = Color.argb(100, 0, 200, 0);
 
         public InstructionViewHolder(@NonNull View itemView,
                                      OnClickListener fragmentListener)
         {
             super(itemView);
             instructionNumberButton = itemView.findViewById(R.id.instruction_number_button);
-            instructionNumberButton.setBackgroundColor(Color
-                    .argb(100, 0, 200, 0));
+            instructionNumberButton.setBackgroundColor(red);
             listener = fragmentListener;
             instructionNumberButton.setOnClickListener(this);
         }
@@ -80,13 +81,11 @@ public class VersionInstructionInnerAdapter
         public void onClick(View v)
         {
             if(!selected) {
-                instructionNumberButton.setBackgroundColor(Color
-                        .argb(100, 200, 0, 0));
+                instructionNumberButton.setBackgroundColor(green);
                 listener.select(instructionSet);
                 selected = true;
             } else {
-                instructionNumberButton.setBackgroundColor(Color
-                        .argb(100, 0, 200, 0));
+                instructionNumberButton.setBackgroundColor(red);
                 listener.unselect(instructionSet);
                 selected = false;
             }

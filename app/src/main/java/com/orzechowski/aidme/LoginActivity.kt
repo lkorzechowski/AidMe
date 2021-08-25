@@ -51,8 +51,8 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login)
             }
         }
         submitButton.setOnClickListener {
-            val creator = Intent(this@LoginActivity, CreatorActivity::class.java)
-            startActivity(creator)
+            val helper = Intent(this@LoginActivity, HelperActivity::class.java)
+            startActivity(helper)
         }
     }
 

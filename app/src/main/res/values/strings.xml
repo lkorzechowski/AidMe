@@ -72,6 +72,8 @@
     <string name="instructions_not_provided">Nie podano instrukcji</string>
     <string name="version_instructions_not_assigned">Nie przypisano żadnych instrukcji do wersji</string>
     <string name="version_multimedia_not_assigned">Nie przypisano multimediów</string>
+    <string name="helper_toggle_button">Pomagam</string>
+    <string name="helper_create_tutorial">Utwórz nowy poradnik</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
