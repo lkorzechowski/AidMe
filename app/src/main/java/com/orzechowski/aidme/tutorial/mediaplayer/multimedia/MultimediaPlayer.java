@@ -10,8 +10,10 @@ import android.widget.VideoView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.orzechowski.aidme.R;
+import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia;
 
 import org.jetbrains.annotations.NotNull;
@@ -53,12 +55,19 @@ public class MultimediaPlayer extends Fragment
             mPlayThread.interrupt();
             position++;
         }
-
         if(!mMultimedias.isEmpty()) {
             if(position==mMultimedias.size()){
                 mPlayThread = new Play(mMultimedias.get(0));
             } else mPlayThread = new Play(mMultimedias.get(position));
             mPlayThread.start();
+        } else {
+            TutorialViewModel tutorialViewModel = new ViewModelProvider(this)
+                    .get(TutorialViewModel.class);
+            tutorialViewModel.getByTutorialId(mTutorialId).observe(requireActivity(), tutorial -> {
+                mPlayThread = new Play(new Multimedia(0, 0, 120000,
+                        true, tutorial.getMiniatureUriString(), true, 0));
+                mPlayThread.start();
+            });
         }
     }
 

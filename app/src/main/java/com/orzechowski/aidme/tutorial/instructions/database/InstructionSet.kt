@@ -11,4 +11,4 @@ data class InstructionSet(
                 var time: Int,
                 val tutorialId: Long,
                 var position: Int,
-                val narrationFileName: String?)
+                val narrationUriString: String?)

@@ -1,7 +1,6 @@
 package com.orzechowski.aidme.browser.categories;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.browser.categories.database.Category;
-import com.orzechowski.aidme.database.tools.AssetObtainer;
 
-import java.io.IOException;
 import java.util.List;
 
 public class CategoryListAdapter
@@ -25,14 +22,11 @@ public class CategoryListAdapter
     private List<Category> mCategories = null;
     private final LayoutInflater mInflater;
     private final OnClickListener mListener;
-    private final AssetObtainer assetObtainer = new AssetObtainer();
-    private final Context mContext;
 
     public CategoryListAdapter(Activity activity, OnClickListener listener)
     {
         mInflater = LayoutInflater.from(activity);
         mListener = listener;
-        mContext = activity.getBaseContext();
     }
 
     @NonNull
@@ -51,13 +45,7 @@ public class CategoryListAdapter
         String categoryName = category.getCategoryName();
         categoryHolder.name.setText(categoryName);
         if(categoryName.length() > 20) categoryHolder.name.setTextSize(20);
-        Uri uri = null;
-        try {
-            uri = Uri.fromFile(assetObtainer
-                    .getFileFromAssets(mContext, category.getMiniatureName()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Uri uri = Uri.parse(category.getMiniatureUriString());
         if(uri != null) categoryHolder.image.setImageURI(uri);
     }
 

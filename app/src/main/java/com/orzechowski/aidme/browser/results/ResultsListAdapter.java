@@ -19,17 +19,14 @@ import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.browser.userrating.Rating;
 import com.orzechowski.aidme.browser.userrating.RatingViewModel;
 import com.orzechowski.aidme.database.helper.Helper;
-import com.orzechowski.aidme.database.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 
-import java.io.IOException;
 import java.util.List;
 
 public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ResultViewHolder>
 {
     private List<Tutorial> mTutorials = null;
     private final LayoutInflater mInflater;
-    private final AssetObtainer mAssetObtainer = new AssetObtainer();
     private final Activity mActivity;
     private List<Helper> mHelpers;
     private final OnClickListener mListener;
@@ -62,11 +59,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         }
         holder.thisResult = tutorial;
         holder.name.setText(tutorial.getTutorialName());
-        Uri uri = null;
-        try {
-            uri = Uri.fromFile(mAssetObtainer
-                    .getFileFromAssets(mActivity, tutorial.getMiniatureName()));
-        } catch(IOException ignored) {}
+        Uri uri = Uri.parse(tutorial.getMiniatureUriString());
         if(uri != null) holder.image.setImageURI(uri);
         float rating = tutorial.getRating();
         if(rating>4.75) {

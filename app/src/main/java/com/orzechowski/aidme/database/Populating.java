@@ -37,59 +37,61 @@ import com.orzechowski.aidme.tutorial.version.database.VersionInstructionDAO;
 
 public class Populating
 {
+    private final String raw = "android.resource://com.orzechowski.aidme/raw/";
+
     public void populateCategories(CategoryDAO categoryDAO)
     {
-        categoryDAO.insert(new Category(0L, "Pierwsza pomoc", true, "first_aid.jpg", 0));
-        categoryDAO.insert(new Category(1L, "Pożar", true, "fire.jpeg", 0));
-        categoryDAO.insert(new Category(2L, "Żywioł", true, "natural_disaster.jpeg", 0));
-        categoryDAO.insert(new Category(3L, "Atak terrorystyczny", true, "terrorist.jpeg", 0));
-        categoryDAO.insert(new Category(4L, "Zwierzęta", true, "animals.jpeg", 0));
-        categoryDAO.insert(new Category(5L, "Przetrwanie w dziczy", true, "survival.jpeg", 0));
-        categoryDAO.insert(new Category(6L, "Problemy z oddychaniem", false, "breathing.jpg", 1));
-        categoryDAO.insert(new Category(7L, "Urazy", true, "injury.jpeg", 1));
-        categoryDAO.insert(new Category(8L, "Złamania", false, "broken_bone.jpeg", 2));
-        categoryDAO.insert(new Category(9L, "Zwichnięcia", false, "sprain.jpeg", 2));
-        categoryDAO.insert(new Category(10L, "Głowa", false, "head_accident.jpeg", 1));
-        categoryDAO.insert(new Category(11L, "Zatrucia", true, "poisoning.jpeg", 1));
-        categoryDAO.insert(new Category(12L, "Węże", false, "snakes.jpeg", 1));
-        categoryDAO.insert(new Category(13L, "Psy", false, "dogs.jpeg", 1));
-        categoryDAO.insert(new Category(14L, "Konie", false, "horses.jpeg", 1));
-        categoryDAO.insert(new Category(15L, "Koty", false, "cats.jpeg", 1));
-        categoryDAO.insert(new Category(16L, "Gryzonie", true, "rodents.jpeg", 1));
-        categoryDAO.insert(new Category(17L, "Ptaki", true, "birds.jpeg", 1));
-        categoryDAO.insert(new Category(18L, "Papugi", false, "parrots.jpeg", 2));
-        categoryDAO.insert(new Category(19L, "Szczury", false, "rats.jpg", 2));
-        categoryDAO.insert(new Category(20L, "Szynszyle", false, "chinchilla.jpg", 2));
-        categoryDAO.insert(new Category(21L, "Sowy", false, "owls.jpeg", 2));
-        categoryDAO.insert(new Category(22L, "Dzikie zwierzęta", true, "wild_animals.jpeg", 1));
-        categoryDAO.insert(new Category(23L, "Zającowate", true, "leporidae.jpeg", 1));
-        categoryDAO.insert(new Category(24L, "Rany", true, "wounds.jpeg", 1));
-        categoryDAO.insert(new Category(25L, "Poparzenia", true, "burns.jpeg", 1));
-        categoryDAO.insert(new Category(26L, "Jama ustna", false, "mouth.jpeg", 1));
-        categoryDAO.insert(new Category(28L, "Wypadki nad wodą", false, "water_accidents.jpeg", 1));
-        categoryDAO.insert(new Category(27L, "Szok", false, "shock.jpeg", 1));
-        categoryDAO.insert(new Category(29L, "Przypadkowe amputacje", false, "accidental_amputation.jpeg", 1));
-        categoryDAO.insert(new Category(30L, "Niedźwiedzie", false, "wild_animals.jpeg", 2));
-        categoryDAO.insert(new Category(31L, "Wilki", false, "wolves.jpeg", 2));
-        categoryDAO.insert(new Category(32L, "Burza", false, "storm.jpeg", 1));
-        categoryDAO.insert(new Category(33L, "Pożar lasu", false, "forest_fire.jpeg", 1));
-        categoryDAO.insert(new Category(34L, "Trzęsienie ziemi", false, "earthquake.jpeg", 1));
-        categoryDAO.insert(new Category(35L, "Lawina", false, "avalanche.jpeg", 1));
-        categoryDAO.insert(new Category(36L, "Huragan", false, "hurricane.jpeg", 1));
-        categoryDAO.insert(new Category(37L, "Zamieć śnieżna", false, "heavy_snowfall.jpeg", 1));
-        categoryDAO.insert(new Category(38L, "Powódź", false, "flood.jpeg", 1));
-        categoryDAO.insert(new Category(39L, "Bardzo niskie temperatury", false, "extreme_cold.jpeg", 1));
-        categoryDAO.insert(new Category(40L, "Bardzo wysokie temperatury", false, "extreme_heat.jpeg", 1));
-        categoryDAO.insert(new Category(41L, "Środowiskowe", false, "environmental.jpeg", 2));
-        categoryDAO.insert(new Category(42L, "Utrata przytomności", false, "unconscious.jpeg", 1));
-        categoryDAO.insert(new Category(43L, "Substancjami", false, "substances.jpeg", 2));
-        categoryDAO.insert(new Category(44L, "Trujące jedzenie", false, "poison_food.jpeg", 2));
-        categoryDAO.insert(new Category(45L, "Trujące rośliny", false, "poison_plants.jpeg", 2));
-        categoryDAO.insert(new Category(46L, "Uzbrojeni w broń palną", false, "gunner.jpeg", 1));
-        categoryDAO.insert(new Category(47L, "Uzbrojeni w broń białą", false, "knife.jpeg", 1));
-        categoryDAO.insert(new Category(48L, "Owady", true, "insects.jpeg", 1));
-        categoryDAO.insert(new Category(49L, "Pająki", true, "spiders.jpeg", 1));
-        categoryDAO.insert(new Category(50L, "Przygniecenie", false, "crushing.jpg", 1));
+        categoryDAO.insert(new Category(0L, "Pierwsza pomoc", true, raw+"first_aid", 0));
+        categoryDAO.insert(new Category(1L, "Pożar", true, raw+"fire", 0));
+        categoryDAO.insert(new Category(2L, "Żywioł", true, raw+"natural_disaster", 0));
+        categoryDAO.insert(new Category(3L, "Atak terrorystyczny", true, raw+"terrorist", 0));
+        categoryDAO.insert(new Category(4L, "Zwierzęta", true, raw+"animals", 0));
+        categoryDAO.insert(new Category(5L, "Przetrwanie w dziczy", true, raw+"survival", 0));
+        categoryDAO.insert(new Category(6L, "Problemy z oddychaniem", false, raw+"breathing", 1));
+        categoryDAO.insert(new Category(7L, "Urazy", true, raw+"injury", 1));
+        categoryDAO.insert(new Category(8L, "Złamania", false, raw+"broken_bone", 2));
+        categoryDAO.insert(new Category(9L, "Zwichnięcia", false, raw+"sprain", 2));
+        categoryDAO.insert(new Category(10L, "Głowa", false, raw+"head_accident", 1));
+        categoryDAO.insert(new Category(11L, "Zatrucia", true, raw+"poisoning", 1));
+        categoryDAO.insert(new Category(12L, "Węże", false, raw+"snakes", 1));
+        categoryDAO.insert(new Category(13L, "Psy", false, raw+"dogs", 1));
+        categoryDAO.insert(new Category(14L, "Konie", false, raw+"horses", 1));
+        categoryDAO.insert(new Category(15L, "Koty", false, raw+"cats", 1));
+        categoryDAO.insert(new Category(16L, "Gryzonie", true, raw+"rodents", 1));
+        categoryDAO.insert(new Category(17L, "Ptaki", true, raw+"birds", 1));
+        categoryDAO.insert(new Category(18L, "Papugi", false, raw+"parrots", 2));
+        categoryDAO.insert(new Category(19L, "Szczury", false, raw+"rats", 2));
+        categoryDAO.insert(new Category(20L, "Szynszyle", false, raw+"chinchilla", 2));
+        categoryDAO.insert(new Category(21L, "Sowy", false, raw+"owls", 2));
+        categoryDAO.insert(new Category(22L, "Dzikie zwierzęta", true, raw+"wild_animals", 1));
+        categoryDAO.insert(new Category(23L, "Zającowate", true, raw+"leporidae", 1));
+        categoryDAO.insert(new Category(24L, "Rany", true, raw+"wounds", 1));
+        categoryDAO.insert(new Category(25L, "Poparzenia", true, raw+"burns", 1));
+        categoryDAO.insert(new Category(26L, "Jama ustna", false, raw+"mouth", 1));
+        categoryDAO.insert(new Category(28L, "Wypadki nad wodą", false, raw+"water_accidents", 1));
+        categoryDAO.insert(new Category(27L, "Szok", false, raw+"shock", 1));
+        categoryDAO.insert(new Category(29L, "Przypadkowe amputacje", false, raw+"accidental_amputation", 1));
+        categoryDAO.insert(new Category(30L, "Niedźwiedzie", false, raw+"wild_animals", 2));
+        categoryDAO.insert(new Category(31L, "Wilki", false, raw+"wolves", 2));
+        categoryDAO.insert(new Category(32L, "Burza", false, raw+"storm", 1));
+        categoryDAO.insert(new Category(33L, "Pożar lasu", false, raw+"forest_fire", 1));
+        categoryDAO.insert(new Category(34L, "Trzęsienie ziemi", false, raw+"earthquake", 1));
+        categoryDAO.insert(new Category(35L, "Lawina", false, raw+"avalanche", 1));
+        categoryDAO.insert(new Category(36L, "Huragan", false, raw+"hurricane", 1));
+        categoryDAO.insert(new Category(37L, "Zamieć śnieżna", false, raw+"heavy_snowfall", 1));
+        categoryDAO.insert(new Category(38L, "Powódź", false, raw+"flood", 1));
+        categoryDAO.insert(new Category(39L, "Bardzo niskie temperatury", false, raw+"extreme_cold", 1));
+        categoryDAO.insert(new Category(40L, "Bardzo wysokie temperatury", false, raw+"extreme_heat", 1));
+        categoryDAO.insert(new Category(41L, "Środowiskowe", false, raw+"environmental", 2));
+        categoryDAO.insert(new Category(42L, "Utrata przytomności", false, raw+"unconscious", 1));
+        categoryDAO.insert(new Category(43L, "Substancjami", false, raw+"substances", 2));
+        categoryDAO.insert(new Category(44L, "Trujące jedzenie", false, raw+"poison_food", 2));
+        categoryDAO.insert(new Category(45L, "Trujące rośliny", false, raw+"poison_plants", 2));
+        categoryDAO.insert(new Category(46L, "Uzbrojeni w broń palną", false, raw+"gunner", 1));
+        categoryDAO.insert(new Category(47L, "Uzbrojeni w broń białą", false, raw+"knife", 1));
+        categoryDAO.insert(new Category(48L, "Owady", true, raw+"insects", 1));
+        categoryDAO.insert(new Category(49L, "Pająki", true, raw+"spiders", 1));
+        categoryDAO.insert(new Category(50L, "Przygniecenie", false, raw+"crushing", 1));
     }
 
     public void populateTags(TagDAO tagDAO)
@@ -793,78 +795,78 @@ public class Populating
     public void populateInstructionSets(InstructionSetDAO instructionDAO)
     {
         //tutorial 0
-        instructionDAO.insert(new InstructionSet(0L, "Wstęp", "Jeżeli ofiara nie jest w stanie samodzielnie oddychać…", 5000, 0L, 0, "s0_0.m4a"));
-        instructionDAO.insert(new InstructionSet(1L, "Ułożenie ofiary", "Upewnij się, że ofiara leży na plecach, jest ułożona prosto, a jej drogi oddechowe są udrożnione.", 8000, 0L, 1, "s0_1.m4a"));
-        instructionDAO.insert(new InstructionSet(2L, "Pozycja do udzielania pomocy", "Uklęknij wygodnie nad ofiarą tak, by twoje dłonie mogły być wyprostowane prostopadle do jej klatki piersiowej.", 8000, 0L, 2, "s0_2.m4a"));
-        instructionDAO.insert(new InstructionSet(3L, "Ułożenie dłoni", "Umieść dłoń na środku klatki piersiowej, drugą dłoń umieść nad pierwszą tak, aby palce się przeplatały.", 9000, 0L, 3, "s0_3.m4a"));
-        instructionDAO.insert(new InstructionSet(4L, "Palce", "Nie wywieraj nacisku na klatkę piersiową palcami, utrzymaj je lekko uniesione i splecione.", 8000, 0L, 4, "s0_4.m4a"));
-        instructionDAO.insert(new InstructionSet(5L, "Głębokość uciśnięć", "Staraj się wywierać nacisk o 5 centymetrów prosto w dół ciężarem swojego ciała.", 7000, 0L, 5, "s0_5.m4a"));
-        instructionDAO.insert(new InstructionSet(6L, "Uciśnięcia", "Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.", 14000, 0L, 6, "s0_6.m4a"));
-        instructionDAO.insert(new InstructionSet(7L, "W razie zwymiotowania ofiary", "Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.", 8000, 0L, 7, "s0_7.m4a"));
+        instructionDAO.insert(new InstructionSet(0L, "Wstęp", "Jeżeli ofiara nie jest w stanie samodzielnie oddychać…", 5000, 0L, 0, raw+"s0_0"));
+        instructionDAO.insert(new InstructionSet(1L, "Ułożenie ofiary", "Upewnij się, że ofiara leży na plecach, jest ułożona prosto, a jej drogi oddechowe są udrożnione.", 8000, 0L, 1, raw+"s0_1"));
+        instructionDAO.insert(new InstructionSet(2L, "Pozycja do udzielania pomocy", "Uklęknij wygodnie nad ofiarą tak, by twoje dłonie mogły być wyprostowane prostopadle do jej klatki piersiowej.", 8000, 0L, 2, raw+"s0_2"));
+        instructionDAO.insert(new InstructionSet(3L, "Ułożenie dłoni", "Umieść dłoń na środku klatki piersiowej, drugą dłoń umieść nad pierwszą tak, aby palce się przeplatały.", 9000, 0L, 3, raw+"s0_3"));
+        instructionDAO.insert(new InstructionSet(4L, "Palce", "Nie wywieraj nacisku na klatkę piersiową palcami, utrzymaj je lekko uniesione i splecione.", 8000, 0L, 4, raw+"s0_4"));
+        instructionDAO.insert(new InstructionSet(5L, "Głębokość uciśnięć", "Staraj się wywierać nacisk o 5 centymetrów prosto w dół ciężarem swojego ciała.", 7000, 0L, 5, raw+"s0_5"));
+        instructionDAO.insert(new InstructionSet(6L, "Uciśnięcia", "Kontynuuj uciśnięcia do momentu przybycia pomocy zgodnie z tempem dźwięku który słyszysz w tle.", 14000, 0L, 6, raw+"s0_6"));
+        instructionDAO.insert(new InstructionSet(7L, "W razie zwymiotowania ofiary", "Jeśli ofiara zwymiotuje w trakcie, przekręć ją na bok tak by głowa była skierowana w dół i poczekaj aż jej usta się opróżnią, przetrzyj je, po czym wróć do procedury.", 8000, 0L, 7, raw+"s0_7"));
         //tutorial 1
-        instructionDAO.insert(new InstructionSet(8L, "Wstęp", "Jeżeli istnieje podejrzenie złamania", 3500, 1L, 0, "s1_0.aac"));
-        instructionDAO.insert(new InstructionSet(9L, "Nie udało się wezwać pomocy", "...i nie możesz dosięgnąć numeru alarmowego", 3000, 1L, 1, "s1_1.aac"));
-        instructionDAO.insert(new InstructionSet(10L, "Upomnienie ofiary", "Ofiara powinna pozostać w bezruchu. Złamane fragmenty kostne są ostre, i każdy ruch stwarza ryzyko dalszego okaleczenia.", 8500, 1L, 2, "s1_2.aac"));
-        instructionDAO.insert(new InstructionSet(11L, "Upomnienie użytkownika", "Nie próbuj ustawiać ani prostować kończyny, nie przemieszczaj jej w żaden sposób.", 6000, 1L, 3, "s1_3.aac"));
-        instructionDAO.insert(new InstructionSet(12L, "Upomnienie użytkownika, złamanie otwarte", "Nie dotykaj wystającego fragmentu kostnego.", 4000, 1L, 4, "s1_4.aac"));
-        instructionDAO.insert(new InstructionSet(13L, "Pomoc wezwana, koniec", "Nie podejmuj dalszych działań. Upewnij się, że ofiara jest bezpieczna i ułożona bądź usadzona w wygodnej pozycji.", 8000, 1L, 5, "s1_5.aac"));
-        instructionDAO.insert(new InstructionSet(14L, "Jedzenie i picie", "Nie pozwalaj ofierze niczego jeść ani pić, może to mieć negatywny wpływ na działanie znieczulenia.", 7000, 1L, 6, "s1_6.aac"));
-        instructionDAO.insert(new InstructionSet(15L, "Unieruchamianie kości", "Unieruchomienie kończyny jest wymagane w celu przetransportowania ofiary do najbliższego szpitala.", 6500, 1L, 7, "s1_7.aac"));
-        instructionDAO.insert(new InstructionSet(24L, "Upomnienie o stawach", "Unieruchomione muszą zostać również dwa sąsiadujące z kością stawy.", 5500, 1L, 8, "s1_8.aac"));
-        instructionDAO.insert(new InstructionSet(16L, "Unieruchamianie dolnej kończyny", "Częściowe unieruchomienie kończyny dolnej może zostać osiągnięte poprzez przymocowanie jej do drugiej kończyny.", 7000, 1L, 9, "s1_9.aac"));
-        instructionDAO.insert(new InstructionSet(23L, "Unieruchomienie zdrowej kończyny", "Należy w takim wypadku w miarę możliwości odpowiednio usztywnić też zdrową kończynę.", 6000, 1L, 10, "s1_10.aac"));
-        instructionDAO.insert(new InstructionSet(17L, "Upomnienie o wiązaniu kończyn", "W przypadku gdy rozwiązanie to nie będzie wygodne dla ofiary, nie należy go stosować.", 7000, 1L, 11, "s1_11.aac"));
-        instructionDAO.insert(new InstructionSet(18L, "Temblak", "Wykonanie prowizorycznego temblaka do usztywniania górnej kończyny zaprezentowane zostało w galerii zdjęć.", 8500, 1L, 12, "s1_12.aac"));
-        instructionDAO.insert(new InstructionSet(19L, "Opatrywanie złamania otwartego", "Opatrunek złamania otwartego należy wykonać poprzez stopniowe owijanie czystego materiału wokół i ponad, lecz nie bezpośrednio na miejscu złamania.", 10000, 1L, 13, "s1_13.aac"));
-        instructionDAO.insert(new InstructionSet(20L, "Upomienie o złamaniu otwartym", "Nie należy stosować łatwo rozpadających się przedmiotów takich jak waciki do podwyższenia opatrunku.", 7000, 1L, 14, "s1_14.aac"));
-        instructionDAO.insert(new InstructionSet(21L, "Opatrywanie złamanie otwartego ciąg dalszy", "Należy wykonać dostatecznie dużo warstw, aby opatrunek bezpośrednio nad raną nie wywierał nacisku na kość.", 7000, 1L, 15, "s1_15.aac"));
-        instructionDAO.insert(new InstructionSet(22L, "Upomnienie o nacisku na kość", "Każdy nacisk na wystający fragment kostny powoduje komplikacje.", 5000, 1L, 16, "s1_16.aac"));
-        instructionDAO.insert(new InstructionSet(25L, "Sprawdzanie krwiobiegu - wezwana pomoc", "Do czasu przybycia pomocy sprawdzaj co kilka minut ukrwienie kończyny poniżej opatrunku…", 7500, 1L, 17, "s1_17.aac"));
-        instructionDAO.insert(new InstructionSet(26L, "Sprawdzanie krwiobiegu - niewezwana pomoc", "Jeżeli jest z tobą osoba towarzysząca, poproś ją o sprawdzanie co kilka minut ukrwienia kończyny poniżej opatrunku…", 9000, 1L, 18, "s1_18.aac"));
-        instructionDAO.insert(new InstructionSet(27L, "Upomnienie o krwiobiegu", "…w celu upewnienia się, że sztywny opatrunek go nie tamuje. W przypadku gdy stopień ukrwienia jest obniżony, należy poluzować opatrunek.", 9000, 1L, 19, "s1_19.aac"));
-        instructionDAO.insert(new InstructionSet(28L, "Wstrząs", "Ryzyko wstrząsu, spowodowanego utratą dużej ilości krwi omówione jest w oddzielnym poradniku. W razie potrzeby naciśnij tutaj aby do niego przejść.", 10000, 1L, 20, "s1_20.aac"));
+        instructionDAO.insert(new InstructionSet(8L, "Wstęp", "Jeżeli istnieje podejrzenie złamania", 3500, 1L, 0, raw+"s1_0"));
+        instructionDAO.insert(new InstructionSet(9L, "Nie udało się wezwać pomocy", "...i nie możesz dosięgnąć numeru alarmowego", 3000, 1L, 1, raw+"s1_1"));
+        instructionDAO.insert(new InstructionSet(10L, "Upomnienie ofiary", "Ofiara powinna pozostać w bezruchu. Złamane fragmenty kostne są ostre, i każdy ruch stwarza ryzyko dalszego okaleczenia.", 8500, 1L, 2, raw+"s1_2"));
+        instructionDAO.insert(new InstructionSet(11L, "Upomnienie użytkownika", "Nie próbuj ustawiać ani prostować kończyny, nie przemieszczaj jej w żaden sposób.", 6000, 1L, 3, raw+"s1_3"));
+        instructionDAO.insert(new InstructionSet(12L, "Upomnienie użytkownika, złamanie otwarte", "Nie dotykaj wystającego fragmentu kostnego.", 4000, 1L, 4, raw+"s1_4"));
+        instructionDAO.insert(new InstructionSet(13L, "Pomoc wezwana, koniec", "Nie podejmuj dalszych działań. Upewnij się, że ofiara jest bezpieczna i ułożona bądź usadzona w wygodnej pozycji.", 8000, 1L, 5, raw+"s1_5"));
+        instructionDAO.insert(new InstructionSet(14L, "Jedzenie i picie", "Nie pozwalaj ofierze niczego jeść ani pić, może to mieć negatywny wpływ na działanie znieczulenia.", 7000, 1L, 6, raw+"s1_6"));
+        instructionDAO.insert(new InstructionSet(15L, "Unieruchamianie kości", "Unieruchomienie kończyny jest wymagane w celu przetransportowania ofiary do najbliższego szpitala.", 6500, 1L, 7, raw+"s1_7"));
+        instructionDAO.insert(new InstructionSet(24L, "Upomnienie o stawach", "Unieruchomione muszą zostać również dwa sąsiadujące z kością stawy.", 5500, 1L, 8, raw+"s1_8"));
+        instructionDAO.insert(new InstructionSet(16L, "Unieruchamianie dolnej kończyny", "Częściowe unieruchomienie kończyny dolnej może zostać osiągnięte poprzez przymocowanie jej do drugiej kończyny.", 7000, 1L, 9, raw+"s1_9"));
+        instructionDAO.insert(new InstructionSet(23L, "Unieruchomienie zdrowej kończyny", "Należy w takim wypadku w miarę możliwości odpowiednio usztywnić też zdrową kończynę.", 6000, 1L, 10, raw+"s1_10"));
+        instructionDAO.insert(new InstructionSet(17L, "Upomnienie o wiązaniu kończyn", "W przypadku gdy rozwiązanie to nie będzie wygodne dla ofiary, nie należy go stosować.", 7000, 1L, 11, raw+"s1_11"));
+        instructionDAO.insert(new InstructionSet(18L, "Temblak", "Wykonanie prowizorycznego temblaka do usztywniania górnej kończyny zaprezentowane zostało w galerii zdjęć.", 8500, 1L, 12, raw+"s1_12"));
+        instructionDAO.insert(new InstructionSet(19L, "Opatrywanie złamania otwartego", "Opatrunek złamania otwartego należy wykonać poprzez stopniowe owijanie czystego materiału wokół i ponad, lecz nie bezpośrednio na miejscu złamania.", 10000, 1L, 13, raw+"s1_13"));
+        instructionDAO.insert(new InstructionSet(20L, "Upomienie o złamaniu otwartym", "Nie należy stosować łatwo rozpadających się przedmiotów takich jak waciki do podwyższenia opatrunku.", 7000, 1L, 14, raw+"s1_14"));
+        instructionDAO.insert(new InstructionSet(21L, "Opatrywanie złamanie otwartego ciąg dalszy", "Należy wykonać dostatecznie dużo warstw, aby opatrunek bezpośrednio nad raną nie wywierał nacisku na kość.", 7000, 1L, 15, raw+"s1_15"));
+        instructionDAO.insert(new InstructionSet(22L, "Upomnienie o nacisku na kość", "Każdy nacisk na wystający fragment kostny powoduje komplikacje.", 5000, 1L, 16, raw+"s1_16"));
+        instructionDAO.insert(new InstructionSet(25L, "Sprawdzanie krwiobiegu - wezwana pomoc", "Do czasu przybycia pomocy sprawdzaj co kilka minut ukrwienie kończyny poniżej opatrunku…", 7500, 1L, 17, raw+"s1_17"));
+        instructionDAO.insert(new InstructionSet(26L, "Sprawdzanie krwiobiegu - niewezwana pomoc", "Jeżeli jest z tobą osoba towarzysząca, poproś ją o sprawdzanie co kilka minut ukrwienia kończyny poniżej opatrunku…", 9000, 1L, 18, raw+"s1_18"));
+        instructionDAO.insert(new InstructionSet(27L, "Upomnienie o krwiobiegu", "…w celu upewnienia się, że sztywny opatrunek go nie tamuje. W przypadku gdy stopień ukrwienia jest obniżony, należy poluzować opatrunek.", 9000, 1L, 19, raw+"s1_19"));
+        instructionDAO.insert(new InstructionSet(28L, "Wstrząs", "Ryzyko wstrząsu, spowodowanego utratą dużej ilości krwi omówione jest w oddzielnym poradniku. W razie potrzeby naciśnij tutaj aby do niego przejść.", 60000, 1L, 20, raw+"s1_20"));
         //tutorial 2
-        instructionDAO.insert(new InstructionSet(56L, "Podstawowe kroki", "Zabierz ofiarę do chłodnego miejsca i pomóż jej zdjąć jak najwięcej ubrań. Zadzwoń na pogotowie.", 5000, 2L, 0, null));
-        instructionDAO.insert(new InstructionSet(57L, "Usadzenie ofiary", "Pomóż ofierze usiąść w wygodnym miejscu.", 5000, 2L, 1, null));
-        instructionDAO.insert(new InstructionSet(58L, "Obniżenie temperatury ciała", "Postaraj się obniżyć temperaturę ciała w dowolny możliwy sposób. Sugerujemy polewanie wodą, okrycie wilgotnym materiałem, lód oraz uruchomienie wentylacji.", 5000, 2L, 2, null));
-        instructionDAO.insert(new InstructionSet(59L, "Zaprzestania ochładzania", "Jeżeli uważasz, że temperatura ciała ofiary jest dostatecznie niska, pomóż jej się osuszyć i zaprzestań ochładzania.", 5000, 2L, 3, null));
-        instructionDAO.insert(new InstructionSet(60L, "Powrót do ochładzania", "Temperatura może znowu wzrosnąć, jeżeli do tego dojdzie, wróć do ochładzania ofiary.", 5000, 2L, 4, null));
-        instructionDAO.insert(new InstructionSet(61L, "Masaż serca", "Jeżeli ofiara straciła przytomność i nie ma regularnego oddechu, skieruj się do poradnika udzielania masażu serca klikając w link na ekranie i podążaj za instrukcjami.", 5000, 2L, 5, null));
+        instructionDAO.insert(new InstructionSet(56L, "Podstawowe kroki", "Zabierz ofiarę do chłodnego miejsca i pomóż jej zdjąć jak najwięcej ubrań. Zadzwoń na pogotowie.", 8500, 2L, 0, raw+"s2_0"));
+        instructionDAO.insert(new InstructionSet(57L, "Usadzenie ofiary", "Pomóż ofierze usiąść w wygodnym miejscu.", 4500, 2L, 1, raw+"s2_1"));
+        instructionDAO.insert(new InstructionSet(58L, "Obniżenie temperatury ciała", "Postaraj się obniżyć temperaturę ciała w dowolny możliwy sposób. Sugerujemy polewanie wodą, okrycie wilgotnym materiałem, lód oraz uruchomienie wentylacji.", 13500, 2L, 2, raw+"s2_2"));
+        instructionDAO.insert(new InstructionSet(59L, "Zaprzestania ochładzania", "Jeżeli uważasz, że temperatura ciała ofiary jest dostatecznie niska, pomóż jej się osuszyć i zaprzestań ochładzania.", 9500, 2L, 3, raw+"s2_3"));
+        instructionDAO.insert(new InstructionSet(60L, "Powrót do ochładzania", "Temperatura może znowu wzrosnąć, jeśli do tego dojdzie, wróć do ochładzania ofiary.", 7500, 2L, 4, raw+"s2_4"));
+        instructionDAO.insert(new InstructionSet(61L, "Masaż serca", "Jeżeli ofiara straciła przytomność i nie ma regularnego oddechu, skieruj się do poradnika udzielania masażu serca klikając w link na ekranie i podążaj za instrukcjami.", 60000, 2L, 5, raw+"s2_5"));
         //tutorial 3
-        instructionDAO.insert(new InstructionSet(29L, "Ułożenie psa", "Ułóż psa na ziemi bokiem, uspokajaj go, nie podnoś głosu.", 5000, 3L, 0, null));
-        instructionDAO.insert(new InstructionSet(30L, "Wymuszanie powietrza z płuc", "Płaską ręką uderz w klatkę piersiową psa, tak, by jak najwięcej powietrza opuściło płuca.", 5000, 3L, 1, null));
-        instructionDAO.insert(new InstructionSet(31L, "Powtórne uderzenia", "Spróbuj powtórzyć to trzy lub cztery razy.", 5000, 3L, 2, null));
-        instructionDAO.insert(new InstructionSet(32L, "Próba wydobycia przedmiotu", "Sprawdź, czy nie jesteś w stanie wyjąć przedmiotu z pyska psa nie wkładając ręki głęboko.", 5000, 3L, 3, null));
-        instructionDAO.insert(new InstructionSet(33L, "Uniesienie za tylne łapy", "Ostatecznie podnieś psa na nogi i unieś go za tylne łapy, tak aby był skierowany pyskiem w dół.", 5000, 3L, 4, null));
-        instructionDAO.insert(new InstructionSet(34L, "Potrząsanie psem", "Jeżeli jesteś w stanie, spróbuj energicznie podnosić i opuszczać psa, lub nawet nim potrząsać.", 5000, 3L, 5, null));
-        instructionDAO.insert(new InstructionSet(35L, "W razie niepowodzenia", "Jeżeli nie udało ci się wydobyć obiektu, zabierz natychmiast pupila do weterynarza lub zadzwoń na pogotowie weterynaryjne.", 5000, 3L, 6, null));
-        instructionDAO.insert(new InstructionSet(36L, "Numer pogotowia", "Numer alarmowy do pogotowia weterynaryjnego to 983.", 5000, 3L, 7, null));
+        instructionDAO.insert(new InstructionSet(29L, "Ułożenie psa", "Ułóż psa na ziemi bokiem, uspokajaj go, nie podnoś głosu.", 6500, 3L, 0, raw+"s3_0"));
+        instructionDAO.insert(new InstructionSet(30L, "Wymuszanie powietrza z płuc", "Płaską dłonią uderz w klatkę piersiową psa, tak, by jak najwięcej powietrza opuściło płuca.", 8500, 3L, 1, raw+"s3_1"));
+        instructionDAO.insert(new InstructionSet(31L, "Powtórne uderzenia", "Spróbuj powtórzyć to trzy lub cztery razy.", 5500, 3L, 2, raw+"s3_2"));
+        instructionDAO.insert(new InstructionSet(32L, "Próba wydobycia przedmiotu", "Sprawdź, czy nie jesteś w stanie wyjąć przedmiotu z pyska psa nie wkładając ręki głęboko.", 7500, 3L, 3, raw+"s3_3"));
+        instructionDAO.insert(new InstructionSet(33L, "Uniesienie za tylne łapy", "Ostatecznie podnieś psa na nogi i unieś go za tylne łapy, tak aby był skierowany pyskiem w dół.", 8500, 3L, 4, raw+"s3_4"));
+        instructionDAO.insert(new InstructionSet(34L, "Potrząsanie psem", "Jeżeli jesteś w stanie, spróbuj energicznie podnosić i opuszczać psa, lub nawet nim potrząsać.", 8500, 3L, 5, raw+"s3_5"));
+        instructionDAO.insert(new InstructionSet(35L, "W razie niepowodzenia", "Jeżeli nie udało ci się wydobyć obiektu, zabierz natychmiast pupila do weterynarza lub zadzwoń na pogotowie weterynaryjne.", 10500, 3L, 6, raw+"s3_5"));
+        instructionDAO.insert(new InstructionSet(36L, "Numer pogotowia", "Numer alarmowy do pogotowia weterynaryjnego to 983.", 6500, 3L, 7, raw+"s3_6"));
         //tutorial 5
-        instructionDAO.insert(new InstructionSet(37L, "Ułożenie kota", "Ułóż kota na ziemi bokiem, nie podnoś głosu.", 5000, 5L, 0, null));
-        instructionDAO.insert(new InstructionSet(38L, "Wymuszenie powietrza z płuc", "Płaską ręką klepnij w klatkę piersiową kota, tak, by jak najwięcej powietrza opuściło płuca.", 5000, 5L, 1, null));
-        instructionDAO.insert(new InstructionSet(39L, "Powtórne uderzenia", "Spróbuj powtórzyć to trzy lub cztery razy.", 5000, 5L, 2, null));
-        instructionDAO.insert(new InstructionSet(40L, "Próba wydobycia przedmiotu", "Sprawdź, czy nie jesteś w stanie wyjąć przedmiotu z pyszczka kota nie wkładając palców głęboko.", 5000, 5L, 3, null));
-        instructionDAO.insert(new InstructionSet(41L, "Uniesienie za tylne łapy", "Ostatecznie podnieś kota na nogi i unieś go za tyle łapy, tak aby był skierowany pyszczkiem w dół.", 5000, 5L, 4, null));
-        instructionDAO.insert(new InstructionSet(42L, "Potrząsanie kotem", "Potrząsaj nim energicznie.", 5000, 5L, 5, null));
-        instructionDAO.insert(new InstructionSet(44L, "W razie niepowodzenia", "Jeżeli nie udało ci się wydobyć obiektu, zabierz natychmiast pupila do weterynarza lub zadzwoń na pogotowie weterynaryjne.", 5000, 5L, 6, null));
-        instructionDAO.insert(new InstructionSet(45L, "Numer pogotowia", "Numer alarmowy do pogotowia weterynaryjnego to 983.", 5000, 5L, 7, null));
+        instructionDAO.insert(new InstructionSet(37L, "Ułożenie kota", "Ułóż kota na ziemi bokiem, nie podnoś głosu.", 5500, 5L, 0, raw+"s5_0"));
+        instructionDAO.insert(new InstructionSet(38L, "Wymuszenie powietrza z płuc", "Płaską dłonią klepnij w klatkę piersiową kota, tak, by jak najwięcej powietrza opuściło płuca.", 8500, 5L, 1, raw+"s5_1"));
+        instructionDAO.insert(new InstructionSet(39L, "Powtórne uderzenia", "Spróbuj powtórzyć to trzy lub cztery razy.", 5500, 5L, 2, raw+"s5_2"));
+        instructionDAO.insert(new InstructionSet(40L, "Próba wydobycia przedmiotu", "Sprawdź, czy nie jesteś w stanie wyjąć przedmiotu z pyszczka kota nie wkładając palców głęboko.", 8500, 5L, 3, raw+"s5_3"));
+        instructionDAO.insert(new InstructionSet(41L, "Uniesienie za tylne łapy", "Ostatecznie podnieś kota na nogi i unieś go za tyle łapy, tak aby był skierowany pyszczkiem w dół.", 8500, 5L, 4, raw+"s5_4"));
+        instructionDAO.insert(new InstructionSet(42L, "Potrząsanie kotem", "Potrząsaj nim energicznie.", 3500, 5L, 5, raw+"s5_5"));
+        instructionDAO.insert(new InstructionSet(44L, "W razie niepowodzenia", "Jeżeli nie udało ci się wydobyć obiektu, zabierz natychmiast pupila do weterynarza lub zadzwoń na pogotowie weterynaryjne.", 10500, 5L, 6, raw+"s5_6"));
+        instructionDAO.insert(new InstructionSet(45L, "Numer pogotowia", "Numer alarmowy do pogotowia weterynaryjnego to 983.", 6500, 5L, 7, raw+"s5_7"));
         //tutorial 6
-        instructionDAO.insert(new InstructionSet(46L, "Wstęp", "Jeżeli ofiara utraciła dużą ilość krwi lub innych płynów", 5000, 6L, 0, null));
-        instructionDAO.insert(new InstructionSet(47L, "Ułożenie ofiary", "Ułóż ofiarę, najlepiej na kocu lub ubraniach", 5000, 6L, 1, null));
-        instructionDAO.insert(new InstructionSet(48L, "Dopływ krwi do organów", "Unieś oraz wesprzyj jej nogi, tak, aby były wyżej od klatki piersiowej, w celu zapewnienia większego zasobu krwi organom witalnym.", 5000, 6L, 2, null));
-        instructionDAO.insert(new InstructionSet(49L, "Udrożnienie krwiobiegu", "Rozepnij guziki w okolicach szyi, na spodniach, na rękawach, zdejmij biżuterię, tak aby nic nie tamowało krwiobiegu.", 5000, 6L, 3, null));
-        instructionDAO.insert(new InstructionSet(50L, "Uspokojenie ofiary", "Pozostań przy ofierze, niepokój i strach mogą nasilić atak.", 5000, 6L, 4, null));
-        instructionDAO.insert(new InstructionSet(51L, "Jedzenie i picie", "Ofiara nie powinna jeść ani pić, ponieważ może to osłabić działanie anastetyka.", 5000, 6L, 5, null));
-        instructionDAO.insert(new InstructionSet(52L, "Zachowanie ciepła", "W celu zachowania ciepła otul ofiarę kocem lub ubraniami.", 5000, 6L, 6, null));
-        instructionDAO.insert(new InstructionSet(53L, "Jak nie zachowywać ciepła", "Nie próbuj rozgrzewać ofiary źródłami ciepła takimi jak gorąca woda.", 5000, 6L, 7, null));
-        instructionDAO.insert(new InstructionSet(54L, "Utrata przytomności", "Jeżeli ofiara straci przytomność, sprawdzaj, czy ma regularny oddech.", 5000, 6L, 8, null));
-        instructionDAO.insert(new InstructionSet(55L, "Masaż serca", "Jeśli ofiera nie ma regularnego oddechu, skieruj się do poradnika udzielania masażu serca klikając w link na ekranie, i podążaj za instrukcjami.", 5000, 6L, 9, null));
+        instructionDAO.insert(new InstructionSet(46L, "Wstęp", "Jeżeli ofiara utraciła wysoką ilość krwi lub innych płynów", 6500, 6L, 0, raw+"s6_0"));
+        instructionDAO.insert(new InstructionSet(47L, "Ułożenie ofiary", "Ułóż ofiarę, najlepiej na kocu lub ubraniach", 5500, 6L, 1, raw+"s6_1"));
+        instructionDAO.insert(new InstructionSet(48L, "Dopływ krwi do organów", "Unieś oraz wesprzyj jej nogi, tak, aby były wyżej od klatki piersiowej, w celu zapewnienia większego zasobu krwi organom witalnym.", 10500, 6L, 2, raw+"s6_2"));
+        instructionDAO.insert(new InstructionSet(49L, "Udrożnienie krwiobiegu", "Rozepnij guziki w okolicach szyi, na spodniach, na rękawach, zdejmij biżuterię, tak aby nic nie tamowało krwiobiegu.", 8500, 6L, 3, raw+"s6_3"));
+        instructionDAO.insert(new InstructionSet(50L, "Uspokojenie ofiary", "Pozostań przy ofierze, niepokój i strach mogą nasilić atak.", 6500, 6L, 4, raw+"s6_4"));
+        instructionDAO.insert(new InstructionSet(51L, "Jedzenie i picie", "Ofiara nie powinna jeść ani pić, ponieważ może to osłabić działanie anestetyka.", 7500, 6L, 5, raw+"s6_5"));
+        instructionDAO.insert(new InstructionSet(52L, "Zachowanie ciepła", "W celu zachowania ciepła otul ofiarę kocem lub ubraniami.", 5500, 6L, 6, raw+"s6_6"));
+        instructionDAO.insert(new InstructionSet(53L, "Jak nie zachowywać ciepła", "Nie próbuj rozgrzewać ofiary źródłami ciepła takimi jak gorąca woda.", 6500, 6L, 7, raw+"s6_7"));
+        instructionDAO.insert(new InstructionSet(54L, "Utrata przytomności", "Jeżeli ofiara straci przytomność, sprawdzaj, czy ma regularny oddech.", 6500, 6L, 8, raw+"s6_8"));
+        instructionDAO.insert(new InstructionSet(55L, "Masaż serca", "Jeśli ofiera nie oddecha regularnie, skieruj się do poradnika udzielania masażu serca klikając w link na ekranie, i podążaj za instrukcjami.", 60000, 6L, 9, raw+"s6_9"));
         //tutorial 7
-        instructionDAO.insert(new InstructionSet(62L, "Ułożenie ofiary", "Ofiara powinna leżeć na ziemi. Jej głowa powinna być jak najniżej.", 5000, 7L, 0, null));
-        instructionDAO.insert(new InstructionSet(63L, "Masaż serca", "Jeżeli ofiara straciła przytomność i nie ma regularnego oddechu, natychmiast rozpocznij masaż serca. Naciśnij tutaj aby przejść do poradnika udzielania masażu serca.", 5000, 7L, 1, null));
-        instructionDAO.insert(new InstructionSet(64L, "Zmiana ubrań", "Jeżeli ofiara oddycha lub udało ci się przywrócić jej oddech, należy pomóc jej pozbyć się wilgotnych ubrań i zapewnić jej suche okrycie.", 5000, 7L, 2, null));
-        instructionDAO.insert(new InstructionSet(65L, "Wezwanie pomocy", "Koniecznie zadzwoń na pogotowie. Płuca ofiary mogły napełnić się wodą, musi zostać zbadana.", 5000, 7L, 3, null));
-        instructionDAO.insert(new InstructionSet(66L, "Dalsze kroki", "Jeżeli istnieje taka możliwość i ofiara odzyskała pełną przytomność, znajdź więcej suchego okrycia, lub podaj jej ciepły napój. Monitoruj stan ofiary do czasu przybycia pogotowia.", 5000, 7L, 4, null));
+        instructionDAO.insert(new InstructionSet(62L, "Ułożenie ofiary", "Ofiara powinna leżeć na ziemi. Jej głowa powinna być jak najniżej.", 6500, 7L, 0, raw+"s7_0"));
+        instructionDAO.insert(new InstructionSet(63L, "Masaż serca", "Jeżeli ofiara straciła przytomność i nie ma regularnego oddechu, natychmiast rozpocznij masaż serca. Naciśnij tutaj aby przejść do poradnika udzielania masażu serca.", 12500, 7L, 1, raw+"s7_1"));
+        instructionDAO.insert(new InstructionSet(64L, "Zmiana ubrań", "Jeżeli ofiara oddycha lub udało ci się przywrócić jej oddech, należy pomóc jej pozbyć się wilgotnych ubrań i zapewnić jej suche okrycie.", 10500, 7L, 2, raw+"s7_2"));
+        instructionDAO.insert(new InstructionSet(65L, "Wezwanie pomocy", "Koniecznie zadzwoń na pogotowie. Płuca ofiary mogły napełnić się wodą, musi zostać zbadana.", 7500, 7L, 3, raw+"s7_3"));
+        instructionDAO.insert(new InstructionSet(66L, "Dalsze kroki", "Jeżeli istnieje taka możliwość i ofiara odzyskała pełną przytomność, znajdź więcej suchego okrycia, lub podaj jej ciepły napój. Monitoruj stan ofiary do czasu przybycia pogotowia.", 13500, 7L, 4, raw+"s7_4"));
     }
 
     public void populateVersions(VersionDAO versionDAO)
@@ -907,14 +909,14 @@ public class Populating
 
     public void populateTutorials(TutorialDAO tutorialDAO)
     {
-        tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 1L, "heart_massage.jpg", 0));
-        tutorialDAO.insert(new Tutorial(1L, "Złamana kończyna", 1L, "broken_bone.jpeg", 0));
-        tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, "sun.jpg", 0));
-        tutorialDAO.insert(new Tutorial(3L, "Dławiący się pies", 1L, "choking_dog.jpeg", 0));
-        tutorialDAO.insert(new Tutorial(4L, "Agresywny pies", 1L, "barking_dog.jpg", 0));
-        tutorialDAO.insert(new Tutorial(5L, "Dławiący się kot", 1L, "choking_cat.jpeg", 0));
-        tutorialDAO.insert(new Tutorial(6L, "Wstrząs", 1L, "circulatory_shock.jpeg", 0));
-        tutorialDAO.insert(new Tutorial(7L, "Podtopienie", 1L, "drowning.jpeg", 0));
+        tutorialDAO.insert(new Tutorial(0L, "Masaż serca", 1L, raw+"heart_massage", 0));
+        tutorialDAO.insert(new Tutorial(1L, "Złamana kończyna", 1L, raw+"broken_bone", 0));
+        tutorialDAO.insert(new Tutorial(2L, "Udar słoneczny", 1L, raw+"sun", 0));
+        tutorialDAO.insert(new Tutorial(3L, "Dławiący się pies", 1L, raw+"choking_dog", 0));
+        tutorialDAO.insert(new Tutorial(4L, "Agresywny pies", 1L, raw+"barking_dog", 0));
+        tutorialDAO.insert(new Tutorial(5L, "Dławiący się kot", 1L, raw+"choking_cat", 0));
+        tutorialDAO.insert(new Tutorial(6L, "Wstrząs", 1L, raw+"circulatory_shock", 0));
+        tutorialDAO.insert(new Tutorial(7L, "Podtopienie", 1L, raw+"drowning", 0));
     }
 
     public void populateVersionInstructions(VersionInstructionDAO versionInstructionDAO)
@@ -1093,10 +1095,10 @@ public class Populating
     public void populateMultimedia(MultimediaDAO multimediaDAO)
     {
         //tutorial 0
-        multimediaDAO.insert(new Multimedia(0L, 0L, -1,false, "android.resource://com.orzechowski.aidme/raw/m0_0",true, 0));
+        multimediaDAO.insert(new Multimedia(0L, 0L, -1,false, raw+"m0_0",true, 0));
         //tutorial 1
-        multimediaDAO.insert(new Multimedia(1L, 1L, 5000, true, "android.resource://com.orzechowski.aidme/raw/m1_0", true, 0));
-        multimediaDAO.insert(new Multimedia(2L, 1L, 5000, true, "android.resource://com.orzechowski.aidme/raw/m1_1", true, 1));
+        multimediaDAO.insert(new Multimedia(1L, 1L, 5000, true, raw+"m1_0", true, 0));
+        multimediaDAO.insert(new Multimedia(2L, 1L, 5000, true, raw+"m1_1", true, 1));
     }
 
     public void populateHelpers(HelperDAO helperDAO)
@@ -1116,6 +1118,7 @@ public class Populating
         tutorialLinkDAO.insert(new TutorialLink(0L, 6L, 1L, 20));
         tutorialLinkDAO.insert(new TutorialLink(1L, 0L, 6L, 9));
         tutorialLinkDAO.insert(new TutorialLink(2L, 0L, 7L, 1));
+        tutorialLinkDAO.insert(new TutorialLink(3L, 0L, 2L, 5));
     }
 
     public void populateHelperTags(HelperTagDAO helperTagDAO)

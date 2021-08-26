@@ -49,7 +49,7 @@ public class InstructionComposerAdapter
         holder.content.setText(set.getInstructions());
         holder.displayTime.setText(String.valueOf(set.getTime()));
         holder.position.setText(String.valueOf(set.getPosition()+1));
-        holder.narrationFile.setText(set.getNarrationFileName());
+        holder.narrationFile.setText(set.getNarrationUriString());
     }
 
     @Override

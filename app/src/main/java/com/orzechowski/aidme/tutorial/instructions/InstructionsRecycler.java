@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.database.tools.AssetObtainer;
 import com.orzechowski.aidme.tutorial.database.TutorialLink;
 import com.orzechowski.aidme.tutorial.database.TutorialLinkViewModel;
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
@@ -134,7 +133,6 @@ public class InstructionsRecycler
     {
         private final InstructionSet set;
         private final int position;
-        private final AssetObtainer assetObtainer = new AssetObtainer();
 
         public Player(InstructionSet instructionSet)
         {
@@ -150,18 +148,12 @@ public class InstructionsRecycler
             } catch (InterruptedException | IllegalStateException e) {
                 interrupt();
             }
-            Uri uri = null;
-            String fileName = set.getNarrationFileName();
-            if(fileName!=null) {
-                try {
-                    uri = Uri.fromFile(assetObtainer.getFileFromAssets(requireContext(), fileName));
-                } catch (Exception ignored) {}
+            String narration = set.getNarrationUriString();
+            MediaPlayer mPlayer = null;
+            if(narration!=null) {
+                mPlayer = MediaPlayer.create(getContext(), Uri.parse(narration));
             }
             FragmentActivity activity = requireActivity();
-            MediaPlayer mPlayer = null;
-            if(uri!=null) {
-                mPlayer = MediaPlayer.create(getContext(), uri);
-            }
             if(mPlayer != null) {
                 mPlayer.setLooping(false);
                 mPlayer.setVolume(1F, 1F);
