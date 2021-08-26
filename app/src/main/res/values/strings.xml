@@ -10,7 +10,7 @@
     <string name="app_policy">Nota prawna</string>
     <string name="contact">Kontakt</string>
     <string name="contributor_list">Lista wolontariuszy</string>
-    <string name="policy_note">Administrator dołoży wszelkich starań, by materiał zawarty w serwisie był kompletny i oferował wyższy standard pomocy, jednak nie może on udzielić żadnej gwarancji - wyrażonej w sposób jednoznaczny czy implikowany - że prezentowane w serwisie treści pozbawione są jakichkolwiek błędów i niedokładności. Administrator nie ponosi odpowiedzialności za wykroczenia popełnione przez wolontariuszy, użytkownicy proszeni są o zgłaszanie ich w trybie natychmiastowym w celu automatycznego zablokowania ich konta. Treść poradników nie jest w stanie ani nie usiłuje zastąpić szkoleń w zakresie pierwszej pomocy udzielanych przez profesjonalistów, ma na celu jedynie częściowe doinformowanie osób które nie posiadają odpowiedniej wiedzy. Administrator nie rości sobie praw do żadnych treści multimedialnych opublikowanych w tym serwisie. Wszelkie zastrzeżenia dotyczące praw autorskich proszę kierować do lkorzechowski@gmail.com.</string>
+    <string name="policy_note">Administrator dołoży wszelkich starań, by materiał zawarty w serwisie był kompletny i oferował wyższy standard pomocy, jednak nie może on udzielić żadnej gwarancji - wyrażonej w sposób jednoznaczny czy implikowany - że prezentowane w serwisie treści pozbawione są jakichkolwiek błędów i niedokładności. Administrator nie ponosi odpowiedzialności za wykroczenia popełnione przez wolontariuszy, użytkownicy proszeni są o zgłaszanie ich w trybie natychmiastowym w celu automatycznego zablokowania ich konta. Treść poradników nie jest w stanie ani nie usiłuje zastąpić szkoleń w zakresie pierwszej pomocy udzielanych przez profesjonalistów, ma na celu jedynie częściowe doinformowanie osób które nie posiadają odpowiedniej wiedzy w przypadku gdy czas jest krytycznie ograniczony. Administrator nie rości sobie praw do żadnych treści multimedialnych opublikowanych w tym serwisie. Wszelkie zastrzeżenia dotyczące praw autorskich proszę kierować do lkorzechowski@gmail.com. Treści opublikowane w aplikacji należą do poszczególnych autorów i mogą zostać usunięte na ich życzenie.</string>
     <string name="image_default_no_description">Autor nie podał opisu obrazu</string>
     <string name="contact_email">E-mail autora aplikacji: lkorzechowski@gmail.com</string>
     <string name="contact_form">Formularz zgłoszeniowy</string>
@@ -29,7 +29,7 @@
     <string name="password_repeat">Powtórz hasło</string>
     <string name="phone_icon_description">Ikonka telefonu</string>
     <string name="default_author_unknown_label">Autor nieznany</string>
-    <string name="instruction_creator_subheading">Dodaj dowolną ilość, przypisz do dowolnej ilości wersji (późniejszy krok), dodaj narrację.</string>
+    <string name="instruction_creator_subheading">Dodaj dowolną ilość, przypisz do dowolnej ilości wersji (późniejszy krok), dodaj narrację. Maksymalna długość narracji to 20 sekund.</string>
     <string name="version_creator_subheading">Dodaj dowolną ilość. Czy instrukcje w poradniku powinny różnić się zależnie od sytuacji? Czy niektóre kroki można pominąć? Wersje można równie podzielić na kroki i rozgałęziać. "Drzewo" wersji ustawisz w kolejnym kroku.</string>
     <string name="multimedia_creator_subheading">Zdjęcia, filmiki, początek i koniec. Mają się powtarzać, czy mają się wyświetlać nieustannie? Jeżeli nie zostaną ustawione na powtarzanie, zostaną odjęte z kolejki po jednym wyświetleniu.</string>
     <string name="plus">+</string>
@@ -38,8 +38,8 @@
     <string name="new_multimedia_display_time_info_text">Czas wyświetlania w sekundach</string>
     <string name="new_multimedia_loop_checkbox_info">Zaznacz jeżeli multimedia mają być w pętli</string>
     <string name="zero">000000</string>
-    <string name="new_version_text_hint">Tekst który użytkownik ujrzy na odpowiednim przycisku podczas wybierania wersji</string>
-    <string name="new_version_delay_label_text">Jeżeli ustawiłaś/eś tylko jeden dźwięk globalny, możesz zrezygnować z opóźniania go</string>
+    <string name="new_version_text_hint">Tekst który użytkownik ujrzy na odpowiednim przycisku podczas wybierania wersji.</string>
+    <string name="new_version_delay_label_text">Jeżeli ustawiłaś/eś tylko jeden dźwięk globalny, możesz zrezygnować z opóźniania go.</string>
     <string name="version_creator_heading">Wersje</string>
     <string name="instruction_creator_heading">Instrukcje</string>
     <string name="multimedia_creator_heading">Multimedia</string>
@@ -76,6 +76,8 @@
     <string name="helper_create_tutorial">Utwórz nowy poradnik</string>
     <string name="helper_settings_button">Ustawienia</string>
     <string name="helper_chat_button">Czat</string>
+    <string name="narration_recycler_header">Poniższe pliki mieszczą się w limicie czasowym 20 sekund</string>
+    <string name="sound_recycler_header">Wybierz dźwięk</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

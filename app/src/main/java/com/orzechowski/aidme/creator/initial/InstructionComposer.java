@@ -26,6 +26,23 @@ public class InstructionComposer extends Fragment
 {
     private InstructionComposerAdapter mAdapter;
     private final List<InstructionSet> mInstructions = new LinkedList<>();
+    private ActivityCallback mCallback;
+    private int mCurrentPosition;
+
+    public InstructionComposer(ActivityCallback callback)
+    {
+        mCallback = callback;
+    }
+
+    public int getCurrentPosition()
+    {
+        return mCurrentPosition;
+    }
+
+    public void resetAdapterElements()
+    {
+        mAdapter.setElementList(mInstructions);
+    }
 
     public List<InstructionSet> getInstructions()
     {
@@ -83,5 +100,17 @@ public class InstructionComposer extends Fragment
     public void modifyDisplayTime(int time, int position)
     {
         mInstructions.get(position).setTime(time);
+    }
+
+    @Override
+    public void addNarration(int position)
+    {
+        mCurrentPosition = position;
+        mCallback.callNarrationRecycler();
+    }
+
+    public interface ActivityCallback
+    {
+        void callNarrationRecycler();
     }
 }

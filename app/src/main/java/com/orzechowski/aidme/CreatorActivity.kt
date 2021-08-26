@@ -17,6 +17,7 @@ import com.orzechowski.aidme.creator.initial.VersionComposer
 import com.orzechowski.aidme.creator.initial.imagebrowser.ImageBrowserLoader
 import com.orzechowski.aidme.creator.initial.soundbrowser.Sound
 import com.orzechowski.aidme.creator.initial.soundbrowser.SoundBrowserLoader
+import com.orzechowski.aidme.creator.initial.soundbrowser.narrationbrowser.NarrationBrowserLoader
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
@@ -28,9 +29,10 @@ import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     VersionTreeComposer.CallbackToActivity, VersionInstructionComposer.CallbackToActivity,
         MultimediaComposer.CallbackToActivity, ImageBrowserLoader.ActivityCallback,
-        SoundComposer.CallbackToActivity, SoundBrowserLoader.ActivityCallback
+        SoundComposer.CallbackToActivity, SoundBrowserLoader.ActivityCallback,
+        InstructionComposer.ActivityCallback, NarrationBrowserLoader.ActivityCallback
 {
-    private val mInstructionComposer = InstructionComposer()
+    private val mInstructionComposer = InstructionComposer(this)
     private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer(this)
@@ -38,6 +40,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
     private lateinit var mImageBrowser: ImageBrowserLoader
+    private lateinit var mNarrationBrowser: NarrationBrowserLoader
     private lateinit var mVersionTreeComposer: VersionTreeComposer
     private lateinit var mVersionInstructionComposer: VersionInstructionComposer
     private lateinit var mVersions: MutableList<Version>
@@ -130,6 +133,15 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         commitCategoryAssignment()
     }
 
+    override fun callNarrationRecycler()
+    {
+        mView.visibility = View.GONE
+        mNarrationBrowser = NarrationBrowserLoader(this)
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mNarrationBrowser)
+        }
+    }
+
     override fun callImageGallery()
     {
         mView.visibility = View.GONE
@@ -146,6 +158,15 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         supportFragmentManager.commit {
             add(R.id.fragment_overlay_layout, mSoundBrowser)
         }
+    }
+
+    override fun narrationSubmitted(narration: Sound)
+    {
+        supportFragmentManager.beginTransaction().remove(mNarrationBrowser).commit()
+        mInstructionComposer.instructions[mInstructionComposer.currentPosition].narrationUriString =
+            narration.uri.toString()
+        mInstructionComposer.resetAdapterElements()
+        mView.visibility = View.VISIBLE
     }
 
     override fun imageSubmitted(uri: Uri)

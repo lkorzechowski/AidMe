@@ -1,6 +1,8 @@
 package com.orzechowski.aidme.creator.initial;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
@@ -25,11 +28,13 @@ public class InstructionComposerAdapter
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
+    private final Activity mActivity;
 
     public InstructionComposerAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
         mCallback = callback;
+        mActivity = activity;
     }
 
     @NonNull
@@ -37,7 +42,7 @@ public class InstructionComposerAdapter
     public InstructionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_new_instruction_rv, parent, false);
-        return new InstructionsViewHolder(row, mCallback);
+        return new InstructionsViewHolder(row, mCallback, mActivity);
     }
 
     @Override
@@ -72,10 +77,11 @@ public class InstructionComposerAdapter
         Button uploadNarration;
         InstructionSet instruction;
 
-        public InstructionsViewHolder(@NonNull View itemView, FragmentCallback callback)
+        public InstructionsViewHolder(@NonNull View itemView, FragmentCallback callback,
+                                      Activity activity)
         {
             super(itemView);
-            narrationFile = itemView.findViewById(R.id.new_instruction_narration_filename_display);
+            narrationFile = itemView.findViewById(R.id.new_instruction_narration_uri_display);
             title = itemView.findViewById(R.id.new_instruction_title);
             content = itemView.findViewById(R.id.new_instruction_text);
             displayTime = itemView.findViewById(R.id.new_instruction_time_input);
@@ -83,6 +89,17 @@ public class InstructionComposerAdapter
             uploadNarration = itemView.findViewById(R.id.new_instruction_narration_upload_button);
             deleteInstruction = itemView.findViewById(R.id.delete_new_instruction);
             deleteInstruction.setOnClickListener(v-> callback.delete(instruction));
+            uploadNarration.setOnClickListener(v -> {
+                if(ActivityCompat.checkSelfPermission(activity, Manifest.permission
+                        .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions(activity,
+                            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                            121);
+                } else {
+                    callback.addNarration(instruction.getPosition());
+                }
+            });
             title.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -91,7 +108,8 @@ public class InstructionComposerAdapter
                 public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
                     if(instruction!=null && callback!=null) {
-                        callback.modifyTitle(String.valueOf(title.getText()), instruction.getPosition());
+                        callback.modifyTitle(String.valueOf(title.getText()),
+                                instruction.getPosition());
                     }
                 }
 
@@ -138,5 +156,6 @@ public class InstructionComposerAdapter
         void modifyTitle(String title, int position);
         void modifyContent(String content, int position);
         void modifyDisplayTime(int time, int position);
+        void addNarration(int position);
     }
 }
