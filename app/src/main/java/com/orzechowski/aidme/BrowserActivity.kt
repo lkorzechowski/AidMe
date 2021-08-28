@@ -89,7 +89,6 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
                     handled = true
                 }
             } else if(f is ResultsRecycler) {
-
                 t.remove(mResults).commit()
                 commitBrowser()
                 handled = true

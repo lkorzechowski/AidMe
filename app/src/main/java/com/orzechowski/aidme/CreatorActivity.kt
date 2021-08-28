@@ -20,6 +20,7 @@ import com.orzechowski.aidme.creator.initial.soundbrowser.SoundBrowserLoader
 import com.orzechowski.aidme.creator.initial.soundbrowser.narrationbrowser.NarrationBrowserLoader
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
+import com.orzechowski.aidme.database.tag.TutorialTag
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
@@ -30,13 +31,14 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     VersionTreeComposer.CallbackToActivity, VersionInstructionComposer.CallbackToActivity,
         MultimediaComposer.CallbackToActivity, ImageBrowserLoader.ActivityCallback,
         SoundComposer.CallbackToActivity, SoundBrowserLoader.ActivityCallback,
-        InstructionComposer.ActivityCallback, NarrationBrowserLoader.ActivityCallback
+        InstructionComposer.ActivityCallback, NarrationBrowserLoader.ActivityCallback,
+        CategoryAssignment.CallbackToActivity
 {
     private val mInstructionComposer = InstructionComposer(this)
     private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer(this)
-    private val mCategoryAssignment = CategoryAssignment()
+    private val mCategoryAssignment = CategoryAssignment(this)
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
     private lateinit var mImageBrowser: ImageBrowserLoader
@@ -48,6 +50,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mInstructions: List<InstructionSet>
     private lateinit var mSounds: List<TutorialSound>
     private lateinit var mVersionInstructions: Collection<VersionInstruction>
+    private lateinit var mTutorialTags: List<TutorialTag>
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -212,9 +215,15 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     handled = true
                 }
                 is CategoryAssignment -> {
-                    supportFragmentManager.beginTransaction().remove(mCategoryAssignment).commit()
-                    commitVersionInstruction(mVersions)
-                    handled = true
+                    val currentLevel = f.level
+                    if(currentLevel>1) {
+                        mCategoryAssignment.restorePrevious()
+                        handled = true
+                    } else if(currentLevel==1) {
+                        supportFragmentManager.beginTransaction().remove(mCategoryAssignment).commit()
+                        commitVersionInstruction(mVersions)
+                        handled = true
+                    }
                 }
                 is SoundBrowserLoader -> {
                     supportFragmentManager.beginTransaction().remove(mSoundBrowser).commit()
@@ -235,5 +244,10 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         } else if(requestCode==122) {
             callSoundRecycler()
         }
+    }
+
+    override fun categorySelected(tutorialTags: MutableList<TutorialTag>)
+    {
+        mTutorialTags = tutorialTags
     }
 }

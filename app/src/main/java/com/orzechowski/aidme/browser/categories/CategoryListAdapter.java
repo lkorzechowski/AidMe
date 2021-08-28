@@ -21,9 +21,9 @@ public class CategoryListAdapter
 {
     private List<Category> mCategories = null;
     private final LayoutInflater mInflater;
-    private final OnClickListener mListener;
+    private final FragmentCallback mListener;
 
-    public CategoryListAdapter(Activity activity, OnClickListener listener)
+    public CategoryListAdapter(Activity activity, FragmentCallback listener)
     {
         mInflater = LayoutInflater.from(activity);
         mListener = listener;
@@ -66,10 +66,10 @@ public class CategoryListAdapter
     {
         TextView name;
         ImageView image;
-        OnClickListener listenerForThisRow;
+        FragmentCallback listenerForThisRow;
         Category thisCategory;
 
-        public CategoryViewHolder(@NonNull View viewForThisRow, OnClickListener listener)
+        public CategoryViewHolder(@NonNull View viewForThisRow, FragmentCallback listener)
         {
             super(viewForThisRow);
             name = viewForThisRow.findViewById(R.id.category_name_text);
@@ -85,7 +85,7 @@ public class CategoryListAdapter
         }
     }
 
-    public interface OnClickListener
+    public interface FragmentCallback
     {
         void onClick(Category category);
     }

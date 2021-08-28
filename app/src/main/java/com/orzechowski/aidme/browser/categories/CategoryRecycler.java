@@ -22,7 +22,7 @@ import com.orzechowski.aidme.database.tag.TagViewModel;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CategoryRecycler extends Fragment implements CategoryListAdapter.OnClickListener
+public class CategoryRecycler extends Fragment implements CategoryListAdapter.FragmentCallback
 {
     private CategoryListAdapter mAdapter;
     private CategoryViewModel mCategoryViewModel;
@@ -73,15 +73,18 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.On
     {
         if(category.getHasSubcategories()) {
             if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
-            mCategoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
+            mCategoryTagViewModel.getByCategoryId(category
+                    .getCategoryId()).observe(requireActivity(), categoryTags-> {
                 for(CategoryTag categoryTag : categoryTags) {
                     mTagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
                         if(tag.getTagLevel()!=null && tag.getTagLevel()>mLevel) {
                             mLevel++;
-                            mCategoryViewModel.getByLevel(mLevel).observe(requireActivity(), categories-> {
+                            mCategoryViewModel.getByLevel(mLevel)
+                                    .observe(requireActivity(), categories-> {
                                 long finalId = categories.get(categories.size()-1).getCategoryId();
                                 for (Category cat : categories) {
-                                    mCategoryTagViewModel.getByCategoryId(cat.getCategoryId()).observe(requireActivity(), catTag-> {
+                                    mCategoryTagViewModel.getByCategoryId(cat.getCategoryId())
+                                            .observe(requireActivity(), catTag-> {
                                         boolean match = false;
                                         for(CategoryTag oneTag : catTag) {
                                             if(oneTag.getTagId()==tag.getTagId()) match = true;
@@ -98,9 +101,11 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.On
                 }
             });
         } else {
-            mCategoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
+            mCategoryTagViewModel.getByCategoryId(category.getCategoryId())
+                    .observe(requireActivity(), categoryTags-> {
                 for (CategoryTag categoryTag : categoryTags) {
-                    mTagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag -> {
+                    mTagViewModel.getById(categoryTag.getTagId())
+                            .observe(requireActivity(), tag -> {
                         if (tag.getTagLevel() != null && tag.getTagLevel() > mLevel) {
                             mCallback.serveResults(tag.getTagId());
                         }
