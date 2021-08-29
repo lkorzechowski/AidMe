@@ -77,26 +77,30 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
         var handled = false
         for (f in fragmentList) {
-            if(f is CategoryRecycler) {
-                val currentLevel = f.level
-                if(currentLevel>1) {
-                    mCategory.restorePrevious()
-                    handled = true
-                } else if(currentLevel==1) {
-                    t.remove(mCategory).commit()
-                    mCategory = CategoryRecycler(this)
+            when(f) {
+                is CategoryRecycler -> {
+                    val currentLevel = f.level
+                    if (currentLevel>1) {
+                        mCategory.restorePrevious()
+                        handled = true
+                    } else if (currentLevel==1) {
+                        t.remove(mCategory).commit()
+                        mCategory = CategoryRecycler(this)
+                        commitBrowser()
+                        handled = true
+                    }
+                }
+                is ResultsRecycler -> {
+                    t.remove(mResults).commit()
                     commitBrowser()
                     handled = true
                 }
-            } else if(f is ResultsRecycler) {
-                t.remove(mResults).commit()
-                commitBrowser()
-                handled = true
-            } else if(f is Search) {
-                mSearchButton.visibility = View.VISIBLE
-                t.remove(mSearch).commit()
-                commitBrowser()
-                handled = true
+                is Search -> {
+                    mSearchButton.visibility = View.VISIBLE
+                    t.remove(mSearch).commit()
+                    commitBrowser()
+                    handled = true
+                }
             }
         }
         if(!handled) super.onBackPressed()

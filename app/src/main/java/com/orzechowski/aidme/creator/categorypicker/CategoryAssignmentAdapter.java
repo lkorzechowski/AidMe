@@ -68,6 +68,7 @@ public class CategoryAssignmentAdapter
             super(itemView);
             categoryName = itemView.findViewById(R.id.category_name_text);
             callback = fragmentCallback;
+            itemView.setOnClickListener(this);
         }
 
         @Override

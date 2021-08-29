@@ -8,6 +8,7 @@ import android.widget.ScrollView
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.orzechowski.aidme.creator.categorypicker.CategoryAssignment
 import com.orzechowski.aidme.creator.initial.InstructionComposer
@@ -38,7 +39,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer(this)
-    private val mCategoryAssignment = CategoryAssignment(this)
+    private var mCategoryAssignment = CategoryAssignment(this)
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
     private lateinit var mImageBrowser: ImageBrowserLoader
@@ -194,23 +195,23 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     override fun onBackPressed()
     {
         val fragmentList: List<*> = supportFragmentManager.fragments
+        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
         var handled = false
         for(f in fragmentList) {
             when(f) {
                 is ImageBrowserLoader -> {
-                    supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
+                    t.remove(mImageBrowser).commit()
                     mView.visibility = View.VISIBLE
                     handled = true
                 }
                 is VersionTreeComposer -> {
-                    supportFragmentManager.beginTransaction().remove(mVersionTreeComposer).commit()
+                    t.remove(mVersionTreeComposer).commit()
                     mView.visibility = View.VISIBLE
                     commitInitial()
                     handled = true
                 }
                 is VersionInstructionComposer -> {
-                    supportFragmentManager.beginTransaction().remove(mVersionInstructionComposer)
-                        .commit()
+                    t.remove(mVersionInstructionComposer).commit()
                     commitVersionTree()
                     handled = true
                 }
@@ -219,14 +220,19 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     if(currentLevel>1) {
                         mCategoryAssignment.restorePrevious()
                         handled = true
-                    } else if(currentLevel==1) {
-                        supportFragmentManager.beginTransaction().remove(mCategoryAssignment).commit()
-                        commitVersionInstruction(mVersions)
+                    } else {
+                        t.remove(mCategoryAssignment).commit()
+                        mCategoryAssignment = CategoryAssignment(this)
+                        if(mVersions.size>1) commitVersionInstruction(mVersions)
+                        else {
+                            mView.visibility = View.VISIBLE
+                            commitInitial()
+                        }
                         handled = true
                     }
                 }
                 is SoundBrowserLoader -> {
-                    supportFragmentManager.beginTransaction().remove(mSoundBrowser).commit()
+                    t.remove(mSoundBrowser).commit()
                     mView.visibility = View.VISIBLE
                     handled = true
                 }

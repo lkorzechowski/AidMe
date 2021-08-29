@@ -42,10 +42,13 @@ public class VersionComposer extends Fragment implements VersionComposerAdapter.
     {
         FragmentActivity activity = requireActivity();
         mAdapter = new VersionComposerAdapter(activity, this);
-        View view = inflater.inflate(R.layout.fragment_version_composer, container, false);
+        View view = inflater.inflate(R.layout.fragment_version_composer, container,
+                false);
         RecyclerView recycler = view.findViewById(R.id.new_version_rv);
-        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+                LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
+        if(!mVersions.isEmpty()) mAdapter.setElementList(mVersions);
         return view;
     }
 
@@ -54,7 +57,8 @@ public class VersionComposer extends Fragment implements VersionComposerAdapter.
     {
         Button addVersionButton = view.findViewById(R.id.new_version_button);
         addVersionButton.setOnClickListener(v-> {
-            mVersions.add(new Version(mVersions.size(), "", 0, true, false, false, null));
+            mVersions.add(new Version(mVersions.size(), "", 0, true,
+                    false, false, null));
             mAdapter.setElementList(mVersions);
         });
     }
@@ -67,7 +71,8 @@ public class VersionComposer extends Fragment implements VersionComposerAdapter.
         {
             Version version = mVersions.get(i);
             mVersions.remove(version);
-            mVersions.add(new Version(i, version.getText(), 0, version.getDelayGlobalSound(), false, false, null));
+            mVersions.add(new Version(i, version.getText(), 0, version
+                    .getDelayGlobalSound(), false, false, null));
         }
         mAdapter.setElementList(mVersions);
     }

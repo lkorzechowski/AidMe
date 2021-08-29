@@ -121,19 +121,19 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         Tutorial thisResult;
         ConstraintLayout starLayout;
 
-        public ResultViewHolder(@NonNull View viewForThisRow, OnClickListener listenerForThisRow,
+        public ResultViewHolder(@NonNull View itemView, OnClickListener listenerForThisRow,
                                 Activity activity)
         {
-            super(viewForThisRow);
-            name = viewForThisRow.findViewById(R.id.result_name_text);
-            image = viewForThisRow.findViewById(R.id.result_image);
-            author = viewForThisRow.findViewById(R.id.author);
-            starOne = viewForThisRow.findViewById(R.id.star_one);
-            starTwo = viewForThisRow.findViewById(R.id.star_two);
-            starThree = viewForThisRow.findViewById(R.id.star_three);
-            starFour = viewForThisRow.findViewById(R.id.star_four);
-            starFive = viewForThisRow.findViewById(R.id.star_five);
-            starLayout = viewForThisRow.findViewById(R.id.star_rating_layout);
+            super(itemView);
+            name = itemView.findViewById(R.id.result_name_text);
+            image = itemView.findViewById(R.id.result_image);
+            author = itemView.findViewById(R.id.author);
+            starOne = itemView.findViewById(R.id.star_one);
+            starTwo = itemView.findViewById(R.id.star_two);
+            starThree = itemView.findViewById(R.id.star_three);
+            starFour = itemView.findViewById(R.id.star_four);
+            starFive = itemView.findViewById(R.id.star_five);
+            starLayout = itemView.findViewById(R.id.star_rating_layout);
             starLayout.setOnClickListener(v -> {
                 RatingViewModel ratingViewModel =
                         new ViewModelProvider((ViewModelStoreOwner) activity)
@@ -153,7 +153,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
 
             });
             listener = listenerForThisRow;
-            viewForThisRow.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override

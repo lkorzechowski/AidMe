@@ -61,6 +61,7 @@ public class MultimediaComposer extends Fragment
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
+        if(!mMultimedias.isEmpty()) mAdapter.setElementList(mMultimedias);
         return view;
     }
 

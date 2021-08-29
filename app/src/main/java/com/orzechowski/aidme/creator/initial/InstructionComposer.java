@@ -60,6 +60,7 @@ public class InstructionComposer extends Fragment
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
+        if(!mInstructions.isEmpty()) mAdapter.setElementList(mInstructions);
         return view;
     }
 

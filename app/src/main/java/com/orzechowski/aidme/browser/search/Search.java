@@ -91,32 +91,51 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
                     String[] words = String.valueOf(s).toLowerCase().split("\\W+");
                     mHelperViewModel.getAll().observe(requireActivity(), helpers ->
                             mTutorialViewModel.getAll().observe(requireActivity(), tutorials ->
-                                    mInstructionSetViewModel.getAll().observe(requireActivity(), instructionSets -> {
+                                    mInstructionSetViewModel.getAll()
+                                            .observe(requireActivity(), instructionSets -> {
                                         for (String word : words) {
                                             String wordClean = removeSpecialSigns(word);
                                             for (InstructionSet instructionSet : instructionSets) {
-                                                if (removeSpecialSigns(instructionSet.getTitle().toLowerCase()).contains(wordClean)) {
-                                                    putScore(instructionSet.getTutorialId(), false);
+                                                if (removeSpecialSigns(instructionSet
+                                                        .getTitle()
+                                                        .toLowerCase()).contains(wordClean)) {
+                                                    putScore(instructionSet.getTutorialId(),
+                                                            false);
                                                 }
-                                                if (removeSpecialSigns(instructionSet.getInstructions().toLowerCase()).contains(wordClean)) {
-                                                    putScore(instructionSet.getTutorialId(), false);
+                                                if (removeSpecialSigns(instructionSet
+                                                        .getInstructions()
+                                                        .toLowerCase()).contains(wordClean)) {
+                                                    putScore(instructionSet.getTutorialId(),
+                                                            false);
                                                 }
                                             }
                                             for (Tutorial tutorial : tutorials) {
-                                                if (removeSpecialSigns(tutorial.getTutorialName()).toLowerCase().contains(wordClean)) {
-                                                    putScore(tutorial.getTutorialId(), true);
+                                                if (removeSpecialSigns(tutorial.getTutorialName())
+                                                        .toLowerCase().contains(wordClean)) {
+                                                    putScore(tutorial.getTutorialId(),
+                                                            true);
                                                 }
                                             }
-                                            mKeywordViewModel.getAll().observe(requireActivity(), keywords -> {
+                                            mKeywordViewModel.getAll()
+                                                    .observe(requireActivity(), keywords -> {
                                                 for (Keyword keyword : keywords) {
                                                     String obtainedWord = keyword.getWord();
-                                                    if (obtainedWord.contains(wordClean) || wordClean.contains(obtainedWord)) {
-                                                        mTagKeywordViewModel.getByKeywordId(keyword.getKeywordId()).observe(requireActivity(), tagKeywords -> {
+                                                    if (obtainedWord.contains(wordClean) ||
+                                                            wordClean.contains(obtainedWord)) {
+                                                        mTagKeywordViewModel
+                                                                .getByKeywordId(keyword.getKeywordId())
+                                                                .observe(requireActivity(), tagKeywords -> {
                                                             for (TagKeyword tagKeyword : tagKeywords) {
-                                                                mTagViewModel.getById(tagKeyword.getTagId()).observe(requireActivity(), tag ->
-                                                                        mTutorialTagViewModel.getByTagId(tag.getTagId()).observe(requireActivity(), tutorialTags -> {
+                                                                mTagViewModel
+                                                                        .getById(tagKeyword.getTagId())
+                                                                        .observe(requireActivity(), tag ->
+                                                                        mTutorialTagViewModel
+                                                                                .getByTagId(tag.getTagId())
+                                                                                .observe(requireActivity(),
+                                                                                        tutorialTags -> {
                                                                             for (TutorialTag tutorialTag : tutorialTags) {
-                                                                                putScore(tutorialTag.getTutorialId(), false);
+                                                                                putScore(tutorialTag.getTutorialId(),
+                                                                                        false);
                                                                             }
                                                                             setAdapter(helpers);
                                                                         }));
@@ -163,7 +182,8 @@ public class Search extends Fragment implements ResultsListAdapter.OnClickListen
             }
             if (tutorialId != null) {
                 mScoredTutorialIds.remove(tutorialId);
-                mTutorialViewModel.getByTutorialId(tutorialId).observe(requireActivity(), tutorial-> {
+                mTutorialViewModel.getByTutorialId(tutorialId)
+                        .observe(requireActivity(), tutorial-> {
                     pickedTutorials.add(tutorial);
                     mAdapter.setElementList(pickedTutorials, helpers);
                 });

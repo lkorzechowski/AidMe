@@ -59,6 +59,7 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
+        if(!mSounds.isEmpty()) mAdapter.setElementList(mSounds);
         return view;
     }
 

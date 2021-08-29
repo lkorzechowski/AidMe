@@ -69,13 +69,13 @@ public class CategoryListAdapter
         FragmentCallback listenerForThisRow;
         Category thisCategory;
 
-        public CategoryViewHolder(@NonNull View viewForThisRow, FragmentCallback listener)
+        public CategoryViewHolder(@NonNull View itemView, FragmentCallback listener)
         {
-            super(viewForThisRow);
-            name = viewForThisRow.findViewById(R.id.category_name_text);
-            image = viewForThisRow.findViewById(R.id.category_image);
+            super(itemView);
+            name = itemView.findViewById(R.id.category_name_text);
+            image = itemView.findViewById(R.id.category_image);
             listenerForThisRow = listener;
-            viewForThisRow.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override

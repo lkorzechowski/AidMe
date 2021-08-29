@@ -53,35 +53,42 @@ public class CategoryAssignment extends Fragment
     {
         FragmentActivity activity = requireActivity();
         ViewModelProvider provider = new ViewModelProvider(this);
+        mCategoryViewModel = provider.get(CategoryViewModel.class);
+        mCategoryTagViewModel = provider.get(CategoryTagViewModel.class);
+        mTagViewModel = provider.get(TagViewModel.class);
         mAdapter = new CategoryAssignmentAdapter(activity, this);
-        View view = inflater.inflate(R.layout.fragment_category_assignment, container,
-                false);
+        View view = inflater
+                .inflate(R.layout.fragment_category_assignment, container, false);
         RecyclerView recycler = view.findViewById(R.id.category_rv);
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(mAdapter);
-        mCategoryViewModel = provider.get(CategoryViewModel.class);
-        mCategoryTagViewModel = provider.get(CategoryTagViewModel.class);
-        mTagViewModel = provider.get(TagViewModel.class);
-        mCategoryViewModel.getByLevel(0).observe(activity, categories ->
-                mAdapter.setElementList(categories));
+        if(mCategoryPath.isEmpty()) mCategoryViewModel.getByLevel(mLevel)
+                .observe(activity, categories->mAdapter.setElementList(categories));
+        else {
+            mLevel--;
+            pickCategory(mCategoryPath.get(mCategoryPath.size()-1));
+        }
         return view;
     }
 
     @Override
     public void pickCategory(Category category)
     {
-        if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
-        mCategoryTagViewModel.getByCategoryId(category.getCategoryId()).observe(requireActivity(), categoryTags-> {
+        mCategoryTagViewModel.getByCategoryId(category.getCategoryId())
+                .observe(requireActivity(), categoryTags-> {
             for(CategoryTag categoryTag : categoryTags) {
                 mTagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
                     if(category.getHasSubcategories()) {
+                        if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
                         if(tag.getTagLevel()!=null && tag.getTagLevel()>mLevel) {
                             mLevel++;
-                            mCategoryViewModel.getByLevel(mLevel).observe(requireActivity(), categories-> {
+                            mCategoryViewModel.getByLevel(mLevel)
+                                    .observe(requireActivity(), categories-> {
                                 long finalId = categories.get(categories.size()-1).getCategoryId();
                                 for (Category cat : categories) {
-                                    mCategoryTagViewModel.getByCategoryId(cat.getCategoryId()).observe(requireActivity(), catTag-> {
+                                    mCategoryTagViewModel.getByCategoryId(cat.getCategoryId())
+                                            .observe(requireActivity(), catTag-> {
                                         boolean match = false;
                                         for(CategoryTag oneTag : catTag) {
                                             if(oneTag.getTagId()==tag.getTagId()) match = true;
@@ -95,7 +102,8 @@ public class CategoryAssignment extends Fragment
                             });
                         }
                     } else {
-                        mTutorialTags.add(new TutorialTag(0L, 0L, tag.getTagId()));
+                        mTutorialTags
+                                .add(new TutorialTag(0L, 0L, tag.getTagId()));
                         if(mTutorialTags.size()==mCategoryPath.size()) {
                             mCallback.categorySelected(mTutorialTags);
                         }

@@ -41,9 +41,10 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.Fr
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         FragmentActivity activity = requireActivity();
-        mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
-        mCategoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        mCategoryTagViewModel = new ViewModelProvider(this).get(CategoryTagViewModel.class);
+        ViewModelProvider provider = new ViewModelProvider(this);
+        mTagViewModel = provider.get(TagViewModel.class);
+        mCategoryViewModel = provider.get(CategoryViewModel.class);
+        mCategoryTagViewModel = provider.get(CategoryTagViewModel.class);
         mAdapter = new CategoryListAdapter(activity, this);
         View view = inflater
                 .inflate(R.layout.fragment_recycler_browser, container, false);
