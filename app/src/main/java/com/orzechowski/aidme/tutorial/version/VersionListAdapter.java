@@ -18,13 +18,13 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
 {
     private List<Version> mVersionList;
     private final LayoutInflater mInflater;
-    private final OnClickListener mListener;
+    private final ActivityCallback mCallback;
 
     public VersionListAdapter(Activity activity)
     {
         mInflater = LayoutInflater.from(activity);
         mVersionList = null;
-        mListener = (OnClickListener) activity;
+        mCallback = (ActivityCallback) activity;
     }
 
     @NonNull
@@ -32,7 +32,7 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
     public VersionViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_versions_rv, viewGroup, false);
-        return new VersionViewHolder(row, mListener);
+        return new VersionViewHolder(row, mCallback);
     }
 
     @Override
@@ -57,15 +57,15 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
     public static class VersionViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener
     {
-        OnClickListener listenerForThisRow;
+        ActivityCallback callback;
         Version thisVersion;
         Button versionButton;
 
         public VersionViewHolder(
-                @NonNull View viewForThisRow, OnClickListener listenerFromActivity)
+                @NonNull View viewForThisRow, ActivityCallback fragmentCallback)
         {
             super(viewForThisRow);
-            listenerForThisRow = listenerFromActivity;
+            callback = fragmentCallback;
             versionButton = viewForThisRow.findViewById(R.id.version_button);
             versionButton.setOnClickListener(this);
         }
@@ -73,11 +73,11 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
         @Override
         public void onClick(View v)
         {
-            listenerForThisRow.onClick(thisVersion);
+            callback.onClick(thisVersion);
         }
     }
 
-    public interface OnClickListener
+    public interface ActivityCallback
     {
         void onClick(Version version);
     }

@@ -27,7 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class VersionMultimediaComposer extends Fragment
-    implements VersionMultimediaOuterAdapter.CallbackToFragment
+    implements VersionMultimediaOuterAdapter.FragmentCallback
 {
     private VersionMultimediaOuterAdapter mOuterAdapter;
     private final List<Version> mVersions;

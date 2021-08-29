@@ -18,13 +18,13 @@ public class HelperListAdapter extends RecyclerView.Adapter<HelperListAdapter.He
 {
     private List<Helper> mHelpers;
     private final LayoutInflater mInflater;
-    private final OnClickListener mListener;
+    private final FragmentCallback mCallback;
 
-    public HelperListAdapter(Activity activity, OnClickListener listener)
+    public HelperListAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
         mHelpers = null;
-        mListener = listener;
+        mCallback = callback;
     }
 
     @NonNull
@@ -32,7 +32,7 @@ public class HelperListAdapter extends RecyclerView.Adapter<HelperListAdapter.He
     public HelperViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_helper_rv, viewGroup, false);
-        return new HelperViewHolder(row, mListener);
+        return new HelperViewHolder(row, mCallback);
     }
 
     @Override
@@ -60,23 +60,23 @@ public class HelperListAdapter extends RecyclerView.Adapter<HelperListAdapter.He
     {
         TextView nameDisplay;
         Helper thisHelper;
-        OnClickListener listenerForThisRow;
+        FragmentCallback callback;
 
-        public HelperViewHolder(@NonNull View viewForThisRow, OnClickListener listenerFromActivity)
+        public HelperViewHolder(@NonNull View viewForThisRow, FragmentCallback fragmentCallback)
         {
             super(viewForThisRow);
             nameDisplay = viewForThisRow.findViewById(R.id.name_display);
-            listenerForThisRow = listenerFromActivity;
+            callback = fragmentCallback;
         }
 
         @Override
         public void onClick(View v)
         {
-            listenerForThisRow.onClick(thisHelper);
+            callback.onClick(thisHelper);
         }
     }
 
-    public interface OnClickListener
+    public interface FragmentCallback
     {
         void onClick(Helper helper);
     }

@@ -13,7 +13,7 @@ import com.orzechowski.aidme.settings.HelperRecycler
 import com.orzechowski.aidme.settings.Policy
 
 
-class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.OnClickListener
+class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.ActivityCallback
 {
     private val mPolicy = Policy()
     private val mHelpers = HelperRecycler()

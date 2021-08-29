@@ -19,12 +19,12 @@ public class InstructionsListAdapter
 {
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
-    private final OnClickListener mListener;
+    private final FragmentCallback mCallback;
 
-    public InstructionsListAdapter(Activity activity, OnClickListener listener)
+    public InstructionsListAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
-        mListener = listener;
+        mCallback = callback;
     }
 
     @NonNull
@@ -32,7 +32,7 @@ public class InstructionsListAdapter
     public InstructionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_instructions_rv, parent, false);
-        return new InstructionsViewHolder(row, mListener);
+        return new InstructionsViewHolder(row, mCallback);
     }
 
     @Override
@@ -60,26 +60,26 @@ public class InstructionsListAdapter
             implements View.OnClickListener
     {
         TextView title, brief;
-        OnClickListener listener;
+        FragmentCallback callback;
         InstructionSet thisInstructionSet;
 
-        public InstructionsViewHolder(@NonNull View itemView, OnClickListener fragmentListener)
+        public InstructionsViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
         {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             brief = itemView.findViewById(R.id.brief);
-            listener = fragmentListener;
+            callback = fragmentCallback;
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
-            listener.onClick(thisInstructionSet);
+            callback.onClick(thisInstructionSet);
         }
     }
 
-    public interface OnClickListener
+    public interface FragmentCallback
     {
         void onClick(InstructionSet instructionSet);
     }

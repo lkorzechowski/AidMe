@@ -19,14 +19,14 @@ public class EmergencyNumbersListAdapter
 {
     private final List<EmergencyNumber> mNumbersList;
     private final LayoutInflater mInflater;
-    private final OnViewClickListener mListener;
+    private final FragmentCallback mCallback;
 
     public EmergencyNumbersListAdapter(Activity mainActivity, List<EmergencyNumber> listOfNumbers,
-                                       OnViewClickListener listenerFromSuperClass)
+                                       FragmentCallback callback)
     {
         mInflater = mainActivity.getLayoutInflater();
         mNumbersList = listOfNumbers;
-        mListener = listenerFromSuperClass;
+        mCallback = callback;
     }
 
     @NonNull
@@ -34,7 +34,7 @@ public class EmergencyNumbersListAdapter
     public NumbersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_phone_numbers_rv, viewGroup, false);
-        return new NumbersViewHolder(row, mListener);
+        return new NumbersViewHolder(row, mCallback);
     }
 
     @Override
@@ -69,24 +69,23 @@ public class EmergencyNumbersListAdapter
     public static class NumbersViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener
     {
-        OnViewClickListener listenerForThisRow;
+        FragmentCallback callback;
 
-        public NumbersViewHolder(
-                @NonNull View viewForThisRow, OnViewClickListener listenerFromSuperClass)
+        public NumbersViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
         {
-            super(viewForThisRow);
-            listenerForThisRow = listenerFromSuperClass;
-            viewForThisRow.setOnClickListener(this);
+            super(itemView);
+            callback = fragmentCallback;
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
-            listenerForThisRow.onViewClick(getAdapterPosition());
+            callback.onViewClick(getAdapterPosition());
         }
     }
 
-    public interface OnViewClickListener
+    public interface FragmentCallback
     {
         void onViewClick(int position);
     }

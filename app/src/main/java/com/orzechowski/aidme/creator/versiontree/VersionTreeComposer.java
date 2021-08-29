@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class VersionTreeComposer extends Fragment
-        implements VersionTreeComposerAdapter.OnClickListener
+        implements VersionTreeComposerAdapter.FragmentCallback
 {
     private VersionTreeComposerAdapter mLevelOneAdapter, mLevelTwoAdapter, mLevelThreeAdapter,
             mLevelFourAdapter, mParentPickingAdapter;
@@ -37,9 +37,9 @@ public class VersionTreeComposer extends Fragment
     private Version mCurrentlyMovedVersion = null;
     private int mMovedFromLevel;
     private ConstraintLayout mPrimaryLayout, mSecondaryLayout;
-    private final CallbackToActivity mCallback;
+    private final ActivityCallback mCallback;
 
-    public VersionTreeComposer(List<Version> versions, CallbackToActivity callback)
+    public VersionTreeComposer(List<Version> versions, ActivityCallback callback)
     {
         mAllVersions = versions;
         mLevelOneVersions = versions;
@@ -139,7 +139,7 @@ public class VersionTreeComposer extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                if (direction == 2 && mLevelOneVersions.size()>1) {
+                if (direction==2 && mLevelOneVersions.size()>1) {
                     mCurrentlyMovedVersion = mLevelOneVersions.get(viewHolder.getLayoutPosition());
                     if(!mCurrentlyMovedVersion.getHasChildren()) {
                         mLevelOneVersions.remove(mCurrentlyMovedVersion);
@@ -296,7 +296,7 @@ public class VersionTreeComposer extends Fragment
         }
     }
 
-    public interface CallbackToActivity
+    public interface ActivityCallback
     {
         void finalizeVersionTree(List<Version> versions);
     }

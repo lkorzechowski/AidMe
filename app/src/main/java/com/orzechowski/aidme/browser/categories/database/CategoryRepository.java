@@ -8,7 +8,8 @@ import com.orzechowski.aidme.database.GlobalRoomDatabase;
 
 import java.util.List;
 
-public class CategoryRepository {
+public class CategoryRepository
+{
     private final CategoryDAO mDao;
 
     public CategoryRepository(Application application)

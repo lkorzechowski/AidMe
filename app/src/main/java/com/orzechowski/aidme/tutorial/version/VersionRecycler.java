@@ -21,7 +21,8 @@ public class VersionRecycler extends Fragment
     private VersionViewModel mVersionViewModel;
     private final ActivityCallback mCallback;
 
-    public VersionRecycler(ActivityCallback callback){
+    public VersionRecycler(ActivityCallback callback)
+    {
         super(R.layout.fragment_recycler_versions);
         mCallback = callback;
     }

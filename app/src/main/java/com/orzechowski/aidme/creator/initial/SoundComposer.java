@@ -25,10 +25,10 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
 {
     private SoundComposerAdapter mAdapter;
     private final List<TutorialSound> mSounds = new LinkedList<>();
-    private final CallbackToActivity mCallback;
+    private final ActivityCallback mCallback;
     private int mCurrentPosition;
 
-    public SoundComposer(CallbackToActivity callback)
+    public SoundComposer(ActivityCallback callback)
     {
         mCallback = callback;
     }
@@ -114,7 +114,7 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
         mCallback.callSoundRecycler();
     }
 
-    public interface CallbackToActivity
+    public interface ActivityCallback
     {
         void callSoundRecycler();
     }

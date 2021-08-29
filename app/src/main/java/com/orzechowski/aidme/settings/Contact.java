@@ -16,10 +16,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class Contact extends Fragment
 {
-    private final OnClickListener mListener;
+    private final ActivityCallback mCallback;
 
-    public Contact(OnClickListener listener){
-        mListener = listener;
+    public Contact(ActivityCallback callback)
+    {
+        mCallback = callback;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class Contact extends Fragment
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState)
     {
         Button contactFormButton = view.findViewById(R.id.contact_form_button);
-        contactFormButton.setOnClickListener(v -> mListener.onClick());
+        contactFormButton.setOnClickListener(v -> mCallback.onClick());
     }
 
     public boolean onBackPressed()
@@ -46,7 +47,7 @@ public class Contact extends Fragment
         return true;
     }
 
-    public interface OnClickListener
+    public interface ActivityCallback
     {
         void onClick();
     }

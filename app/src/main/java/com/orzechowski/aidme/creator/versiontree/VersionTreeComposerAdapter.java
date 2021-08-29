@@ -20,13 +20,13 @@ public class VersionTreeComposerAdapter
     private List<Version> mVersions = null;
     private final LayoutInflater mInflater;
     private final int mLevel;
-    private final OnClickListener mListener;
+    private final FragmentCallback mCallback;
 
-    public VersionTreeComposerAdapter(Activity activity, int level, OnClickListener listener)
+    public VersionTreeComposerAdapter(Activity activity, int level, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
         mLevel = level;
-        mListener = listener;
+        mCallback = callback;
     }
 
     @NonNull
@@ -34,7 +34,7 @@ public class VersionTreeComposerAdapter
     public VersionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_version_tree_rv, parent, false);
-        return new VersionViewHolder(row, mListener);
+        return new VersionViewHolder(row, mCallback);
     }
 
     @Override
@@ -64,24 +64,24 @@ public class VersionTreeComposerAdapter
         Version version;
         Button versionButton;
         int level;
-        OnClickListener listener;
+        FragmentCallback callback;
 
-        public VersionViewHolder(@NonNull View itemView, OnClickListener fragmentListener)
+        public VersionViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
         {
             super(itemView);
             versionButton = itemView.findViewById(R.id.version_tree_button);
-            listener = fragmentListener;
+            callback = fragmentCallback;
             versionButton.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
-            if(level==0) listener.callback(version);
+            if(level==0) callback.callback(version);
         }
     }
 
-    public interface OnClickListener
+    public interface FragmentCallback
     {
         void callback(Version version);
     }

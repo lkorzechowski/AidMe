@@ -26,7 +26,7 @@ public class InstructionComposer extends Fragment
 {
     private InstructionComposerAdapter mAdapter;
     private final List<InstructionSet> mInstructions = new LinkedList<>();
-    private ActivityCallback mCallback;
+    private final ActivityCallback mCallback;
     private int mCurrentPosition;
 
     public InstructionComposer(ActivityCallback callback)

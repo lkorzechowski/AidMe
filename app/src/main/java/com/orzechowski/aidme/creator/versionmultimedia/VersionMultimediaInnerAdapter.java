@@ -20,12 +20,12 @@ public class VersionMultimediaInnerAdapter
 {
     private List<Version> mVersions = null;
     private final LayoutInflater mInflater;
-    private final OnClickListener mListener;
+    private final FragmentCallback mCallback;
 
-    public VersionMultimediaInnerAdapter(Activity activity, OnClickListener listener)
+    public VersionMultimediaInnerAdapter(Activity activity, FragmentCallback listener)
     {
         mInflater = LayoutInflater.from(activity);
-        mListener = listener;
+        mCallback = listener;
     }
 
     @NonNull
@@ -34,7 +34,7 @@ public class VersionMultimediaInnerAdapter
     {
         View row = mInflater
                 .inflate(R.layout.row_inner_version_multimedia_rv, parent, false);
-        return new VersionViewHolder(row, mListener);
+        return new VersionViewHolder(row, mCallback);
     }
 
     @Override
@@ -62,15 +62,15 @@ public class VersionMultimediaInnerAdapter
     {
         Version version;
         Button versionNumberButton;
-        OnClickListener listener;
+        FragmentCallback callback;
         boolean selected = false;
 
-        public VersionViewHolder(@NonNull View itemView, OnClickListener fragmentListener)
+        public VersionViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
         {
             super(itemView);
             versionNumberButton = itemView.findViewById(R.id.version_number_button);
             versionNumberButton.setBackgroundColor(Color.argb(100, 0, 200, 0));
-            listener = fragmentListener;
+            callback = fragmentCallback;
             versionNumberButton.setOnClickListener(this);
         }
 
@@ -80,18 +80,18 @@ public class VersionMultimediaInnerAdapter
             if(!selected) {
                 versionNumberButton.setBackgroundColor(Color
                         .argb(100, 200, 0, 0));
-                listener.select(version);
+                callback.select(version);
                 selected = true;
             } else {
                 versionNumberButton.setBackgroundColor(Color
                         .argb(100, 0, 200, 0));
-                listener.unselect(version);
+                callback.unselect(version);
                 selected = false;
             }
         }
     }
 
-    public interface OnClickListener
+    public interface FragmentCallback
     {
         void select(Version version);
         void unselect(Version version);

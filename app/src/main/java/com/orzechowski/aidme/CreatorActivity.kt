@@ -29,11 +29,11 @@ import com.orzechowski.aidme.tutorial.version.database.Version
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
 
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
-    VersionTreeComposer.CallbackToActivity, VersionInstructionComposer.CallbackToActivity,
-        MultimediaComposer.CallbackToActivity, ImageBrowserLoader.ActivityCallback,
-        SoundComposer.CallbackToActivity, SoundBrowserLoader.ActivityCallback,
+    VersionTreeComposer.ActivityCallback, VersionInstructionComposer.ActivityCallback,
+        MultimediaComposer.ActivityCallback, ImageBrowserLoader.ActivityCallback,
+        SoundComposer.ActivityCallback, SoundBrowserLoader.ActivityCallback,
         InstructionComposer.ActivityCallback, NarrationBrowserLoader.ActivityCallback,
-        CategoryAssignment.CallbackToActivity
+        CategoryAssignment.ActivityCallback
 {
     private val mInstructionComposer = InstructionComposer(this)
     private val mMultimediaComposer = MultimediaComposer(this)

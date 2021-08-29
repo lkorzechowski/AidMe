@@ -20,12 +20,12 @@ public class VersionInstructionInnerAdapter
 {
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
-    private final OnClickListener mListener;
+    private final FragmentCallback mCallback;
 
-    public VersionInstructionInnerAdapter(Activity activity, OnClickListener listener)
+    public VersionInstructionInnerAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
-        mListener = listener;
+        mCallback = callback;
     }
 
     @NonNull
@@ -34,7 +34,7 @@ public class VersionInstructionInnerAdapter
     {
         View row = mInflater
                 .inflate(R.layout.row_inner_version_instruction_rv, parent, false);
-        return new InstructionViewHolder(row, mListener);
+        return new InstructionViewHolder(row, mCallback);
     }
 
     @Override
@@ -62,18 +62,17 @@ public class VersionInstructionInnerAdapter
     {
         InstructionSet instructionSet;
         Button instructionNumberButton;
-        OnClickListener listener;
+        FragmentCallback callback;
         boolean selected = false;
         int red = Color.argb(100, 200, 0, 0);
         int green = Color.argb(100, 0, 200, 0);
 
-        public InstructionViewHolder(@NonNull View itemView,
-                                     OnClickListener fragmentListener)
+        public InstructionViewHolder(@NonNull View itemView, FragmentCallback fragmentListener)
         {
             super(itemView);
             instructionNumberButton = itemView.findViewById(R.id.instruction_number_button);
             instructionNumberButton.setBackgroundColor(red);
-            listener = fragmentListener;
+            callback = fragmentListener;
             instructionNumberButton.setOnClickListener(this);
         }
 
@@ -82,17 +81,17 @@ public class VersionInstructionInnerAdapter
         {
             if(!selected) {
                 instructionNumberButton.setBackgroundColor(green);
-                listener.select(instructionSet);
+                callback.select(instructionSet);
                 selected = true;
             } else {
                 instructionNumberButton.setBackgroundColor(red);
-                listener.unselect(instructionSet);
+                callback.unselect(instructionSet);
                 selected = false;
             }
         }
     }
 
-    public interface OnClickListener
+    public interface FragmentCallback
     {
         void select(InstructionSet instructionSet);
         void unselect(InstructionSet instructionSet);

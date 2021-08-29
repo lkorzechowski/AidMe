@@ -9,7 +9,7 @@ import com.orzechowski.aidme.tutorial.version.VersionRecycler
 import com.orzechowski.aidme.tutorial.version.database.Version
 
 class VersionActivity : AppCompatActivity(R.layout.activity_version),
-VersionListAdapter.OnClickListener, VersionRecycler.ActivityCallback
+VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
 {
     private val bundle = Bundle()
     private val mVersionRecycler = VersionRecycler(this)

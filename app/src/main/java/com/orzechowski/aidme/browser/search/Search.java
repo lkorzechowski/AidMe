@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Search extends Fragment implements ResultsListAdapter.OnClickListener
+public class Search extends Fragment implements ResultsListAdapter.FragmentCallback
 {
     private ResultsListAdapter mAdapter;
     public CallbackForTutorial mCallback;

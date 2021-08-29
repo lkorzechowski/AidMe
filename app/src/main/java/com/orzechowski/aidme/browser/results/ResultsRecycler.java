@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ResultsRecycler extends Fragment implements ResultsListAdapter.OnClickListener
+public class ResultsRecycler extends Fragment implements ResultsListAdapter.FragmentCallback
 {
     private ResultsListAdapter mAdapter;
     public CallbackForTutorial mCallback;

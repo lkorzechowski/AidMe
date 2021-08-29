@@ -27,7 +27,7 @@ import com.orzechowski.aidme.tutorial.version.database.VersionInstructionViewMod
 import java.util.List;
 
 public class InstructionsRecycler
-        extends Fragment implements InstructionsListAdapter.OnClickListener
+        extends Fragment implements InstructionsListAdapter.FragmentCallback
 {
     private InstructionsListAdapter mAdapter;
     private Player mPlayerInstance;

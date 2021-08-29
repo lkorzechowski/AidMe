@@ -26,10 +26,10 @@ public class MultimediaComposer extends Fragment
 {
     private MultimediaComposerAdapter mAdapter;
     private final List<Multimedia> mMultimedias = new LinkedList<>();
-    private final CallbackToActivity mCallback;
+    private final ActivityCallback mCallback;
     private int mCurrentPosition;
 
-    public MultimediaComposer(CallbackToActivity callback)
+    public MultimediaComposer(ActivityCallback callback)
     {
         mCallback = callback;
     }
@@ -110,7 +110,7 @@ public class MultimediaComposer extends Fragment
         mCallback.callImageGallery();
     }
 
-    public interface CallbackToActivity
+    public interface ActivityCallback
     {
         void callImageGallery();
     }

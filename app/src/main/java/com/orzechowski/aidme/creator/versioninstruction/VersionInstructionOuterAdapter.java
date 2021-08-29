@@ -23,9 +23,9 @@ public class VersionInstructionOuterAdapter
     private List<InstructionSet> mInstructions = null;
     private final LayoutInflater mInflater;
     private final Activity mActivity;
-    private final CallbackToFragment mCallback;
+    private final FragmentCallback mCallback;
 
-    public VersionInstructionOuterAdapter(Activity activity, CallbackToFragment callback)
+    public VersionInstructionOuterAdapter(Activity activity, FragmentCallback callback)
     {
         mActivity = activity;
         mInflater = LayoutInflater.from(activity);
@@ -64,16 +64,16 @@ public class VersionInstructionOuterAdapter
     }
 
     public static class VersionViewHolder extends RecyclerView.ViewHolder
-            implements VersionInstructionInnerAdapter.OnClickListener
+            implements VersionInstructionInnerAdapter.FragmentCallback
     {
         Version version;
         RecyclerView recycler;
         TextView label;
         VersionInstructionInnerAdapter adapter;
-        CallbackToFragment callback;
+        FragmentCallback callback;
 
         public VersionViewHolder(@NonNull View itemView, Activity requestActivity,
-                                 CallbackToFragment callbackToFragment)
+                                 FragmentCallback callbackToFragment)
         {
             super(itemView);
             callback = callbackToFragment;
@@ -98,7 +98,7 @@ public class VersionInstructionOuterAdapter
         }
     }
 
-    public interface CallbackToFragment
+    public interface FragmentCallback
     {
         void select(InstructionSet instructionSet, Version version);
         void unselect(InstructionSet instructionSet, Version version);

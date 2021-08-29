@@ -33,9 +33,9 @@ public class CategoryAssignment extends Fragment
     private TagViewModel mTagViewModel;
     private int mLevel = 0;
     private final List<TutorialTag> mTutorialTags = new LinkedList<>();
-    private final CallbackToActivity mCallback;
+    private final ActivityCallback mCallback;
 
-    public CategoryAssignment(CallbackToActivity callback)
+    public CategoryAssignment(ActivityCallback callback)
     {
         mCallback = callback;
     }
@@ -113,7 +113,7 @@ public class CategoryAssignment extends Fragment
         });
     }
 
-    public interface CallbackToActivity
+    public interface ActivityCallback
     {
         void categorySelected(List<TutorialTag> tutorialTags);
     }

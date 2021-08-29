@@ -26,17 +26,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class VersionInstructionComposer extends Fragment
-    implements VersionInstructionOuterAdapter.CallbackToFragment
+    implements VersionInstructionOuterAdapter.FragmentCallback
 {
     private VersionInstructionOuterAdapter mOuterAdapter;
     private final List<Version> mVersions;
     private final List<InstructionSet> mInstructions;
     private InstructionTextAdapter mInstructionTextAdapter;
     private final Collection<VersionInstruction> mVersionInstructions = new LinkedList<>();
-    private final CallbackToActivity mCallback;
+    private final ActivityCallback mCallback;
 
     public VersionInstructionComposer(List<Version> versions, List<InstructionSet> instructionSets,
-                                      CallbackToActivity callback)
+                                      ActivityCallback callback)
     {
         mVersions = versions;
         mInstructions = instructionSets;
@@ -99,7 +99,7 @@ public class VersionInstructionComposer extends Fragment
                 instructionSet.getPosition()));
     }
 
-    public interface CallbackToActivity
+    public interface ActivityCallback
     {
         void finalizeVersionInstructions(Collection<VersionInstruction> versionInstructions);
     }

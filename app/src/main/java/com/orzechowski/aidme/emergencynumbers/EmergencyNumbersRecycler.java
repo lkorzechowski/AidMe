@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class EmergencyNumbersRecycler extends Fragment
-        implements EmergencyNumbersListAdapter.OnViewClickListener
+        implements EmergencyNumbersListAdapter.FragmentCallback
 {
     protected RecyclerView recycler;
     protected EmergencyNumbersListAdapter adapter;

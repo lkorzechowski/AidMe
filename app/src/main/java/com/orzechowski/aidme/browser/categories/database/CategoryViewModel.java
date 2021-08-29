@@ -8,7 +8,8 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-public class CategoryViewModel extends AndroidViewModel {
+public class CategoryViewModel extends AndroidViewModel
+{
     private final CategoryRepository mRepository;
 
     public CategoryViewModel(@NonNull Application application)

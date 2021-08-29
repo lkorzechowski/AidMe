@@ -16,7 +16,7 @@ import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.database.helper.Helper;
 import com.orzechowski.aidme.database.helper.HelperViewModel;
 
-public class HelperRecycler extends Fragment implements HelperListAdapter.OnClickListener
+public class HelperRecycler extends Fragment implements HelperListAdapter.FragmentCallback
 {
     private HelperListAdapter mAdapter;
 

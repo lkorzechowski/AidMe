@@ -29,13 +29,13 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     private final LayoutInflater mInflater;
     private final Activity mActivity;
     private List<Helper> mHelpers;
-    private final OnClickListener mListener;
+    private final FragmentCallback mCallback;
 
-    public ResultsListAdapter(Activity activity, OnClickListener onClickListener)
+    public ResultsListAdapter(Activity activity, FragmentCallback onClickListener)
     {
         mInflater = LayoutInflater.from(activity);
         mActivity = activity;
-        mListener = onClickListener;
+        mCallback = onClickListener;
     }
 
     @NonNull
@@ -43,7 +43,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
     {
         View row = mInflater.inflate(R.layout.row_results_rv, viewGroup, false);
-        return new ResultViewHolder(row, mListener, mActivity);
+        return new ResultViewHolder(row, mCallback, mActivity);
     }
 
     @Override
@@ -117,11 +117,11 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     {
         TextView name, author;
         ImageView image, starOne, starTwo, starThree, starFour, starFive;
-        OnClickListener listener;
+        FragmentCallback callback;
         Tutorial thisResult;
         ConstraintLayout starLayout;
 
-        public ResultViewHolder(@NonNull View itemView, OnClickListener listenerForThisRow,
+        public ResultViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback,
                                 Activity activity)
         {
             super(itemView);
@@ -152,18 +152,18 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
                 });
 
             });
-            listener = listenerForThisRow;
+            callback = fragmentCallback;
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
-            listener.onClick(thisResult);
+            callback.onClick(thisResult);
         }
     }
 
-    public interface OnClickListener
+    public interface FragmentCallback
     {
         void onClick(Tutorial tutorial);
     }
