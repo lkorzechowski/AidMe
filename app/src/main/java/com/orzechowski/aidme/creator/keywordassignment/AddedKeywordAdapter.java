@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.creator.keywordadder;
+package com.orzechowski.aidme.creator.keywordassignment;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

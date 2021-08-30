@@ -78,6 +78,8 @@
     <string name="helper_chat_button">Czat</string>
     <string name="narration_recycler_header">Poniższe pliki mieszczą się w limicie czasowym 20 sekund</string>
     <string name="sound_recycler_header">Wybierz dźwięk</string>
+    <string name="keyword_input">Wpisz słowo kluczowe</string>
+    <string name="suggested_keyword_tap_icon">finger tapping the screen here</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

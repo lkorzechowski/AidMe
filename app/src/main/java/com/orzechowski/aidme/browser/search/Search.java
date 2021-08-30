@@ -58,14 +58,14 @@ public class Search extends Fragment implements ResultsListAdapter.FragmentCallb
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
-        mInstructionSetViewModel = new ViewModelProvider(this)
-                .get(InstructionSetViewModel.class);
-        mTutorialViewModel = new ViewModelProvider(this).get(TutorialViewModel.class);
-        mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
-        mKeywordViewModel = new ViewModelProvider(this).get(KeywordViewModel.class);
-        mTutorialTagViewModel = new ViewModelProvider(this).get(TutorialTagViewModel.class);
-        mTagKeywordViewModel = new ViewModelProvider(this).get(TagKeywordViewModel.class);
-        mHelperViewModel = new ViewModelProvider(this).get(HelperViewModel.class);
+        ViewModelProvider provider = new ViewModelProvider(this);
+        mInstructionSetViewModel = provider.get(InstructionSetViewModel.class);
+        mTutorialViewModel = provider.get(TutorialViewModel.class);
+        mTagViewModel = provider.get(TagViewModel.class);
+        mKeywordViewModel = provider.get(KeywordViewModel.class);
+        mTutorialTagViewModel = provider.get(TutorialTagViewModel.class);
+        mTagKeywordViewModel = provider.get(TagKeywordViewModel.class);
+        mHelperViewModel = provider.get(HelperViewModel.class);
         mAdapter = new ResultsListAdapter(requireActivity(), this);
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         RecyclerView recycler = view.findViewById(R.id.search_rv);
