@@ -31,8 +31,7 @@ public class AddedKeywordAdapter
     @Override
     public KeywordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View row = mInflater
-                .inflate(R.layout.row_added_keyword_rv, parent, false);
+        View row = mInflater.inflate(R.layout.row_added_keyword_rv, parent, false);
         return new KeywordViewHolder(row, mCallback);
     }
 

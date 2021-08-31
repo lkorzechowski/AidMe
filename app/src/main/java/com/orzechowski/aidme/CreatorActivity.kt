@@ -10,6 +10,7 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import com.orzechowski.aidme.browser.search.database.Keyword
 import com.orzechowski.aidme.creator.categorypicker.CategoryAssignment
 import com.orzechowski.aidme.creator.initial.InstructionComposer
 import com.orzechowski.aidme.creator.initial.MultimediaComposer
@@ -19,6 +20,7 @@ import com.orzechowski.aidme.creator.initial.imagebrowser.ImageBrowserLoader
 import com.orzechowski.aidme.creator.initial.soundbrowser.Sound
 import com.orzechowski.aidme.creator.initial.soundbrowser.SoundBrowserLoader
 import com.orzechowski.aidme.creator.initial.soundbrowser.narrationbrowser.NarrationBrowserLoader
+import com.orzechowski.aidme.creator.keywordassignment.KeywordAssignment
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.aidme.database.tag.TutorialTag
@@ -33,13 +35,14 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         MultimediaComposer.ActivityCallback, ImageBrowserLoader.ActivityCallback,
         SoundComposer.ActivityCallback, SoundBrowserLoader.ActivityCallback,
         InstructionComposer.ActivityCallback, NarrationBrowserLoader.ActivityCallback,
-        CategoryAssignment.ActivityCallback
+        CategoryAssignment.ActivityCallback, KeywordAssignment.ActivityCallback
 {
     private val mInstructionComposer = InstructionComposer(this)
     private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer(this)
     private var mCategoryAssignment = CategoryAssignment(this)
+    private var mKeywordAssignment = KeywordAssignment(this)
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
     private lateinit var mImageBrowser: ImageBrowserLoader
@@ -231,6 +234,11 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                         handled = true
                     }
                 }
+                is KeywordAssignment -> {
+                    t.remove(mKeywordAssignment).commit()
+                    commitCategoryAssignment()
+                    handled = true
+                }
                 is SoundBrowserLoader -> {
                     t.remove(mSoundBrowser).commit()
                     mView.visibility = View.VISIBLE
@@ -255,5 +263,14 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     override fun categorySelected(tutorialTags: MutableList<TutorialTag>)
     {
         mTutorialTags = tutorialTags
+        supportFragmentManager.beginTransaction().remove(mCategoryAssignment).commit()
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mKeywordAssignment)
+        }
+    }
+
+    override fun submitKeywords(keywords: MutableList<Keyword>)
+    {
+
     }
 }

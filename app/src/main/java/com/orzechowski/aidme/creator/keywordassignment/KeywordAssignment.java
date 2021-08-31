@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -53,6 +55,8 @@ public class KeywordAssignment extends Fragment implements AddedKeywordAdapter.F
             if(!mKeywords.isEmpty()) mCallback.submitKeywords(mKeywords);
         });
         EditText keywordInput = view.findViewById(R.id.keyword_input);
+        TextView suggest = view.findViewById(R.id.keyword_top_suggestion);
+        ConstraintLayout suggestLayout = view.findViewById(R.id.keyword_suggestion_layout);
         keywordInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -60,10 +64,19 @@ public class KeywordAssignment extends Fragment implements AddedKeywordAdapter.F
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
+                suggestLayout.setVisibility(View.GONE);
                 if(s.length()>2) {
                     mKeywordViewModel.getAll().observe(activity, keywords -> {
+                        String inputLower = keywordInput.getText().toString().toLowerCase();
                         for(Keyword keyword : keywords) {
-                            if(mKeywords.contains(keyword)) keywords.remove(keyword);
+                            String word = keyword.getWord();
+                            if(word.contains(inputLower)) {
+                                if(mKeywords.contains(keyword)) keywords.remove(keyword);
+                                else {
+                                    suggest.setText(word);
+                                    suggestLayout.setVisibility(View.VISIBLE);
+                                }
+                            }
                         }
                     });
                 }
