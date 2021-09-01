@@ -55,6 +55,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mSounds: List<TutorialSound>
     private lateinit var mVersionInstructions: Collection<VersionInstruction>
     private lateinit var mTutorialTags: List<TutorialTag>
+    private lateinit var mKeywords: List<Keyword>
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -271,6 +272,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
 
     override fun submitKeywords(keywords: MutableList<Keyword>)
     {
-
+        mKeywords = keywords
+        supportFragmentManager.beginTransaction().remove(mKeywordAssignment).commit()
     }
 }

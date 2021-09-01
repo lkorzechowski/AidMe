@@ -85,6 +85,17 @@ public class KeywordAssignment extends Fragment implements AddedKeywordAdapter.F
             @Override
             public void afterTextChanged(Editable s) {}
         });
+        Button addKeyword = view.findViewById(R.id.add_keyword_button);
+        addKeyword.setOnClickListener(v -> {
+            mKeywords.add(new Keyword(0L, keywordInput.getText().toString()));
+            keywordInput.setText("");
+            mAdapter.setElementList(mKeywords);
+        });
+        suggestLayout.setOnClickListener(v -> {
+            mKeywords.add(new Keyword(0L, suggest.getText().toString()));
+            keywordInput.setText("");
+            mAdapter.setElementList(mKeywords);
+        });
         return view;
     }
 
