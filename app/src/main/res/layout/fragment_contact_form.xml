@@ -35,7 +35,7 @@
             android:minLines="10"
             android:scrollbars="vertical"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/green1"
             android:textSize="20sp"/>
 
     </ScrollView>

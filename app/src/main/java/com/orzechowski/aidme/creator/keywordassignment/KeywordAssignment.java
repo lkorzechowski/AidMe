@@ -48,7 +48,7 @@ public class KeywordAssignment extends Fragment implements AddedKeywordAdapter.F
                 false);
         RecyclerView recycler = view.findViewById(R.id.added_keyword_rv);
         recycler.setLayoutManager(
-                new StaggeredGridLayoutManager(3, RecyclerView.VERTICAL));
+                new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL));
         recycler.setAdapter(mAdapter);
         Button submitButton = view.findViewById(R.id.approve_keywords);
         submitButton.setOnClickListener(v -> {
@@ -100,9 +100,10 @@ public class KeywordAssignment extends Fragment implements AddedKeywordAdapter.F
     }
 
     @Override
-    public void select(Keyword keyword)
+    public void remove(Keyword keyword)
     {
-        mKeywords.add(keyword);
+        mKeywords.remove(keyword);
+        mAdapter.setElementList(mKeywords);
     }
 
     public interface ActivityCallback

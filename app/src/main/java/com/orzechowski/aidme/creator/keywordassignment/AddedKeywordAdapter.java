@@ -73,12 +73,12 @@ public class AddedKeywordAdapter
         @Override
         public void onClick(View v)
         {
-            callback.select(keyword);
+            callback.remove(keyword);
         }
     }
 
     public interface FragmentCallback
     {
-        void select(Keyword keyword);
+        void remove(Keyword keyword);
     }
 }

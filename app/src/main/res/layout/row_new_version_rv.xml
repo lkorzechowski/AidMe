@@ -39,7 +39,7 @@
         android:background="@android:drawable/title_bar"
         android:backgroundTint="#151515"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/green1"
         app:layout_constraintTop_toBottomOf="@+id/delete_new_version"
         app:layout_constraintStart_toStartOf="parent"/>
 

@@ -4,8 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +22,7 @@ import com.orzechowski.aidme.browser.categories.database.Category;
 import com.orzechowski.aidme.browser.categories.database.CategoryViewModel;
 import com.orzechowski.aidme.database.tag.CategoryTag;
 import com.orzechowski.aidme.database.tag.CategoryTagViewModel;
+import com.orzechowski.aidme.database.tag.Tag;
 import com.orzechowski.aidme.database.tag.TagViewModel;
 import com.orzechowski.aidme.database.tag.TutorialTag;
 
@@ -34,6 +40,7 @@ public class CategoryAssignment extends Fragment
     private int mLevel = 0;
     private final List<TutorialTag> mTutorialTags = new LinkedList<>();
     private final ActivityCallback mCallback;
+    private RecyclerView mRecycler;
 
     public CategoryAssignment(ActivityCallback callback)
     {
@@ -59,10 +66,10 @@ public class CategoryAssignment extends Fragment
         mAdapter = new CategoryAssignmentAdapter(activity, this);
         View view = inflater
                 .inflate(R.layout.fragment_category_assignment, container, false);
-        RecyclerView recycler = view.findViewById(R.id.category_rv);
-        recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+        mRecycler = view.findViewById(R.id.category_rv);
+        mRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        recycler.setAdapter(mAdapter);
+        mRecycler.setAdapter(mAdapter);
         if(mCategoryPath.isEmpty()) mCategoryViewModel.getByLevel(mLevel)
                 .observe(activity, categories->mAdapter.setElementList(categories));
         else {
@@ -75,20 +82,21 @@ public class CategoryAssignment extends Fragment
     @Override
     public void pickCategory(Category category)
     {
+        FragmentActivity activity = requireActivity();
         mCategoryTagViewModel.getByCategoryId(category.getCategoryId())
-                .observe(requireActivity(), categoryTags-> {
+                .observe(activity, categoryTags-> {
             for(CategoryTag categoryTag : categoryTags) {
-                mTagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
+                mTagViewModel.getById(categoryTag.getTagId()).observe(activity, tag-> {
                     if(category.getHasSubcategories()) {
                         if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
                         if(tag.getTagLevel()!=null && tag.getTagLevel()>mLevel) {
                             mLevel++;
                             mCategoryViewModel.getByLevel(mLevel)
-                                    .observe(requireActivity(), categories-> {
+                                    .observe(activity, categories-> {
                                 long finalId = categories.get(categories.size()-1).getCategoryId();
                                 for (Category cat : categories) {
                                     mCategoryTagViewModel.getByCategoryId(cat.getCategoryId())
-                                            .observe(requireActivity(), catTag-> {
+                                            .observe(activity, catTag-> {
                                         boolean match = false;
                                         for(CategoryTag oneTag : catTag) {
                                             if(oneTag.getTagId()==tag.getTagId()) match = true;
@@ -105,7 +113,24 @@ public class CategoryAssignment extends Fragment
                         mTutorialTags
                                 .add(new TutorialTag(0L, 0L, tag.getTagId()));
                         if(mTutorialTags.size()==mCategoryPath.size()) {
-                            mCallback.categorySelected(mTutorialTags);
+                            View view = requireView();
+                            TextView header = view.findViewById(R.id.category_assignment_header);
+                            header.setText(R.string.category_assignment_header_second_step);
+                            mRecycler.setVisibility(View.GONE);
+                            ConstraintLayout tagInsertLayout = view
+                                    .findViewById(R.id.tag_insert_layout);
+                            tagInsertLayout.setVisibility(View.VISIBLE);
+                            Button submitInsert = view.findViewById(R.id.submit_tag_insert_button);
+                            EditText tagInsert = view.findViewById(R.id.tag_insert);
+                            submitInsert.setOnClickListener(v -> {
+                                if(tagInsert.getText().length()>3) {
+                                    mCallback.categorySelected(mTutorialTags, new Tag(0,
+                                            tagInsert.getText().toString(), mLevel + 1));
+                                } else {
+                                    Toast.makeText(activity, R.string.tag_insert_value_too_short,
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
                 });
@@ -115,7 +140,7 @@ public class CategoryAssignment extends Fragment
 
     public interface ActivityCallback
     {
-        void categorySelected(List<TutorialTag> tutorialTags);
+        void categorySelected(List<TutorialTag> tutorialTags, Tag uniqueTag);
     }
 
     public int getLevel()

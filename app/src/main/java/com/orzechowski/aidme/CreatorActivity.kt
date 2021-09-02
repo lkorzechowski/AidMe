@@ -23,6 +23,7 @@ import com.orzechowski.aidme.creator.initial.soundbrowser.narrationbrowser.Narra
 import com.orzechowski.aidme.creator.keywordassignment.KeywordAssignment
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
+import com.orzechowski.aidme.database.tag.Tag
 import com.orzechowski.aidme.database.tag.TutorialTag
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
@@ -56,6 +57,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mVersionInstructions: Collection<VersionInstruction>
     private lateinit var mTutorialTags: List<TutorialTag>
     private lateinit var mKeywords: List<Keyword>
+    private lateinit var mUniqueTag: Tag
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -261,8 +263,9 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
     }
 
-    override fun categorySelected(tutorialTags: MutableList<TutorialTag>)
+    override fun categorySelected(tutorialTags: MutableList<TutorialTag>, uniqueTag: Tag)
     {
+        mUniqueTag = uniqueTag
         mTutorialTags = tutorialTags
         supportFragmentManager.beginTransaction().remove(mCategoryAssignment).commit()
         supportFragmentManager.commit {

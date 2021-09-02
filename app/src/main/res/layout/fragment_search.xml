@@ -16,7 +16,7 @@
         android:ems="10"
         android:hint="@string/search_hint"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/green1"
         android:textSize="20sp"
         android:inputType="textNoSuggestions"/>
 
