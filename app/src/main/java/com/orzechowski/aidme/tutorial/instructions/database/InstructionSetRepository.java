@@ -19,22 +19,22 @@ public class InstructionSetRepository
     }
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(InstructionSet instructionSet)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(instructionSet));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(instructionSet));
     }
 
     public void delete(InstructionSet instructionSet)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(instructionSet));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(instructionSet));
     }
 
     public void update(InstructionSet instructionSet)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(instructionSet));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(instructionSet));
     }
 
     public LiveData<List<InstructionSet>> getByTutorialId(long tutorialId)

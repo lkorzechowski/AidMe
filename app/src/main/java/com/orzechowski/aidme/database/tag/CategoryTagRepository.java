@@ -21,22 +21,22 @@ public class CategoryTagRepository
 
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(CategoryTag categoryTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(categoryTag));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(categoryTag));
     }
 
     public void delete(CategoryTag categoryTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(categoryTag));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(categoryTag));
     }
 
     public void update(CategoryTag categoryTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(categoryTag));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(categoryTag));
     }
 
     public LiveData<List<CategoryTag>> getByCategoryId(long categoryId)

@@ -20,8 +20,7 @@ class SoundAdapter (private val mDelayGlobalSound: Boolean,
     fun deploy()
     {
         for(i in mSounds) {
-            if(mVersionSounds.contains(i.soundId))
-            {
+            if(mVersionSounds.contains(i.soundId)) {
                 mThreads.add(Thread {
                     if (mDelayGlobalSound) {
                         try {

@@ -21,22 +21,22 @@ public class HelperTagRepository
 
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(HelperTag helperTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(helperTag));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(helperTag));
     }
 
     public void delete(HelperTag helperTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(helperTag));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(helperTag));
     }
 
     public void update(HelperTag helperTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(helperTag));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(helperTag));
     }
 
     public LiveData<List<HelperTag>> getByHelperId(long helperId)

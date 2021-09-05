@@ -20,22 +20,22 @@ public class TutorialSoundRepository
 
     void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     void delete(TutorialSound tutorialSound)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(tutorialSound));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(tutorialSound));
     }
 
     void update(TutorialSound tutorialSound)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(tutorialSound));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(tutorialSound));
     }
 
     void insert(TutorialSound tutorialSound)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(tutorialSound));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(tutorialSound));
     }
 
     LiveData<List<TutorialSound>> getByTutorialId(Long tutorialId)

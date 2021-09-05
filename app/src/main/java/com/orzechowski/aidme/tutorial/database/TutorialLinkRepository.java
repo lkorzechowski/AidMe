@@ -18,22 +18,22 @@ public class TutorialLinkRepository
 
     void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     void insert(TutorialLink tutorialLink)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.insert(tutorialLink));
+        GlobalRoomDatabase.executor.execute(()-> mDao.insert(tutorialLink));
     }
 
     void delete(TutorialLink tutorialLink)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.delete(tutorialLink));
+        GlobalRoomDatabase.executor.execute(()-> mDao.delete(tutorialLink));
     }
 
     void update(TutorialLink tutorialLink)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()-> mDao.update(tutorialLink));
+        GlobalRoomDatabase.executor.execute(()-> mDao.update(tutorialLink));
     }
 
     LiveData<TutorialLink> getByOriginIdAndPosition(long tutorialId, int instructionNumber)

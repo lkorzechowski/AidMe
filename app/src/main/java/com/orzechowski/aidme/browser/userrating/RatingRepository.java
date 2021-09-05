@@ -20,22 +20,22 @@ public class RatingRepository
 
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(Rating rating)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(rating));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(rating));
     }
 
     public void delete(Rating rating)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(rating));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(rating));
     }
 
     public void update(Rating rating)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(rating));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(rating));
     }
 
     public LiveData<List<Rating>> getAll()

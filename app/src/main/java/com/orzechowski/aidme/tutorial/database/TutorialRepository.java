@@ -20,22 +20,22 @@ public class TutorialRepository
 
     void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     void insert(Tutorial tutorial)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(tutorial));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(tutorial));
     }
 
     void delete(Tutorial tutorial)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(tutorial));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(tutorial));
     }
 
     void update(Tutorial tutorial)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(tutorial));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(tutorial));
     }
 
     LiveData<Tutorial> getByTutorialId(long tutorialId)

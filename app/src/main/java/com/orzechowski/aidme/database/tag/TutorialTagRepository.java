@@ -21,22 +21,22 @@ public class TutorialTagRepository
 
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(TutorialTag tutorialTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(tutorialTag));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(tutorialTag));
     }
 
     public void delete(TutorialTag tutorialTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(tutorialTag));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(tutorialTag));
     }
 
     public void update(TutorialTag tutorialTag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(tutorialTag));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(tutorialTag));
     }
 
     public LiveData<List<TutorialTag>> getByTutorialId(long tutorialId)

@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class InstructionSet(
     @PrimaryKey val instructionSetId: Long,
-    var title: String,
-    var instructions: String,
-    var time: Int,
-    val tutorialId: Long,
-    var position: Int,
-    var narrationUriString: String?)
+                var title: String,
+                var instructions: String,
+                var time: Int,
+                val tutorialId: Long,
+                var position: Int,
+                var narrationUriString: String?)

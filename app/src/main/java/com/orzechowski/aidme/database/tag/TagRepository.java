@@ -18,22 +18,22 @@ public class TagRepository
 
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteALl);
+        GlobalRoomDatabase.executor.execute(mDao::deleteALl);
     }
 
     public void insert(Tag tag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(tag));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(tag));
     }
 
     public void delete(Tag tag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(tag));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(tag));
     }
 
     public void update(Tag tag)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(tag));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(tag));
     }
 
     public LiveData<Tag> getById(long tagId)

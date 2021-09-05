@@ -20,22 +20,22 @@ public class TagKeywordRepository
 
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(TagKeyword tagKeyword)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(tagKeyword));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(tagKeyword));
     }
 
     public void delete(TagKeyword tagKeyword)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(tagKeyword));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(tagKeyword));
     }
 
     public void update(TagKeyword tagKeyword)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(tagKeyword));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(tagKeyword));
     }
 
     public LiveData<List<TagKeyword>> getByKeywordId(long keywordId)

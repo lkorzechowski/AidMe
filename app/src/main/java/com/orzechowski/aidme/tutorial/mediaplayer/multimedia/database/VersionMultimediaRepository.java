@@ -20,22 +20,22 @@ public class VersionMultimediaRepository
 
     void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     void insert(VersionMultimedia versionMultimedia)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(versionMultimedia));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(versionMultimedia));
     }
 
     void delete(VersionMultimedia versionMultimedia)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(versionMultimedia));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(versionMultimedia));
     }
 
     void update(VersionMultimedia versionMultimedia)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(versionMultimedia));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(versionMultimedia));
     }
 
     LiveData<List<Long>> getByVersionId(long versionId)

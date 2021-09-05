@@ -12,8 +12,8 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimediaViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.SoundAdapter
-import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersionViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSoundViewModel
 
 class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
     InstructionsRecycler.CallbackForTutorialLink
@@ -41,7 +41,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
         val versionId = intent.extras?.getLong("versionId") ?: -1L
         mMediaPlayer.mTutorialId = tutorialId
         val soundInVersionViewModel = ViewModelProvider(this)
-            .get(SoundInVersionViewModel::class.java)
+            .get(VersionSoundViewModel::class.java)
         val soundViewModel = ViewModelProvider(this).get(TutorialSoundViewModel::class.java)
         soundInVersionViewModel.getByVersionId(versionId).observe(this, { soundsInVersion ->
             soundViewModel.getByTutorialId(tutorialId).observe(this, { sounds ->

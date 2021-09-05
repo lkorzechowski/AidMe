@@ -36,10 +36,10 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimedia;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimediaDAO;
-import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersion;
-import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersionDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundDAO;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSound;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSoundDAO;
 import com.orzechowski.aidme.tutorial.version.database.Version;
 import com.orzechowski.aidme.tutorial.version.database.VersionDAO;
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction;
@@ -51,7 +51,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class, VersionInstruction.class,
         TutorialSound.class, Helper.class, Multimedia.class, Category.class, TutorialLink.class,
         Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class, VersionMultimedia.class,
-        Keyword.class, TagKeyword.class, SoundInVersion.class, Rating.class},
+        Keyword.class, TagKeyword.class, VersionSound.class, Rating.class},
         version = 1, exportSchema = false)
 
 public abstract class GlobalRoomDatabase extends RoomDatabase
@@ -72,21 +72,18 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract KeywordDAO keywordDAO();
     public abstract TagKeywordDAO tagKeywordDAO();
     public abstract TutorialLinkDAO tutorialLinkDAO();
-    public abstract SoundInVersionDAO soundInVersionDAO();
+    public abstract VersionSoundDAO soundInVersionDAO();
     public abstract RatingDAO ratingDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
-    public static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(4);
+    public static final ExecutorService executor = Executors.newFixedThreadPool(4);
 
     public static GlobalRoomDatabase getDatabase(final Context context)
     {
         if(INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     GlobalRoomDatabase.class, "AidMe")
-                    .addCallback(sRoomDatabaseCallback)
-                    .fallbackToDestructiveMigration()
-                    .build();
+                    .addCallback(sRoomDatabaseCallback).fallbackToDestructiveMigration().build();
         }
         return INSTANCE;
     }
@@ -96,7 +93,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            databaseWriteExecutor.execute(()-> {
+            executor.execute(()-> {
                 Populating populating = new Populating();
                 TutorialDAO tutorialDAO = INSTANCE.tutorialDao();
                 InstructionSetDAO instructionDAO = INSTANCE.instructionDao();
@@ -114,7 +111,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 KeywordDAO keywordDAO = INSTANCE.keywordDAO();
                 TagKeywordDAO tagKeywordDAO = INSTANCE.tagKeywordDAO();
                 TutorialLinkDAO tutorialLinkDAO = INSTANCE.tutorialLinkDAO();
-                SoundInVersionDAO soundInVersionDAO = INSTANCE.soundInVersionDAO();
+                VersionSoundDAO versionSoundDAO = INSTANCE.soundInVersionDAO();
 
                 populating.populateHelperTags(helperTagDAO);
                 populating.populateHelpers(helperDAO);
@@ -132,7 +129,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
                 populating.populateMultimediaInVersion(versionMultimediaDAO);
                 populating.populateSounds(tutorialSoundDAO);
                 populating.populateLinks(tutorialLinkDAO);
-                populating.populateVersionSounds(soundInVersionDAO);
+                populating.populateVersionSounds(versionSoundDAO);
             });
         }
     };

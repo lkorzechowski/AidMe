@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class SoundInVersion(
-    @PrimaryKey val soundInVersionId: Long,
+data class VersionSound(
+    @PrimaryKey val versionSoundId: Long,
                 val tutorialSoundId: Long,
                 val versionId: Long)

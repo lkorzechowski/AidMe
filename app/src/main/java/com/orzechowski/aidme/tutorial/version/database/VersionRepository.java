@@ -20,22 +20,22 @@ public class VersionRepository
 
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(Version version)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(version));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(version));
     }
 
     public void delete(Version version)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(version));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(version));
     }
 
     public void update(Version version)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(version));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(version));
     }
 
     public LiveData<List<Version>> getBaseByTutorialId(long tutorialId)

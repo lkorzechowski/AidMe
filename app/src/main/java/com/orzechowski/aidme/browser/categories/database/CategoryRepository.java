@@ -20,22 +20,22 @@ public class CategoryRepository
 
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(Category category)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(category));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(category));
     }
 
     public void delete(Category category)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(category));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(category));
     }
 
     public void update(Category category)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(category));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(category));
     }
 
     public LiveData<List<Category>> getByLevel(int level)

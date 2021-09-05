@@ -26,10 +26,10 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimedia;
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimediaDAO;
-import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersion;
-import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.SoundInVersionDAO;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound;
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundDAO;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSound;
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSoundDAO;
 import com.orzechowski.aidme.tutorial.version.database.Version;
 import com.orzechowski.aidme.tutorial.version.database.VersionDAO;
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction;
@@ -901,10 +901,10 @@ public class Populating
         versionDAO.insert(new Version(21L, "default", 7L, false, false, false, null));
     }
 
-    public void populateVersionSounds(SoundInVersionDAO soundInVersionDAO)
+    public void populateVersionSounds(VersionSoundDAO versionSoundDAO)
     {
-        soundInVersionDAO.insert(new SoundInVersion(0L, 0L, 0L));
-        soundInVersionDAO.insert(new SoundInVersion(1L, 0L, 1L));
+        versionSoundDAO.insert(new VersionSound(0L, 0L, 0L));
+        versionSoundDAO.insert(new VersionSound(1L, 0L, 1L));
     }
 
     public void populateTutorials(TutorialDAO tutorialDAO)

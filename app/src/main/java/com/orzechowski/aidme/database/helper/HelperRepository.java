@@ -27,22 +27,22 @@ public class HelperRepository
 
     public void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(Helper helper)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(helper));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(helper));
     }
 
     public void delete(Helper helper)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(helper));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(helper));
     }
 
     public void update(Helper helper)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(helper));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(helper));
     }
 
     public LiveData<Helper> getById(long helperId)

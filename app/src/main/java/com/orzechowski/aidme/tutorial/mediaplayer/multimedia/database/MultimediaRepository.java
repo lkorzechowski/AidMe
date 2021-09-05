@@ -20,22 +20,22 @@ public class MultimediaRepository
 
     void deleteAll()
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(mDao::deleteAll);
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     void insert(Multimedia multimedia)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.insert(multimedia));
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(multimedia));
     }
 
     void delete(Multimedia multimedia)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.delete(multimedia));
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(multimedia));
     }
 
     void update(Multimedia multimedia)
     {
-        GlobalRoomDatabase.databaseWriteExecutor.execute(()->mDao.update(multimedia));
+        GlobalRoomDatabase.executor.execute(()->mDao.update(multimedia));
     }
 
     LiveData<List<Multimedia>> getByTutorialId(long tutorialId)
