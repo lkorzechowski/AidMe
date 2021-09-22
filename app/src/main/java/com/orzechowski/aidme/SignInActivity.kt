@@ -1,10 +1,8 @@
 package com.orzechowski.aidme
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,7 +24,6 @@ class SignInActivity : AppCompatActivity()
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
                 progress(account)
             } catch (e: ApiException) {
-                Log.w(TAG, "signInResult:failed code=" + e.statusCode)
                 startActivity(Intent(this@SignInActivity, MainActivity::class.java))
             }
         }
@@ -51,6 +48,8 @@ class SignInActivity : AppCompatActivity()
 
     private fun progress(account: GoogleSignInAccount)
     {
-        startActivity(Intent(this@SignInActivity, HelperActivity::class.java))
+        val intent = Intent(this@SignInActivity, HelperActivity::class.java)
+        intent.putExtra("email", account.email)
+        startActivity(intent)
     }
 }

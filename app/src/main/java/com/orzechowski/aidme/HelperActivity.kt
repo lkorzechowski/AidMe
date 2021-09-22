@@ -18,6 +18,7 @@ class HelperActivity : AppCompatActivity()
     {
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
+        val email = intent.getStringExtra("email")
         setContentView(R.layout.activity_helper)
         val helperToggleButton = findViewById<ExtendedFloatingActionButton>(R.id.helper_toggle_help)
         helperToggleButton.backgroundTintList = red
