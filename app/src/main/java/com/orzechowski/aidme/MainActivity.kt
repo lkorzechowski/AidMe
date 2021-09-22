@@ -23,19 +23,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
         }
         val aidButton = findViewById<Button>(R.id.aid_button_main)
         aidButton.setOnClickListener {
-            val browser = Intent(this@MainActivity, BrowserActivity::class.java)
-            startActivity(browser)
+            startActivity(Intent(this@MainActivity, BrowserActivity::class.java))
         }
         val settingsButton = findViewById<Button>(R.id.settings_button_main)
         settingsButton.setOnClickListener {
-            val settings = Intent(this@MainActivity, SettingsActivity::class.java)
-            startActivity(settings)
+            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
         }
         val signInButton = findViewById<SignInButton>(R.id.sign_in_button)
         signInButton.setSize(SignInButton.SIZE_WIDE)
         signInButton.setOnClickListener {
-            val signIn = Intent(this@MainActivity, SignInActivity::class.java)
-            startActivity(signIn)
+            startActivity(Intent(this@MainActivity, SignInActivity::class.java))
         }
     }
 }

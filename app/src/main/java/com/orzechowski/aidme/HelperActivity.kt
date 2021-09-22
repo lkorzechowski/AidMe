@@ -35,8 +35,7 @@ class HelperActivity : AppCompatActivity()
         }
         val createTutorialButton = findViewById<Button>(R.id.helper_create_tutorial_button)
         createTutorialButton.setOnClickListener {
-            val creator = Intent(this@HelperActivity, CreatorActivity::class.java)
-            startActivity(creator)
+            startActivity(Intent(this@HelperActivity, CreatorActivity::class.java))
         }
         val profileSettingsButton = findViewById<Button>(R.id.helper_settings_button)
         profileSettingsButton.setOnClickListener {
@@ -46,5 +45,10 @@ class HelperActivity : AppCompatActivity()
         chatButton.setOnClickListener {
 
         }
+    }
+
+    override fun onBackPressed()
+    {
+        startActivity(Intent(this@HelperActivity, MainActivity::class.java))
     }
 }
