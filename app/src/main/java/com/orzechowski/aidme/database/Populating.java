@@ -39,7 +39,7 @@ public class Populating
 {
     private final String raw = "android.resource://com.orzechowski.aidme/raw/";
 
-    public void populateCategories(CategoryDAO categoryDAO)
+    public void populateCategories(CategoryDAO categoryDAO)//done
     {
         categoryDAO.insert(new Category(0L, "Pierwsza pomoc", true, raw+"first_aid", 0));
         categoryDAO.insert(new Category(1L, "Pożar", true, raw+"fire", 0));
@@ -94,7 +94,7 @@ public class Populating
         categoryDAO.insert(new Category(50L, "Przygniecenie", false, raw+"crushing", 1));
     }
 
-    public void populateTags(TagDAO tagDAO)
+    public void populateTags(TagDAO tagDAO)//done
     {
         tagDAO.insert(new Tag(15L, "root", 0));
         tagDAO.insert(new Tag(0L, "firstaid", 1));
@@ -299,7 +299,7 @@ public class Populating
         tutorialTagDAO.insert(new TutorialTag(24L, 7L, 38L));
     }
 
-    public void populateKeywords(KeywordDAO keywordDAO)
+    public void populateKeywords(KeywordDAO keywordDAO)//done
     {
         keywordDAO.insert(new Keyword(0L, "sztuczne"));
         keywordDAO.insert(new Keyword(1L, "oddychanie"));
@@ -869,7 +869,7 @@ public class Populating
         instructionDAO.insert(new InstructionSet(66L, "Dalsze kroki", "Jeżeli istnieje taka możliwość i ofiara odzyskała pełną przytomność, znajdź więcej suchego okrycia, lub podaj jej ciepły napój. Monitoruj stan ofiary do czasu przybycia pogotowia.", 13500, 7L, 4, raw+"s7_4"));
     }
 
-    public void populateVersions(VersionDAO versionDAO)
+    public void populateVersions(VersionDAO versionDAO)//done
     {
         //tutorial 0
         versionDAO.insert(new Version(0L, "Przeprowadź mnie przez wszystkie podstawowe kroki!", 0L, true, false, false,  null));
@@ -1101,7 +1101,7 @@ public class Populating
         multimediaDAO.insert(new Multimedia(2L, 1L, 5000, true, raw+"m1_1", true, 1));
     }
 
-    public void populateHelpers(HelperDAO helperDAO)
+    public void populateHelpers(HelperDAO helperDAO)//done
     {
         helperDAO.insert(new Helper(0L, "Ania", "Kozłowska", "", "Studentka"));
         helperDAO.insert(new Helper(1L, "Łukasz", "Orzechowski", "", "Twórca"));

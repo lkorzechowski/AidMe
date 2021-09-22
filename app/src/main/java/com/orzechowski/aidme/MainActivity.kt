@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import com.google.android.gms.common.SignInButton
 import com.orzechowski.aidme.database.GlobalRoomDatabase
 import com.orzechowski.aidme.emergencynumbers.EmergencyNumbersRecycler
 
@@ -30,10 +31,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
             val settings = Intent(this@MainActivity, SettingsActivity::class.java)
             startActivity(settings)
         }
-        val loginButton = findViewById<Button>(R.id.login_button_main)
-        loginButton.setOnClickListener {
-            val login = Intent(this@MainActivity, LoginActivity::class.java)
-            startActivity(login)
+        val signInButton = findViewById<SignInButton>(R.id.sign_in_button)
+        signInButton.setSize(SignInButton.SIZE_WIDE)
+        signInButton.setOnClickListener {
+            val signIn = Intent(this@MainActivity, SignInActivity::class.java)
+            startActivity(signIn)
         }
     }
 }
