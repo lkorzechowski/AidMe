@@ -1,5 +1,6 @@
 package com.orzechowski.aidme.creator.versiontree;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,17 +100,18 @@ public class VersionTreeComposer extends Fragment
         RecyclerView levelThreeRecycler = view.findViewById(R.id.version_tree_third_level_rv);
         RecyclerView levelFourRecycler = view.findViewById(R.id.version_tree_fourth_level_rv);
         RecyclerView parentPickingRecycler = view.findViewById(R.id.parent_assignment_rv);
-        versionTextRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+        Context context = view.getContext();
+        versionTextRecycler.setLayoutManager(new LinearLayoutManager(context,
                 LinearLayoutManager.VERTICAL, false));
-        levelOneRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+        levelOneRecycler.setLayoutManager(new LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false));
-        levelTwoRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+        levelTwoRecycler.setLayoutManager(new LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false));
-        levelThreeRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+        levelThreeRecycler.setLayoutManager(new LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false));
-        levelFourRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+        levelFourRecycler.setLayoutManager(new LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false));
-        parentPickingRecycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
+        parentPickingRecycler.setLayoutManager(new LinearLayoutManager(context,
                 LinearLayoutManager.HORIZONTAL, false));
         mVersionTextAdapter = new VersionTextAdapter(activity);
         mLevelOneAdapter = new VersionTreeComposerAdapter(activity, 1, null);

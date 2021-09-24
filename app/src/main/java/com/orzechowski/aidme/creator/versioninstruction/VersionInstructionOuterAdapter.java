@@ -73,10 +73,10 @@ public class VersionInstructionOuterAdapter
         FragmentCallback callback;
 
         public VersionViewHolder(@NonNull View itemView, Activity requestActivity,
-                                 FragmentCallback callbackToFragment)
+                                 FragmentCallback fragmentCallback)
         {
             super(itemView);
-            callback = callbackToFragment;
+            callback = fragmentCallback;
             label = itemView.findViewById(R.id.version_instruction_label);
             recycler = itemView.findViewById(R.id.version_instruction_inner_rv);
             recycler.setLayoutManager(new LinearLayoutManager(itemView.getContext(),

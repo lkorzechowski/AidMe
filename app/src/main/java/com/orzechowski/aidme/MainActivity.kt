@@ -2,6 +2,7 @@ package com.orzechowski.aidme
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
@@ -28,6 +29,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
         val settingsButton = findViewById<Button>(R.id.settings_button_main)
         settingsButton.setOnClickListener {
             startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+        }
+        val signInCover = findViewById<Button>(R.id.sign_in_button_cover)
+        signInCover.setOnClickListener {
+            signInCover.visibility = View.INVISIBLE
         }
         val signInButton = findViewById<SignInButton>(R.id.sign_in_button)
         signInButton.setSize(SignInButton.SIZE_WIDE)

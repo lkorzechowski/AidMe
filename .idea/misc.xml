@@ -17,6 +17,7 @@
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/drawable/ic_password.xml" value="0.28125" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/drawable/ic_touch.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/activity_helper.xml" value="0.33" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/activity_sign_in.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_added_keyword.xml" value="0.1388888888888889" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_category_assignment.xml" value="0.14166666666666666" />
@@ -25,6 +26,7 @@
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_narration_browser.xml" value="0.15677083333333333" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_recycler_version_instruction.xml" value="0.125" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_sound_browser.xml" value="0.11574074074074074" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_tutorial_link_composer.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_instruction.xml" value="0.1" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_multimedia.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_tree_composer.xml" value="0.1296875" />
@@ -40,6 +42,8 @@
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_outer_version_multimedia_rv.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_phone_numbers_rv.xml" value="0.1" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_sound_browser.xml" value="0.159375" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_tutorial_link_rv.xml" value="0.1" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_tutorials_rv.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_version_name_rv.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_version_text_rv.xml" value="0.1578125" />
       </map>
