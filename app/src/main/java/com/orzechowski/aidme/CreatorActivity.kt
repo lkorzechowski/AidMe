@@ -21,10 +21,12 @@ import com.orzechowski.aidme.creator.initial.soundbrowser.Sound
 import com.orzechowski.aidme.creator.initial.soundbrowser.SoundBrowserLoader
 import com.orzechowski.aidme.creator.initial.soundbrowser.narrationbrowser.NarrationBrowserLoader
 import com.orzechowski.aidme.creator.keywordassignment.KeywordAssignment
+import com.orzechowski.aidme.creator.tutoriallinks.TutorialLinkComposer
 import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionComposer
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.aidme.database.tag.Tag
 import com.orzechowski.aidme.database.tag.TutorialTag
+import com.orzechowski.aidme.tutorial.database.TutorialLink
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
@@ -36,7 +38,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         MultimediaComposer.ActivityCallback, ImageBrowserLoader.ActivityCallback,
         SoundComposer.ActivityCallback, SoundBrowserLoader.ActivityCallback,
         InstructionComposer.ActivityCallback, NarrationBrowserLoader.ActivityCallback,
-        CategoryAssignment.ActivityCallback, KeywordAssignment.ActivityCallback
+        CategoryAssignment.ActivityCallback, KeywordAssignment.ActivityCallback,
+        TutorialLinkComposer.ActivityCallback
 {
     private val mInstructionComposer = InstructionComposer(this)
     private val mMultimediaComposer = MultimediaComposer(this)
@@ -44,6 +47,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private val mSoundComposer = SoundComposer(this)
     private var mCategoryAssignment = CategoryAssignment(this)
     private var mKeywordAssignment = KeywordAssignment(this)
+    private var mTutorialLinkComposer = TutorialLinkComposer(this, mInstructions)
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
     private lateinit var mImageBrowser: ImageBrowserLoader
@@ -54,6 +58,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mMultimedias: List<Multimedia>
     private lateinit var mInstructions: List<InstructionSet>
     private lateinit var mSounds: List<TutorialSound>
+    private lateinit var mTutorialLinks: List<TutorialLink>
     private lateinit var mVersionInstructions: Collection<VersionInstruction>
     private lateinit var mTutorialTags: List<TutorialTag>
     private lateinit var mKeywords: List<Keyword>
@@ -222,8 +227,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     handled = true
                 }
                 is CategoryAssignment -> {
-                    val currentLevel = f.level
-                    if(currentLevel>1) {
+                    if(f.level>1) {
                         mCategoryAssignment.restorePrevious()
                         handled = true
                     } else {
@@ -245,6 +249,12 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 is SoundBrowserLoader -> {
                     t.remove(mSoundBrowser).commit()
                     mView.visibility = View.VISIBLE
+                    handled = true
+                }
+                is TutorialLinkComposer -> {
+                    if(f.mPrimaryLayout.visibility==View.VISIBLE) {
+                        t.remove(mTutorialLinkComposer).commit()
+                    } else f.back()
                     handled = true
                 }
             }
@@ -277,5 +287,16 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         mKeywords = keywords
         supportFragmentManager.beginTransaction().remove(mKeywordAssignment).commit()
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mTutorialLinkComposer)
+        }
+    }
+
+    override fun finalizeTutorialLinks(tutorialLinks: MutableList<TutorialLink>?)
+    {
+        if(tutorialLinks!=null && tutorialLinks.isNotEmpty()) {
+            mTutorialLinks = tutorialLinks
+        }
+        supportFragmentManager.beginTransaction().remove(mTutorialLinkComposer).commit()
     }
 }

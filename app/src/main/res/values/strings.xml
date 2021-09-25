@@ -85,7 +85,11 @@
     <string name="tag_insert_value_too_short">Słowo musi mieć co najmniej 4 znaki</string>
     <string name="keyword_assignment_header">Podaj słowa kluczowe które pomogą użytkownikowi znaleźć twoją aplikację przy użyciu wyszukiwarki. Wpisz śmiało jak największą ilość słów, różne odmiany słów, im więcej tym lepiej, nawet do stu!</string>
     <string name="sign_in_button_cover">Portal dla wolontariuszy</string>
-    <string name="tutorial_link_heading">Linki. Możesz przypisać każdej instrukcji w poradniku link do innego poradnika. Podczas jej odtwarzania na ekranie wyświetli się przycisk przenoszący użytkownika, np. do poradnika \'Masaż serca\'.</string>
+    <string name="tutorial_link_heading_primary">Linki. Możesz przypisać każdej instrukcji w poradniku link do innego poradnika. Podczas odtwarzania danej instrukcji na ekranie wyświetli się przycisk przenoszący użytkownika, np. do poradnika \'Masaż serca\'.</string>
+    <string name="tutorial_link_heading_tutorials">Wybierz poradnik do którego ma prowadzić twój link.</string>
+    <string name="tutorial_link_heading_instructions">Wybierz instrukcję do której załączony będzie ten link.</string>
+    <string name="tutorial_link_edit_tutorial">Wybierz nowy poradnik</string>
+    <string name="tutorial_link_edit_instruction">Wybierz inną instrukcję</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

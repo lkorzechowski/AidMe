@@ -11,7 +11,7 @@
         android:id="@+id/tutorial_link_composer_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tutorial_link_heading"
+        android:text="@string/tutorial_link_heading_primary"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <View
@@ -23,20 +23,80 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintTop_toBottomOf="@+id/tutorial_link_composer_heading"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/link_rv"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tutorial_link_primary_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tutorial_link_heading_separator"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/row_tutorial_link_rv"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/link_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/row_tutorial_link_rv"/>
+
+        <Button
+            android:id="@+id/tutorial_links_finalize_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/add_tutorial_link_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="36sp"
+            android:text="@string/plus"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tutorial_link_edit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tutorial_link_heading_separator">
+
+        <Button
+            android:id="@+id/tutorial_link_edit_instruction"
+            android:text="@string/tutorial_link_edit_instruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/tutorial_link_edit_tutorial"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/tutorial_link_edit_tutorial"
+            android:text="@string/tutorial_link_edit_tutorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tutorial_link_edit_instruction"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tutorials_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/tutorial_link_heading_separator"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/row_tutorials_rv"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/instructions_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/tutorial_link_heading_separator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/row_instruction_text_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

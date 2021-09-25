@@ -29,7 +29,6 @@ public class TutorialLinkTutorialListAdapter
         mCallback = callback;
     }
 
-
     @NonNull
     @Override
     public TutorialViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
@@ -79,12 +78,12 @@ public class TutorialLinkTutorialListAdapter
         @Override
         public void onClick(View v)
         {
-            callback.select(tutorial);
+            callback.selectTutorial(tutorial);
         }
     }
 
     public interface FragmentCallback
     {
-        void select(Tutorial tutorial);
+        void selectTutorial(Tutorial tutorial);
     }
 }
