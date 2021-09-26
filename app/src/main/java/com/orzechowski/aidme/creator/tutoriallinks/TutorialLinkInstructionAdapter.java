@@ -68,6 +68,7 @@ public class TutorialLinkInstructionAdapter
         {
             super(itemView);
             callback = fragmentCallback;
+            itemView.setOnClickListener(this);
             instructionNumber = itemView.findViewById(R.id.instruction_number);
             instructionText = itemView.findViewById(R.id.instruction_text);
         }

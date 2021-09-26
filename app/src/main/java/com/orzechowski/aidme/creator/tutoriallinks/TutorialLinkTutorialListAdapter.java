@@ -71,6 +71,7 @@ public class TutorialLinkTutorialListAdapter
         {
             super(itemView);
             callback = fragmentCallback;
+            itemView.setOnClickListener(this);
             name = itemView.findViewById(R.id.tutorial_name);
             miniature = itemView.findViewById(R.id.tutorial_miniature);
         }

@@ -29,16 +29,19 @@ public class VersionInstructionComposer extends Fragment
     implements VersionInstructionOuterAdapter.FragmentCallback
 {
     private VersionInstructionOuterAdapter mOuterAdapter;
-    private final List<Version> mVersions;
+    private final List<Version> mVersions = new LinkedList<>();
     private final List<InstructionSet> mInstructions;
     private InstructionTextAdapter mInstructionTextAdapter;
     private final Collection<VersionInstruction> mVersionInstructions = new LinkedList<>();
     private final ActivityCallback mCallback;
 
-    public VersionInstructionComposer(List<Version> versions, List<InstructionSet> instructionSets,
+    public VersionInstructionComposer(Iterable<Version> versions,
+                                      List<InstructionSet> instructionSets,
                                       ActivityCallback callback)
     {
-        mVersions = versions;
+        for(Version version : versions) {
+            if(!version.getHasChildren()) mVersions.add(version);
+        }
         mInstructions = instructionSets;
         mCallback = callback;
     }

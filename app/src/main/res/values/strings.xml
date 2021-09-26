@@ -69,7 +69,7 @@
     <string name="image_grid_header">Wybierz obraz</string>
     <string name="star">star</string>
     <string name="category_rv_header_default">Musisz teraz określić kategorię nowego poradnika aby umiejscowić go w katalogu. Wybierz z poniższej listy główną kategorię a następnie kolejne bardziej szczegółowe.</string>
-    <string name="instructions_not_provided">Nie podano instrukcji</string>
+    <string name="instructions_not_provided">Nie podano instrukcji lub są zbyt krótkie</string>
     <string name="version_instructions_not_assigned">Nie przypisano żadnych instrukcji do wersji</string>
     <string name="version_multimedia_not_assigned">Nie przypisano multimediów</string>
     <string name="helper_toggle_button">Pomagam</string>
@@ -83,13 +83,18 @@
     <string name="category_assignment_header_second_step">Wpisz w polu tag twojego poradnika. Może to być tłumaczenie tytułu w języku angielskim.</string>
     <string name="tag_insert_hint">Słowo klucz, wskazówka</string>
     <string name="tag_insert_value_too_short">Słowo musi mieć co najmniej 4 znaki</string>
-    <string name="keyword_assignment_header">Podaj słowa kluczowe które pomogą użytkownikowi znaleźć twoją aplikację przy użyciu wyszukiwarki. Wpisz śmiało jak największą ilość słów, różne odmiany słów, im więcej tym lepiej, nawet do stu!</string>
+    <string name="keyword_assignment_header">Podaj słowa kluczowe które pomogą użytkownikowi znaleźć twój poradnik przy użyciu wyszukiwarki. Wpisz śmiało jak największą ilość słów, różne odmiany słów, im więcej tym lepiej, nawet do stu!</string>
     <string name="sign_in_button_cover">Portal dla wolontariuszy</string>
     <string name="tutorial_link_heading_primary">Linki. Możesz przypisać każdej instrukcji w poradniku link do innego poradnika. Podczas odtwarzania danej instrukcji na ekranie wyświetli się przycisk przenoszący użytkownika, np. do poradnika \'Masaż serca\'.</string>
     <string name="tutorial_link_heading_tutorials">Wybierz poradnik do którego ma prowadzić twój link.</string>
     <string name="tutorial_link_heading_instructions">Wybierz instrukcję do której załączony będzie ten link.</string>
     <string name="tutorial_link_edit_tutorial">Wybierz nowy poradnik</string>
     <string name="tutorial_link_edit_instruction">Wybierz inną instrukcję</string>
+    <string name="creator_uploading_data_info">Twój poradnik jest wysyłany na serwer.</string>
+    <string name="keyword_assignment_word_too_short">Słowo musi mieć co najmniej 3 znaki</string>
+    <string name="link_edit_button">Edytuj</string>
+    <string name="link_delete_button">Usuń</string>
+    <string name="link_edit">Co chciałbyś/ałabyć zmienić?</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

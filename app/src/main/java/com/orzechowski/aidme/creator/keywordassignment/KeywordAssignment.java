@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -87,9 +88,15 @@ public class KeywordAssignment extends Fragment implements AddedKeywordAdapter.F
         });
         Button addKeyword = view.findViewById(R.id.add_keyword_button);
         addKeyword.setOnClickListener(v -> {
-            mKeywords.add(new Keyword(0L, keywordInput.getText().toString()));
-            keywordInput.setText("");
-            mAdapter.setElementList(mKeywords);
+            String input = keywordInput.getText().toString();
+            if(input.length()>2) {
+                mKeywords.add(new Keyword(0L, input));
+                keywordInput.setText("");
+                mAdapter.setElementList(mKeywords);
+            } else {
+                Toast.makeText(requireActivity(), R.string.keyword_assignment_word_too_short,
+                        Toast.LENGTH_SHORT).show();
+            }
         });
         suggestLayout.setOnClickListener(v -> {
             mKeywords.add(new Keyword(0L, suggest.getText().toString()));

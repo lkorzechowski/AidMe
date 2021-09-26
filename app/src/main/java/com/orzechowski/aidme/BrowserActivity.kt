@@ -39,7 +39,8 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
         }
     }
 
-    override fun onStart() {
+    override fun onStart()
+    {
         super.onStart()
         if(!returning) {
             commitBrowser()
@@ -72,7 +73,8 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
         commitResults()
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
         val fragmentList: List<*> = supportFragmentManager.fragments
         val t: FragmentTransaction = supportFragmentManager.beginTransaction()
         var handled = false
@@ -106,7 +108,8 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
         if(!handled) super.onBackPressed()
     }
 
-    override fun onRestart() {
+    override fun onRestart()
+    {
         super.onRestart()
         returning = true
     }

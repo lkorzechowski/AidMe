@@ -21,4 +21,10 @@
         app:layout_constraintTop_toTopOf="@id/tutorial_miniature"
         app:layout_constraintBottom_toBottomOf="@id/tutorial_miniature"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/yellow1"
+        app:layout_constraintTop_toBottomOf="@id/tutorial_miniature"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

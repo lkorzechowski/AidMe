@@ -8,6 +8,7 @@ import android.widget.ScrollView
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.orzechowski.aidme.browser.search.database.Keyword
@@ -32,6 +33,7 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
 import com.orzechowski.aidme.tutorial.version.database.Version
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
+import kotlin.concurrent.thread
 
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     VersionTreeComposer.ActivityCallback, VersionInstructionComposer.ActivityCallback,
@@ -47,7 +49,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private val mSoundComposer = SoundComposer(this)
     private var mCategoryAssignment = CategoryAssignment(this)
     private var mKeywordAssignment = KeywordAssignment(this)
-    private var mTutorialLinkComposer = TutorialLinkComposer(this, mInstructions)
+    private var mTutorialLinkComposer = TutorialLinkComposer(this)
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
     private lateinit var mImageBrowser: ImageBrowserLoader
@@ -70,7 +72,12 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         super.onCreate(savedInstanceState)
         val progressButton = findViewById<Button>(R.id.creator_step_one_button)
         progressButton.setOnClickListener {
-            if(mInstructionComposer.instructions.isEmpty()){
+            val instructions = mInstructionComposer.instructions
+            var lengthRegex = true
+            for(instruction in instructions) {
+                if(instruction.instructions.length<4) lengthRegex = false
+            }
+            if(instructions.isEmpty() || !lengthRegex) {
                 Toast.makeText(this, R.string.instructions_not_provided, Toast.LENGTH_SHORT)
                     .show()
             } else {
@@ -86,7 +93,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     )
                 } else versions
                 mMultimedias = mMultimediaComposer.multimedias
-                mInstructions = mInstructionComposer.instructions
+                mInstructions = instructions
+                mTutorialLinkComposer.setInstructions(mInstructions)
                 mSounds = mSoundComposer.sounds
                 supportFragmentManager.beginTransaction().remove(mInstructionComposer).commit()
                 supportFragmentManager.beginTransaction().remove(mMultimediaComposer).commit()
@@ -254,6 +262,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 is TutorialLinkComposer -> {
                     if(f.mPrimaryLayout.visibility==View.VISIBLE) {
                         t.remove(mTutorialLinkComposer).commit()
+                        commitKeywordAssignment()
                     } else f.back()
                     handled = true
                 }
@@ -278,6 +287,11 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         mUniqueTag = uniqueTag
         mTutorialTags = tutorialTags
         supportFragmentManager.beginTransaction().remove(mCategoryAssignment).commit()
+        commitKeywordAssignment()
+    }
+
+    private fun commitKeywordAssignment()
+    {
         supportFragmentManager.commit {
             add(R.id.fragment_overlay_layout, mKeywordAssignment)
         }
@@ -298,5 +312,39 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             mTutorialLinks = tutorialLinks
         }
         supportFragmentManager.beginTransaction().remove(mTutorialLinkComposer).commit()
+        val uploadLayout: ConstraintLayout = findViewById(R.id.creator_uploading_data)
+        uploadLayout.visibility = View.VISIBLE
+        val uploaded = false
+        val progressThread = thread {
+            val progressOne: View = findViewById(R.id.creator_upload_progress_1)
+            val progressTwo: View = findViewById(R.id.creator_upload_progress_2)
+            val progressThree: View = findViewById(R.id.creator_upload_progress_3)
+            try {
+                while (!uploaded) {
+                    Thread.sleep(500)
+                    this@CreatorActivity.runOnUiThread {
+                        progressOne.visibility = View.VISIBLE
+                    }
+                    Thread.sleep(500)
+                    this@CreatorActivity.runOnUiThread {
+                        progressTwo.visibility = View.VISIBLE
+                    }
+                    Thread.sleep(500)
+                    this@CreatorActivity.runOnUiThread {
+                        progressThree.visibility = View.VISIBLE
+                    }
+                    Thread.sleep(500)
+                    this@CreatorActivity.runOnUiThread {
+                        progressOne.visibility = View.INVISIBLE
+                        progressTwo.visibility = View.INVISIBLE
+                        progressThree.visibility = View.INVISIBLE
+                    }
+                }
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
+        if(!progressThread.isAlive) progressThread.start()
+        //startActivity(Intent(this@CreatorActivity, HelperActivity::class.java))
     }
 }

@@ -64,4 +64,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/creator_uploading_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/creator_uploading_data_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/creator_uploading_data_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:id="@+id/creator_upload_progress_1"
+            android:layout_width="18dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
+            android:visibility="invisible"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/creator_uploading_data_info"
+            app:layout_constraintEnd_toStartOf="@+id/creator_upload_progress_2"/>
+
+        <View
+            android:id="@+id/creator_upload_progress_2"
+            android:layout_width="18dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
+            android:visibility="invisible"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/creator_uploading_data_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/creator_upload_progress_3"
+            android:layout_width="18dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
+            android:visibility="invisible"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/creator_uploading_data_info"
+            app:layout_constraintStart_toEndOf="@id/creator_upload_progress_2"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

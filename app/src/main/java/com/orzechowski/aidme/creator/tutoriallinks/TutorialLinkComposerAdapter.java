@@ -82,7 +82,7 @@ public class TutorialLinkComposerAdapter
             editButton = itemView.findViewById(R.id.link_edit_button);
             deleteButton = itemView.findViewById(R.id.link_delete_button);
             editButton.setOnClickListener(v -> callback.edit(link));
-            editButton.setOnClickListener(v -> callback.delete(link));
+            deleteButton.setOnClickListener(v -> callback.delete(link));
             deleteButton.setBackgroundColor(Color.argb(100, 200, 0, 0));
         }
     }

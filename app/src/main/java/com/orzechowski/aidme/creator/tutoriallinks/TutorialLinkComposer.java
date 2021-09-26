@@ -38,15 +38,19 @@ public class TutorialLinkComposer extends Fragment implements
     public ConstraintLayout mPrimaryLayout;
     private ConstraintLayout mEditingLayout;
     private final List<TutorialLink> mTutorialLinks = new LinkedList<>();
-    private final List<InstructionSet> mInstructions;
+    private List<InstructionSet> mInstructions;
     private boolean mEditing = false;
     private int mEditingIndex;
     private long mSelectedTutorialId;
     private TextView mHeading;
 
-    public TutorialLinkComposer(ActivityCallback callback, List<InstructionSet> instructions)
+    public TutorialLinkComposer(ActivityCallback callback)
     {
         mCallback = callback;
+    }
+
+    public void setInstructions(List<InstructionSet> instructions)
+    {
         mInstructions = instructions;
     }
 
@@ -86,27 +90,27 @@ public class TutorialLinkComposer extends Fragment implements
             mTutorialRecycler.setAdapter(mTutorialAdapter);
             linkRecycler.setAdapter(mLinkAdapter);
             mTutorialAdapter.setElementList(tutorials);
-        });
-        Button addLink = view.findViewById(R.id.add_tutorial_link_button);
-        addLink.setOnClickListener(v -> {
-            linkRecycler.setVisibility(View.INVISIBLE);
-            mTutorialRecycler.setVisibility(View.VISIBLE);
-        });
-        Button finalizeLinks = view.findViewById(R.id.tutorial_links_finalize_button);
-        finalizeLinks.setOnClickListener(v -> mCallback.finalizeTutorialLinks(mTutorialLinks));
-        Button editTutorial = view.findViewById(R.id.tutorial_link_edit_tutorial);
-        editTutorial.setOnClickListener(v -> {
-            mEditing = true;
-            mEditingLayout.setVisibility(View.INVISIBLE);
-            mTutorialRecycler.setVisibility(View.VISIBLE);
-            mHeading.setText(R.string.tutorial_link_heading_tutorials);
-        });
-        Button editInstruction = view.findViewById(R.id.tutorial_link_edit_instruction);
-        editInstruction.setOnClickListener(v -> {
-            mEditing = true;
-            mEditingLayout.setVisibility(View.INVISIBLE);
-            mInstructionRecycler.setVisibility(View.VISIBLE);
-            mHeading.setText(R.string.tutorial_link_heading_instructions);
+            Button addLink = view.findViewById(R.id.add_tutorial_link_button);
+            addLink.setOnClickListener(v -> {
+                mPrimaryLayout.setVisibility(View.INVISIBLE);
+                mTutorialRecycler.setVisibility(View.VISIBLE);
+            });
+            Button finalizeLinks = view.findViewById(R.id.tutorial_links_finalize_button);
+            finalizeLinks.setOnClickListener(v -> mCallback.finalizeTutorialLinks(mTutorialLinks));
+            Button editTutorial = view.findViewById(R.id.tutorial_link_edit_tutorial);
+            editTutorial.setOnClickListener(v -> {
+                mEditing = true;
+                mEditingLayout.setVisibility(View.INVISIBLE);
+                mTutorialRecycler.setVisibility(View.VISIBLE);
+                mHeading.setText(R.string.tutorial_link_heading_tutorials);
+            });
+            Button editInstruction = view.findViewById(R.id.tutorial_link_edit_instruction);
+            editInstruction.setOnClickListener(v -> {
+                mEditing = true;
+                mEditingLayout.setVisibility(View.INVISIBLE);
+                mInstructionRecycler.setVisibility(View.VISIBLE);
+                mHeading.setText(R.string.tutorial_link_heading_instructions);
+            });
         });
     }
 
@@ -114,6 +118,7 @@ public class TutorialLinkComposer extends Fragment implements
     public void edit(TutorialLink tutorialLink)
     {
         mPrimaryLayout.setVisibility(View.INVISIBLE);
+        mHeading.setText(R.string.link_edit);
         mEditingIndex = mTutorialLinks.indexOf(tutorialLink);
         mEditingLayout.setVisibility(View.VISIBLE);
     }
@@ -139,6 +144,7 @@ public class TutorialLinkComposer extends Fragment implements
                     mTutorialLinks.get(mEditingIndex).getInstructionNumber()));
             mPrimaryLayout.setVisibility(View.VISIBLE);
             mHeading.setText(R.string.tutorial_link_heading_primary);
+            mLinkAdapter.setElementList(mTutorialLinks);
             mEditing = false;
         }
     }
@@ -158,6 +164,7 @@ public class TutorialLinkComposer extends Fragment implements
                     instructionSet.getPosition()));
             mEditing = false;
         }
+        mLinkAdapter.setElementList(mTutorialLinks);
     }
 
     public void back()
