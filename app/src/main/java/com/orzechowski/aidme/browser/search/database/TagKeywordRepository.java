@@ -23,6 +23,11 @@ public class TagKeywordRepository
         GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
+    public LiveData<List<TagKeyword>> getAll()
+    {
+        return mDao.getAll();
+    }
+
     public void insert(TagKeyword tagKeyword)
     {
         GlobalRoomDatabase.executor.execute(()->mDao.insert(tagKeyword));

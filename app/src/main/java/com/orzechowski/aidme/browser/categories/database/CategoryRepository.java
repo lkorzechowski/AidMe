@@ -28,6 +28,11 @@ public class CategoryRepository
         GlobalRoomDatabase.executor.execute(()->mDao.insert(category));
     }
 
+    public LiveData<List<Category>> getAll()
+    {
+        return mDao.getAll();
+    }
+
     public void delete(Category category)
     {
         GlobalRoomDatabase.executor.execute(()->mDao.delete(category));

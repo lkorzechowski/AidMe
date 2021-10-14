@@ -23,6 +23,11 @@ public class CategoryTagViewModel extends AndroidViewModel
         mRepository.deleteAll();
     }
 
+    public LiveData<List<CategoryTag>> getAll()
+    {
+        return mRepository.getAll();
+    }
+
     public void insert(CategoryTag categoryTag)
     {
         mRepository.insert(categoryTag);

@@ -23,6 +23,11 @@ public class CategoryViewModel extends AndroidViewModel
         mRepository.deleteAll();
     }
 
+    public LiveData<List<Category>> getAll()
+    {
+        return mRepository.getAll();
+    }
+
     public void insert(Category category)
     {
         mRepository.insert(category);

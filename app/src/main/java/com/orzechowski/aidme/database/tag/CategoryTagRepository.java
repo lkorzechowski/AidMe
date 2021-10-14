@@ -24,6 +24,11 @@ public class CategoryTagRepository
         GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
+    public LiveData<List<CategoryTag>> getAll()
+    {
+        return mDao.getAll();
+    }
+
     public void insert(CategoryTag categoryTag)
     {
         GlobalRoomDatabase.executor.execute(()->mDao.insert(categoryTag));

@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 @Dao
 public interface TagDAO
 {
@@ -21,6 +23,9 @@ public interface TagDAO
 
     @Query("DELETE FROM tag")
     void deleteALl();
+
+    @Query("SELECT * FROM tag")
+    LiveData<List<Tag>> getAll();
 
     @Query("SELECT * FROM tag WHERE tagId = :tagId")
     LiveData<Tag> getById(long tagId);

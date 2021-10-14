@@ -24,6 +24,9 @@ public interface CategoryTagDAO
     @Query("DELETE FROM categorytag")
     void deleteAll();
 
+    @Query("SELECT * FROM categorytag")
+    LiveData<List<CategoryTag>> getAll();
+
     @Query("SELECT * FROM categorytag WHERE tagId = :tagId")
     LiveData<List<CategoryTag>> getByTagId(long tagId);
 

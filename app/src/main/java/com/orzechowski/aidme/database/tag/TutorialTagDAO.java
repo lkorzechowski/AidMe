@@ -24,6 +24,9 @@ public interface TutorialTagDAO
     @Query("DELETE FROM tutorialtag")
     void deleteAll();
 
+    @Query("SELECT * FROM tutorialTag")
+    LiveData<List<TutorialTag>> getAll();
+
     @Query("SELECT * FROM tutorialtag WHERE tagId = :tagId")
     LiveData<List<TutorialTag>> getByTagId(long tagId);
 

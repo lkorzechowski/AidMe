@@ -24,6 +24,9 @@ public interface TagKeywordDAO
     @Query("DELETE FROM tagkeyword")
     void deleteAll();
 
+    @Query("SELECT * FROM tagkeyword")
+    LiveData<List<TagKeyword>> getAll();
+
     @Query("SELECT * FROM tagkeyword WHERE keywordId = :keywordId")
     LiveData<List<TagKeyword>> getByKeywordId(long keywordId);
 }

@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 public class TagViewModel extends AndroidViewModel
 {
     private final TagRepository mRepository;
@@ -19,6 +21,11 @@ public class TagViewModel extends AndroidViewModel
     public void deleteAll()
     {
         mRepository.deleteAll();
+    }
+
+    public LiveData<List<Tag>> getAll()
+    {
+        return mRepository.getAll();
     }
 
     public void insert(Tag tag)

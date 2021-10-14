@@ -24,6 +24,9 @@ public interface CategoryDAO
     @Query("DELETE FROM category")
     void deleteAll();
 
+    @Query("SELECT * FROM category")
+    LiveData<List<Category>> getAll();
+
     @Query("SELECT * FROM category WHERE categoryLevel = :categoryLevel ORDER BY categoryId")
     LiveData<List<Category>> getByLevel(int categoryLevel);
 }

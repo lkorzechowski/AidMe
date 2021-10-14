@@ -7,9 +7,11 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import com.android.volley.toolbox.*
 import com.google.android.gms.common.SignInButton
 import com.orzechowski.aidme.database.GlobalRoomDatabase
-import com.orzechowski.aidme.emergencynumbers.EmergencyNumbersRecycler
+import com.orzechowski.aidme.main.EmergencyNumbersRecycler
+import com.orzechowski.aidme.main.RequestAPI
 
 class MainActivity : AppCompatActivity(R.layout.activity_main)
 {
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         GlobalRoomDatabase.getDatabase(applicationContext)
+        RequestAPI(this).requestData(cacheDir)
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<EmergencyNumbersRecycler>(R.id.phone_number_recycler_main)

@@ -24,6 +24,11 @@ public class TutorialTagRepository
         GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
+    public LiveData<List<TutorialTag>> getAll()
+    {
+        return mDao.getAll();
+    }
+
     public void insert(TutorialTag tutorialTag)
     {
         GlobalRoomDatabase.executor.execute(()->mDao.insert(tutorialTag));

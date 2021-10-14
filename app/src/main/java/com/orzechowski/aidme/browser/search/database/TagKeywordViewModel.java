@@ -23,6 +23,11 @@ public class TagKeywordViewModel extends AndroidViewModel
         mRepository.deleteAll();
     }
 
+    public LiveData<List<TagKeyword>> getAll()
+    {
+        return mRepository.getAll();
+    }
+
     public void insert(TagKeyword tagKeyword)
     {
         mRepository.insert(tagKeyword);

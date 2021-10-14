@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.emergencynumbers
+package com.orzechowski.aidme.main
 
 import androidx.room.Entity
 

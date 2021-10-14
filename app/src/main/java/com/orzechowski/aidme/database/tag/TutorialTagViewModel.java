@@ -23,6 +23,11 @@ public class TutorialTagViewModel extends AndroidViewModel
         mRepository.deleteAll();
     }
 
+    public LiveData<List<TutorialTag>> getAll()
+    {
+        return mRepository.getAll();
+    }
+
     public void insert(TutorialTag tutorialTag)
     {
         mRepository.insert(tutorialTag);

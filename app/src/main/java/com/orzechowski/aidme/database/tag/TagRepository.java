@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 
 import com.orzechowski.aidme.database.GlobalRoomDatabase;
 
+import java.util.List;
+
 public class TagRepository
 {
     private final TagDAO mDao;
@@ -19,6 +21,11 @@ public class TagRepository
     public void deleteAll()
     {
         GlobalRoomDatabase.executor.execute(mDao::deleteALl);
+    }
+
+    public LiveData<List<Tag>> getAll()
+    {
+        return mDao.getAll();
     }
 
     public void insert(Tag tag)

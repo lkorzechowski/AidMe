@@ -24,6 +24,11 @@ public class HelperTagRepository
         GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
+    public LiveData<List<HelperTag>> getAll()
+    {
+        return mDao.getAll();
+    }
+
     public void insert(HelperTag helperTag)
     {
         GlobalRoomDatabase.executor.execute(()->mDao.insert(helperTag));

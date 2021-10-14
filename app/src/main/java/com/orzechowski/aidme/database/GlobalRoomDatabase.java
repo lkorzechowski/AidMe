@@ -93,44 +93,6 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            executor.execute(()-> {
-                Populating populating = new Populating();
-                TutorialDAO tutorialDAO = INSTANCE.tutorialDao();
-                InstructionSetDAO instructionDAO = INSTANCE.instructionDao();
-                VersionDAO versionDAO = INSTANCE.versionDao();
-                TutorialSoundDAO tutorialSoundDAO = INSTANCE.tutorialSoundDAO();
-                HelperDAO helperDAO = INSTANCE.helperDao();
-                MultimediaDAO multimediaDAO = INSTANCE.multimediaDAO();
-                CategoryDAO categoryDAO = INSTANCE.categoryDAO();
-                VersionInstructionDAO versionInstructionDAO = INSTANCE.versionInstructionDAO();
-                VersionMultimediaDAO versionMultimediaDAO = INSTANCE.versionMultimediaDAO();
-                TagDAO tagDAO = INSTANCE.tagDAO();
-                HelperTagDAO helperTagDAO = INSTANCE.helperTagDAO();
-                TutorialTagDAO tutorialTagDAO = INSTANCE.tutorialTagDAO();
-                CategoryTagDAO categoryTagDAO = INSTANCE.categoryTagDAO();
-                KeywordDAO keywordDAO = INSTANCE.keywordDAO();
-                TagKeywordDAO tagKeywordDAO = INSTANCE.tagKeywordDAO();
-                TutorialLinkDAO tutorialLinkDAO = INSTANCE.tutorialLinkDAO();
-                VersionSoundDAO versionSoundDAO = INSTANCE.soundInVersionDAO();
-
-                populating.populateHelperTags(helperTagDAO);
-                populating.populateHelpers(helperDAO);
-                populating.populateTutorials(tutorialDAO);
-                populating.populateVersions(versionDAO);
-                populating.populateInstructionSets(instructionDAO);
-                populating.populateCategories(categoryDAO);
-                populating.populateTags(tagDAO);
-                populating.populateCategoryTags(categoryTagDAO);
-                populating.populateTutorialTags(tutorialTagDAO);
-                populating.populateKeywords(keywordDAO);
-                populating.populateTagKeywords(tagKeywordDAO);
-                populating.populateVersionInstructions(versionInstructionDAO);
-                populating.populateMultimedia(multimediaDAO);
-                populating.populateMultimediaInVersion(versionMultimediaDAO);
-                populating.populateSounds(tutorialSoundDAO);
-                populating.populateLinks(tutorialLinkDAO);
-                populating.populateVersionSounds(versionSoundDAO);
-            });
         }
     };
 }

@@ -23,6 +23,11 @@ public class HelperTagViewModel extends AndroidViewModel
         mRepository.deleteAll();
     }
 
+    public LiveData<List<HelperTag>> getAll()
+    {
+        return mRepository.getAll();
+    }
+
     public void insert(HelperTag helperTag)
     {
         mRepository.insert(helperTag);

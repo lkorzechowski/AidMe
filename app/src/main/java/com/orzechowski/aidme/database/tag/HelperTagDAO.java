@@ -24,6 +24,9 @@ public interface HelperTagDAO
     @Query("DELETE FROM helpertag")
     void deleteAll();
 
+    @Query("SELECT * FROM helpertag")
+    LiveData<List<HelperTag>> getAll();
+
     @Query("SELECT * FROM helpertag WHERE tagId = :tagId")
     LiveData<List<HelperTag>> getByTagId(long tagId);
 
