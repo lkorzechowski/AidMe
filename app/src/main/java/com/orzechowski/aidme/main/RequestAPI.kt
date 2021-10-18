@@ -1,12 +1,11 @@
 package com.orzechowski.aidme.main
 
+import android.graphics.Bitmap
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.toolbox.BasicNetwork
-import com.android.volley.toolbox.DiskBasedCache
-import com.android.volley.toolbox.HurlStack
-import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.*
 import com.orzechowski.aidme.MainActivity
 import com.orzechowski.aidme.browser.categories.database.Category
 import com.orzechowski.aidme.browser.categories.database.CategoryViewModel
@@ -21,6 +20,9 @@ import com.orzechowski.aidme.tutorial.database.Tutorial
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel
 import org.json.JSONObject
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
 class RequestAPI (val activity: MainActivity) {
 
@@ -45,18 +47,44 @@ class RequestAPI (val activity: MainActivity) {
         val queue = RequestQueue(cache, network).apply {
             start()
         }
+        val imageDir = File(activity.filesDir.absolutePath + "/images")
+
         queue.add(JsonArrayRequest(Request.Method.GET, url+"tutorials", null, {
                 array ->
             tutorialViewModel.all.observe(activity) {
                 for(i in 0..array.length()) {
                     val row: JSONObject = array.getJSONObject(i)
+                    val miniatureName = row.getString("miniatureName")
                     val tutorial = Tutorial(row.getLong("tutorialId"),
                         row.getString("tutorialName"), row.getLong("authorId"),
-                        row.getString("miniatureName"),
+                        miniatureName,
                         row.getDouble("rating").toFloat())
-                    if (!it.contains(tutorial)) {
+                    if(!it.contains(tutorial)) {
                         tutorialViewModel.insert(tutorial)
-                        //queue.add(ImageRequest(Request.Method.GET, url+"files/images/"+row.getString("miniatureName")))
+                        queue.add(ImageRequest(url+"files/images/"+miniatureName, { bitmap ->
+                            try {
+                                if(!imageDir.exists()) {
+                                    if(!imageDir.mkdirs()) {
+                                        throw FileNotFoundException()
+                                    }
+                                }
+                                val file = File(imageDir.absolutePath+miniatureName)
+                                if(file.exists()) {
+                                    throw IOException()
+                                } else {
+                                    val output = FileOutputStream(file)
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output)
+                                    output.close()
+                                }
+                            } catch (e: FileNotFoundException) {
+                                e.printStackTrace()
+                            } catch (e: IOException) {
+                                e.printStackTrace()
+                            }
+                        }, 160, 160, ImageView.ScaleType.FIT_CENTER,
+                            Bitmap.Config.ARGB_8888, { error ->
+                                error.printStackTrace()
+                        }))
                     }
                 }
             }
@@ -68,12 +96,37 @@ class RequestAPI (val activity: MainActivity) {
             categoryViewModel.all.observe(activity) {
                 for(i in 0..array.length()) {
                     val row: JSONObject = array.getJSONObject(i)
+                    val miniatureName = row.getString("miniatureName")
                     val category = Category(row.getLong("categoryId"),
                         row.getString("categoryName"),
-                        row.getBoolean("hasSubcategories"),
-                        row.getString("miniatureName"), row.getInt("categoryLevel"))
-                    if (!it.contains(category)) {
+                        row.getBoolean("hasSubcategories"), miniatureName,
+                        row.getInt("categoryLevel"))
+                    if(!it.contains(category)) {
                         categoryViewModel.insert(category)
+                        queue.add(ImageRequest(url+"files/images/"+miniatureName, { bitmap->
+                            try {
+                                if(!imageDir.exists()) {
+                                    if(!imageDir.mkdirs()) {
+                                        throw FileNotFoundException()
+                                    }
+                                }
+                                val file = File(imageDir.absolutePath+miniatureName)
+                                if(file.exists()) {
+                                    throw IOException()
+                                } else {
+                                    val output = FileOutputStream(file)
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output)
+                                    output.close()
+                                }
+                            } catch (e: FileNotFoundException) {
+                                e.printStackTrace()
+                            } catch (e: IOException) {
+                                e.printStackTrace()
+                            }
+                        }, 160, 160, ImageView.ScaleType.FIT_CENTER,
+                            Bitmap.Config.ARGB_8888, { error ->
+                                error.printStackTrace()
+                        }))
                     }
                 }
             }
@@ -87,7 +140,7 @@ class RequestAPI (val activity: MainActivity) {
                     val row: JSONObject = array.getJSONObject(i)
                     val tag = Tag(row.getLong("tagId"), row.getString("tagName"),
                         row.getInt("tagLevel"))
-                    if (!it.contains(tag)) {
+                    if(!it.contains(tag)) {
                         tagViewModel.insert(tag)
                     }
                 }
@@ -102,7 +155,7 @@ class RequestAPI (val activity: MainActivity) {
                     val row: JSONObject = array.getJSONObject(i)
                     val keyword = Keyword(row.getLong("keywordId"),
                         row.getString("row"))
-                    if (!it.contains(keyword)) {
+                    if(!it.contains(keyword)) {
                         keywordViewModel.insert(keyword)
                     }
                 }
@@ -119,7 +172,7 @@ class RequestAPI (val activity: MainActivity) {
                         row.getString("surname"), row.getString("title"),
                         row.getString("profession")
                     )
-                    if (!it.contains(helper)) {
+                    if(!it.contains(helper)) {
                         helperViewModel.insert(helper)
                     }
                 }
@@ -135,7 +188,7 @@ class RequestAPI (val activity: MainActivity) {
                     val helperTag = HelperTag(row.getLong("helperTagId"),
                         row.getLong("helperId"), row.getLong("tagId")
                     )
-                    if (!it.contains(helperTag)) {
+                    if(!it.contains(helperTag)) {
                         helperTagViewModel.insert(helperTag)
                     }
                 }
@@ -151,7 +204,7 @@ class RequestAPI (val activity: MainActivity) {
                     val tutorialTag = TutorialTag(row.getLong("tutorialTagId"),
                         row.getLong("tutorialId"), row.getLong("tagId")
                     )
-                    if (!it.contains(tutorialTag)) {
+                    if(!it.contains(tutorialTag)) {
                         tutorialTagViewModel.insert(tutorialTag)
                     }
                 }
@@ -167,7 +220,7 @@ class RequestAPI (val activity: MainActivity) {
                     val tagKeyword = TagKeyword(row.getLong("tagKeywordId"),
                         row.getLong("keywordId"), row.getLong("tagId")
                     )
-                    if (!it.contains(tagKeyword)) {
+                    if(!it.contains(tagKeyword)) {
                         tagKeywordViewModel.insert(tagKeyword)
                     }
                 }
