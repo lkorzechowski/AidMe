@@ -65,9 +65,7 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.Frag
                             mAdapter.setElementList(tutorials, helpers);
                         });
                     }
-                });
-                //programatically adding myself here, because tags are used for suggesting numbers
-                //to call for help, I ought not to have any, as I am not a medical professional.
+                });//TODO: find a different way to remove me from tags
             });
         });
         View view = inflater

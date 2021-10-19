@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 public class TutorialLinkViewModel extends AndroidViewModel
 {
     private final TutorialLinkRepository mRepository;
@@ -34,6 +36,11 @@ public class TutorialLinkViewModel extends AndroidViewModel
     public void update(TutorialLink tutorialLink)
     {
         mRepository.update(tutorialLink);
+    }
+
+    public LiveData<List<TutorialLink>> getAll()
+    {
+        return mRepository.getAll();
     }
 
     public LiveData<TutorialLink> getByOriginIdAndPosition(long tutorialId, int instructionNumber)

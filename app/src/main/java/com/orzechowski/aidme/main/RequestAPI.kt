@@ -17,27 +17,32 @@ import com.orzechowski.aidme.database.helper.Helper
 import com.orzechowski.aidme.database.helper.HelperViewModel
 import com.orzechowski.aidme.database.tag.*
 import com.orzechowski.aidme.tutorial.database.Tutorial
+import com.orzechowski.aidme.tutorial.database.TutorialLink
+import com.orzechowski.aidme.tutorial.database.TutorialLinkViewModel
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel
+import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
+import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewModel
 import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import kotlin.concurrent.thread
 
 class RequestAPI (val activity: MainActivity)
 {
-    private val tutorialViewModel = ViewModelProvider(activity).get(TutorialViewModel::class.java)
-    private val categoryViewModel = ViewModelProvider(activity).get(CategoryViewModel::class.java)
-    private val tagViewModel = ViewModelProvider(activity).get(TagViewModel::class.java)
-    private val keywordViewModel = ViewModelProvider(activity).get(KeywordViewModel::class.java)
-    private val helperViewModel = ViewModelProvider(activity).get(HelperViewModel::class.java)
-    private val helperTagViewModel = ViewModelProvider(activity).get(HelperTagViewModel::class.java)
-    private val tutorialTagViewModel = ViewModelProvider(activity)
-        .get(TutorialTagViewModel::class.java)
-    private val tagKeywordViewModel = ViewModelProvider(activity)
-        .get(TagKeywordViewModel::class.java)
-    private val categoryTagViewModel = ViewModelProvider(activity)
-        .get(CategoryTagViewModel::class.java)
+    private val viewModelProvider = ViewModelProvider(activity)
+    private val tutorialViewModel = viewModelProvider.get(TutorialViewModel::class.java)
+    private val categoryViewModel = viewModelProvider.get(CategoryViewModel::class.java)
+    private val tagViewModel = viewModelProvider.get(TagViewModel::class.java)
+    private val keywordViewModel = viewModelProvider.get(KeywordViewModel::class.java)
+    private val helperViewModel = viewModelProvider.get(HelperViewModel::class.java)
+    private val helperTagViewModel = viewModelProvider.get(HelperTagViewModel::class.java)
+    private val tutorialTagViewModel = viewModelProvider.get(TutorialTagViewModel::class.java)
+    private val tagKeywordViewModel = viewModelProvider.get(TagKeywordViewModel::class.java)
+    private val categoryTagViewModel = viewModelProvider.get(CategoryTagViewModel::class.java)
+    private val instructionSetViewModel = viewModelProvider.get(InstructionSetViewModel::class.java)
+    private val tutorialLinkViewModel = viewModelProvider.get(TutorialLinkViewModel::class.java)
     private lateinit var queue: RequestQueue
     private lateinit var tutorialThread: Thread
     private lateinit var categoryThread: Thread
@@ -48,18 +53,24 @@ class RequestAPI (val activity: MainActivity)
     private lateinit var tutorialTagThread: Thread
     private lateinit var tagKeywordThread: Thread
     private lateinit var categoryTagThread: Thread
+    private lateinit var instructionThread: Thread
+    private lateinit var tutorialLinkThread: Thread
 
     fun end()
     {
-        queue.stop()
-        tutorialThread.interrupt()
-        categoryThread.interrupt()
-        tagThread.interrupt()
-        keywordThread.interrupt()
-        helperThread.interrupt()
-        helperTagThread.interrupt()
-        tagKeywordThread.interrupt()
-        categoryTagThread.interrupt()
+        thread {
+            Thread.sleep(2000)
+            queue.stop()
+            tutorialThread.interrupt()
+            categoryThread.interrupt()
+            tagThread.interrupt()
+            keywordThread.interrupt()
+            helperThread.interrupt()
+            helperTagThread.interrupt()
+            tagKeywordThread.interrupt()
+            categoryTagThread.interrupt()
+            tutorialLinkThread.interrupt()
+        }
     }
 
     fun requestData(cacheDir: File)
@@ -71,7 +82,6 @@ class RequestAPI (val activity: MainActivity)
             start()
         }
         val imageDir = File(activity.filesDir.absolutePath).absolutePath + "/"
-
         tutorialThread = Thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorials", null, {
                     array ->
@@ -130,7 +140,7 @@ class RequestAPI (val activity: MainActivity)
                     for(cat in it) {
                         ids.add(cat.categoryId)
                     }
-                    for (i in 0 until array.length()) {
+                    for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val miniatureName = row.getString("miniatureName")
                         val category = Category(
@@ -180,7 +190,7 @@ class RequestAPI (val activity: MainActivity)
                     for(t in it) {
                         ids.add(t.tagId)
                     }
-                    for (i in 0 until array.length()) {
+                    for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val tag = Tag(
                             row.getLong("tagId"), row.getString("tagName"),
@@ -205,7 +215,7 @@ class RequestAPI (val activity: MainActivity)
                     for(key in it) {
                         ids.add(key.keywordId)
                     }
-                    for (i in 0 until array.length()) {
+                    for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val keyword = Keyword(
                             row.getLong("keywordId"),
@@ -230,7 +240,7 @@ class RequestAPI (val activity: MainActivity)
                     for(hel in it) {
                         ids.add(hel.helperId)
                     }
-                    for (i in 0 until array.length()) {
+                    for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val helper = Helper(
                             row.getLong("helperId"), row.getString("name"),
@@ -256,7 +266,7 @@ class RequestAPI (val activity: MainActivity)
                     for(htag in it) {
                         ids.add(htag.helperTagId)
                     }
-                    for (i in 0 until array.length()) {
+                    for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val helperTag = HelperTag(
                             row.getLong("helperTagId"),
@@ -281,7 +291,7 @@ class RequestAPI (val activity: MainActivity)
                     for(ttag in it) {
                         ids.add(ttag.tutorialTagId)
                     }
-                    for (i in 0 until array.length()) {
+                    for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val tutorialTag = TutorialTag(
                             row.getLong("tutorialTagId"),
@@ -306,7 +316,7 @@ class RequestAPI (val activity: MainActivity)
                     for(tkey in it) {
                         ids.add(tkey.tagKeywordId)
                     }
-                    for (i in 0 until array.length()) {
+                    for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val tagKeyword = TagKeyword(
                             row.getLong("tagKeywordId"),
@@ -331,7 +341,7 @@ class RequestAPI (val activity: MainActivity)
                     for(ctag in it) {
                         ids.add(ctag.categoryTagId)
                     }
-                    for (i in 0 until array.length()) {
+                    for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val categoryTag = CategoryTag(
                             row.getLong("categoryTagId"),
@@ -347,6 +357,59 @@ class RequestAPI (val activity: MainActivity)
             }, {
                 it.printStackTrace()
             }))
+        }.also { it.start() }
+        instructionThread = Thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "instructions",
+                null, { array ->
+                    instructionSetViewModel.all.observe(activity) {
+                        val ids = mutableListOf<Long>()
+                        for(ins in it) {
+                            ids.add(ins.instructionSetId)
+                        }
+                        for(i in 0 until array.length()) {
+                            val row: JSONObject = array.getJSONObject(i)
+                            val instructionSet = InstructionSet(
+                                row.getLong("instructionSetId"), row.getString("title"),
+                                row.getString("instructions"), row.getInt("time"),
+                                row.getLong("tutorialId"), row.getInt("position"),
+                                row.getString("narrationName")
+                            )
+                            if(ids.contains(instructionSet.instructionSetId)) {
+                                instructionSetViewModel.update(instructionSet)
+                            } else {
+                                instructionSetViewModel.insert(instructionSet)
+                            }
+                        }
+                    }
+                }, {
+                    it.printStackTrace()
+                }))
+        }.also { it.start() }
+        tutorialLinkThread = Thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "tutoriallinks",
+                null, { array ->
+                    tutorialLinkViewModel.all.observe(activity) {
+                        val ids = mutableListOf<Long>()
+                        for(lin in it) {
+                            ids.add(lin.tutorialLinkId)
+                        }
+                        for(i in 0 until array.length()) {
+                            val row: JSONObject = array.getJSONObject(i)
+                            val tutorialLink = TutorialLink(
+                                row.getLong("tutorialLinkId"),
+                                row.getLong("tutorialId"), row.getLong("originId"),
+                                row.getInt("instructionNumber")
+                            )
+                            if(ids.contains(tutorialLink.tutorialLinkId)) {
+                                tutorialLinkViewModel.update(tutorialLink)
+                            } else {
+                                tutorialLinkViewModel.insert(tutorialLink)
+                            }
+                        }
+                    }
+                }, {
+                    it.printStackTrace()
+                }))
         }.also { it.start() }
     }
 }
