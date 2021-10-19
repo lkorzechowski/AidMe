@@ -30,12 +30,14 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     private final Activity mActivity;
     private List<Helper> mHelpers;
     private final FragmentCallback mCallback;
+    private final String mPathBase;
 
     public ResultsListAdapter(Activity activity, FragmentCallback onClickListener)
     {
         mInflater = LayoutInflater.from(activity);
         mActivity = activity;
         mCallback = onClickListener;
+        mPathBase = activity.getFilesDir().getAbsolutePath()+"/";
     }
 
     @NonNull
@@ -59,7 +61,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         }
         holder.thisResult = tutorial;
         holder.name.setText(tutorial.getTutorialName());
-        Uri uri = Uri.parse(tutorial.getMiniatureUriString());
+        Uri uri = Uri.parse(mPathBase + tutorial.getMiniatureString());
         if(uri != null) holder.image.setImageURI(uri);
         float rating = tutorial.getRating();
         if(rating>4.75) {

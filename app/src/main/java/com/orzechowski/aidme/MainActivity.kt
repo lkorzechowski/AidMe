@@ -15,12 +15,15 @@ import com.orzechowski.aidme.main.RequestAPI
 
 class MainActivity : AppCompatActivity(R.layout.activity_main)
 {
+    private lateinit var requestAPI: RequestAPI
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         GlobalRoomDatabase.getDatabase(applicationContext)
-        RequestAPI(this).requestData(cacheDir)
+        requestAPI = RequestAPI(this)
+        requestAPI.requestData(cacheDir)
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<EmergencyNumbersRecycler>(R.id.phone_number_recycler_main)
@@ -42,5 +45,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
         signInButton.setOnClickListener {
             startActivity(Intent(this@MainActivity, SignInActivity::class.java))
         }
+    }
+
+    override fun onStop()
+    {
+        requestAPI.end()
+        super.onStop()
     }
 }

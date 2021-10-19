@@ -22,11 +22,13 @@ public class CategoryListAdapter
     private List<Category> mCategories = null;
     private final LayoutInflater mInflater;
     private final FragmentCallback mListener;
+    private final String mPathBase;
 
     public CategoryListAdapter(Activity activity, FragmentCallback listener)
     {
         mInflater = LayoutInflater.from(activity);
         mListener = listener;
+        mPathBase = activity.getFilesDir().getAbsolutePath()+"/";
     }
 
     @NonNull
@@ -45,7 +47,7 @@ public class CategoryListAdapter
         String categoryName = category.getCategoryName();
         categoryHolder.name.setText(categoryName);
         if(categoryName.length() > 20) categoryHolder.name.setTextSize(20);
-        Uri uri = Uri.parse(category.getMiniatureUriString());
+        Uri uri = Uri.parse(mPathBase + category.getFileName());
         if(uri != null) categoryHolder.image.setImageURI(uri);
     }
 

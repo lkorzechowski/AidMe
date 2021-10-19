@@ -8,5 +8,5 @@ data class Category(
     @PrimaryKey val categoryId: Long,
                 val categoryName: String,
                 val hasSubcategories: Boolean,
-                val miniatureUriString: String,
-                val categoryLevel: Int) //level 0 = highest
+                val fileName: String,
+                val categoryLevel: Int) //level 0 = najwyższy

@@ -8,5 +8,5 @@ data class Tutorial(
     @PrimaryKey val tutorialId: Long,
                 val tutorialName: String,
                 val authorId: Long,
-                val miniatureUriString: String,
+                val miniatureString: String,
                 val rating: Float)

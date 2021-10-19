@@ -65,7 +65,8 @@ public class MultimediaPlayer extends Fragment
                     .get(TutorialViewModel.class);
             tutorialViewModel.getByTutorialId(mTutorialId).observe(requireActivity(), tutorial -> {
                 mPlayThread = new Play(new Multimedia(0, 0, 120000,
-                        true, tutorial.getMiniatureUriString(), true, 0));
+                        true, requireActivity().getFilesDir() + "/"
+                        + tutorial.getMiniatureString(), true, 0));
                 mPlayThread.start();
             });
         }

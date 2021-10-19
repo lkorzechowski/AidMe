@@ -22,11 +22,13 @@ public class TutorialLinkTutorialListAdapter
     private List<Tutorial> mTutorials;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
+    private final String mPathBase;
 
     public TutorialLinkTutorialListAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
         mCallback = callback;
+        mPathBase = activity.getFilesDir().getAbsolutePath()+"/";
     }
 
     @NonNull
@@ -43,7 +45,7 @@ public class TutorialLinkTutorialListAdapter
     {
         Tutorial tutorial = mTutorials.get(position);
         holder.tutorial = tutorial;
-        holder.miniature.setImageURI(Uri.parse(tutorial.getMiniatureUriString()));
+        holder.miniature.setImageURI(Uri.parse(mPathBase+tutorial.getMiniatureString()));
         holder.name.setText(tutorial.getTutorialName());
     }
 
