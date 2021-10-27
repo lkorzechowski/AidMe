@@ -104,7 +104,7 @@ public class MultimediaPlayer extends Fragment
                         interrupt();
                     }
                 }
-            } else if(!currentMedia.getType()) {
+            } else {
                 activity.runOnUiThread(() -> {
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.GONE);

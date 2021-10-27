@@ -53,10 +53,10 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.Frag
             helperTagViewModel.getByTagId(tagId).observe(requireActivity(), helperTags-> {
                 List<Helper> helpers = new LinkedList<>();
                 for(HelperTag helperTag : helperTags) {
-                    helperViewModel.getById(helperTag.getHelperId())
+                    helperViewModel.getByHelperId(helperTag.getHelperId())
                             .observe(requireActivity(), helpers::add);
                 }
-                helperViewModel.getById(1L).observe(requireActivity(), creator-> {
+                helperViewModel.getByHelperId(1L).observe(requireActivity(), creator-> {
                     helpers.add(creator);
                     for(TutorialTag tutorialTag : tutorialTags) {
                         tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId())

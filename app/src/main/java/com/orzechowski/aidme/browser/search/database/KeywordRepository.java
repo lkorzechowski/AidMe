@@ -42,4 +42,9 @@ public class KeywordRepository
     {
         return mDao.getAll();
     }
+
+    public LiveData<Keyword> getByKeywordId(long keywordId)
+    {
+        return mDao.getByKeywordId(keywordId);
+    }
 }

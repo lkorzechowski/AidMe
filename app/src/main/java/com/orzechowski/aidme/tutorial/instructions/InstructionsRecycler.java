@@ -41,10 +41,12 @@ public class InstructionsRecycler
     private boolean mAutoplay = true;
     private int mSize;
     private final CallbackForTutorialLink mCallback;
+    private final String mPathBase;
 
     public InstructionsRecycler(CallbackForTutorialLink callbackForTutorialLink)
     {
         mCallback = callbackForTutorialLink;
+        mPathBase = requireActivity().getFilesDir().getAbsolutePath()+"/";
     }
 
     @Override
@@ -148,9 +150,9 @@ public class InstructionsRecycler
             } catch (InterruptedException | IllegalStateException e) {
                 interrupt();
             }
-            String narration = set.getNarrationUriString();
             MediaPlayer mPlayer = null;
-            if(narration!=null) {
+            if(set.getNarrationFile()!=null) {
+                String narration = mPathBase + set.getNarrationFile();
                 mPlayer = MediaPlayer.create(getContext(), Uri.parse(narration));
             }
             FragmentActivity activity = requireActivity();

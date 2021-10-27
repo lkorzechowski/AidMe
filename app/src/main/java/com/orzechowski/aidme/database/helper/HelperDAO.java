@@ -28,5 +28,5 @@ public interface HelperDAO
     LiveData<List<Helper>> getAll();
 
     @Query("SELECT * FROM helper WHERE helperId = :helperId")
-    LiveData<Helper> getById(long helperId);
+    LiveData<Helper> getByHelperId(long helperId);
 }

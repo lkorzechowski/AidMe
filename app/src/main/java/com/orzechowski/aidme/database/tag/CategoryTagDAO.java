@@ -32,4 +32,7 @@ public interface CategoryTagDAO
 
     @Query("SELECT * FROM categorytag WHERE categoryId = :categoryId")
     LiveData<List<CategoryTag>> getByCategoryId(long categoryId);
+
+    @Query("SELECT * FROM categorytag WHERE categoryTagId = :categoryTagId")
+    LiveData<CategoryTag> getByCategoryTagId(long categoryTagId);
 }

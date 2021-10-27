@@ -32,4 +32,7 @@ public interface TutorialTagDAO
 
     @Query("SELECT * FROM tutorialtag WHERE tutorialId = :tutorialId")
     LiveData<List<TutorialTag>> getByTutorialId(long tutorialId);
+
+    @Query("SELECT * FROM tutorialtag WHERE tutorialTagId = :tutorialTagId")
+    LiveData<TutorialTag> getByTutorialTagId(long tutorialTagId);
 }

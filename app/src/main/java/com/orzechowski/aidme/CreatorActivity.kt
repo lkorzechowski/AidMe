@@ -186,8 +186,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     override fun narrationSubmitted(narration: Sound)
     {
         supportFragmentManager.beginTransaction().remove(mNarrationBrowser).commit()
-        mInstructionComposer.instructions[mInstructionComposer.currentPosition].narrationUriString =
-            narration.uri.toString()
+        mInstructionComposer.instructions[mInstructionComposer.currentPosition].narrationFile =
+            narration.displayName
         mInstructionComposer.resetAdapterElements()
         mView.visibility = View.VISIBLE
     }
@@ -206,7 +206,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         val position = mSoundComposer.currentPosition
         supportFragmentManager.beginTransaction().remove(mSoundBrowser).commit()
         mSoundComposer.sounds[position].fileName = sound.displayName
-        mSoundComposer.sounds[position].fileUriString = sound.uri.toString()
         mSoundComposer.resetAdapterElements()
         mView.visibility = View.VISIBLE
     }

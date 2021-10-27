@@ -47,4 +47,9 @@ public class TutorialLinkViewModel extends AndroidViewModel
     {
         return mRepository.getByOriginIdAndPosition(tutorialId, instructionNumber);
     }
+
+    public LiveData<TutorialLink> getByTutorialLinkId(long tutorialLinkId)
+    {
+        return mRepository.getByTutorialLinkId(tutorialLinkId);
+    }
 }

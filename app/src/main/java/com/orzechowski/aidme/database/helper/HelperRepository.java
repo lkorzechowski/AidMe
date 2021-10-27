@@ -45,8 +45,8 @@ public class HelperRepository
         GlobalRoomDatabase.executor.execute(()->mDao.update(helper));
     }
 
-    public LiveData<Helper> getById(long helperId)
+    public LiveData<Helper> getByHelperId(long helperId)
     {
-        return mDao.getById(helperId);
+        return mDao.getByHelperId(helperId);
     }
 }

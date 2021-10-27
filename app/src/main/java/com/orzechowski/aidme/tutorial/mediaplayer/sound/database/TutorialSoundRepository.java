@@ -38,8 +38,18 @@ public class TutorialSoundRepository
         GlobalRoomDatabase.executor.execute(()->mDao.insert(tutorialSound));
     }
 
-    LiveData<List<TutorialSound>> getByTutorialId(Long tutorialId)
+    LiveData<List<TutorialSound>> getAll()
+    {
+        return mDao.getAll();
+    }
+
+    LiveData<List<TutorialSound>> getByTutorialId(long tutorialId)
     {
         return mDao.getByTutorialId(tutorialId);
+    }
+
+    LiveData<TutorialSound> getByTutorialSoundId(long tutorialSoundId)
+    {
+        return mDao.getByTutorialSoundId(tutorialSoundId);
     }
 }

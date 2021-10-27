@@ -52,4 +52,9 @@ public class TutorialTagViewModel extends AndroidViewModel
     {
         return mRepository.getByTagId(tagId);
     }
+
+    public LiveData<TutorialTag> getByTutorialTagId(long tutorialTagId)
+    {
+        return mRepository.getByTutorialTagId(tutorialTagId);
+    }
 }

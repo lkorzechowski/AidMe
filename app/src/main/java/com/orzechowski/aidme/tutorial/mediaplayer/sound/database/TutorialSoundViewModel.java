@@ -38,8 +38,18 @@ public class TutorialSoundViewModel extends AndroidViewModel
         mRepository.update(tutorialSound);
     }
 
-    public LiveData<List<TutorialSound>> getByTutorialId(Long tutorialId)
+    public LiveData<List<TutorialSound>> getByTutorialId(long tutorialId)
     {
         return mRepository.getByTutorialId(tutorialId);
+    }
+
+    public LiveData<List<TutorialSound>> getAll()
+    {
+        return mRepository.getAll();
+    }
+
+    public LiveData<TutorialSound> getByTutorialSoundId(long tutorialSoundId)
+    {
+        return mRepository.getByTutorialSoundId(tutorialSoundId);
     }
 }

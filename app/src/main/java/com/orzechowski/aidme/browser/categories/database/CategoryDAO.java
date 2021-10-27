@@ -27,6 +27,9 @@ public interface CategoryDAO
     @Query("SELECT * FROM category")
     LiveData<List<Category>> getAll();
 
-    @Query("SELECT * FROM category WHERE categoryLevel = :categoryLevel ORDER BY categoryId")
+    @Query("SELECT * FROM category WHERE categoryLevel = :categoryLevel")
     LiveData<List<Category>> getByLevel(int categoryLevel);
+
+    @Query("SELECT * FROM category WHERE categoryId = :categoryId")
+    LiveData<Category> getByCategoryId(long categoryId);
 }

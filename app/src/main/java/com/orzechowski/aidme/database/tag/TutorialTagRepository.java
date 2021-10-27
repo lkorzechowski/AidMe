@@ -53,4 +53,9 @@ public class TutorialTagRepository
     {
         return mDao.getByTagId(tagId);
     }
+
+    public LiveData<TutorialTag> getByTutorialTagId(long tutorialTagId)
+    {
+        return mDao.getByTutorialTagId(tutorialTagId);
+    }
 }

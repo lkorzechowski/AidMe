@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.orzechowski.aidme.tutorial.RequestMedia
 import com.orzechowski.aidme.tutorial.version.VersionListAdapter
 import com.orzechowski.aidme.tutorial.version.VersionRecycler
 import com.orzechowski.aidme.tutorial.version.database.Version
@@ -13,12 +14,16 @@ VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
 {
     private val bundle = Bundle()
     private val mVersionRecycler = VersionRecycler(this)
+    private lateinit var requestMedia: RequestMedia
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        bundle.putLong("tutorialId", intent.getLongExtra("tutorialId", -1L))
+        val tutorialId = intent.getLongExtra("tutorialId", -1L)
+        bundle.putLong("tutorialId", tutorialId)
+        requestMedia = RequestMedia(this, tutorialId)
+        requestMedia.requestData(cacheDir)
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             mVersionRecycler.arguments = bundle
@@ -30,8 +35,7 @@ VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
     {
         if(version.hasChildren) {
             mVersionRecycler.getChildVersions(version.versionId)
-        }
-        else {
+        } else {
             val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
             tutorial.putExtra("versionId", version.versionId)
             tutorial.putExtra("tutorialId", version.tutorialId)
@@ -43,5 +47,11 @@ VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
     override fun defaultVersion(version: Version)
     {
         onClick(version)
+    }
+
+    override fun onStop()
+    {
+        requestMedia.end()
+        super.onStop()
     }
 }

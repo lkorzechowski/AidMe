@@ -127,7 +127,7 @@ public class Search extends Fragment implements ResultsListAdapter.FragmentCallb
                                                                 .observe(requireActivity(), tagKeywords -> {
                                                             for (TagKeyword tagKeyword : tagKeywords) {
                                                                 mTagViewModel
-                                                                        .getById(tagKeyword.getTagId())
+                                                                        .getByTagId(tagKeyword.getTagId())
                                                                         .observe(requireActivity(), tag ->
                                                                         mTutorialTagViewModel
                                                                                 .getByTagId(tag.getTagId())

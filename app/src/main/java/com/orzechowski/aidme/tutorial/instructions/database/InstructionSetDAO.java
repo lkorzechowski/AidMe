@@ -35,4 +35,7 @@ public interface InstructionSetDAO
 
     @Query("SELECT * FROM instructionset")
     LiveData<List<InstructionSet>> getAll();
+
+    @Query("SELECT * FROM instructionset WHERE instructionSetId = :instructionSetId")
+    LiveData<InstructionSet> getByInstructionSetId(long instructionSetId);
 }

@@ -32,4 +32,7 @@ public interface HelperTagDAO
 
     @Query("SELECT * FROM helpertag WHERE helperId = :helperId")
     LiveData<List<HelperTag>> getByHelperId(long helperId);
+
+    @Query("SELECT * FROM helpertag WHERE helperTagId = :helperTagId")
+    LiveData<HelperTag> getByHelperTagId(long helperTagId);
 }

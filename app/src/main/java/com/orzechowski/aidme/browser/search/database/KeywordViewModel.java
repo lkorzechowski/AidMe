@@ -42,4 +42,9 @@ public class KeywordViewModel extends AndroidViewModel
     {
         return mRepository.getAll();
     }
+
+    public LiveData<Keyword> getByKeywordId(long keywordId)
+    {
+        return mRepository.getByKeywordId(keywordId);
+    }
 }

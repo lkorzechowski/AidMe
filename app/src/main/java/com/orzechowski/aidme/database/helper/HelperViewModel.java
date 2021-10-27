@@ -43,8 +43,8 @@ public class HelperViewModel extends AndroidViewModel
         return mRepository.getAll();
     }
 
-    public LiveData<Helper> getById(long helperId)
+    public LiveData<Helper> getByHelperId(long helperId)
     {
-        return mRepository.getById(helperId);
+        return mRepository.getByHelperId(helperId);
     }
 }

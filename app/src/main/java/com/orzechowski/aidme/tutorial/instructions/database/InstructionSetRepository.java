@@ -56,4 +56,9 @@ public class InstructionSetRepository
     {
         return mDao.getAll();
     }
+
+    public LiveData<InstructionSet> getByInstructionSetId(long instructionSetId)
+    {
+        return mDao.getByInstructionSetId(instructionSetId);
+    }
 }

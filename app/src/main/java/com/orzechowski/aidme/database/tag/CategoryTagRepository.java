@@ -53,4 +53,9 @@ public class CategoryTagRepository
     {
         return mDao.getByTagId(tagId);
     }
+
+    public LiveData<CategoryTag> getByCategoryTagId(long categoryTagId)
+    {
+        return mDao.getByCategoryTagId(categoryTagId);
+    }
 }

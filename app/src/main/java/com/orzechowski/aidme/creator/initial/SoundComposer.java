@@ -69,7 +69,7 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
         Button addSoundButton = view.findViewById(R.id.new_sound_button);
         addSoundButton.setOnClickListener(v-> {
             mSounds.add(new TutorialSound(mSounds.size(), 0,
-                    false, 0, 0, "", ""));
+                    false, 0, 0, ""));
             resetAdapterElements();
         });
     }
@@ -83,8 +83,7 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
             TutorialSound sound = mSounds.get(i);
             mSounds.remove(sound);
             mSounds.add(new TutorialSound(i, sound.getSoundStart(),
-                    sound.getSoundLoop(), sound.getInterval(), 0, sound.getFileName(),
-                    sound.getFileUriString()));
+                    sound.getSoundLoop(), sound.getInterval(), 0, sound.getFileName()));
         }
         resetAdapterElements();
     }

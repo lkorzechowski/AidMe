@@ -52,4 +52,9 @@ public class CategoryTagViewModel extends AndroidViewModel
     {
         return mRepository.getByTagId(tagId);
     }
+
+    public LiveData<CategoryTag> getByCategoryTagId(long categoryTagId)
+    {
+        return mRepository.getByCategoryTagId(categoryTagId);
+    }
 }

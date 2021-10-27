@@ -28,5 +28,5 @@ public interface TagDAO
     LiveData<List<Tag>> getAll();
 
     @Query("SELECT * FROM tag WHERE tagId = :tagId")
-    LiveData<Tag> getById(long tagId);
+    LiveData<Tag> getByTagId(long tagId);
 }

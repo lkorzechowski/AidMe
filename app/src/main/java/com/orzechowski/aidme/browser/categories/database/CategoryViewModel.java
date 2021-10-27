@@ -47,4 +47,9 @@ public class CategoryViewModel extends AndroidViewModel
     {
         return mRepository.getByLevel(level);
     }
+
+    public LiveData<Category> getByCategoryId(long categoryId)
+    {
+        return mRepository.getByCategoryId(categoryId);
+    }
 }

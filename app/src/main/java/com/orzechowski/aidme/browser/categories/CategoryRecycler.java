@@ -77,7 +77,8 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.Fr
             mCategoryTagViewModel.getByCategoryId(category
                     .getCategoryId()).observe(requireActivity(), categoryTags-> {
                 for(CategoryTag categoryTag : categoryTags) {
-                    mTagViewModel.getById(categoryTag.getTagId()).observe(requireActivity(), tag-> {
+                    mTagViewModel.getByTagId(categoryTag.getTagId()).observe(requireActivity(),
+                            tag-> {
                         if(tag.getTagLevel()!=null && tag.getTagLevel()>mLevel) {
                             mLevel++;
                             mCategoryViewModel.getByLevel(mLevel)
@@ -105,7 +106,7 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.Fr
             mCategoryTagViewModel.getByCategoryId(category.getCategoryId())
                     .observe(requireActivity(), categoryTags-> {
                 for (CategoryTag categoryTag : categoryTags) {
-                    mTagViewModel.getById(categoryTag.getTagId())
+                    mTagViewModel.getByTagId(categoryTag.getTagId())
                             .observe(requireActivity(), tag -> {
                         if (tag.getTagLevel() != null && tag.getTagLevel() > mLevel) {
                             mCallback.serveResults(tag.getTagId());

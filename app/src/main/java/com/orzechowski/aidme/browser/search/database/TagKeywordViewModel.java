@@ -47,4 +47,9 @@ public class TagKeywordViewModel extends AndroidViewModel
     {
         return mRepository.getByKeywordId(keywordId);
     }
+
+    public LiveData<TagKeyword> getByTagKeywordId(long tagKeywordId)
+    {
+        return mRepository.getByTagKeywordId(tagKeywordId);
+    }
 }

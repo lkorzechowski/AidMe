@@ -47,4 +47,9 @@ public class CategoryRepository
     {
         return mDao.getByLevel(level);
     }
+
+    public LiveData<Category> getByCategoryId(long categoryId)
+    {
+        return mDao.getByCategoryId(categoryId);
+    }
 }

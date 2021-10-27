@@ -47,4 +47,9 @@ public class TutorialLinkRepository
     {
         return mDao.getByOriginIdAndPosition(tutorialId, instructionNumber);
     }
+
+    LiveData<TutorialLink> getByTutorialLinkId(long tutorialLinkId)
+    {
+        return mDao.getByTutorialLinkId(tutorialLinkId);
+    }
 }

@@ -43,8 +43,8 @@ public class TagViewModel extends AndroidViewModel
         mRepository.update(tag);
     }
 
-    public LiveData<Tag> getById(long tagId)
+    public LiveData<Tag> getByTagId(long tagId)
     {
-        return mRepository.getById(tagId);
+        return mRepository.getByTagId(tagId);
     }
 }

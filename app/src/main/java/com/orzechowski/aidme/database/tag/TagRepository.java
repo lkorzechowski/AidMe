@@ -43,8 +43,8 @@ public class TagRepository
         GlobalRoomDatabase.executor.execute(()->mDao.update(tag));
     }
 
-    public LiveData<Tag> getById(long tagId)
+    public LiveData<Tag> getByTagId(long tagId)
     {
-        return mDao.getById(tagId);
+        return mDao.getByTagId(tagId);
     }
 }

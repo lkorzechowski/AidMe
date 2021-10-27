@@ -53,4 +53,9 @@ public class HelperTagRepository
     {
         return mDao.getByTagId(tagId);
     }
+
+    public LiveData<HelperTag> getByHelperTagId(long helperTagId)
+    {
+        return mDao.getByHelperTagId(helperTagId);
+    }
 }

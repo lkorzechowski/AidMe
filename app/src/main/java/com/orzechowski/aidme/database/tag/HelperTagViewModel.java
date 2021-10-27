@@ -52,4 +52,9 @@ public class HelperTagViewModel extends AndroidViewModel
     {
         return mRepository.getByTagId(tagId);
     }
+
+    public LiveData<HelperTag> getByHelperTagId(long helperTagId)
+    {
+        return mRepository.getByHelperTagId(helperTagId);
+    }
 }

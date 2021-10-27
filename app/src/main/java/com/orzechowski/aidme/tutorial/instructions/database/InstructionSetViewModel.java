@@ -57,4 +57,9 @@ public class InstructionSetViewModel extends AndroidViewModel
     {
         return mRepository.getAll();
     }
+
+    public LiveData<InstructionSet> getByInstructionSetId(long instructionSetId)
+    {
+        return mRepository.getByInstructionSetId(instructionSetId);
+    }
 }

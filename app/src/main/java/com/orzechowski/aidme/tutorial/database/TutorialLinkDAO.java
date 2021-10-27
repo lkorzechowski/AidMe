@@ -29,4 +29,7 @@ public interface TutorialLinkDAO
 
     @Query("SELECT * FROM tutoriallink WHERE originId = :tutorialId AND instructionNumber = :instructionNumber")
     LiveData<TutorialLink> getByOriginIdAndPosition(long tutorialId, int instructionNumber);
+
+    @Query("SELECT * FROM TutorialLink WHERE tutorialLinkId = :tutorialLinkId")
+    LiveData<TutorialLink> getByTutorialLinkId(long tutorialLinkId);
 }

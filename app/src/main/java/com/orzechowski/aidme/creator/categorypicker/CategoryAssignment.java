@@ -86,7 +86,7 @@ public class CategoryAssignment extends Fragment
         mCategoryTagViewModel.getByCategoryId(category.getCategoryId())
                 .observe(activity, categoryTags-> {
             for(CategoryTag categoryTag : categoryTags) {
-                mTagViewModel.getById(categoryTag.getTagId()).observe(activity, tag-> {
+                mTagViewModel.getByTagId(categoryTag.getTagId()).observe(activity, tag-> {
                     if(category.getHasSubcategories()) {
                         if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
                         if(tag.getTagLevel()!=null && tag.getTagLevel()>mLevel) {

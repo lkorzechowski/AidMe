@@ -15,26 +15,27 @@ class SoundAdapter (private val mDelayGlobalSound: Boolean,
                     private val mActivity: Activity)
 {
     private val mThreads: ArrayList<Thread> = ArrayList()
-    private var mInit = true
 
     fun deploy()
     {
-        for(i in mSounds) {
-            if(mVersionSounds.contains(i.soundId)) {
+        val pathBase = mActivity.filesDir.absolutePath+"/"
+        var init = true
+        for(sound in mSounds) {
+            if(mVersionSounds.contains(sound.soundId)) {
                 mThreads.add(Thread {
                     if (mDelayGlobalSound) {
                         try {
-                            Thread.sleep(i.soundStart)
+                            Thread.sleep(sound.soundStart)
                         } catch (e: InterruptedException) {
                             Thread.interrupted()
                             return@Thread
                         }
                     }
-                    val sound: TutorialSound = i
-                    val resourceUri: Uri = Uri.parse(sound.fileUriString)
+                    val resourceUri: Uri = Uri.parse(pathBase+sound.fileName)
                     lateinit var player: MediaPlayer
                     try {
-                        while(sound.soundLoop || mInit) {
+                        while(sound.soundLoop || init) {
+                            init = false
                             player = MediaPlayer.create(mActivity, resourceUri)
                             player.setAudioAttributes(AudioAttributes.Builder()
                                 .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED)

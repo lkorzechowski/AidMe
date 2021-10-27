@@ -47,4 +47,9 @@ public class TagKeywordRepository
     {
         return mDao.getByKeywordId(keywordId);
     }
+
+    public LiveData<TagKeyword> getByTagKeywordId(long tagKeywordId)
+    {
+        return mDao.getByTagKeywordId(tagKeywordId);
+    }
 }

@@ -22,6 +22,8 @@ import com.orzechowski.aidme.tutorial.database.TutorialLinkViewModel
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
 import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
@@ -43,6 +45,7 @@ class RequestAPI (val activity: MainActivity)
     private val categoryTagViewModel = viewModelProvider.get(CategoryTagViewModel::class.java)
     private val instructionSetViewModel = viewModelProvider.get(InstructionSetViewModel::class.java)
     private val tutorialLinkViewModel = viewModelProvider.get(TutorialLinkViewModel::class.java)
+    private val tutorialSoundViewModel = viewModelProvider.get(TutorialSoundViewModel::class.java)
     private lateinit var queue: RequestQueue
     private lateinit var tutorialThread: Thread
     private lateinit var categoryThread: Thread
@@ -55,11 +58,12 @@ class RequestAPI (val activity: MainActivity)
     private lateinit var categoryTagThread: Thread
     private lateinit var instructionThread: Thread
     private lateinit var tutorialLinkThread: Thread
+    private lateinit var tutorialSoundThread: Thread
 
     fun end()
     {
         thread {
-            Thread.sleep(2000)
+            Thread.sleep(5000)
             queue.stop()
             tutorialThread.interrupt()
             categoryThread.interrupt()
@@ -70,6 +74,7 @@ class RequestAPI (val activity: MainActivity)
             tagKeywordThread.interrupt()
             categoryTagThread.interrupt()
             tutorialLinkThread.interrupt()
+            tutorialSoundThread.interrupt()
         }
     }
 
@@ -82,77 +87,66 @@ class RequestAPI (val activity: MainActivity)
             start()
         }
         val imageDir = File(activity.filesDir.absolutePath).absolutePath + "/"
-        tutorialThread = Thread {
+        tutorialThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorials", null, {
                     array ->
-                tutorialViewModel.all.observe(activity) {
-                    val ids = mutableListOf<Long>()
-                    for(tut in it) {
-                        ids.add(tut.tutorialId)
-                    }
-                    for (i in 0 until array.length()) {
-                        val row: JSONObject = array.getJSONObject(i)
-                        val miniatureName = row.getString("miniatureName")
-                        val tutorial = Tutorial(
-                            row.getLong("tutorialId"),
-                            row.getString("tutorialName"), row.getLong("authorId"),
-                            miniatureName,
-                            row.getDouble("rating").toFloat()
-                        )
-                        if(ids.contains(tutorial.tutorialId)) {
+                for(i in 0 until array.length()) {
+                    val row: JSONObject = array.getJSONObject(i)
+                    val miniatureName = row.getString("miniatureName")
+                    val tutorialId = row.getLong("tutorialId")
+                    val tutorial = Tutorial(tutorialId, row.getString("tutorialName"),
+                        row.getLong("authorId"), miniatureName,
+                        row.getDouble("rating").toFloat()
+                    )
+                    tutorialViewModel.getByTutorialId(tutorialId).observe(activity) {
+                        if(it!=null && !it.equals(tutorial)) {
                             tutorialViewModel.update(tutorial)
                         } else {
                             tutorialViewModel.insert(tutorial)
                         }
-                        queue.add(
-                            ImageRequest(url + "files/images/" + miniatureName, { bitmap ->
-                                try {
-                                    val file = File(imageDir + miniatureName)
-                                    if (file.exists()) {
-                                        throw IOException()
-                                    } else {
-                                        val output = FileOutputStream(file)
-                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100,
-                                            output)
-                                        output.close()
-                                    }
-                                } catch (e: FileNotFoundException) {
-                                    e.printStackTrace()
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
-                            }, 160, 160, ImageView.ScaleType.FIT_CENTER,
-                                Bitmap.Config.ARGB_8888, { error ->
-                                    error.printStackTrace()
-                                })
-                        )
                     }
+                    queue.add(ImageRequest(url + "files/images/" + miniatureName, { bitmap ->
+                        try {
+                            val file = File(imageDir + miniatureName)
+                            if(file.exists()) {
+                                throw IOException()
+                            } else {
+                                val output = FileOutputStream(file)
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output)
+                                output.close()
+                            }
+                        } catch (e: FileNotFoundException) {
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }}, 160, 160, ImageView.ScaleType.FIT_CENTER,
+                        Bitmap.Config.ARGB_8888, { error ->
+                            error.printStackTrace()
+                        })
+                    )
                 }
             }, {
                 it.printStackTrace()
             }))
-        }.also { it.start() }
-        categoryThread = Thread {
+        }
+        categoryThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "categories", null, {
                     array ->
-                categoryViewModel.all.observe(activity) {
-                    val ids = mutableListOf<Long>()
-                    for(cat in it) {
-                        ids.add(cat.categoryId)
-                    }
                     for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val miniatureName = row.getString("miniatureName")
-                        val category = Category(
-                            row.getLong("categoryId"),
+                        val categoryId = row.getLong("categoryId")
+                        val category = Category(categoryId,
                             row.getString("categoryName"),
                             row.getBoolean("hasSubcategories"), miniatureName,
                             row.getInt("categoryLevel")
                         )
-                        if(ids.contains(category.categoryId)) {
-                            categoryViewModel.update(category)
-                        } else {
-                            categoryViewModel.insert(category)
+                        categoryViewModel.getByCategoryId(categoryId).observe(activity) {
+                            if(it!=null && !it.equals(category)) {
+                                categoryViewModel.update(category)
+                            } else {
+                                categoryViewModel.insert(category)
+                            }
                         }
                         queue.add(
                             ImageRequest(url + "files/images/" + miniatureName, { bitmap ->
@@ -177,239 +171,225 @@ class RequestAPI (val activity: MainActivity)
                                 })
                         )
                     }
-                }
             }, {
                 it.printStackTrace()
             }))
-        }.also { it.start() }
-        tagThread = Thread {
+        }
+        tagThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tags", null, {
                     array ->
-                tagViewModel.all.observe(activity) {
-                    val ids = mutableListOf<Long>()
-                    for(t in it) {
-                        ids.add(t.tagId)
-                    }
                     for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
-                        val tag = Tag(
-                            row.getLong("tagId"), row.getString("tagName"),
+                        val tagId = row.getLong("tagId")
+                        val tag = Tag(tagId, row.getString("tagName"),
                             row.getInt("tagLevel")
                         )
-                        if(ids.contains(tag.tagId)) {
-                            tagViewModel.update(tag)
-                        } else {
-                            tagViewModel.insert(tag)
+                        tagViewModel.getByTagId(tagId).observe(activity) {
+                            if(it!=null && !it.equals(tag)) {
+                                tagViewModel.update(tag)
+                            } else {
+                                tagViewModel.insert(tag)
+                            }
                         }
                     }
-                }
             }, {
                 it.printStackTrace()
             }))
-        }.also { it.start() }
-        keywordThread = Thread {
+        }
+        keywordThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "keywords", null, {
                     array ->
-                keywordViewModel.all.observe(activity) {
-                    val ids = mutableListOf<Long>()
-                    for(key in it) {
-                        ids.add(key.keywordId)
-                    }
                     for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
-                        val keyword = Keyword(
-                            row.getLong("keywordId"),
-                            row.getString("word")
-                        )
-                        if(ids.contains(keyword.keywordId)) {
-                            keywordViewModel.update(keyword)
-                        } else {
-                            keywordViewModel.insert(keyword)
+                        val keywordId = row.getLong("keywordId")
+                        val keyword = Keyword(keywordId, row.getString("word"))
+                        keywordViewModel.getByKeywordId(keywordId).observe(activity) {
+                            if(it!=null && !it.equals(keyword)) {
+                                keywordViewModel.update(keyword)
+                            } else {
+                                keywordViewModel.insert(keyword)
+                            }
                         }
                     }
-                }
             }, {
                 it.printStackTrace()
             }))
-        }.also { it.start() }
-        helperThread = Thread {
+        }
+        helperThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "helperlist", null, {
                     array ->
-                helperViewModel.all.observe(activity) {
-                    val ids = mutableListOf<Long>()
-                    for(hel in it) {
-                        ids.add(hel.helperId)
-                    }
                     for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
-                        val helper = Helper(
-                            row.getLong("helperId"), row.getString("name"),
+                        val helperId = row.getLong("helperId")
+                        val helper = Helper(helperId, row.getString("name"),
                             row.getString("surname"), row.getString("title"),
                             row.getString("profession")
                         )
-                        if(ids.contains(helper.helperId)) {
-                            helperViewModel.update(helper)
-                        } else {
-                            helperViewModel.insert(helper)
-                        }
-                    }
-                }
-            }, {
-                it.printStackTrace()
-            }))
-        }.also { it.start() }
-        helperTagThread = Thread {
-            queue.add(JsonArrayRequest(Request.Method.GET, url + "helpertags", null, {
-                    array ->
-                helperTagViewModel.all.observe(activity) {
-                    val ids = mutableListOf<Long>()
-                    for(htag in it) {
-                        ids.add(htag.helperTagId)
-                    }
-                    for(i in 0 until array.length()) {
-                        val row: JSONObject = array.getJSONObject(i)
-                        val helperTag = HelperTag(
-                            row.getLong("helperTagId"),
-                            row.getLong("helperId"), row.getLong("tagId")
-                        )
-                        if(ids.contains(helperTag.helperTagId)) {
-                            helperTagViewModel.update(helperTag)
-                        } else {
-                            helperTagViewModel.insert(helperTag)
-                        }
-                    }
-                }
-            }, {
-                it.printStackTrace()
-            }))
-        }.also { it.start() }
-        tutorialTagThread = Thread {
-            queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorialtags", null,
-                { array ->
-                tutorialTagViewModel.all.observe(activity) {
-                    val ids = mutableListOf<Long>()
-                    for(ttag in it) {
-                        ids.add(ttag.tutorialTagId)
-                    }
-                    for(i in 0 until array.length()) {
-                        val row: JSONObject = array.getJSONObject(i)
-                        val tutorialTag = TutorialTag(
-                            row.getLong("tutorialTagId"),
-                            row.getLong("tutorialId"), row.getLong("tagId")
-                        )
-                        if(ids.contains(tutorialTag.tutorialTagId)) {
-                            tutorialTagViewModel.update(tutorialTag)
-                        } else {
-                            tutorialTagViewModel.insert(tutorialTag)
-                        }
-                    }
-                }
-            }, {
-                it.printStackTrace()
-            }))
-        }.also { it.start() }
-        tagKeywordThread = Thread {
-            queue.add(JsonArrayRequest(Request.Method.GET, url + "tagkeywords", null,
-                { array ->
-                tagKeywordViewModel.all.observe(activity) {
-                    val ids = mutableListOf<Long>()
-                    for(tkey in it) {
-                        ids.add(tkey.tagKeywordId)
-                    }
-                    for(i in 0 until array.length()) {
-                        val row: JSONObject = array.getJSONObject(i)
-                        val tagKeyword = TagKeyword(
-                            row.getLong("tagKeywordId"),
-                            row.getLong("keywordId"), row.getLong("tagId")
-                        )
-                        if(ids.contains(tagKeyword.tagKeywordId)) {
-                            tagKeywordViewModel.update(tagKeyword)
-                        } else {
-                            tagKeywordViewModel.insert(tagKeyword)
-                        }
-                    }
-                }
-            }, {
-                it.printStackTrace()
-            }))
-        }.also { it.start() }
-        categoryTagThread = Thread {
-            queue.add(JsonArrayRequest(Request.Method.GET, url + "categorytags", null,
-                { array ->
-                categoryTagViewModel.all.observe(activity) {
-                    val ids = mutableListOf<Long>()
-                    for(ctag in it) {
-                        ids.add(ctag.categoryTagId)
-                    }
-                    for(i in 0 until array.length()) {
-                        val row: JSONObject = array.getJSONObject(i)
-                        val categoryTag = CategoryTag(
-                            row.getLong("categoryTagId"),
-                            row.getLong("categoryId"), row.getLong("tagId")
-                        )
-                        if(ids.contains(categoryTag.categoryTagId)) {
-                            categoryTagViewModel.update(categoryTag)
-                        } else {
-                            categoryTagViewModel.insert(categoryTag)
-                        }
-                    }
-                }
-            }, {
-                it.printStackTrace()
-            }))
-        }.also { it.start() }
-        instructionThread = Thread {
-            queue.add(JsonArrayRequest(Request.Method.GET, url + "instructions",
-                null, { array ->
-                    instructionSetViewModel.all.observe(activity) {
-                        val ids = mutableListOf<Long>()
-                        for(ins in it) {
-                            ids.add(ins.instructionSetId)
-                        }
-                        for(i in 0 until array.length()) {
-                            val row: JSONObject = array.getJSONObject(i)
-                            val instructionSet = InstructionSet(
-                                row.getLong("instructionSetId"), row.getString("title"),
-                                row.getString("instructions"), row.getInt("time"),
-                                row.getLong("tutorialId"), row.getInt("position"),
-                                row.getString("narrationName")
-                            )
-                            if(ids.contains(instructionSet.instructionSetId)) {
-                                instructionSetViewModel.update(instructionSet)
+                        helperViewModel.getByHelperId(helperId).observe(activity) {
+                            if(it!=null && !it.equals(helper)) {
+                                helperViewModel.update(helper)
                             } else {
-                                instructionSetViewModel.insert(instructionSet)
+                                helperViewModel.insert(helper)
                             }
                         }
                     }
+            }, {
+                it.printStackTrace()
+            }))
+        }
+        helperTagThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "helpertags", null, {
+                    array ->
+                    for(i in 0 until array.length()) {
+                        val row: JSONObject = array.getJSONObject(i)
+                        val helperTagId = row.getLong("helperTagId")
+                        val helperTag = HelperTag(helperTagId,
+                            row.getLong("helperId"), row.getLong("tagId")
+                        )
+                        helperTagViewModel.getByHelperTagId(helperTagId).observe(activity) {
+                            if(it!=null && !it.equals(helperTag)) {
+                                helperTagViewModel.update(helperTag)
+                            } else {
+                                helperTagViewModel.insert(helperTag)
+                           }
+                        }
+                    }
+            }, {
+                it.printStackTrace()
+            }))
+        }
+        tutorialTagThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorialtags", null,
+                { array ->
+                    for(i in 0 until array.length()) {
+                        val row: JSONObject = array.getJSONObject(i)
+                        val tutorialTagId = row.getLong("tutorialTagId")
+                        val tutorialTag = TutorialTag(tutorialTagId,
+                            row.getLong("tutorialId"), row.getLong("tagId")
+                        )
+                        tutorialTagViewModel.getByTutorialTagId(tutorialTagId).observe(activity) {
+                            if (it!=null && !it.equals(tutorialTag)) {
+                                tutorialTagViewModel.update(tutorialTag)
+                            } else {
+                                tutorialTagViewModel.insert(tutorialTag)
+                            }
+                        }
+                    }
+            }, {
+                it.printStackTrace()
+            }))
+        }
+        tagKeywordThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "tagkeywords", null,
+                { array ->
+                    for(i in 0 until array.length()) {
+                        val row: JSONObject = array.getJSONObject(i)
+                        val tagKeywordId = row.getLong("tagKeywordId")
+                        val tagKeyword = TagKeyword(tagKeywordId,
+                            row.getLong("keywordId"), row.getLong("tagId")
+                        )
+                        tagKeywordViewModel.getByTagKeywordId(tagKeywordId).observe(activity) {
+                            if(it!=null && !it.equals(tagKeyword)) {
+                                tagKeywordViewModel.update(tagKeyword)
+                            } else {
+                                tagKeywordViewModel.insert(tagKeyword)
+                            }
+                        }
+                    }
+            }, {
+                it.printStackTrace()
+            }))
+        }
+        categoryTagThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "categorytags", null,
+                { array ->
+                    for(i in 0 until array.length()) {
+                        val row: JSONObject = array.getJSONObject(i)
+                        val categoryTagId = row.getLong("categoryTagId")
+                        val categoryTag = CategoryTag(categoryTagId,
+                            row.getLong("categoryId"), row.getLong("tagId")
+                        )
+                        categoryTagViewModel.getByCategoryTagId(categoryTagId).observe(activity) {
+                            if(it!=null && !it.equals(categoryTag)) {
+                                categoryTagViewModel.update(categoryTag)
+                            } else {
+                                categoryTagViewModel.insert(categoryTag)
+                            }
+                        }
+                    }
+            }, {
+                it.printStackTrace()
+            }))
+        }
+        instructionThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "instructions",
+                null, { array ->
+                        for(i in 0 until array.length()) {
+                            val row: JSONObject = array.getJSONObject(i)
+                            val instructionSetId = row.getLong("instructionSetId")
+                            val instructionSet = InstructionSet(instructionSetId,
+                                row.getString("title"), row.getString("instructions"),
+                                row.getInt("time"), row.getLong("tutorialId"),
+                                row.getInt("position"), row.getString("narrationName")
+                            )
+                            instructionSetViewModel.getByInstructionSetId(instructionSetId)
+                                .observe(activity) {
+                                    if(it!=null && !it.equals(instructionSet)) {
+                                        instructionSetViewModel.update(instructionSet)
+                                    } else {
+                                        instructionSetViewModel.insert(instructionSet)
+                                    }
+                                }
+                        }
                 }, {
                     it.printStackTrace()
                 }))
-        }.also { it.start() }
-        tutorialLinkThread = Thread {
+        }
+        tutorialLinkThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutoriallinks",
                 null, { array ->
-                    tutorialLinkViewModel.all.observe(activity) {
-                        val ids = mutableListOf<Long>()
-                        for(lin in it) {
-                            ids.add(lin.tutorialLinkId)
-                        }
                         for(i in 0 until array.length()) {
                             val row: JSONObject = array.getJSONObject(i)
-                            val tutorialLink = TutorialLink(
-                                row.getLong("tutorialLinkId"),
+                            val tutorialLinkId = row.getLong("tutorialLinkId")
+                            val tutorialLink = TutorialLink(tutorialLinkId,
                                 row.getLong("tutorialId"), row.getLong("originId"),
                                 row.getInt("instructionNumber")
                             )
-                            if(ids.contains(tutorialLink.tutorialLinkId)) {
-                                tutorialLinkViewModel.update(tutorialLink)
+                            tutorialLinkViewModel.getByTutorialLinkId(tutorialLinkId)
+                                .observe(activity) {
+                                if(it!=null && !it.equals(tutorialLink)) {
+                                    tutorialLinkViewModel.update(tutorialLink)
+                                } else {
+                                    tutorialLinkViewModel.insert(tutorialLink)
+                                }
+                            }
+                        }
+                }, {
+                    it.printStackTrace()
+                }))
+        }
+        tutorialSoundThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorialsounds",
+                null, { array ->
+                    for(i in 0 until array.length()) {
+                        val row: JSONObject = array.getJSONObject(i)
+                        val soundId = row.getLong("soundId")
+                        val tutorialSound = TutorialSound(soundId,
+                            row.getLong("soundStart"), row.getBoolean("soundLoop"),
+                            row.getLong("interval"), row.getLong("tutorialId"),
+                            row.getString("fileName")
+                        )
+                        tutorialSoundViewModel.getByTutorialSoundId(soundId).observe(activity) {
+                            if(it!=null && !it.equals(tutorialSound)) {
+                                tutorialSoundViewModel.update(tutorialSound)
                             } else {
-                                tutorialLinkViewModel.insert(tutorialLink)
+                                tutorialSoundViewModel.insert(tutorialSound)
                             }
                         }
                     }
                 }, {
                     it.printStackTrace()
                 }))
-        }.also { it.start() }
+        }
     }
 }

@@ -26,4 +26,7 @@ public interface KeywordDAO
 
     @Query("SELECT * FROM keyword")
     LiveData<List<Keyword>> getAll();
+
+    @Query("SELECT * FROM keyword WHERE keywordId = :keywordId")
+    LiveData<Keyword> getByKeywordId(long keywordId);
 }

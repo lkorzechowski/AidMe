@@ -29,4 +29,7 @@ public interface TagKeywordDAO
 
     @Query("SELECT * FROM tagkeyword WHERE keywordId = :keywordId")
     LiveData<List<TagKeyword>> getByKeywordId(long keywordId);
+
+    @Query("SELECT * FROM TagKeyword WHERE tagKeywordId = :tagKeywordId")
+    LiveData<TagKeyword> getByTagKeywordId(long tagKeywordId);
 }
