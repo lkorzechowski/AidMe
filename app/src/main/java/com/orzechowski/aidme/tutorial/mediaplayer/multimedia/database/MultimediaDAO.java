@@ -26,4 +26,7 @@ public interface MultimediaDAO
 
     @Query("SELECT * FROM multimedia WHERE tutorialId = :tutorialId")
     LiveData<List<Multimedia>> getByTutorialId(long tutorialId);
+
+    @Query("SELECT * FROM multimedia WHERE multimediaId = :multimediaId")
+    LiveData<Multimedia> getByMultimediaId(long multimediaId);
 }

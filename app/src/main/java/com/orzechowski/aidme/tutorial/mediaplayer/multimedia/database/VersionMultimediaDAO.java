@@ -26,4 +26,7 @@ public interface VersionMultimediaDAO
 
     @Query("SELECT multimediaId FROM versionmultimedia WHERE versionId = :versionId")
     LiveData<List<Long>> getByVersionId(long versionId);
+
+    @Query("SELECT * FROM versionmultimedia WHERE versionMultimediaId = :versionMultimediaId")
+    LiveData<VersionMultimedia> getByVersionMultimediaId(long versionMultimediaId);
 }

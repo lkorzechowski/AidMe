@@ -48,4 +48,9 @@ public class VersionViewModel extends AndroidViewModel
     {
         return mRepository.getByParentVersionId(parentId);
     }
+
+    public LiveData<Version> getByVersionId(long versionId)
+    {
+        return mRepository.getByVersionId(versionId);
+    }
 }

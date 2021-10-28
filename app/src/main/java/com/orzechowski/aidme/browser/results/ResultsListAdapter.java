@@ -54,9 +54,11 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         Tutorial tutorial = mTutorials.get(rowNumber);
         long authorId = tutorial.getAuthorId();
         for (Helper helper : mHelpers) {
-            if(authorId == helper.getHelperId()) {
-                holder.author.setText(String.format("Autor: %s %s %s",
-                        helper.getTitle(), helper.getName(), helper.getSurname()));
+            if(helper!=null) {
+                if (authorId == helper.getHelperId()) {
+                    holder.author.setText(String.format("Autor: %s %s %s",
+                            helper.getTitle(), helper.getName(), helper.getSurname()));
+                }
             }
         }
         holder.thisResult = tutorial;

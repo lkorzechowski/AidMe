@@ -26,4 +26,7 @@ public interface VersionSoundDAO
 
     @Query("SELECT tutorialSoundId FROM VersionSound WHERE versionId = :versionId")
     LiveData<List<Long>> getByVersionId(long versionId);
+
+    @Query("SELECT * FROM  VersionSound WHERE versionSoundId = :versionSoundId")
+    LiveData<VersionSound> getByVersionSoundId(long versionSoundId);
 }

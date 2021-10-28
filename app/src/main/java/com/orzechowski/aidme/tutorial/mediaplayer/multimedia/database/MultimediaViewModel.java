@@ -42,4 +42,9 @@ public class MultimediaViewModel extends AndroidViewModel
     {
         return mRepository.getByTutorialId(tutorialId);
     }
+
+    public LiveData<Multimedia> getByMultimediaId(long multimediaId)
+    {
+        return mRepository.getByMultimediaId(multimediaId);
+    }
 }

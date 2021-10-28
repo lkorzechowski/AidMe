@@ -42,4 +42,9 @@ public class MultimediaRepository
     {
         return mDao.getByTutorialId(tutorialId);
     }
+
+    LiveData<Multimedia> getByMultimediaId(long multimediaId)
+    {
+        return mDao.getByMultimediaId(multimediaId);
+    }
 }

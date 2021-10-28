@@ -42,4 +42,9 @@ public class VersionMultimediaRepository
     {
         return mDao.getByVersionId(versionId);
     }
+
+    LiveData<VersionMultimedia> getByVersionMultimediaId(long versionMultimediaId)
+    {
+        return mDao.getByVersionMultimediaId(versionMultimediaId);
+    }
 }

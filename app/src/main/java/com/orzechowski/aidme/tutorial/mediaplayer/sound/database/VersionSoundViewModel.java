@@ -37,4 +37,9 @@ public class VersionSoundViewModel extends AndroidViewModel
     {
         return mRepository.getByVersionId(versionId);
     }
+
+    public LiveData<VersionSound> getByVersionSoundId(long versionSoundId)
+    {
+        return mRepository.getByVersionSoundId(versionSoundId);
+    }
 }

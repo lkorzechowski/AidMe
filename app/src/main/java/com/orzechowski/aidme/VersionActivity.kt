@@ -8,27 +8,34 @@ import com.orzechowski.aidme.tutorial.RequestMedia
 import com.orzechowski.aidme.tutorial.version.VersionListAdapter
 import com.orzechowski.aidme.tutorial.version.VersionRecycler
 import com.orzechowski.aidme.tutorial.version.database.Version
+import kotlin.properties.Delegates
 
 class VersionActivity : AppCompatActivity(R.layout.activity_version),
 VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
 {
     private val bundle = Bundle()
     private val mVersionRecycler = VersionRecycler(this)
-    private lateinit var requestMedia: RequestMedia
+    private lateinit var mRequestMedia: RequestMedia
+    private var mTutorialId by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        val tutorialId = intent.getLongExtra("tutorialId", -1L)
-        bundle.putLong("tutorialId", tutorialId)
-        requestMedia = RequestMedia(this, tutorialId)
-        requestMedia.requestData(cacheDir)
+        mTutorialId = intent.getLongExtra("tutorialId", -1L)
+        bundle.putLong("tutorialId", mTutorialId)
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             mVersionRecycler.arguments = bundle
             add(R.id.layout_versions_list, mVersionRecycler)
         }
+
+    }
+
+    override fun onResume()
+    {
+        mRequestMedia = RequestMedia(this, mTutorialId).also { it.requestData(cacheDir) }
+        super.onResume()
     }
 
     override fun onClick(version: Version)
@@ -49,9 +56,9 @@ VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
         onClick(version)
     }
 
-    override fun onStop()
+    override fun onDestroy()
     {
-        requestMedia.end()
-        super.onStop()
+        mRequestMedia.end()
+        super.onDestroy()
     }
 }

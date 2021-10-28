@@ -42,4 +42,9 @@ public class VersionInstructionRepository
     {
         return mDao.getByVersionId(versionId);
     }
+
+    public LiveData<VersionInstruction> getByVersionInstructionId(long versionInstructionId)
+    {
+        return mDao.getByVersionInstructionId(versionInstructionId);
+    }
 }

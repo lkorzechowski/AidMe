@@ -42,4 +42,9 @@ public class VersionMultimediaViewModel extends AndroidViewModel
     {
         return mRepository.getByVersionId(versionId);
     }
+
+    public LiveData<VersionMultimedia> getByVersionMultimediaId(long versionMultimediaId)
+    {
+        return mRepository.getByVersionMultimediaId(versionMultimediaId);
+    }
 }

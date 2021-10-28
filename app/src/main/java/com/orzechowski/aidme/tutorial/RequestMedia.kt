@@ -10,6 +10,10 @@ import com.orzechowski.aidme.VersionActivity
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.MultimediaViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimedia
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimediaViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSound
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSoundViewModel
 import org.json.JSONObject
 import java.io.*
 import kotlin.concurrent.thread
@@ -19,9 +23,13 @@ class RequestMedia (private val mActivity: VersionActivity, private val mTutoria
     private val viewModelProvider = ViewModelProvider(mActivity)
     private val multimediaViewModel = viewModelProvider.get(MultimediaViewModel::class.java)
     private val instructionSetViewModel = viewModelProvider.get(InstructionSetViewModel::class.java)
-    private lateinit var queue: RequestQueue
+    private val versionMultimediaViewModel =
+        viewModelProvider.get(VersionMultimediaViewModel::class.java)
+    private val versionSoundViewModel = viewModelProvider.get(VersionSoundViewModel::class.java)
+        private lateinit var queue: RequestQueue
     private lateinit var multimediaThread: Thread
-    private lateinit var narrationThread: Thread
+    private lateinit var versionMultimediaThread: Thread
+    private lateinit var versionSoundThread: Thread
 
     fun end()
     {
@@ -29,7 +37,8 @@ class RequestMedia (private val mActivity: VersionActivity, private val mTutoria
             Thread.sleep(5000)
             queue.stop()
             multimediaThread.interrupt()
-            narrationThread.interrupt()
+            versionMultimediaThread.interrupt()
+            versionSoundThread.interrupt()
         }
     }
 
@@ -44,121 +53,118 @@ class RequestMedia (private val mActivity: VersionActivity, private val mTutoria
         val dir = File(mActivity.filesDir.absolutePath).absolutePath + "/"
         multimediaThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "multimedia/" + mTutorialId,
-                null, {
-                        array ->
-                    multimediaViewModel.getByTutorialId(mTutorialId).observe(mActivity)
-                    {
-                        val ids = mutableListOf<Long>()
-                        for(med in it) {
-                            ids.add(med.multimediaId)
-                        }
+                null, { array ->
                         for(i in 0 until array.length()) {
                             val row: JSONObject = array.getJSONObject(i)
                             val fileName = row.getString("fileName")
-                            val multimedia = Multimedia(row.getLong("multimediaId"),
-                                row.getLong("tutorialId"), row.getInt("displaytTime"),
+                            val multimediaId = row.getLong("multimediaId")
+                            val multimedia = Multimedia(multimediaId,
+                                row.getLong("tutorialId"), row.getInt("displayTime"),
                                 row.getBoolean("type"), fileName,
                                 row.getBoolean("loop"), row.getInt("position")
                             )
-                            if(ids.contains(multimedia.multimediaId)) {
-                                multimediaViewModel.update(multimedia)
-                            } else {
-                                multimediaViewModel.insert(multimedia)
-                            }
-                            if(multimedia.type) {
-                                queue.add(
-                                    ImageRequest(url + "files/images/" + fileName, { bitmap ->
-                                        try {
-                                            val file = File(dir + fileName)
-                                            if(file.exists()) {
-                                                throw IOException()
-                                            } else {
-                                                val output = FileOutputStream(file)
-                                                bitmap.compress(Bitmap.CompressFormat.JPEG,
-                                                    100, output)
-                                                output.close()
-                                            }
-                                        } catch (e: FileNotFoundException) {
-                                            e.printStackTrace()
-                                        } catch (e: IOException) {
-                                            e. printStackTrace()
-                                        }
-                                    }, 420, 420, ImageView.ScaleType.FIT_CENTER,
-                                        Bitmap.Config.ARGB_8888, { error -> error.printStackTrace()
-                                        })
-                                )
-                            } else {
-                                queue.add(FileRequest(Request.Method.GET,
-                                    url + "files/vids/" + fileName,
-                                    { byteArray ->
-                                        try {
-                                            val file = File(dir + fileName)
-                                            if(file.exists()) {
-                                                throw IOException()
-                                            } else {
-                                                val inputStream = ByteArrayInputStream(byteArray)
-                                                val outputStream =
-                                                    BufferedOutputStream(FileOutputStream(file))
-                                                val data = ByteArray(1024)
-                                                var total: Long = 0
-                                                var count = 0
-                                                while(count != -1) {
-                                                    count = inputStream.read(data)
-                                                    total += count
-                                                    outputStream.write(data, 0, count)
+                            multimediaViewModel.getByMultimediaId(multimediaId).observe(mActivity) {
+                                if (it!=null) {
+                                    multimediaViewModel.update(multimedia)
+                                } else {
+                                    multimediaViewModel.insert(multimedia)
+                                }
+                                if(multimedia.type) {
+                                    queue.add(
+                                        ImageRequest(url + "files/images/" + fileName, {
+                                                bitmap ->
+                                            try {
+                                                val file = File(dir + fileName)
+                                                if(file.exists()) {
+                                                    throw IOException()
+                                                } else {
+                                                    val output = FileOutputStream(file)
+                                                    bitmap.compress(Bitmap.CompressFormat.JPEG,
+                                                        100, output)
+                                                    output.close()
                                                 }
-                                                outputStream.flush()
-                                                outputStream.close()
-                                                inputStream.close()
+                                            } catch (e: FileNotFoundException) {
+                                                e.printStackTrace()
+                                            } catch (e: IOException) {
+                                                e. printStackTrace()
                                             }
-                                        } catch (e: IOException) {
-                                            e.printStackTrace()
-                                        }
-                                    },
-                                    { error ->
-                                        error.printStackTrace()
-                                    }, null
-                                ))
+                                        }, 420, 420,
+                                            ImageView.ScaleType.FIT_CENTER,
+                                            Bitmap.Config.ARGB_8888, { error ->
+                                                error.printStackTrace()
+                                            })
+                                    )
+                                } else {
+                                    queue.add(FileRequest(Request.Method.GET,
+                                        url + "files/vids/" + fileName,
+                                        { byteArray ->
+                                            val file = File(dir + fileName)
+                                            file.writeBytes(ByteArrayInputStream(byteArray)
+                                                .readBytes())
+                                        },
+                                        { error ->
+                                            error.printStackTrace()
+                                        }, null
+                                    ))
+                                }
                             }
                         }
+                }, {
+                    it.printStackTrace()
+                }))
+        }
+        versionMultimediaThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "versionmultimedia/"
+                    + mTutorialId, null, { array ->
+                    for(i in 0 until array.length()) {
+                        val row: JSONObject = array.getJSONObject(i)
+                        val versionMultimediaId = row.getLong("versionMultimediaId")
+                        val versionMultimedia = VersionMultimedia(versionMultimediaId,
+                            row.getLong("multimediaId"), row.getLong("versionId"))
+                        versionMultimediaViewModel.getByVersionMultimediaId(versionMultimediaId)
+                            .observe(mActivity) {
+                                if(it!=null) {
+                                    versionMultimediaViewModel.update(versionMultimedia)
+                                } else {
+                                    versionMultimediaViewModel.insert(versionMultimedia)
+                                }
+                            }
                     }
                 }, {
                     it.printStackTrace()
                 }))
         }
-        narrationThread = thread {
-            instructionSetViewModel.all.observe(mActivity) { instructions ->
-                for(instruction in instructions) {
-                    queue.add(FileRequest(Request.Method.GET,
-                        url + "files/narrations/" + instruction.narrationFile,
-                        { byteArray ->
-                            try {
-                                val file = File(dir + instruction.narrationFile)
-                                if(file.exists()) {
-                                    throw IOException()
-                                } else {
-                                    val inputStream = ByteArrayInputStream(byteArray)
-                                    val outputStream = BufferedOutputStream(FileOutputStream(file))
-                                    val data = ByteArray(1024)
-                                    var total: Long = 0
-                                    var count = 0
-                                    while(count != -1) {
-                                        count = inputStream.read(data)
-                                        total += count
-                                        outputStream.write(data, 0, count)
-                                    }
-                                    outputStream.flush()
-                                    outputStream.close()
-                                    inputStream.close()
-                                }
-                            } catch (e: IOException) {
-                                e.printStackTrace()
-                            }
-                        }, { error ->
-                           error.printStackTrace()
-                        }, null
-                    ))
-                }
+        versionSoundThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "versionsound/" + mTutorialId,
+                null, { array ->
+                      for(i in 0 until array.length()) {
+                          val row: JSONObject = array.getJSONObject(i)
+                          val versionSoundId = row.getLong("versionSoundId")
+                          val versionSound = VersionSound(versionSoundId,
+                              row.getLong("tutorialSoundId"), row.getLong("versionId"))
+                          versionSoundViewModel.getByVersionSoundId(versionSoundId)
+                              .observe(mActivity) {
+                                  if(it!=null) {
+                                      versionSoundViewModel.update(versionSound)
+                                  } else {
+                                      versionSoundViewModel.insert(versionSound)
+                                  }
+                              }
+                      }
+                }, {
+                    it.printStackTrace()
+                }))
+        }
+        instructionSetViewModel.getByTutorialId(mTutorialId).observe(mActivity) { instructions ->
+            for(instruction in instructions) {
+                queue.add(FileRequest(Request.Method.GET, url + "files/narrations/" +
+                        instruction.narrationFile, { byteArray ->
+                        val file = File(dir + instruction.narrationFile)
+                        file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
+                    }, { error ->
+                        error.printStackTrace()
+                       }, null
+                ))
             }
         }
     }

@@ -26,4 +26,7 @@ public interface VersionInstructionDAO
 
     @Query("SELECT instructionPosition FROM versioninstruction WHERE versionId = :versionId")
     LiveData<List<Integer>> getByVersionId(Long versionId);
+
+    @Query("SELECT * FROM versioninstruction WHERE versionInstructionId = :versionInstructionId")
+    LiveData<VersionInstruction> getByVersionInstructionId(long versionInstructionId);
 }

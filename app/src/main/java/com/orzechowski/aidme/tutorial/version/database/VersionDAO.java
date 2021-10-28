@@ -29,4 +29,7 @@ public interface VersionDAO
 
     @Query("SELECT * FROM version WHERE parentVersionId = :parentId")
     LiveData<List<Version>> getByParentVersionId(long parentId);
+
+    @Query("SELECT * FROM version WHERE versionId = :versionId")
+    LiveData<Version> getByVersionId(long versionId);
 }

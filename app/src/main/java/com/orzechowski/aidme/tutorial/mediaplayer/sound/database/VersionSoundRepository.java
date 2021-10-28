@@ -42,4 +42,9 @@ public class VersionSoundRepository
     {
         return mDao.getByVersionId(versionId);
     }
+
+    LiveData<VersionSound> getByVersionSoundId(long versionSoundId)
+    {
+        return mDao.getByVersionSoundId(versionSoundId);
+    }
 }

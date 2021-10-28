@@ -47,4 +47,9 @@ public class VersionRepository
     {
         return mDao.getByParentVersionId(parentId);
     }
+
+    public LiveData<Version> getByVersionId(long versionId)
+    {
+        return mDao.getByVersionId(versionId);
+    }
 }
