@@ -72,7 +72,6 @@ class RequestAPI (val activity: MainActivity)
     fun end()
     {
         thread {
-            Thread.sleep(5000)
             queue.stop()
             tutorialThread.interrupt()
             categoryThread.interrupt()
@@ -410,7 +409,7 @@ class RequestAPI (val activity: MainActivity)
                             row.getLong("tutorialId"),
                             row.getBoolean("delayGlobalSound"),
                             row.getBoolean("hasChildren"), row.getBoolean("hasParent"),
-                            row.getLong("parenVersionId")
+                            row.getLong("parentVersionId")
                         )
                         versionViewModel.getByVersionId(versionId).observe(activity) {
                             if(it!=null) {

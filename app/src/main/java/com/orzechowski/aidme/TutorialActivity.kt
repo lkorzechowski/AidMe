@@ -20,23 +20,14 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
 {
     private lateinit var mSoundAdapter: SoundAdapter
     private val mMediaPlayer = MultimediaPlayer()
-    private val mInstructionsRecycler = InstructionsRecycler(this)
+    private lateinit var mInstructionsRecycler: InstructionsRecycler
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         val bundle = intent.extras!!
-        setup()
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            mInstructionsRecycler.arguments = bundle
-            add(R.id.layout_instructions_list, mInstructionsRecycler)
-        }
-    }
-
-    private fun setup()
-    {
+        mInstructionsRecycler = InstructionsRecycler(this)
         val tutorialId = intent.extras?.getLong("tutorialId") ?: -1L
         val versionId = intent.extras?.getLong("versionId") ?: -1L
         mMediaPlayer.mTutorialId = tutorialId
@@ -56,8 +47,8 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
             .get(VersionMultimediaViewModel::class.java)
         val mediaViewModel = ViewModelProvider(this).get(MultimediaViewModel::class.java)
         mediaInVersionViewModel.getByVersionId(versionId).observe(this, { multimediaList ->
-                mediaViewModel.getByTutorialId(tutorialId)
-                    .observe(this, {
+            mediaViewModel.getByTutorialId(tutorialId)
+                .observe(this, {
                     for(multimedia : Multimedia in it) {
                         if(multimediaList.contains(multimedia.multimediaId))
                             mMediaPlayer.appendMultimedia(multimedia)
@@ -69,6 +60,11 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
                     }
                 })
         })
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            mInstructionsRecycler.arguments = bundle
+            add(R.id.layout_instructions_list, mInstructionsRecycler)
+        }
     }
 
     override fun onStop()

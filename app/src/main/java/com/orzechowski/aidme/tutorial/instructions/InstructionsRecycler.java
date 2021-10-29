@@ -41,12 +41,11 @@ public class InstructionsRecycler
     private boolean mAutoplay = true;
     private int mSize;
     private final CallbackForTutorialLink mCallback;
-    private final String mPathBase;
+    private String mPathBase;
 
     public InstructionsRecycler(CallbackForTutorialLink callbackForTutorialLink)
     {
         mCallback = callbackForTutorialLink;
-        mPathBase = requireActivity().getFilesDir().getAbsolutePath()+"/";
     }
 
     @Override
@@ -54,6 +53,7 @@ public class InstructionsRecycler
     {
         bundle = requireArguments();
         FragmentActivity activity = requireActivity();
+        mPathBase = activity.getFilesDir().getAbsolutePath()+"/";
         ViewModelProvider provider = new ViewModelProvider(this);
         VersionInstructionViewModel versionInstructionViewModel = provider
                 .get(VersionInstructionViewModel.class);

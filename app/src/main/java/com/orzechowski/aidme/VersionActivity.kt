@@ -5,17 +5,20 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.orzechowski.aidme.tutorial.RequestMedia
+import com.orzechowski.aidme.tutorial.version.TutorialLoading
 import com.orzechowski.aidme.tutorial.version.VersionListAdapter
 import com.orzechowski.aidme.tutorial.version.VersionRecycler
 import com.orzechowski.aidme.tutorial.version.database.Version
 import kotlin.properties.Delegates
 
 class VersionActivity : AppCompatActivity(R.layout.activity_version),
-VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
+    VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback,
+    TutorialLoading.ActivityCallback
 {
     private val bundle = Bundle()
     private val mVersionRecycler = VersionRecycler(this)
     private lateinit var mRequestMedia: RequestMedia
+    private lateinit var mPickedVersion: Version
     private var mTutorialId by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -25,9 +28,8 @@ VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
         mTutorialId = intent.getLongExtra("tutorialId", -1L)
         bundle.putLong("tutorialId", mTutorialId)
         supportFragmentManager.commit {
-            setReorderingAllowed(true)
             mVersionRecycler.arguments = bundle
-            add(R.id.layout_versions_list, mVersionRecycler)
+            add(R.id.layout_version_fragment, mVersionRecycler)
         }
 
     }
@@ -43,11 +45,16 @@ VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
         if(version.hasChildren) {
             mVersionRecycler.getChildVersions(version.versionId)
         } else {
-            val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
-            tutorial.putExtra("versionId", version.versionId)
-            tutorial.putExtra("tutorialId", version.tutorialId)
-            tutorial.putExtra("delayGlobalSound", version.delayGlobalSound)
-            startActivity(tutorial)
+            mPickedVersion = version
+            if(checkDownloadQueue()) {
+                callTutorial()
+            } else {
+                supportFragmentManager.beginTransaction().remove(mVersionRecycler).commit()
+                supportFragmentManager.commit {
+                    add(R.id.layout_version_fragment, TutorialLoading(this@VersionActivity,
+                        this@VersionActivity))
+                }
+            }
         }
     }
 
@@ -60,5 +67,19 @@ VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback
     {
         mRequestMedia.end()
         super.onDestroy()
+    }
+
+    fun checkDownloadQueue(): Boolean
+    {
+        return mRequestMedia.downloadStatus()
+    }
+
+    override fun callTutorial()
+    {
+        val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
+        tutorial.putExtra("versionId", mPickedVersion.versionId)
+        tutorial.putExtra("tutorialId", mPickedVersion.tutorialId)
+        tutorial.putExtra("delayGlobalSound", mPickedVersion.delayGlobalSound)
+        startActivity(tutorial)
     }
 }

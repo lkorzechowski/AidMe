@@ -30,15 +30,17 @@ class RequestMedia (private val mActivity: VersionActivity, private val mTutoria
     private lateinit var multimediaThread: Thread
     private lateinit var versionMultimediaThread: Thread
     private lateinit var versionSoundThread: Thread
+    private lateinit var narrationThread: Thread
+    private var queueCount = 4
 
     fun end()
     {
         thread {
-            Thread.sleep(5000)
             queue.stop()
             multimediaThread.interrupt()
             versionMultimediaThread.interrupt()
             versionSoundThread.interrupt()
+            narrationThread.interrupt()
         }
     }
 
@@ -109,6 +111,7 @@ class RequestMedia (private val mActivity: VersionActivity, private val mTutoria
                                 }
                             }
                         }
+                    queueCount--
                 }, {
                     it.printStackTrace()
                 }))
@@ -130,6 +133,7 @@ class RequestMedia (private val mActivity: VersionActivity, private val mTutoria
                                 }
                             }
                     }
+                    queueCount--
                 }, {
                     it.printStackTrace()
                 }))
@@ -151,21 +155,29 @@ class RequestMedia (private val mActivity: VersionActivity, private val mTutoria
                                   }
                               }
                       }
+                    queueCount--
                 }, {
                     it.printStackTrace()
                 }))
         }
         instructionSetViewModel.getByTutorialId(mTutorialId).observe(mActivity) { instructions ->
-            for(instruction in instructions) {
-                queue.add(FileRequest(Request.Method.GET, url + "files/narrations/" +
-                        instruction.narrationFile, { byteArray ->
+            narrationThread = thread {
+                for (instruction in instructions) {
+                    queue.add(FileRequest(Request.Method.GET, url + "files/narrations/" +
+                            instruction.narrationFile, { byteArray ->
                         val file = File(dir + instruction.narrationFile)
                         file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
+                        queueCount--
                     }, { error ->
                         error.printStackTrace()
-                       }, null
-                ))
+                    }, null))
+                }
             }
         }
+    }
+
+    fun downloadStatus(): Boolean
+    {
+        return queueCount==0
     }
 }

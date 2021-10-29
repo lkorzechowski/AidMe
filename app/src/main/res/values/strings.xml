@@ -95,6 +95,8 @@
     <string name="link_edit_button">Edytuj</string>
     <string name="link_delete_button">Usuń</string>
     <string name="link_edit">Co chciałbyś/ałabyć zmienić?</string>
+    <string name="tutorial_loading_info">Aplikacja pobiera pozostałe dane.</string>
+    <string name="skip">Pomiń</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

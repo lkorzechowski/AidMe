@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         GlobalRoomDatabase.getDatabase(applicationContext)
-        requestAPI = RequestAPI(this).also { it.requestData(cacheDir) }
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<EmergencyNumbersRecycler>(R.id.phone_number_recycler_main)
@@ -44,6 +43,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
         signInButton.setOnClickListener {
             startActivity(Intent(this@MainActivity, SignInActivity::class.java))
         }
+    }
+
+    override fun onResume()
+    {
+        requestAPI = RequestAPI(this).also { it.requestData(cacheDir) }
+        super.onResume()
     }
 
     override fun onDestroy()

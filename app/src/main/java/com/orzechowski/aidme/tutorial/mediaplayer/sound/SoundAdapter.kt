@@ -9,10 +9,8 @@ import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
 import java.util.*
 import kotlin.collections.ArrayList
 
-class SoundAdapter (private val mDelayGlobalSound: Boolean,
-                    private val mVersionSounds: List<Long>,
-                    private val mSounds: List<TutorialSound>,
-                    private val mActivity: Activity)
+class SoundAdapter(private val mDelayGlobalSound: Boolean, private val mVersionSounds: List<Long>,
+                   private val mSounds: List<TutorialSound>, private val mActivity: Activity)
 {
     private val mThreads: ArrayList<Thread> = ArrayList()
 
