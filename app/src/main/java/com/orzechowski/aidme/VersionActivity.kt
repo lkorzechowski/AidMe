@@ -76,10 +76,14 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
 
     override fun callTutorial()
     {
-        val tutorial = Intent(this@VersionActivity, TutorialActivity::class.java)
-        tutorial.putExtra("versionId", mPickedVersion.versionId)
-        tutorial.putExtra("tutorialId", mPickedVersion.tutorialId)
-        tutorial.putExtra("delayGlobalSound", mPickedVersion.delayGlobalSound)
-        startActivity(tutorial)
+        val intent = Intent(this@VersionActivity, TutorialActivity::class.java)
+        intent.putExtra("versionId", mPickedVersion.versionId)
+        intent.putExtra("tutorialId", mPickedVersion.tutorialId)
+        intent.putExtra("delayGlobalSound", mPickedVersion.delayGlobalSound)
+        startActivity(intent)
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this@VersionActivity, BrowserActivity::class.java))
     }
 }

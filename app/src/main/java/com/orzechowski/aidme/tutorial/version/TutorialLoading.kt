@@ -29,7 +29,7 @@ class TutorialLoading(private val mActivity: VersionActivity,
         val progressThread = thread {
             var timeout = 0
             try {
-                while(!mActivity.checkDownloadQueue() && timeout < 5) {
+                while(!mActivity.checkDownloadQueue() && timeout < 4) {
                     Thread.sleep(500)
                     mActivity.runOnUiThread {
                         progressOne.visibility = View.VISIBLE

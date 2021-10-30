@@ -211,7 +211,7 @@ class RequestAPI (val activity: MainActivity)
                     for(i in 0 until array.length()) {
                         val row: JSONObject = array.getJSONObject(i)
                         val keywordId = row.getLong("keywordId")
-                        val keyword = Keyword(keywordId, row.getString("word"))
+                        val keyword = Keyword(keywordId, row.getString("keyword"))
                         keywordViewModel.getByKeywordId(keywordId).observe(activity) {
                             if(it!=null) {
                                 keywordViewModel.update(keyword)

@@ -105,7 +105,9 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
                 }
             }
         }
-        if(!handled) super.onBackPressed()
+        if(!handled) {
+            startActivity(Intent(this@BrowserActivity, MainActivity::class.java))
+        }
     }
 
     override fun onRestart()

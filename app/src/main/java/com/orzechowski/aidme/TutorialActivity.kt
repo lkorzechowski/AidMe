@@ -14,6 +14,7 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMul
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.SoundAdapter
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSoundViewModel
+import kotlin.properties.Delegates
 
 class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
     InstructionsRecycler.CallbackForTutorialLink
@@ -21,6 +22,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
     private lateinit var mSoundAdapter: SoundAdapter
     private val mMediaPlayer = MultimediaPlayer()
     private lateinit var mInstructionsRecycler: InstructionsRecycler
+    private var mTutorialId by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -28,14 +30,14 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
         supportActionBar?.hide()
         val bundle = intent.extras!!
         mInstructionsRecycler = InstructionsRecycler(this)
-        val tutorialId = intent.extras?.getLong("tutorialId") ?: -1L
+        mTutorialId = intent.extras?.getLong("tutorialId") ?: -1L
         val versionId = intent.extras?.getLong("versionId") ?: -1L
-        mMediaPlayer.mTutorialId = tutorialId
+        mMediaPlayer.mTutorialId = mTutorialId
         val soundInVersionViewModel = ViewModelProvider(this)
             .get(VersionSoundViewModel::class.java)
         val soundViewModel = ViewModelProvider(this).get(TutorialSoundViewModel::class.java)
         soundInVersionViewModel.getByVersionId(versionId).observe(this, { soundsInVersion ->
-            soundViewModel.getByTutorialId(tutorialId).observe(this, { sounds ->
+            soundViewModel.getByTutorialId(mTutorialId).observe(this, { sounds ->
                 mSoundAdapter = SoundAdapter(
                     intent.extras?.getBoolean("delayGlobalSound") ?: false,
                     soundsInVersion, sounds, this
@@ -47,7 +49,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
             .get(VersionMultimediaViewModel::class.java)
         val mediaViewModel = ViewModelProvider(this).get(MultimediaViewModel::class.java)
         mediaInVersionViewModel.getByVersionId(versionId).observe(this, { multimediaList ->
-            mediaViewModel.getByTutorialId(tutorialId)
+            mediaViewModel.getByTutorialId(mTutorialId)
                 .observe(this, {
                     for(multimedia : Multimedia in it) {
                         if(multimediaList.contains(multimedia.multimediaId))
@@ -77,8 +79,15 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
 
     override fun serveNewTutorial(tutorialLink: TutorialLink)
     {
-        val newTutorial = Intent(this@TutorialActivity, VersionActivity::class.java)
-        newTutorial.putExtra("tutorialId", tutorialLink.tutorialId)
-        startActivity(newTutorial)
+        val intent = Intent(this@TutorialActivity, VersionActivity::class.java)
+        intent.putExtra("tutorialId", tutorialLink.tutorialId)
+        startActivity(intent)
+    }
+
+    override fun onBackPressed()
+    {
+        val intent = Intent(this@TutorialActivity, VersionActivity::class.java)
+        intent.putExtra("tutorialId", mTutorialId)
+        startActivity(intent)
     }
 }
