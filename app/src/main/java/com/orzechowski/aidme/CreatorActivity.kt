@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.Toast
 import androidx.annotation.NonNull
@@ -65,21 +66,22 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mTutorialTags: List<TutorialTag>
     private lateinit var mKeywords: List<Keyword>
     private lateinit var mUniqueTag: Tag
+    private var pickingMiniature = false
+    private lateinit var miniatureFileUri: String
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
-        val progressButton = findViewById<Button>(R.id.creator_step_one_button)
-        progressButton.setOnClickListener {
+        findViewById<Button>(R.id.creator_step_one_button).setOnClickListener {
             val instructions = mInstructionComposer.instructions
             var lengthRegex = true
             for(instruction in instructions) {
                 if(instruction.instructions.length<4) lengthRegex = false
             }
             if(instructions.isEmpty() || !lengthRegex) {
-                Toast.makeText(this, R.string.instructions_not_provided, Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, R.string.instructions_not_provided,
+                    Toast.LENGTH_SHORT).show()
             } else {
                 val versions = mVersionComposer.versions
                 mVersions = if(versions.isEmpty()) {
@@ -104,6 +106,9 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 commitVersionTree()
                 mView.visibility = View.GONE
             }
+        }
+        findViewById<Button>(R.id.tutorial_miniature_upload_button).setOnClickListener {
+            pickingMiniature = true
         }
         mView = findViewById(R.id.initial_creator_view)
         commitInitial()
@@ -195,9 +200,14 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     override fun imageSubmitted(uri: Uri)
     {
         supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
-        mMultimediaComposer.multimedias[mMultimediaComposer.currentPosition].fileUriString =
-            uri.toString()
-        mMultimediaComposer.resetAdapterElements()
+        if(!pickingMiniature) {
+            mMultimediaComposer.multimedias[mMultimediaComposer.currentPosition].fileUriString =
+                uri.toString()
+            mMultimediaComposer.resetAdapterElements()
+        } else {
+            findViewById<ImageView>(R.id.tutorial_miniature).setImageURI(uri)
+            miniatureFileUri = uri.toString()
+        }
         mView.visibility = View.VISIBLE
     }
 

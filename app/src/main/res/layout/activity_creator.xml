@@ -16,12 +16,58 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/tutorial_miniature"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/image_default_no_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <Button
+                android:id="@+id/tutorial_miniature_upload_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tutorial_miniature_upload_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tutorial_miniature"
+                app:layout_constraintBottom_toBottomOf="@id/tutorial_miniature"/>
+
+            <TextView
+                android:id="@+id/tutorial_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="36sp"
+                android:text="@string/title"
+                app:layout_constraintBottom_toBottomOf="@id/tutorial_title_input"
+                app:layout_constraintTop_toTopOf="@id/tutorial_title_input"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <EditText
+                android:id="@+id/tutorial_title_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autofillHints="false"
+                android:inputType="text"
+                android:hint="@string/tutorial_title_input"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tutorial_miniature"/>
+
+            <View
+                android:id="@+id/separator_creator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/yellow1"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintTop_toBottomOf="@id/tutorial_title_input"/>
+
             <LinearLayout
                 android:id="@+id/layout_version_creator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator_creator"
                 app:layout_constraintBottom_toTopOf="@id/layout_instruction_creator"/>
 
             <LinearLayout

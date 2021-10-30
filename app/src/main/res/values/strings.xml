@@ -97,6 +97,9 @@
     <string name="link_edit">Co chciałbyś/ałabyć zmienić?</string>
     <string name="tutorial_loading_info">Aplikacja pobiera pozostałe dane.</string>
     <string name="skip">Pomiń</string>
+    <string name="title">Tytuł</string>
+    <string name="tutorial_title_input">Wpisz tytuł</string>
+    <string name="tutorial_miniature_upload_button">Wstaw miniaturkę</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
