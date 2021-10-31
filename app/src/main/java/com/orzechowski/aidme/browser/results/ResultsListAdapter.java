@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.orzechowski.aidme.R;
 import com.orzechowski.aidme.browser.userrating.Rating;
 import com.orzechowski.aidme.browser.userrating.RatingViewModel;
-import com.orzechowski.aidme.database.helper.Helper;
+import com.orzechowski.aidme.helper.database.Helper;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 
 import java.util.List;

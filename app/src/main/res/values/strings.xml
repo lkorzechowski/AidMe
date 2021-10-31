@@ -100,6 +100,11 @@
     <string name="title">Tytuł</string>
     <string name="tutorial_title_input">Wpisz tytuł</string>
     <string name="tutorial_miniature_upload_button">Wstaw miniaturkę</string>
+    <string name="unverified_helper_info">Nie jesteś zweryfikowany/a! Aby móc publikować treść musisz dostarczyć poświadczenie odpowiednich kwalifikacji w formie zdjęcia/skanu dokumentu. Dokumenty przesłane na serwer nie są upubliczniane, dostęp do nich ma i będzie mieć wyłącznie adminstrator.</string>
+    <string name="verify_button">Zweryfikuj się!</string>
+    <string name="verify_button_post_upload">Zmień obraz</string>
+    <string name="document_upload_button">Wyślij dokument</string>
+    <string name="unverified_helper_awaiting_response">Trwa oczekiwanie na odpowiedź administratora, prosimy o cierpliwość.</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

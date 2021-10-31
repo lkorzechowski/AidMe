@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.database.helper.Helper;
-import com.orzechowski.aidme.database.helper.HelperViewModel;
+import com.orzechowski.aidme.helper.database.Helper;
+import com.orzechowski.aidme.helper.database.HelperViewModel;
 
 public class HelperRecycler extends Fragment implements HelperListAdapter.FragmentCallback
 {

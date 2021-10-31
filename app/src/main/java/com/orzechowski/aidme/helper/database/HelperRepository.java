@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.database.helper;
+package com.orzechowski.aidme.helper.database;
 
 import android.app.Application;
 

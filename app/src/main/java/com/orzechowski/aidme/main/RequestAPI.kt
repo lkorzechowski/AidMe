@@ -13,9 +13,9 @@ import com.orzechowski.aidme.browser.search.database.Keyword
 import com.orzechowski.aidme.browser.search.database.KeywordViewModel
 import com.orzechowski.aidme.browser.search.database.TagKeyword
 import com.orzechowski.aidme.browser.search.database.TagKeywordViewModel
-import com.orzechowski.aidme.database.helper.Helper
-import com.orzechowski.aidme.database.helper.HelperViewModel
 import com.orzechowski.aidme.database.tag.*
+import com.orzechowski.aidme.helper.database.Helper
+import com.orzechowski.aidme.helper.database.HelperViewModel
 import com.orzechowski.aidme.tutorial.database.Tutorial
 import com.orzechowski.aidme.tutorial.database.TutorialLink
 import com.orzechowski.aidme.tutorial.database.TutorialLinkViewModel

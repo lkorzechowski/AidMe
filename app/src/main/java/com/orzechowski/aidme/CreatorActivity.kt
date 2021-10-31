@@ -18,7 +18,6 @@ import com.orzechowski.aidme.creator.initial.InstructionComposer
 import com.orzechowski.aidme.creator.initial.MultimediaComposer
 import com.orzechowski.aidme.creator.initial.SoundComposer
 import com.orzechowski.aidme.creator.initial.VersionComposer
-import com.orzechowski.aidme.creator.initial.imagebrowser.ImageBrowserLoader
 import com.orzechowski.aidme.creator.initial.soundbrowser.Sound
 import com.orzechowski.aidme.creator.initial.soundbrowser.SoundBrowserLoader
 import com.orzechowski.aidme.creator.initial.soundbrowser.narrationbrowser.NarrationBrowserLoader
@@ -28,6 +27,7 @@ import com.orzechowski.aidme.creator.versioninstruction.VersionInstructionCompos
 import com.orzechowski.aidme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.aidme.database.tag.Tag
 import com.orzechowski.aidme.database.tag.TutorialTag
+import com.orzechowski.aidme.imagebrowser.ImageBrowserLoader
 import com.orzechowski.aidme.tutorial.database.TutorialLink
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
 import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia

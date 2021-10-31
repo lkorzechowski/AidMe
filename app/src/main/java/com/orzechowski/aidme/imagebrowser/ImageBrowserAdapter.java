@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.creator.initial.imagebrowser;
+package com.orzechowski.aidme.imagebrowser;
 
 import android.app.Activity;
 import android.net.Uri;

@@ -3,6 +3,7 @@ package com.orzechowski.aidme
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -24,6 +25,7 @@ class SignInActivity : AppCompatActivity()
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
                 progress(account)
             } catch (e: ApiException) {
+                Toast.makeText(this, "Couldn't sign in", Toast.LENGTH_SHORT)
                 startActivity(Intent(this@SignInActivity, MainActivity::class.java))
             }
         }

@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.database.helper.Helper;
+import com.orzechowski.aidme.helper.database.Helper;
 
 import java.util.List;
 

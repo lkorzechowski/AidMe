@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.aidme.R;
-import com.orzechowski.aidme.database.helper.Helper;
-import com.orzechowski.aidme.database.helper.HelperViewModel;
 import com.orzechowski.aidme.database.tag.HelperTag;
 import com.orzechowski.aidme.database.tag.HelperTagViewModel;
 import com.orzechowski.aidme.database.tag.TutorialTag;
 import com.orzechowski.aidme.database.tag.TutorialTagViewModel;
+import com.orzechowski.aidme.helper.database.Helper;
+import com.orzechowski.aidme.helper.database.HelperViewModel;
 import com.orzechowski.aidme.tutorial.database.Tutorial;
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel;
 
