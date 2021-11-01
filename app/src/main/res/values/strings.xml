@@ -105,6 +105,10 @@
     <string name="verify_button_post_upload">Zmień obraz</string>
     <string name="document_upload_button">Wyślij dokument</string>
     <string name="unverified_helper_awaiting_response">Trwa oczekiwanie na odpowiedź administratora, prosimy o cierpliwość.</string>
+    <string name="name">Imię</string>
+    <string name="surname">Nazwisko</string>
+    <string name="profession">Zawód</string>
+    <string name="number">Numer</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
