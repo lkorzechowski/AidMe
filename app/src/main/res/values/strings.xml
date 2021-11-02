@@ -109,6 +109,7 @@
     <string name="surname">Nazwisko</string>
     <string name="profession">Zawód</string>
     <string name="number">Numer</string>
+    <string name="submit_helper_settings_button">Wyślij zmienione dane</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

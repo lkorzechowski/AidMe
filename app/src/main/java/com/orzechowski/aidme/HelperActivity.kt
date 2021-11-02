@@ -4,30 +4,38 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.*
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.orzechowski.aidme.helper.BooleanRequest
+import com.orzechowski.aidme.helper.HelperSettings
 
-class HelperActivity : AppCompatActivity()
+class HelperActivity : AppCompatActivity(), HelperSettings.ActivityCallback
 {
     private val red = ColorStateList.valueOf(Color.argb(100, 255, 0, 0))
     private val green = ColorStateList.valueOf(Color.argb(100, 0, 255, 0))
+    private val mSettings = HelperSettings(this)
     private lateinit var viewModelProvider: ViewModelProvider
     private lateinit var queue: RequestQueue
+    private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_helper)
+        mView = findViewById(R.id.helper_primary_view)
         viewModelProvider = ViewModelProvider(this)
-        val email = intent.getStringExtra("email")!!.replace(".", "xyz121")
+        var email = intent.getStringExtra("email")!!.replace(".", "xyz121")
             .replace("@", "xyz122")
+        mSettings.arguments = bundleOf(Pair("email", email))
         val url = "https://aidme-326515.appspot.com/"
         val cache = DiskBasedCache(cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
@@ -71,7 +79,10 @@ class HelperActivity : AppCompatActivity()
                             CreatorActivity::class.java))
                     }
                     findViewById<Button>(R.id.helper_settings_button).setOnClickListener {
-
+                        mView.visibility = View.INVISIBLE
+                        supportFragmentManager.commit {
+                            add(R.id.fragment_overlay_layout, mSettings)
+                        }
                     }
                     findViewById<Button>(R.id.helper_chat_button).setOnClickListener {
 
@@ -95,5 +106,11 @@ class HelperActivity : AppCompatActivity()
     {
         queue.stop()
         super.onDestroy()
+    }
+
+    override fun submittedSettings()
+    {
+        supportFragmentManager.beginTransaction().remove(mSettings).commit()
+        mView.visibility = View.VISIBLE
     }
 }
