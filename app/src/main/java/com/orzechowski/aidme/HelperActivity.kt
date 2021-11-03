@@ -14,8 +14,8 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.*
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.orzechowski.aidme.helper.BooleanRequest
 import com.orzechowski.aidme.helper.HelperSettings
+import com.orzechowski.aidme.volley.BooleanRequest
 
 class HelperActivity : AppCompatActivity(), HelperSettings.ActivityCallback
 {
@@ -33,7 +33,7 @@ class HelperActivity : AppCompatActivity(), HelperSettings.ActivityCallback
         setContentView(R.layout.activity_helper)
         mView = findViewById(R.id.helper_primary_view)
         viewModelProvider = ViewModelProvider(this)
-        var email = intent.getStringExtra("email")!!.replace(".", "xyz121")
+        val email = intent.getStringExtra("email")!!.replace(".", "xyz121")
             .replace("@", "xyz122")
         mSettings.arguments = bundleOf(Pair("email", email))
         val url = "https://aidme-326515.appspot.com/"
@@ -61,13 +61,16 @@ class HelperActivity : AppCompatActivity(), HelperSettings.ActivityCallback
                         if(!helping) {
                             helping = true
                             queue.add(BooleanRequest(Request.Method.GET,
-                                url + "help/" + email + "/t", null, {}, {}))
+                                url + "help/" + email + "/t", null, {}, {})
+                            )
                             helperToggleButton.backgroundTintList = green
                             helperToggleButton.setIconResource(R.drawable.ic_check)
                         } else {
                             helping = false
-                            queue.add(BooleanRequest(Request.Method.GET,
-                                url + "help/" + email + "/f", null, {}, {}))
+                            queue.add(BooleanRequest(
+                                Request.Method.GET, url + "help/" + email + "/f",
+                                null, {}, {})
+                            )
                             helperToggleButton.backgroundTintList = red
                             helperToggleButton.setIconResource(R.drawable.ic_cross)
                         }
@@ -88,8 +91,10 @@ class HelperActivity : AppCompatActivity(), HelperSettings.ActivityCallback
 
                     }
                 } else {
-                    startActivity(Intent(this@HelperActivity,
-                        UnverifiedHelperActivity::class.java))
+                    intent = Intent(this@HelperActivity,
+                        UnverifiedHelperActivity::class.java)
+                    intent.putExtra("email", email)
+                    startActivity(intent)
                 }
             }, {
                 it.printStackTrace()

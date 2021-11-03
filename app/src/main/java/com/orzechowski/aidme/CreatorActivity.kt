@@ -1,7 +1,11 @@
 package com.orzechowski.aidme
 
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -12,6 +16,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.BasicNetwork
+import com.android.volley.toolbox.DiskBasedCache
+import com.android.volley.toolbox.HurlStack
 import com.orzechowski.aidme.browser.search.database.Keyword
 import com.orzechowski.aidme.creator.categorypicker.CategoryAssignment
 import com.orzechowski.aidme.creator.initial.InstructionComposer
@@ -34,6 +43,12 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
 import com.orzechowski.aidme.tutorial.version.database.Version
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
+import com.orzechowski.aidme.volley.DataPart
+import com.orzechowski.aidme.volley.VolleyMultipartRequest
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 import kotlin.concurrent.thread
 
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
@@ -68,6 +83,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mUniqueTag: Tag
     private var pickingMiniature = false
     private lateinit var miniatureFileUri: String
+    private lateinit var mQueue: RequestQueue
+    private lateinit var mProgressThread: Thread
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -324,7 +341,50 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         val uploadLayout: ConstraintLayout = findViewById(R.id.creator_uploading_data)
         uploadLayout.visibility = View.VISIBLE
         val uploaded = false
-        val progressThread = thread {
+        val url = "https://aidme-326515.appspot.com/"
+        val cache = DiskBasedCache(cacheDir, 1024*1024)
+        val network = BasicNetwork(HurlStack())
+        mQueue = RequestQueue(cache, network).apply {
+            start()
+        }
+        for(multimedia in mMultimedias) {
+            if (multimedia.type) {
+                lateinit var byteArray: ByteArray
+                try {
+                    val uri = Uri.parse(multimedia.fileUriString)
+                    val bitmap = when { Build.VERSION.SDK_INT > 28 ->
+                            ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver,
+                                uri))
+                        else -> MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                    }
+                    val byteArrayOutputStream = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+                    byteArray = byteArrayOutputStream.toByteArray()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                if (byteArray.isNotEmpty()) {
+                    val volleyMultipartRequest =
+                        VolleyMultipartRequest(Request.Method.GET,
+                            url + "tutorialcreationuploadimagemultimedia",
+                            {
+                                try {
+                                    Toast.makeText(applicationContext, JSONObject(String(it.data))
+                                        .getString("message"), Toast.LENGTH_SHORT).show()
+                                } catch (e: JSONException) {
+                                    e.printStackTrace()
+                                }
+                            },
+                            {
+                                it.printStackTrace()
+                            })
+                    volleyMultipartRequest.setData(DataPart(System.currentTimeMillis()
+                        .toString() + ".jpeg", byteArray))
+                    mQueue.add(volleyMultipartRequest)
+                }
+            }
+        }
+        mProgressThread = thread {
             val progressOne: View = findViewById(R.id.creator_upload_progress_1)
             val progressTwo: View = findViewById(R.id.creator_upload_progress_2)
             val progressThree: View = findViewById(R.id.creator_upload_progress_3)
@@ -353,7 +413,12 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 e.printStackTrace()
             }
         }
-        if(!progressThread.isAlive) progressThread.start()
-        //startActivity(Intent(this@CreatorActivity, HelperActivity::class.java))
+    }
+
+    override fun onDestroy()
+    {
+        mQueue.stop()
+        mProgressThread.interrupt()
+        super.onDestroy()
     }
 }

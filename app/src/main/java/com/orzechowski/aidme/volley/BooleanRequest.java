@@ -1,4 +1,4 @@
-package com.orzechowski.aidme.helper;
+package com.orzechowski.aidme.volley;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;

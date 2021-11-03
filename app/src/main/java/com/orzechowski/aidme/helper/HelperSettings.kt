@@ -16,6 +16,7 @@ import com.android.volley.toolbox.HurlStack
 import com.android.volley.toolbox.JsonObjectRequest
 import com.orzechowski.aidme.HelperActivity
 import com.orzechowski.aidme.R
+import com.orzechowski.aidme.volley.BooleanRequest
 
 class HelperSettings(val mActivity: HelperActivity): Fragment()
 {
@@ -68,14 +69,19 @@ class HelperSettings(val mActivity: HelperActivity): Fragment()
                         if(title.isEmpty()) title = "null"
                         if(profession.isEmpty()) profession = "null"
                         if(phone.length < 8) phone = "null"
-                        mQueue.add(BooleanRequest(Request.Method.GET, url +
-                                "setfullhelperdetailforemail/" + mEmail + "/" +
-                                result.getString("helperId") + "/" + name + "/" + surname +
-                                "/" + title + "/" + profession + "/" + phone, null, {
-                            mCallback.submittedSettings()
-                        }, {
-                            it.printStackTrace()
-                        }
+                        mQueue.add(BooleanRequest(
+                            Request.Method.GET,
+                            url +
+                                    "setfullhelperdetailforemail/" + mEmail + "/" +
+                                    result.getString("helperId") + "/" + name + "/" + surname +
+                                    "/" + title + "/" + profession + "/" + phone,
+                            null,
+                            {
+                                mCallback.submittedSettings()
+                            },
+                            {
+                                it.printStackTrace()
+                            }
                         ))
                     } else {
                         Toast.makeText(mActivity, "Nazwisko jest zbyt krótkie",
