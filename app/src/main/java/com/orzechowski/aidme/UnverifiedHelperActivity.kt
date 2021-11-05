@@ -25,12 +25,12 @@ import com.android.volley.toolbox.DiskBasedCache
 import com.android.volley.toolbox.HurlStack
 import com.android.volley.toolbox.JsonObjectRequest
 import com.orzechowski.aidme.imagebrowser.ImageBrowserLoader
-import com.orzechowski.aidme.volley.DataPart
-import com.orzechowski.aidme.volley.VolleyMultipartRequest
-import org.json.JSONException
-import org.json.JSONObject
+import com.orzechowski.aidme.volley.MultipartRequest
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.DataOutputStream
 import java.io.IOException
+import kotlin.math.min
 
 class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.ActivityCallback
 {
@@ -90,36 +90,35 @@ class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.Activit
         val uploadButton = findViewById<Button>(R.id.document_upload_button)
         findViewById<ImageView>(R.id.document_display).setImageURI(uri)
         uploadButton.visibility = View.VISIBLE
+
         uploadButton.setOnClickListener {
-            lateinit var byteArray: ByteArray
+            val twoHyphens = "--"
+            val lineEnd = "\r\n"
+            val boundary = "apiclient-" + System.currentTimeMillis()
+            val mimeType = "multipart/form-data;boundary=$boundary"
+            lateinit var body: ByteArray
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val dataOutputStream = DataOutputStream(byteArrayOutputStream)
             try {
                 val bitmap = when { Build.VERSION.SDK_INT > 28 ->
                     ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, uri))
                     else -> MediaStore.Images.Media.getBitmap(contentResolver, uri)
                 }
-                val byteArrayOutputStream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-                byteArray = byteArrayOutputStream.toByteArray()
+                body = byteArrayOutputStream.toByteArray()
+                build(dataOutputStream, body, mEmail.replace("xyz121", ".")
+                    .replace("xyz122", "@") + ".jpeg")
+                dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-            if(byteArray.isNotEmpty()) {
-                val volleyMultipartRequest = VolleyMultipartRequest(Request.Method.GET, mUrl +
-                        "userdocumentuploadimage", {
-                    try {
-                        Toast.makeText(applicationContext, JSONObject(String(it.data))
-                            .getString("message"), Toast.LENGTH_SHORT).show()
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
+            val request = MultipartRequest(mUrl+"userdocumentuploadimage/"+mEmail,
+                mapOf("content-type" to "multipart/form-data;boundary=$boundary"), mimeType, body, {
+                    Toast.makeText(this, "turkusowy", Toast.LENGTH_SHORT).show()
                 }, {
                     it.printStackTrace()
                 })
-                volleyMultipartRequest.setData(DataPart(mEmail
-                    .replace("xyz121", ".").replace("xyz122", "@")
-                        + ".jpeg", byteArray, "binary"))
-                mQueue.add(volleyMultipartRequest)
-            }
+            mQueue.add(request)
         }
         mView.visibility = View.VISIBLE
     }
@@ -133,5 +132,29 @@ class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.Activit
     {
         mQueue.stop()
         super.onDestroy()
+    }
+
+    fun build(dataOutputStream: DataOutputStream, data: ByteArray, fileName: String)
+    {
+        val twoHyphens = "--"
+        val lineEnd = "\r\n"
+        val boundary = "apiclient-" + System.currentTimeMillis()
+        dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd)
+        dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\"; " +
+                "filename=\"$fileName\"$lineEnd")
+        dataOutputStream.writeBytes(lineEnd)
+        val fileInputStream = ByteArrayInputStream(data)
+        var bytesAvailable = fileInputStream.available()
+        val maxBufferSize = 1048576
+        var bufferSize = min(bytesAvailable, maxBufferSize)
+        val buffer = ByteArray(bufferSize)
+        var bytesRead = fileInputStream.read(buffer, 0, bufferSize)
+        while(bytesRead > 0) {
+            dataOutputStream.write(buffer, 0, bufferSize)
+            bytesAvailable = fileInputStream.available()
+            bufferSize = min(bytesAvailable, maxBufferSize)
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize)
+        }
+        dataOutputStream.writeBytes(lineEnd)
     }
 }

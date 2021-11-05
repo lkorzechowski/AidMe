@@ -1,11 +1,7 @@
 package com.orzechowski.aidme
 
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -16,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.BasicNetwork
 import com.android.volley.toolbox.DiskBasedCache
@@ -43,12 +38,6 @@ import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.Multimedia
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
 import com.orzechowski.aidme.tutorial.version.database.Version
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
-import com.orzechowski.aidme.volley.DataPart
-import com.orzechowski.aidme.volley.VolleyMultipartRequest
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.ByteArrayOutputStream
-import java.io.IOException
 import kotlin.concurrent.thread
 
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
@@ -349,6 +338,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
         for(multimedia in mMultimedias) {
             if (multimedia.type) {
+                /**
                 lateinit var byteArray: ByteArray
                 try {
                     val uri = Uri.parse(multimedia.fileUriString)
@@ -365,12 +355,14 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 }
                 if (byteArray.isNotEmpty()) {
                     val volleyMultipartRequest =
-                        VolleyMultipartRequest(Request.Method.GET,
+                        MultipartRequest(Request.Method.GET,
                             url + "tutorialcreationuploadimagemultimedia",
                             {
                                 try {
-                                    Toast.makeText(applicationContext, JSONObject(String(it.data))
-                                        .getString("message"), Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        applicationContext, JSONObject(String(it.data))
+                                            .getString("message"), Toast.LENGTH_SHORT
+                                    ).show()
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
                                 }
@@ -381,7 +373,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     volleyMultipartRequest.setData(DataPart(System.currentTimeMillis()
                         .toString() + ".jpeg", byteArray, "binary"))
                     mQueue.add(volleyMultipartRequest)
-                }
+                }*/
             }
         }
         mProgressThread = thread {
