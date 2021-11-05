@@ -22,7 +22,7 @@ public class VolleyMultipartRequest extends Request<NetworkResponse>
     private final String boundary = "apiclient-" + System.currentTimeMillis();
     private final Response.Listener<NetworkResponse> mListener;
     private final Response.ErrorListener mErrorListener;
-    private Map<String, String> mHeaders;
+    private final Map<String, String> mHeaders = new HashMap<>();
     private DataPart dataSet;
 
     public void setData(DataPart dataSet)
@@ -37,6 +37,9 @@ public class VolleyMultipartRequest extends Request<NetworkResponse>
         super(method, url, errorListener);
         mListener = listener;
         mErrorListener = errorListener;
+        mHeaders.put("Cache-Control", "no-cache, no-store, must-revalidate");
+        mHeaders.put("Pragma", "no-cache");
+        mHeaders.put("Expires", "0");
     }
 
     @Override
@@ -76,7 +79,7 @@ public class VolleyMultipartRequest extends Request<NetworkResponse>
             data.put("image", dataSet);
             if (!data.isEmpty()) {
                 for (Map.Entry<String, DataPart> entry : data.entrySet()) {
-                    buildDataPart(dataOutputStream, entry.getValue(), entry.getKey());
+                    buildData(dataOutputStream, entry.getValue(), entry.getKey());
                 }
             }
             dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
@@ -109,8 +112,8 @@ public class VolleyMultipartRequest extends Request<NetworkResponse>
         mErrorListener.onErrorResponse(error);
     }
 
-    private void buildDataPart(DataOutputStream dataOutputStream, DataPart dataFile,
-                               String inputName) throws IOException
+    private void buildData(DataOutputStream dataOutputStream, DataPart dataFile, String inputName)
+            throws IOException
     {
         dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
         dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"" +

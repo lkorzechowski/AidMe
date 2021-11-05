@@ -379,7 +379,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                                 it.printStackTrace()
                             })
                     volleyMultipartRequest.setData(DataPart(System.currentTimeMillis()
-                        .toString() + ".jpeg", byteArray))
+                        .toString() + ".jpeg", byteArray, "binary"))
                     mQueue.add(volleyMultipartRequest)
                 }
             }

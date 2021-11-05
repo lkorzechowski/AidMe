@@ -1,6 +1,8 @@
 package com.orzechowski.aidme
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -13,6 +15,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
@@ -62,13 +65,19 @@ class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.Activit
             {
                 mView = findViewById(R.id.unverified_view)
                 verifyButton.setOnClickListener {
-                    mView.visibility = View.GONE
-                    mImageBrowser = ImageBrowserLoader(this)
-                    supportFragmentManager.commit {
-                        add(R.id.fragment_overlay_layout, mImageBrowser)
+                    if(ActivityCompat.checkSelfPermission(this, Manifest.permission
+                            .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(this,
+                                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                                    121)
+                    } else {
+                            mView.visibility = View.GONE
+                                    mImageBrowser = ImageBrowserLoader(this)
+                                    supportFragmentManager.commit {
+                                add(R.id.fragment_overlay_layout, mImageBrowser)
+                            }
                     }
                 }
-                it.printStackTrace()
             })
         )
     }
@@ -107,8 +116,8 @@ class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.Activit
                     it.printStackTrace()
                 })
                 volleyMultipartRequest.setData(DataPart(mEmail
-                    .replace("xyz121", ".")
-                    .replace("xyz122", "@") + ".jpeg", byteArray))
+                    .replace("xyz121", ".").replace("xyz122", "@")
+                        + ".jpeg", byteArray, "binary"))
                 mQueue.add(volleyMultipartRequest)
             }
         }
