@@ -32,7 +32,8 @@ import java.io.DataOutputStream
 import java.io.IOException
 import kotlin.math.min
 
-class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.ActivityCallback
+class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_helper),
+    ImageBrowserLoader.ActivityCallback
 {
     private lateinit var mImageBrowser: ImageBrowserLoader
     private lateinit var mQueue: RequestQueue
@@ -45,7 +46,6 @@ class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.Activit
     {
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_unverified_helper)
         mView = findViewById(R.id.unverified_view)
         viewModelProvider = ViewModelProvider(this)
         mEmail = intent.getStringExtra("email")!!
@@ -90,10 +90,7 @@ class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.Activit
         val uploadButton = findViewById<Button>(R.id.document_upload_button)
         findViewById<ImageView>(R.id.document_display).setImageURI(uri)
         uploadButton.visibility = View.VISIBLE
-
         uploadButton.setOnClickListener {
-            val twoHyphens = "--"
-            val lineEnd = "\r\n"
             val boundary = "apiclient-" + System.currentTimeMillis()
             val mimeType = "multipart/form-data;boundary=$boundary"
             lateinit var body: ByteArray
@@ -106,14 +103,35 @@ class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.Activit
                 }
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
                 body = byteArrayOutputStream.toByteArray()
-                build(dataOutputStream, body, mEmail.replace("xyz121", ".")
-                    .replace("xyz122", "@") + ".jpeg")
+                val twoHyphens = "--"
+                val lineEnd = "\r\n"
+                dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd)
+                dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"file\"; " +
+                        "filename=\"" + mEmail.replace("xyz121", ".")
+                    .replace("xyz122", "@") + ".jpeg" + "\"$lineEnd")
+                dataOutputStream.writeBytes(lineEnd)
+                val fileInputStream = ByteArrayInputStream(body)
+                var bytesAvailable = fileInputStream.available()
+                val maxBufferSize = 1048576
+                var bufferSize = min(bytesAvailable, maxBufferSize)
+                val buffer = ByteArray(bufferSize)
+                var bytesRead = fileInputStream.read(buffer, 0, bufferSize)
+                while(bytesRead > 0) {
+                    dataOutputStream.write(buffer, 0, bufferSize)
+                    bytesAvailable = fileInputStream.available()
+                    bufferSize = min(bytesAvailable, maxBufferSize)
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize)
+                }
+                dataOutputStream.writeBytes(lineEnd)
                 dataOutputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd)
+                body = byteArrayOutputStream.toByteArray()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
             val request = MultipartRequest(mUrl+"userdocumentuploadimage/"+mEmail,
-                mapOf("content-type" to "multipart/form-data;boundary=$boundary"), mimeType, body, {
+                mapOf("content-type" to "multipart/form-data;boundary=$boundary",
+                    "name" to "\"file\"", "content-disposition" to "form-data"), mimeType, body,
+                {
                     Toast.makeText(this, "turkusowy", Toast.LENGTH_SHORT).show()
                 }, {
                     it.printStackTrace()
@@ -132,29 +150,5 @@ class UnverifiedHelperActivity : AppCompatActivity(), ImageBrowserLoader.Activit
     {
         mQueue.stop()
         super.onDestroy()
-    }
-
-    fun build(dataOutputStream: DataOutputStream, data: ByteArray, fileName: String)
-    {
-        val twoHyphens = "--"
-        val lineEnd = "\r\n"
-        val boundary = "apiclient-" + System.currentTimeMillis()
-        dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd)
-        dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\"; " +
-                "filename=\"$fileName\"$lineEnd")
-        dataOutputStream.writeBytes(lineEnd)
-        val fileInputStream = ByteArrayInputStream(data)
-        var bytesAvailable = fileInputStream.available()
-        val maxBufferSize = 1048576
-        var bufferSize = min(bytesAvailable, maxBufferSize)
-        val buffer = ByteArray(bufferSize)
-        var bytesRead = fileInputStream.read(buffer, 0, bufferSize)
-        while(bytesRead > 0) {
-            dataOutputStream.write(buffer, 0, bufferSize)
-            bytesAvailable = fileInputStream.available()
-            bufferSize = min(bytesAvailable, maxBufferSize)
-            bytesRead = fileInputStream.read(buffer, 0, bufferSize)
-        }
-        dataOutputStream.writeBytes(lineEnd)
     }
 }

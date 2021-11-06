@@ -12,7 +12,6 @@ import com.orzechowski.aidme.settings.ContactForm
 import com.orzechowski.aidme.settings.HelperRecycler
 import com.orzechowski.aidme.settings.Policy
 
-
 class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.ActivityCallback
 {
     private val mPolicy = Policy()
@@ -28,18 +27,18 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.
         val contributorButton = findViewById<Button>(R.id.contributor_button)
         val downloadAllTutorialsButton = findViewById<Button>(R.id.download_all_tutorials)
         val contactButton = findViewById<Button>(R.id.contact_button)
+        val colorBlindButton = findViewById<Button>(R.id.themes_button_colorblind)
+        val darkButton = findViewById<Button>(R.id.themes_button_dark)
         mParentLayout = findViewById(R.id.settings_parent_layout)
         policyButton.setOnClickListener {
             mParentLayout.visibility = View.INVISIBLE
             supportFragmentManager.commit {
-                setReorderingAllowed(true)
                 add(R.id.fragment_layout, mPolicy)
             }
         }
         contributorButton.setOnClickListener {
             mParentLayout.visibility = View.INVISIBLE
             supportFragmentManager.commit {
-                setReorderingAllowed(true)
                 add(R.id.fragment_layout, mHelpers)
             }
         }
@@ -49,9 +48,16 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.
         contactButton.setOnClickListener {
             mParentLayout.visibility = View.INVISIBLE
             supportFragmentManager.commit {
-                setReorderingAllowed(true)
                 add(R.id.fragment_layout, mContact)
             }
+        }
+        colorBlindButton.setOnClickListener {
+            setTheme(R.style.ColorBlind)
+            setContentView(R.layout.activity_settings)
+        }
+        darkButton.setOnClickListener {
+            setTheme(R.style.Theme_AidMe)
+            setContentView(R.layout.activity_settings)
         }
     }
 

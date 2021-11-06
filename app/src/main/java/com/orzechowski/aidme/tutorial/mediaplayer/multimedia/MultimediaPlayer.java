@@ -23,16 +23,18 @@ import java.util.List;
 
 public class MultimediaPlayer extends Fragment
 {
-    VideoView mVideoView;
-    ImageView mImageView;
-    Play mPlayThread;
+    private VideoView mVideoView;
+    private ImageView mImageView;
+    private Play mPlayThread;
     public Long mTutorialId;
     List<Multimedia> mMultimedias = new LinkedList<>();
+    private String mPathBase;
     
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        mPathBase = requireActivity().getFilesDir().getAbsolutePath()+"/";
         return inflater.inflate(R.layout.fragment_multimedia_player, container, false);
     }
 
@@ -63,12 +65,15 @@ public class MultimediaPlayer extends Fragment
         } else {
             TutorialViewModel tutorialViewModel = new ViewModelProvider(this)
                     .get(TutorialViewModel.class);
-            tutorialViewModel.getByTutorialId(mTutorialId).observe(requireActivity(), tutorial -> {
-                mPlayThread = new Play(new Multimedia(0, 0, 120000,
-                        true, requireActivity().getFilesDir() + "/"
-                        + tutorial.getMiniatureString(), true, 0));
-                mPlayThread.start();
-            });
+            requireActivity().runOnUiThread(() ->
+                tutorialViewModel.getByTutorialId(mTutorialId).observe(requireActivity(),
+                        tutorial -> {
+                    mPlayThread = new Play(new Multimedia(0, 0, 120000,
+                            true, requireActivity().getFilesDir() + "/"
+                            + tutorial.getMiniatureString(), true, 0));
+                    mPlayThread.start();
+                })
+            );
         }
     }
 
@@ -93,7 +98,7 @@ public class MultimediaPlayer extends Fragment
                 activity.runOnUiThread(() -> {
                     mImageView.setVisibility(View.VISIBLE);
                     mVideoView.setVisibility(View.GONE);
-                    mImageView.setImageURI(Uri.parse(currentMedia.getFileUriString()));
+                    mImageView.setImageURI(Uri.parse(mPathBase+currentMedia.getFileUriString()));
                 });
                 if(displayTime>0) {
                     try {
@@ -108,7 +113,7 @@ public class MultimediaPlayer extends Fragment
                 activity.runOnUiThread(() -> {
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.GONE);
-                    mVideoView.setVideoURI(Uri.parse(currentMedia.getFileUriString()));
+                    mVideoView.setVideoURI(Uri.parse(mPathBase+currentMedia.getFileUriString()));
                     if(loopBool && size==1) mVideoView.setOnCompletionListener(v->getPlayer(-1));
                     else {
                         if(position<size-1) mVideoView.setOnCompletionListener(v->getPlayer(position));

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Aid Me</string>
+    <string name="app_name">SaveMe</string>
     <string name="mainactivity_help">Pomoc</string>
     <string name="mainactivity_login">Portal dla pomocników</string>
     <string name="download_all_tutorials">Pobierz wszystkie poradniki</string>

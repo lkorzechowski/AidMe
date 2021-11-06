@@ -70,7 +70,6 @@ public class EmergencyNumbersRecycler extends Fragment
     {
         mPhoneIntent = new Intent(Intent.ACTION_CALL);
         mPhoneIntent.setData(Uri.parse("tel:" + 123));
-
         if (ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             mPermissionResult.launch(Manifest.permission.CALL_PHONE);

@@ -22,8 +22,12 @@ import com.orzechowski.aidme.tutorial.database.TutorialLinkViewModel
 import com.orzechowski.aidme.tutorial.database.TutorialViewModel
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSet
 import com.orzechowski.aidme.tutorial.instructions.database.InstructionSetViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimedia
+import com.orzechowski.aidme.tutorial.mediaplayer.multimedia.database.VersionMultimediaViewModel
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSound
 import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSound
+import com.orzechowski.aidme.tutorial.mediaplayer.sound.database.VersionSoundViewModel
 import com.orzechowski.aidme.tutorial.version.database.Version
 import com.orzechowski.aidme.tutorial.version.database.VersionInstruction
 import com.orzechowski.aidme.tutorial.version.database.VersionInstructionViewModel
@@ -35,7 +39,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import kotlin.concurrent.thread
 
-class RequestAPI (val activity: MainActivity)
+class RequestAPI(val activity: MainActivity)
 {
     private val viewModelProvider = ViewModelProvider(activity)
     private val tutorialViewModel = viewModelProvider.get(TutorialViewModel::class.java)
@@ -51,8 +55,11 @@ class RequestAPI (val activity: MainActivity)
     private val tutorialLinkViewModel = viewModelProvider.get(TutorialLinkViewModel::class.java)
     private val tutorialSoundViewModel = viewModelProvider.get(TutorialSoundViewModel::class.java)
     private val versionViewModel = viewModelProvider.get(VersionViewModel::class.java)
+    private val versionSoundViewModel = viewModelProvider.get(VersionSoundViewModel::class.java)
     private val versionInstructionViewModel =
         viewModelProvider.get(VersionInstructionViewModel::class.java)
+    private val versionMultimediaViewModel = viewModelProvider
+        .get(VersionMultimediaViewModel::class.java)
     private lateinit var queue: RequestQueue
     private lateinit var tutorialThread: Thread
     private lateinit var categoryThread: Thread
@@ -68,6 +75,8 @@ class RequestAPI (val activity: MainActivity)
     private lateinit var tutorialSoundThread: Thread
     private lateinit var versionThread: Thread
     private lateinit var versionInstructionThread: Thread
+    private lateinit var versionMultimediaThread: Thread
+    private lateinit var versionSoundThread: Thread
 
     fun end()
     {
@@ -85,6 +94,8 @@ class RequestAPI (val activity: MainActivity)
             tutorialSoundThread.interrupt()
             versionThread.interrupt()
             versionInstructionThread.interrupt()
+            versionMultimediaThread.interrupt()
+            versionSoundThread.interrupt()
         }
     }
 
@@ -106,8 +117,7 @@ class RequestAPI (val activity: MainActivity)
                     val tutorialId = row.getLong("tutorialId")
                     val tutorial = Tutorial(tutorialId, row.getString("tutorialName"),
                         row.getLong("authorId"), miniatureName,
-                        row.getDouble("rating").toFloat()
-                    )
+                        row.getDouble("rating").toFloat())
                     tutorialViewModel.getByTutorialId(tutorialId).observe(activity) {
                         if(it!=null) {
                             tutorialViewModel.update(tutorial)
@@ -130,14 +140,10 @@ class RequestAPI (val activity: MainActivity)
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }}, 160, 160, ImageView.ScaleType.FIT_CENTER,
-                        Bitmap.Config.ARGB_8888, { error ->
-                            error.printStackTrace()
-                        })
+                        Bitmap.Config.ARGB_8888, null)
                     )
                 }
-            }, {
-                it.printStackTrace()
-            }))
+            }, null))
         }
         categoryThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "categories", null, {
@@ -148,8 +154,7 @@ class RequestAPI (val activity: MainActivity)
                         val categoryId = row.getLong("categoryId")
                         val category = Category(categoryId, row.getString("categoryName"),
                             row.getBoolean("hasSubcategories"), miniatureName,
-                            row.getInt("categoryLevel")
-                        )
+                            row.getInt("categoryLevel"))
                         categoryViewModel.getByCategoryId(categoryId).observe(activity) {
                             if(it!=null) {
                                 categoryViewModel.update(category)
@@ -157,32 +162,18 @@ class RequestAPI (val activity: MainActivity)
                                 categoryViewModel.insert(category)
                             }
                         }
-                        queue.add(
-                            ImageRequest(url + "files/images/" + miniatureName, { bitmap ->
-                                try {
-                                    val file = File(imageDir + miniatureName)
-                                    if (file.exists()) {
-                                        throw IOException()
-                                    } else {
-                                        val output = FileOutputStream(file)
-                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100,
-                                            output)
-                                        output.close()
-                                    }
-                                } catch (e: FileNotFoundException) {
-                                    e.printStackTrace()
-                                } catch (e: IOException) {
-                                    e.printStackTrace()
-                                }
-                            }, 160, 160, ImageView.ScaleType.FIT_CENTER,
-                                Bitmap.Config.ARGB_8888, { error ->
-                                    error.printStackTrace()
-                                })
-                        )
+                        val file = File(imageDir + miniatureName)
+                        if (!file.exists()) {
+                            queue.add(
+                                ImageRequest(url + "files/images/" + miniatureName, { bitmap ->
+                                    val output = FileOutputStream(file)
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output)
+                                    output.close()
+                                }, 160, 160, ImageView.ScaleType.FIT_CENTER,
+                                    Bitmap.Config.ARGB_8888, null))
+                        }
                     }
-            }, {
-                it.printStackTrace()
-            }))
+            }, null))
         }
         tagThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tags", null, {
@@ -191,8 +182,7 @@ class RequestAPI (val activity: MainActivity)
                         val row: JSONObject = array.getJSONObject(i)
                         val tagId = row.getLong("tagId")
                         val tag = Tag(tagId, row.getString("tagName"),
-                            row.getInt("tagLevel")
-                        )
+                            row.getInt("tagLevel"))
                         tagViewModel.getByTagId(tagId).observe(activity) {
                             if(it!=null) {
                                 tagViewModel.update(tag)
@@ -201,9 +191,7 @@ class RequestAPI (val activity: MainActivity)
                             }
                         }
                     }
-            }, {
-                it.printStackTrace()
-            }))
+            }, null))
         }
         keywordThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "keywords", null, {
@@ -220,9 +208,7 @@ class RequestAPI (val activity: MainActivity)
                             }
                         }
                     }
-            }, {
-                it.printStackTrace()
-            }))
+            }, null))
         }
         helperThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "helperlist", null, {
@@ -232,8 +218,7 @@ class RequestAPI (val activity: MainActivity)
                         val helperId = row.getLong("helperId")
                         val helper = Helper(helperId, row.getString("name"),
                             row.getString("surname"), row.getString("title"),
-                            row.getString("profession")
-                        )
+                            row.getString("profession"))
                         helperViewModel.getByHelperId(helperId).observe(activity) {
                             if(it!=null) {
                                 helperViewModel.update(helper)
@@ -242,9 +227,7 @@ class RequestAPI (val activity: MainActivity)
                             }
                         }
                     }
-            }, {
-                it.printStackTrace()
-            }))
+            }, null))
         }
         helperTagThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "helpertags", null, {
@@ -253,8 +236,7 @@ class RequestAPI (val activity: MainActivity)
                         val row: JSONObject = array.getJSONObject(i)
                         val helperTagId = row.getLong("helperTagId")
                         val helperTag = HelperTag(helperTagId,
-                            row.getLong("helperId"), row.getLong("tagId")
-                        )
+                            row.getLong("helperId"), row.getLong("tagId"))
                         helperTagViewModel.getByHelperTagId(helperTagId).observe(activity) {
                             if(it!=null) {
                                 helperTagViewModel.update(helperTag)
@@ -263,9 +245,7 @@ class RequestAPI (val activity: MainActivity)
                            }
                         }
                     }
-            }, {
-                it.printStackTrace()
-            }))
+            }, null))
         }
         tutorialTagThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorialtags", null,
@@ -274,8 +254,7 @@ class RequestAPI (val activity: MainActivity)
                         val row: JSONObject = array.getJSONObject(i)
                         val tutorialTagId = row.getLong("tutorialTagId")
                         val tutorialTag = TutorialTag(tutorialTagId,
-                            row.getLong("tutorialId"), row.getLong("tagId")
-                        )
+                            row.getLong("tutorialId"), row.getLong("tagId"))
                         tutorialTagViewModel.getByTutorialTagId(tutorialTagId).observe(activity) {
                             if (it!=null) {
                                 tutorialTagViewModel.update(tutorialTag)
@@ -284,9 +263,7 @@ class RequestAPI (val activity: MainActivity)
                             }
                         }
                     }
-            }, {
-                it.printStackTrace()
-            }))
+            }, null))
         }
         tagKeywordThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tagkeywords", null,
@@ -295,8 +272,7 @@ class RequestAPI (val activity: MainActivity)
                         val row: JSONObject = array.getJSONObject(i)
                         val tagKeywordId = row.getLong("tagKeywordId")
                         val tagKeyword = TagKeyword(tagKeywordId,
-                            row.getLong("keywordId"), row.getLong("tagId")
-                        )
+                            row.getLong("keywordId"), row.getLong("tagId"))
                         tagKeywordViewModel.getByTagKeywordId(tagKeywordId).observe(activity) {
                             if(it!=null) {
                                 tagKeywordViewModel.update(tagKeyword)
@@ -305,9 +281,7 @@ class RequestAPI (val activity: MainActivity)
                             }
                         }
                     }
-            }, {
-                it.printStackTrace()
-            }))
+            }, null))
         }
         categoryTagThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "categorytags", null,
@@ -316,8 +290,7 @@ class RequestAPI (val activity: MainActivity)
                         val row: JSONObject = array.getJSONObject(i)
                         val categoryTagId = row.getLong("categoryTagId")
                         val categoryTag = CategoryTag(categoryTagId,
-                            row.getLong("categoryId"), row.getLong("tagId")
-                        )
+                            row.getLong("categoryId"), row.getLong("tagId"))
                         categoryTagViewModel.getByCategoryTagId(categoryTagId).observe(activity) {
                             if(it!=null) {
                                 categoryTagViewModel.update(categoryTag)
@@ -326,9 +299,7 @@ class RequestAPI (val activity: MainActivity)
                             }
                         }
                     }
-            }, {
-                it.printStackTrace()
-            }))
+            }, null))
         }
         instructionThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "instructions",
@@ -339,8 +310,7 @@ class RequestAPI (val activity: MainActivity)
                             val instructionSet = InstructionSet(instructionSetId,
                                 row.getString("title"), row.getString("instructions"),
                                 row.getInt("time"), row.getLong("tutorialId"),
-                                row.getInt("position"), row.getString("narrationName")
-                            )
+                                row.getInt("position"), row.getString("narrationName"))
                             instructionSetViewModel.getByInstructionSetId(instructionSetId)
                                 .observe(activity) {
                                     if(it!=null) {
@@ -350,9 +320,7 @@ class RequestAPI (val activity: MainActivity)
                                     }
                                 }
                         }
-                }, {
-                    it.printStackTrace()
-                }))
+                }, null))
         }
         tutorialLinkThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutoriallinks",
@@ -362,8 +330,7 @@ class RequestAPI (val activity: MainActivity)
                             val tutorialLinkId = row.getLong("tutorialLinkId")
                             val tutorialLink = TutorialLink(tutorialLinkId,
                                 row.getLong("tutorialId"), row.getLong("originId"),
-                                row.getInt("instructionNumber")
-                            )
+                                row.getInt("instructionNumber"))
                             tutorialLinkViewModel.getByTutorialLinkId(tutorialLinkId)
                                 .observe(activity) {
                                 if(it!=null) {
@@ -373,9 +340,7 @@ class RequestAPI (val activity: MainActivity)
                                 }
                             }
                         }
-                }, {
-                    it.printStackTrace()
-                }))
+                }, null))
         }
         tutorialSoundThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorialsounds",
@@ -385,8 +350,7 @@ class RequestAPI (val activity: MainActivity)
                         val soundId = row.getLong("soundId")
                         val tutorialSound = TutorialSound(soundId, row.getLong("soundStart"),
                             row.getBoolean("soundLoop"), row.getLong("interval"),
-                            row.getLong("tutorialId"), row.getString("fileName")
-                        )
+                            row.getLong("tutorialId"), row.getString("fileName"))
                         tutorialSoundViewModel.getByTutorialSoundId(soundId).observe(activity) {
                             if(it!=null) {
                                 tutorialSoundViewModel.update(tutorialSound)
@@ -395,9 +359,7 @@ class RequestAPI (val activity: MainActivity)
                             }
                         }
                     }
-                }, {
-                    it.printStackTrace()
-                }))
+                }, null))
         }
         versionThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "versions", null,
@@ -409,8 +371,7 @@ class RequestAPI (val activity: MainActivity)
                             row.getLong("tutorialId"),
                             row.getBoolean("delayGlobalSound"),
                             row.getBoolean("hasChildren"), row.getBoolean("hasParent"),
-                            row.getLong("parentVersionId")
-                        )
+                            row.getLong("parentVersionId"))
                         versionViewModel.getByVersionId(versionId).observe(activity) {
                             if(it!=null) {
                                 versionViewModel.update(version)
@@ -419,9 +380,7 @@ class RequestAPI (val activity: MainActivity)
                             }
                         }
                     }
-                }, {
-                    it.printStackTrace()
-                }))
+                }, null))
         }
         versionInstructionThread = thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "versioninstructions",
@@ -430,8 +389,7 @@ class RequestAPI (val activity: MainActivity)
                         val row: JSONObject = array.getJSONObject(i)
                         val versionInstructionId = row.getLong("versionInstructionId")
                         val versionInstruction = VersionInstruction(versionInstructionId,
-                            row.getLong("versionId"), row.getInt("instructionPosition")
-                        )
+                            row.getLong("versionId"), row.getInt("instructionPosition"))
                         versionInstructionViewModel.getByVersionInstructionId(versionInstructionId)
                             .observe(activity) {
                                 if(it!=null) {
@@ -441,9 +399,45 @@ class RequestAPI (val activity: MainActivity)
                                 }
                             }
                     }
-                }, {
-                    it.printStackTrace()
-                }))
+                }, null))
+        }
+        versionMultimediaThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "versionmultimedia",
+                null, { array ->
+                for(i in 0 until array.length()) {
+                    val row: JSONObject = array.getJSONObject(i)
+                    val versionMultimediaId = row.getLong("versionMultimediaId")
+                    val versionMultimedia = VersionMultimedia(versionMultimediaId,
+                        row.getLong("multimediaId"), row.getLong("versionId"))
+                    versionMultimediaViewModel.getByVersionMultimediaId(versionMultimediaId)
+                        .observe(activity) {
+                            if(it!=null) {
+                                versionMultimediaViewModel.update(versionMultimedia)
+                            } else {
+                                versionMultimediaViewModel.insert(versionMultimedia)
+                            }
+                        }
+                }
+            }, null))
+        }
+        versionSoundThread = thread {
+            queue.add(JsonArrayRequest(Request.Method.GET, url + "versionsound",
+                null, { array ->
+                    for(i in 0 until array.length()) {
+                        val row: JSONObject = array.getJSONObject(i)
+                        val versionSoundId = row.getLong("versionSoundId")
+                        val versionSound = VersionSound(versionSoundId,
+                            row.getLong("tutorialSoundId"), row.getLong("versionId"))
+                        versionSoundViewModel.getByVersionSoundId(versionSoundId).observe(activity)
+                        {
+                                if(it!=null) {
+                                    versionSoundViewModel.update(versionSound)
+                                } else {
+                                    versionSoundViewModel.insert(versionSound)
+                                }
+                            }
+                    }
+                }, null))
         }
     }
 }

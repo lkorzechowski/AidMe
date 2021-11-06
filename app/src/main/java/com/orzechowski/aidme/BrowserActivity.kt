@@ -13,8 +13,9 @@ import com.orzechowski.aidme.browser.results.ResultsRecycler
 import com.orzechowski.aidme.browser.search.Search
 import com.orzechowski.aidme.tutorial.database.Tutorial
 
-class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
-    ResultsRecycler.CallbackForTutorial, Search.CallbackForTutorial
+class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
+    CategoryRecycler.CallbackToResults, ResultsRecycler.CallbackForTutorial,
+    Search.CallbackForTutorial
 {
     private lateinit var mCategory: CategoryRecycler
     private val mSearch = Search(this)
@@ -26,7 +27,6 @@ class BrowserActivity : AppCompatActivity(), CategoryRecycler.CallbackToResults,
     {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        setContentView(R.layout.activity_browser)
         mCategory = CategoryRecycler(this)
         mSearchButton= findViewById(R.id.search_button)
         mSearchButton.setOnClickListener {

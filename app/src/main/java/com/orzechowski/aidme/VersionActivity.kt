@@ -17,9 +17,10 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
 {
     private val bundle = Bundle()
     private val mVersionRecycler = VersionRecycler(this)
+    private val mTutorialLoading = TutorialLoading(this, this)
+    private var mTutorialId by Delegates.notNull<Long>()
     private lateinit var mRequestMedia: RequestMedia
     private lateinit var mPickedVersion: Version
-    private var mTutorialId by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -46,14 +47,9 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
             mVersionRecycler.getChildVersions(version.versionId)
         } else {
             mPickedVersion = version
-            if(checkDownloadQueue()) {
-                callTutorial()
-            } else {
-                supportFragmentManager.beginTransaction().remove(mVersionRecycler).commit()
-                supportFragmentManager.commit {
-                    add(R.id.layout_version_fragment, TutorialLoading(this@VersionActivity,
-                        this@VersionActivity))
-                }
+            supportFragmentManager.beginTransaction().remove(mVersionRecycler).commit()
+            supportFragmentManager.commit {
+                add(R.id.layout_version_fragment, mTutorialLoading)
             }
         }
     }
@@ -69,21 +65,21 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
         super.onDestroy()
     }
 
-    fun checkDownloadQueue(): Boolean
-    {
-        return mRequestMedia.downloadStatus()
-    }
-
     override fun callTutorial()
     {
         val intent = Intent(this@VersionActivity, TutorialActivity::class.java)
         intent.putExtra("versionId", mPickedVersion.versionId)
         intent.putExtra("tutorialId", mPickedVersion.tutorialId)
         intent.putExtra("delayGlobalSound", mPickedVersion.delayGlobalSound)
+        supportFragmentManager.beginTransaction().remove(mTutorialLoading)
         startActivity(intent)
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
+        mRequestMedia.end()
+        if(mTutorialLoading.isAdded) mTutorialLoading.mProgressThread.interrupt()
+        supportFragmentManager.beginTransaction().remove(mTutorialLoading)
         startActivity(Intent(this@VersionActivity, BrowserActivity::class.java))
     }
 }

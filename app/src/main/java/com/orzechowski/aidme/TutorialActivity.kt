@@ -2,6 +2,7 @@ package com.orzechowski.aidme
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +22,7 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
 {
     private lateinit var mSoundAdapter: SoundAdapter
     private val mMediaPlayer = MultimediaPlayer()
-    private lateinit var mInstructionsRecycler: InstructionsRecycler
+    private val mInstructionsRecycler = InstructionsRecycler(this)
     private var mTutorialId by Delegates.notNull<Long>()
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -29,7 +30,6 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         val bundle = intent.extras!!
-        mInstructionsRecycler = InstructionsRecycler(this)
         mTutorialId = intent.extras?.getLong("tutorialId") ?: -1L
         val versionId = intent.extras?.getLong("versionId") ?: -1L
         mMediaPlayer.mTutorialId = mTutorialId
@@ -49,13 +49,14 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
             .get(VersionMultimediaViewModel::class.java)
         val mediaViewModel = ViewModelProvider(this).get(MultimediaViewModel::class.java)
         mediaInVersionViewModel.getByVersionId(versionId).observe(this, { multimediaList ->
-            mediaViewModel.getByTutorialId(mTutorialId)
-                .observe(this, {
+            mediaViewModel.getByTutorialId(mTutorialId).observe(this, {
                     for(multimedia : Multimedia in it) {
-                        if(multimediaList.contains(multimedia.multimediaId))
+                        if(multimediaList.contains(multimedia.multimediaId)) {
+                            Log.w("turkusowy", multimedia.fileUriString)
                             mMediaPlayer.appendMultimedia(multimedia)
+                        }
                     }
-                    if(supportFragmentManager.fragments.size==1) {
+                    if(!supportFragmentManager.fragments.contains(mMediaPlayer)) {
                         supportFragmentManager.commit {
                             add(R.id.layout_multimedia, mMediaPlayer)
                         }
@@ -86,8 +87,6 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
 
     override fun onBackPressed()
     {
-        val intent = Intent(this@TutorialActivity, VersionActivity::class.java)
-        intent.putExtra("tutorialId", mTutorialId)
-        startActivity(intent)
+        startActivity(Intent(this@TutorialActivity, BrowserActivity::class.java))
     }
 }

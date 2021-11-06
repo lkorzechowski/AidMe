@@ -17,7 +17,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.orzechowski.aidme.helper.HelperSettings
 import com.orzechowski.aidme.volley.BooleanRequest
 
-class HelperActivity : AppCompatActivity(), HelperSettings.ActivityCallback
+class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettings.ActivityCallback
 {
     private val red = ColorStateList.valueOf(Color.argb(100, 255, 0, 0))
     private val green = ColorStateList.valueOf(Color.argb(100, 0, 255, 0))
@@ -30,7 +30,6 @@ class HelperActivity : AppCompatActivity(), HelperSettings.ActivityCallback
     {
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_helper)
         mView = findViewById(R.id.helper_primary_view)
         viewModelProvider = ViewModelProvider(this)
         val email = intent.getStringExtra("email")!!.replace(".", "xyz121")

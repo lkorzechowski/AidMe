@@ -1,5 +1,6 @@
 package com.orzechowski.aidme.volley;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -9,7 +10,8 @@ import com.android.volley.toolbox.HttpHeaderParser;
 
 import java.util.Map;
 
-public class MultipartRequest extends Request<NetworkResponse> {
+public class MultipartRequest extends Request<NetworkResponse>
+{
     private final Response.Listener<NetworkResponse> mListener;
     private final Response.ErrorListener mErrorListener;
     private final Map<String, String> mHeaders;
@@ -20,12 +22,18 @@ public class MultipartRequest extends Request<NetworkResponse> {
                             byte[] multipartBody, Response.Listener<NetworkResponse> listener,
                             Response.ErrorListener errorListener)
     {
-        super(Method.GET, url, errorListener);
+        super(Method.POST, url, errorListener);
         mListener = listener;
         mErrorListener = errorListener;
         mHeaders = headers;
         mMimeType = mimeType;
         mMultipartBody = multipartBody;
+    }
+
+    @Override
+    public Map<String, String> getParams() throws AuthFailureError
+    {
+        return super.getParams();
     }
 
     @Override

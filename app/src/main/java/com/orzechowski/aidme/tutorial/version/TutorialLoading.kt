@@ -13,6 +13,8 @@ import kotlin.concurrent.thread
 class TutorialLoading(private val mActivity: VersionActivity,
                       private val mCallback: ActivityCallback) : Fragment()
 {
+    lateinit var mProgressThread: Thread
+
     override fun
             onCreateView(inflater: LayoutInflater, container: ViewGroup?, bundle: Bundle?): View
     {
@@ -26,10 +28,10 @@ class TutorialLoading(private val mActivity: VersionActivity,
         val progressOne = view.findViewById<View>(R.id.tutorial_loading_progress_1)
         val progressTwo = view.findViewById<View>(R.id.tutorial_loading_progress_2)
         val progressThree = view.findViewById<View>(R.id.tutorial_loading_progress_3)
-        val progressThread = thread {
+        mProgressThread = thread {
             var timeout = 0
             try {
-                while(!mActivity.checkDownloadQueue() && timeout < 4) {
+                while(timeout < 4) {
                     Thread.sleep(500)
                     mActivity.runOnUiThread {
                         progressOne.visibility = View.VISIBLE
@@ -51,10 +53,10 @@ class TutorialLoading(private val mActivity: VersionActivity,
                     timeout++
                 }
                 mCallback.callTutorial()
-            } catch (ignored: InterruptedException) { }
+            } catch (ignored: InterruptedException) {}
         }
         skipButton.setOnClickListener {
-            progressThread.interrupt()
+            mProgressThread.interrupt()
             mCallback.callTutorial()
         }
     }
