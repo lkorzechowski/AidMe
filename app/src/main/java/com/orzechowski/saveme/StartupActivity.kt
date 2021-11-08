@@ -57,10 +57,4 @@ class StartupActivity : AppCompatActivity()
             } catch (ignored: InterruptedException) {}
         }
     }
-
-    override fun onDestroy()
-    {
-        mRequestAPI.end()
-        super.onDestroy()
-    }
 }

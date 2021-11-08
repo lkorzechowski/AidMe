@@ -61,43 +61,6 @@ class RequestAPI(val activity: AppCompatActivity)
     private val versionMultimediaViewModel = viewModelProvider
         .get(VersionMultimediaViewModel::class.java)
     private lateinit var queue: RequestQueue
-    private lateinit var tutorialThread: Thread
-    private lateinit var categoryThread: Thread
-    private lateinit var tagThread: Thread
-    private lateinit var keywordThread: Thread
-    private lateinit var helperThread: Thread
-    private lateinit var helperTagThread: Thread
-    private lateinit var tutorialTagThread: Thread
-    private lateinit var tagKeywordThread: Thread
-    private lateinit var categoryTagThread: Thread
-    private lateinit var instructionThread: Thread
-    private lateinit var tutorialLinkThread: Thread
-    private lateinit var tutorialSoundThread: Thread
-    private lateinit var versionThread: Thread
-    private lateinit var versionInstructionThread: Thread
-    private lateinit var versionMultimediaThread: Thread
-    private lateinit var versionSoundThread: Thread
-
-    fun end()
-    {
-        thread {
-            queue.stop()
-            tutorialThread.interrupt()
-            categoryThread.interrupt()
-            tagThread.interrupt()
-            keywordThread.interrupt()
-            helperThread.interrupt()
-            helperTagThread.interrupt()
-            tagKeywordThread.interrupt()
-            categoryTagThread.interrupt()
-            tutorialLinkThread.interrupt()
-            tutorialSoundThread.interrupt()
-            versionThread.interrupt()
-            versionInstructionThread.interrupt()
-            versionMultimediaThread.interrupt()
-            versionSoundThread.interrupt()
-        }
-    }
 
     fun requestData(cacheDir: File)
     {
@@ -108,7 +71,7 @@ class RequestAPI(val activity: AppCompatActivity)
             start()
         }
         val imageDir = File(activity.filesDir.absolutePath).absolutePath + "/"
-        tutorialThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorials", null, {
                     array ->
                 for(i in 0 until array.length()) {
@@ -145,7 +108,7 @@ class RequestAPI(val activity: AppCompatActivity)
                 }
             }, null))
         }
-        categoryThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "categories", null, {
                     array ->
                     for(i in 0 until array.length()) {
@@ -175,7 +138,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
             }, null))
         }
-        tagThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tags", null, {
                     array ->
                     for(i in 0 until array.length()) {
@@ -193,7 +156,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
             }, null))
         }
-        keywordThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "keywords", null, {
                     array ->
                     for(i in 0 until array.length()) {
@@ -210,7 +173,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
             }, null))
         }
-        helperThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "helperlist", null, {
                     array ->
                     for(i in 0 until array.length()) {
@@ -229,7 +192,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
             }, null))
         }
-        helperTagThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "helpertags", null, {
                     array ->
                     for(i in 0 until array.length()) {
@@ -247,7 +210,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
             }, null))
         }
-        tutorialTagThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorialtags", null,
                 { array ->
                     for(i in 0 until array.length()) {
@@ -265,7 +228,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
             }, null))
         }
-        tagKeywordThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tagkeywords", null,
                 { array ->
                     for(i in 0 until array.length()) {
@@ -283,7 +246,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
             }, null))
         }
-        categoryTagThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "categorytags", null,
                 { array ->
                     for(i in 0 until array.length()) {
@@ -301,7 +264,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
             }, null))
         }
-        instructionThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "instructions",
                 null, { array ->
                         for(i in 0 until array.length()) {
@@ -322,7 +285,7 @@ class RequestAPI(val activity: AppCompatActivity)
                         }
                 }, null))
         }
-        tutorialLinkThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutoriallinks",
                 null, { array ->
                         for(i in 0 until array.length()) {
@@ -342,7 +305,7 @@ class RequestAPI(val activity: AppCompatActivity)
                         }
                 }, null))
         }
-        tutorialSoundThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorialsounds",
                 null, { array ->
                     for(i in 0 until array.length()) {
@@ -361,7 +324,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
                 }, null))
         }
-        versionThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "versions", null,
                 { array ->
                     for(i in 0 until array.length()) {
@@ -382,7 +345,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
                 }, null))
         }
-        versionInstructionThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "versioninstructions",
                 null, { array ->
                     for(i in 0 until array.length()) {
@@ -401,7 +364,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
                 }, null))
         }
-        versionMultimediaThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "versionmultimedia",
                 null, { array ->
                 for(i in 0 until array.length()) {
@@ -420,7 +383,7 @@ class RequestAPI(val activity: AppCompatActivity)
                 }
             }, null))
         }
-        versionSoundThread = thread {
+        thread {
             queue.add(JsonArrayRequest(Request.Method.GET, url + "versionsound",
                 null, { array ->
                     for(i in 0 until array.length()) {

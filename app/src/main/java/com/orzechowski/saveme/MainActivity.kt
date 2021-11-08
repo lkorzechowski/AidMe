@@ -9,7 +9,6 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.android.volley.toolbox.*
 import com.google.android.gms.common.SignInButton
-import com.orzechowski.saveme.main.RequestAPI
 import com.orzechowski.saveme.main.emergencynumber.EmergencyNumbersRecycler
 import com.orzechowski.saveme.volley.ConfigureChannel
 
@@ -19,8 +18,6 @@ import com.orzechowski.saveme.volley.ConfigureChannel
 //Recycler z numerami telefonów alarmowych.
 class MainActivity : AppCompatActivity(R.layout.activity_main)
 {
-    private lateinit var mRequestAPI: RequestAPI
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
         ConfigureChannel().configureNotificationChannel(this)
@@ -51,17 +48,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
         a.addCategory(Intent.CATEGORY_HOME)
         a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(a)
-    }
-
-    override fun onResume()
-    {
-        mRequestAPI = RequestAPI(this).also { it.requestData(cacheDir) }
-        super.onResume()
-    }
-
-    override fun onDestroy()
-    {
-        mRequestAPI.end()
-        super.onDestroy()
     }
 }
