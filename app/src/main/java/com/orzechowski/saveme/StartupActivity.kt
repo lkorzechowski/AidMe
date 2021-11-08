@@ -20,6 +20,7 @@ class StartupActivity : AppCompatActivity()
     {
         GlobalRoomDatabase.getDatabase(applicationContext)
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_startup)
         mRequestAPI = RequestAPI(this).also { it.requestData(cacheDir) }
         val progressOne = findViewById<View>(R.id.main_loading_progress_1)

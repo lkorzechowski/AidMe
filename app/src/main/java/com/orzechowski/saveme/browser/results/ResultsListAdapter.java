@@ -52,54 +52,56 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int rowNumber)
     {
         Tutorial tutorial = mTutorials.get(rowNumber);
-        long authorId = tutorial.getAuthorId();
-        for (Helper helper : mHelpers) {
-            if(helper!=null) {
-                if (authorId == helper.getHelperId()) {
-                    holder.author.setText(String.format("Autor: %s %s %s",
-                            helper.getTitle(), helper.getName(), helper.getSurname()));
+        if(tutorial!=null) {
+            long authorId = tutorial.getAuthorId();
+            for (Helper helper : mHelpers) {
+                if (helper != null) {
+                    if (authorId == helper.getHelperId()) {
+                        holder.author.setText(String.format("Autor: %s %s %s",
+                                helper.getTitle(), helper.getName(), helper.getSurname()));
+                    }
                 }
             }
-        }
-        holder.thisResult = tutorial;
-        holder.name.setText(tutorial.getTutorialName());
-        Uri uri = Uri.parse(mPathBase + tutorial.getMiniatureString());
-        if(uri != null) holder.image.setImageURI(uri);
-        float rating = tutorial.getRating();
-        if(rating>4.75) {
-            holder.starFive.setImageResource(R.drawable.ic_full_star);
-        } else if(rating>4.25) {
-            holder.starFive.setImageResource(R.drawable.ic_half_star);
-        } else {
-            holder.starFive.setImageResource(R.drawable.ic_empty_star);
-        }
-        if(rating>3.75) {
-            holder.starFour.setImageResource(R.drawable.ic_full_star);
-        } else if(rating>4.25) {
-            holder.starFour.setImageResource(R.drawable.ic_half_star);
-        } else {
-            holder.starFour.setImageResource(R.drawable.ic_empty_star);
-        }
-        if(rating>2.75) {
-            holder.starThree.setImageResource(R.drawable.ic_full_star);
-        } else if(rating>2.25) {
-            holder.starThree.setImageResource(R.drawable.ic_half_star);
-        } else {
-            holder.starThree.setImageResource(R.drawable.ic_empty_star);
-        }
-        if(rating>1.75) {
-            holder.starTwo.setImageResource(R.drawable.ic_full_star);
-        } else if(rating>1.25) {
-            holder.starTwo.setImageResource(R.drawable.ic_half_star);
-        } else {
-            holder.starTwo.setImageResource(R.drawable.ic_empty_star);
-        }
-        if(rating>0.75) {
-            holder.starOne.setImageResource(R.drawable.ic_full_star);
-        } else if(rating>0.25) {
-            holder.starOne.setImageResource(R.drawable.ic_half_star);
-        } else {
-            holder.starOne.setImageResource(R.drawable.ic_empty_star);
+            holder.thisResult = tutorial;
+            holder.name.setText(tutorial.getTutorialName());
+            Uri uri = Uri.parse(mPathBase + tutorial.getMiniatureString());
+            if (uri != null) holder.image.setImageURI(uri);
+            float rating = tutorial.getRating();
+            if (rating > 4.75) {
+                holder.starFive.setImageResource(R.drawable.ic_full_star);
+            } else if (rating > 4.25) {
+                holder.starFive.setImageResource(R.drawable.ic_half_star);
+            } else {
+                holder.starFive.setImageResource(R.drawable.ic_empty_star);
+            }
+            if (rating > 3.75) {
+                holder.starFour.setImageResource(R.drawable.ic_full_star);
+            } else if (rating > 4.25) {
+                holder.starFour.setImageResource(R.drawable.ic_half_star);
+            } else {
+                holder.starFour.setImageResource(R.drawable.ic_empty_star);
+            }
+            if (rating > 2.75) {
+                holder.starThree.setImageResource(R.drawable.ic_full_star);
+            } else if (rating > 2.25) {
+                holder.starThree.setImageResource(R.drawable.ic_half_star);
+            } else {
+                holder.starThree.setImageResource(R.drawable.ic_empty_star);
+            }
+            if (rating > 1.75) {
+                holder.starTwo.setImageResource(R.drawable.ic_full_star);
+            } else if (rating > 1.25) {
+                holder.starTwo.setImageResource(R.drawable.ic_half_star);
+            } else {
+                holder.starTwo.setImageResource(R.drawable.ic_empty_star);
+            }
+            if (rating > 0.75) {
+                holder.starOne.setImageResource(R.drawable.ic_full_star);
+            } else if (rating > 0.25) {
+                holder.starOne.setImageResource(R.drawable.ic_half_star);
+            } else {
+                holder.starOne.setImageResource(R.drawable.ic_empty_star);
+            }
         }
     }
 
