@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.orzechowski.saveme.database.GlobalRoomDatabase
-import com.orzechowski.saveme.startup.RequestAPI
+import com.orzechowski.saveme.main.RequestAPI
 import kotlin.concurrent.thread
 
 //Aktywność uruchamiająca się jedynie raz po wejściu do aplikacji. Poprzedza przejście do MainActivity
 //i służy jako bufor pozwalający aplikacji rozpocząć zaciąganie danych z chmury zanim użytkownik
-//zacznie wyświetlać treść. Aktywność sama się wyłącza po dwóch sekundach. Klasy podlegające tej
-//aktywności mieszczą się w com.orzechowski.saveme.startup oraz com.orzechowski.saveme.database.
+//zacznie wyświetlać treść. Aktywność sama się wyłącza po czterech sekundach. Klasy podlegające tej
+//aktywności mieszczą się w com.orzechowski.saveme.main oraz com.orzechowski.saveme.database.
 class StartupActivity : AppCompatActivity()
 {
     private lateinit var mRequestAPI: RequestAPI
@@ -29,7 +29,7 @@ class StartupActivity : AppCompatActivity()
         thread {
             var timeout = 0
             try {
-                while(timeout < 4) {
+                while(timeout < 8) {
                     Thread.sleep(500)
                     runOnUiThread {
                         progressOne.visibility = View.VISIBLE

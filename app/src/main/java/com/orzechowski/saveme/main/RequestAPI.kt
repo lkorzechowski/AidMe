@@ -1,12 +1,12 @@
-package com.orzechowski.saveme.startup
+package com.orzechowski.saveme.main
 
 import android.graphics.Bitmap
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.*
-import com.orzechowski.saveme.StartupActivity
 import com.orzechowski.saveme.browser.categories.database.Category
 import com.orzechowski.saveme.browser.categories.database.CategoryViewModel
 import com.orzechowski.saveme.browser.search.database.Keyword
@@ -39,7 +39,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import kotlin.concurrent.thread
 
-class RequestAPI(val activity: StartupActivity)
+class RequestAPI(val activity: AppCompatActivity)
 {
     private val viewModelProvider = ViewModelProvider(activity)
     private val tutorialViewModel = viewModelProvider.get(TutorialViewModel::class.java)
