@@ -70,8 +70,9 @@ public class MultimediaComposer extends Fragment
     {
         Button addMultimediaButton = view.findViewById(R.id.new_multimedia_button);
         addMultimediaButton.setOnClickListener(v-> {
-            mMultimedias.add(new Multimedia(0, 0, 0,
-                    false, "", false, mMultimedias.size()));
+            int size = mMultimedias.size();
+            mMultimedias.add(new Multimedia(size, 0, 0,
+                    false, "", false, size));
             resetAdapterElements();
         });
     }

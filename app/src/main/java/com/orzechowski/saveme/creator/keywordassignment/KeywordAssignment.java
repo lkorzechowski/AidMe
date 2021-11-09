@@ -53,7 +53,7 @@ public class KeywordAssignment extends Fragment implements AddedKeywordAdapter.F
         recycler.setAdapter(mAdapter);
         Button submitButton = view.findViewById(R.id.approve_keywords);
         submitButton.setOnClickListener(v -> {
-            if(!mKeywords.isEmpty()) mCallback.submitKeywords(mKeywords);
+            if(!mKeywords.isEmpty()) mCallback.finalizeKeywords(mKeywords);
         });
         EditText keywordInput = view.findViewById(R.id.keyword_input);
         TextView suggest = view.findViewById(R.id.keyword_top_suggestion);
@@ -115,6 +115,6 @@ public class KeywordAssignment extends Fragment implements AddedKeywordAdapter.F
 
     public interface ActivityCallback
     {
-        void submitKeywords(List<Keyword> keywords);
+        void finalizeKeywords(List<Keyword> keywords);
     }
 }

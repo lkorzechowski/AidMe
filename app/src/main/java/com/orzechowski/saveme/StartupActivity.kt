@@ -29,20 +29,20 @@ class StartupActivity : AppCompatActivity()
         thread {
             var timeout = 0
             try {
-                while(timeout < 8) {
-                    Thread.sleep(500)
+                while(!mRequestAPI.completed() && timeout < 10) {
+                    Thread.sleep(300)
                     runOnUiThread {
                         progressOne.visibility = View.VISIBLE
                     }
-                    Thread.sleep(500)
+                    Thread.sleep(300)
                     runOnUiThread {
                         progressTwo.visibility = View.VISIBLE
                     }
-                    Thread.sleep(500)
+                    Thread.sleep(300)
                     runOnUiThread {
                         progressThree.visibility = View.VISIBLE
                     }
-                    Thread.sleep(500)
+                    Thread.sleep(300)
                     runOnUiThread {
                         progressOne.visibility = View.INVISIBLE
                         progressTwo.visibility = View.INVISIBLE

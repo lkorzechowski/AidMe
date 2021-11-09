@@ -69,8 +69,9 @@ public class InstructionComposer extends Fragment
     {
         Button addInstructionButton = view.findViewById(R.id.new_instruction_button);
         addInstructionButton.setOnClickListener(v-> {
-            mInstructions.add(new InstructionSet(0, "", "", 0,
-                    0, mInstructions.size(), ""));
+            int size = mInstructions.size();
+            mInstructions.add(new InstructionSet(size, "", "", 0, 0,
+                    size, ""));
             mAdapter.setElementList(mInstructions);
         });
     }

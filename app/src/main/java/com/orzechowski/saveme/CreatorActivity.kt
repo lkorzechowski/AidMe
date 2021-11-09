@@ -27,6 +27,7 @@ import com.orzechowski.saveme.creator.initial.soundbrowser.narrationbrowser.Narr
 import com.orzechowski.saveme.creator.keywordassignment.KeywordAssignment
 import com.orzechowski.saveme.creator.tutoriallinks.TutorialLinkComposer
 import com.orzechowski.saveme.creator.versioninstruction.VersionInstructionComposer
+import com.orzechowski.saveme.creator.versionmultimedia.VersionMultimediaComposer
 import com.orzechowski.saveme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.saveme.database.tag.Tag
 import com.orzechowski.saveme.database.tag.TutorialTag
@@ -35,6 +36,7 @@ import com.orzechowski.saveme.tutorial.database.Tutorial
 import com.orzechowski.saveme.tutorial.database.TutorialLink
 import com.orzechowski.saveme.tutorial.instructions.database.InstructionSet
 import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.Multimedia
+import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.VersionMultimedia
 import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.TutorialSound
 import com.orzechowski.saveme.tutorial.version.database.Version
 import com.orzechowski.saveme.tutorial.version.database.VersionInstruction
@@ -57,13 +59,15 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         SoundComposer.ActivityCallback, SoundBrowserLoader.ActivityCallback,
         InstructionComposer.ActivityCallback, NarrationBrowserLoader.ActivityCallback,
         CategoryAssignment.ActivityCallback, KeywordAssignment.ActivityCallback,
-        TutorialLinkComposer.ActivityCallback
+        TutorialLinkComposer.ActivityCallback, VersionMultimediaComposer.ActivityCallback
 {
     private val mInstructionComposer = InstructionComposer(this)
     private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer(this)
     private val mUrl = "https://aidme-326515.appspot.com/"
+    private val mSoundUris = mutableMapOf<Int, String>()
+    private val mNarrationUris = mutableMapOf<Int, String>()
     private var mCategoryAssignment = CategoryAssignment(this)
     private var mKeywordAssignment = KeywordAssignment(this)
     private var mTutorialLinkComposer = TutorialLinkComposer(this)
@@ -74,6 +78,9 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private var mNarrationUpload = false
     private var mTutorialLinkUpload = false
     private var mTagUpload = false
+    private var mVersionMultimediaUpload = false
+    private var mMultimediaUpload = false
+    private var mSoundUpload = false
     private var mTutorialId by Delegates.notNull<Long>()
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
@@ -81,12 +88,14 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mNarrationBrowser: NarrationBrowserLoader
     private lateinit var mVersionTreeComposer: VersionTreeComposer
     private lateinit var mVersionInstructionComposer: VersionInstructionComposer
+    private lateinit var mVersionMultimediaComposer: VersionMultimediaComposer
     private lateinit var mVersions: MutableList<Version>
-    private lateinit var mMultimedias: List<Multimedia>
+    private lateinit var mMultimedia: List<Multimedia>
     private lateinit var mInstructions: List<InstructionSet>
     private lateinit var mSounds: List<TutorialSound>
     private lateinit var mTutorialLinks: List<TutorialLink>
     private lateinit var mVersionInstructions: Collection<VersionInstruction>
+    private lateinit var mVersionMultimedia: Collection<VersionMultimedia>
     private lateinit var mTutorialTags: List<TutorialTag>
     private lateinit var mKeywords: List<Keyword>
     private lateinit var mUniqueTag: Tag
@@ -122,7 +131,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                         )
                     )
                 } else versions
-                mMultimedias = mMultimediaComposer.multimedias
+                mMultimedia = mMultimediaComposer.multimedias
                 mInstructions = instructions
                 mTutorialLinkComposer.setInstructions(mInstructions)
                 mSounds = mSoundComposer.sounds
@@ -164,43 +173,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
     }
 
-    private fun commitVersionTree()
-    {
-        supportFragmentManager.commit {
-            add(R.id.fragment_overlay_layout, mVersionTreeComposer)
-        }
-    }
-
-    private fun commitVersionInstruction(versions: MutableList<Version>)
-    {
-        mVersionInstructionComposer = VersionInstructionComposer(versions, mInstructions,
-            this)
-        supportFragmentManager.commit {
-            add(R.id.fragment_overlay_layout, mVersionInstructionComposer)
-        }
-    }
-
-    private fun commitCategoryAssignment()
-    {
-        supportFragmentManager.commit {
-            add(R.id.fragment_overlay_layout, mCategoryAssignment)
-        }
-    }
-
-    override fun finalizeVersionTree(versions: MutableList<Version>)
-    {
-        mVersions = versions
-        supportFragmentManager.beginTransaction().remove(mVersionTreeComposer).commit()
-        commitVersionInstruction(versions)
-    }
-
-    override fun finalizeVersionInstructions(versionInstructions: Collection<VersionInstruction>)
-    {
-        mVersionInstructions = versionInstructions
-        supportFragmentManager.beginTransaction().remove(mVersionInstructionComposer).commit()
-        commitCategoryAssignment()
-    }
-
     override fun callNarrationRecycler()
     {
         mView.visibility = View.GONE
@@ -228,15 +200,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
     }
 
-    override fun narrationSubmitted(narration: Sound)
-    {
-        supportFragmentManager.beginTransaction().remove(mNarrationBrowser).commit()
-        mInstructionComposer.instructions[mInstructionComposer.currentPosition].narrationFile =
-            narration.displayName
-        mInstructionComposer.resetAdapterElements()
-        mView.visibility = View.VISIBLE
-    }
-
     override fun imageSubmitted(uri: Uri)
     {
         supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
@@ -257,86 +220,39 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         supportFragmentManager.beginTransaction().remove(mSoundBrowser).commit()
         mSoundComposer.sounds[position].fileName = sound.displayName
         mSoundComposer.resetAdapterElements()
+        mSoundUris[position] = sound.uri.toString()
         mView.visibility = View.VISIBLE
     }
 
-    override fun onBackPressed()
+    private fun commitVersionTree()
     {
-        val fragmentList: List<*> = supportFragmentManager.fragments
-        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-        var handled = false
-        for(f in fragmentList) {
-            when(f) {
-                is ImageBrowserLoader -> {
-                    t.remove(mImageBrowser).commit()
-                    mView.visibility = View.VISIBLE
-                    handled = true
-                }
-                is VersionTreeComposer -> {
-                    t.remove(mVersionTreeComposer).commit()
-                    mView.visibility = View.VISIBLE
-                    commitInitial()
-                    handled = true
-                }
-                is VersionInstructionComposer -> {
-                    t.remove(mVersionInstructionComposer).commit()
-                    commitVersionTree()
-                    handled = true
-                }
-                is CategoryAssignment -> {
-                    if(f.level>1) {
-                        mCategoryAssignment.restorePrevious()
-                        handled = true
-                    } else {
-                        t.remove(mCategoryAssignment).commit()
-                        mCategoryAssignment = CategoryAssignment(this)
-                        if(mVersions.size>1) commitVersionInstruction(mVersions)
-                        else {
-                            mView.visibility = View.VISIBLE
-                            commitInitial()
-                        }
-                        handled = true
-                    }
-                }
-                is KeywordAssignment -> {
-                    t.remove(mKeywordAssignment).commit()
-                    commitCategoryAssignment()
-                    handled = true
-                }
-                is SoundBrowserLoader -> {
-                    t.remove(mSoundBrowser).commit()
-                    mView.visibility = View.VISIBLE
-                    handled = true
-                }
-                is TutorialLinkComposer -> {
-                    if(f.mPrimaryLayout.visibility==View.VISIBLE) {
-                        t.remove(mTutorialLinkComposer).commit()
-                        commitKeywordAssignment()
-                    } else f.back()
-                    handled = true
-                }
-            }
-        }
-        if(!handled) super.onBackPressed()
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>,
-                                            @NonNull grantResults: IntArray)
-    {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode==121) {
-            callImageGallery()
-        } else if(requestCode==122) {
-            callSoundRecycler()
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mVersionTreeComposer)
         }
     }
 
-    override fun categorySelected(tutorialTags: MutableList<TutorialTag>, uniqueTag: Tag)
+    private fun commitVersionInstruction(versions: MutableList<Version>)
     {
-        mUniqueTag = uniqueTag
-        mTutorialTags = tutorialTags
-        supportFragmentManager.beginTransaction().remove(mCategoryAssignment).commit()
-        commitKeywordAssignment()
+        mVersionInstructionComposer = VersionInstructionComposer(versions, mInstructions,
+            this)
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mVersionInstructionComposer)
+        }
+    }
+
+    private fun commitCategoryAssignment()
+    {
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mCategoryAssignment)
+        }
+    }
+
+    private fun commitVersionMultimediaComposer()
+    {
+        mVersionMultimediaComposer = VersionMultimediaComposer(mVersions, mMultimedia, this)
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mVersionMultimediaComposer)
+        }
     }
 
     private fun commitKeywordAssignment()
@@ -346,13 +262,52 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
     }
 
-    override fun submitKeywords(keywords: MutableList<Keyword>)
+    override fun narrationSubmitted(narration: Sound)
+    {
+        supportFragmentManager.beginTransaction().remove(mNarrationBrowser).commit()
+        val position = mInstructionComposer.currentPosition
+        mInstructionComposer.instructions[position].narrationFile = narration.displayName
+        mNarrationUris[position] = narration.uri.toString()
+        mInstructionComposer.resetAdapterElements()
+        mView.visibility = View.VISIBLE
+    }
+
+    override fun finalizeVersionTree(versions: MutableList<Version>)
+    {
+        mVersions = versions
+        supportFragmentManager.beginTransaction().remove(mVersionTreeComposer).commit()
+        commitVersionInstruction(versions)
+    }
+
+    override fun finalizeVersionInstructions(versionInstructions: Collection<VersionInstruction>)
+    {
+        mVersionInstructions = versionInstructions
+        supportFragmentManager.beginTransaction().remove(mVersionInstructionComposer).commit()
+        commitVersionMultimediaComposer()
+    }
+
+    override fun finalizeCategory(tutorialTags: MutableList<TutorialTag>, uniqueTag: Tag)
+    {
+        mUniqueTag = uniqueTag
+        mTutorialTags = tutorialTags
+        supportFragmentManager.beginTransaction().remove(mCategoryAssignment).commit()
+        commitKeywordAssignment()
+    }
+
+    override fun finalizeKeywords(keywords: MutableList<Keyword>)
     {
         mKeywords = keywords
         supportFragmentManager.beginTransaction().remove(mKeywordAssignment).commit()
         supportFragmentManager.commit {
             add(R.id.fragment_overlay_layout, mTutorialLinkComposer)
         }
+    }
+
+    override fun finalizeVersionMultimedia(versionMultimedia: MutableCollection<VersionMultimedia>)
+    {
+        mVersionMultimedia = versionMultimedia
+        supportFragmentManager.beginTransaction().remove(mVersionMultimediaComposer).commit()
+        commitCategoryAssignment()
     }
 
     override fun finalizeTutorialLinks(tutorialLinks: MutableList<TutorialLink>?)
@@ -367,7 +322,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         val network = BasicNetwork(HurlStack())
         mQueue = RequestQueue(cache, network).apply { start() }
         uploadTutorial()
-        for(multimedia in mMultimedias) {
+        for(multimedia in mMultimedia) {
             UploadServiceConfig.initialize(application,
                 getString(R.string.default_notification_channel_id), false)
             try {
@@ -440,7 +395,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
     }
 
-    //TODO: VERSION MULTIMEDIA, VERSION SOUND
     private fun uploadVersions()
     {
         if(!mVersionUpload) {
@@ -499,13 +453,143 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private fun uploadTags()
     {
         if(!mTagUpload) {
-            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/tutorialtags/" +
+            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/tutorialtags" +
                     mTutorialId, JSONArray(Gson().toJson(mTutorialTags)), {
                     mTagUpload = true
+                    uploadVersionMultimedia()
                 }, {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
             ))
+        }
+    }
+
+    private fun uploadVersionMultimedia()
+    {
+        if(!mVersionMultimediaUpload) {
+            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/versionmultimedia",
+            JSONArray(Gson().toJson(mVersionMultimedia)), {
+                    mVersionMultimediaUpload = true
+                }, {
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                }))
+        }
+    }
+
+    private fun uploadNarrations()
+    {
+        if(!mNarrationUpload) {
+            for(instruction in mInstructions) {
+                if(!instruction.narrationFile.isNullOrEmpty()) {
+                    try {
+                        MultipartUploadRequest(this@CreatorActivity,
+                        mUrl + "uploadnarration").setMaxRetries(10)
+                            .addFileToUpload(mNarrationUris[instruction
+                                .instructionSetId.toInt()] ?: "", "file")
+                            .setNotificationConfig { context, uploadId ->
+                                UploadServiceConfig.notificationConfigFactory(context, uploadId)
+                            }.startUpload()
+                    } catch(e: Exception) {
+                        Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun uploadMultimedia()
+    {
+        if(!mMultimediaUpload) {
+            for(multimedia in mMultimedia) {
+                try {
+                    MultipartUploadRequest(this@CreatorActivity, mUrl +
+                            "uploadmultimedia").setMaxRetries(10).addFileToUpload(multimedia
+                        .fileUriString, "file").setNotificationConfig {
+                            context, uploadId ->
+                        UploadServiceConfig.notificationConfigFactory(context, uploadId)
+                    }.startUpload()
+                } catch(e: Exception) {
+                    Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun uploadSounds()
+    {
+        if(!mSoundUpload) {
+
+        }
+    }
+
+    override fun onBackPressed()
+    {
+        val fragmentList: List<*> = supportFragmentManager.fragments
+        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
+        var handled = false
+        for(f in fragmentList) {
+            when(f) {
+                is ImageBrowserLoader -> {
+                    t.remove(mImageBrowser).commit()
+                    mView.visibility = View.VISIBLE
+                    handled = true
+                }
+                is VersionTreeComposer -> {
+                    t.remove(mVersionTreeComposer).commit()
+                    mView.visibility = View.VISIBLE
+                    commitInitial()
+                    handled = true
+                }
+                is VersionInstructionComposer -> {
+                    t.remove(mVersionInstructionComposer).commit()
+                    commitVersionTree()
+                    handled = true
+                }
+                is CategoryAssignment -> {
+                    if(f.level>1) {
+                        mCategoryAssignment.restorePrevious()
+                        handled = true
+                    } else {
+                        t.remove(mCategoryAssignment).commit()
+                        mCategoryAssignment = CategoryAssignment(this)
+                        if(mVersions.size>1) commitVersionInstruction(mVersions)
+                        else {
+                            mView.visibility = View.VISIBLE
+                            commitInitial()
+                        }
+                        handled = true
+                    }
+                }
+                is KeywordAssignment -> {
+                    t.remove(mKeywordAssignment).commit()
+                    commitCategoryAssignment()
+                    handled = true
+                }
+                is SoundBrowserLoader -> {
+                    t.remove(mSoundBrowser).commit()
+                    mView.visibility = View.VISIBLE
+                    handled = true
+                }
+                is TutorialLinkComposer -> {
+                    if(f.mPrimaryLayout.visibility==View.VISIBLE) {
+                        t.remove(mTutorialLinkComposer).commit()
+                        commitKeywordAssignment()
+                    } else f.back()
+                    handled = true
+                }
+            }
+        }
+        if(!handled) super.onBackPressed()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>,
+                                            @NonNull grantResults: IntArray)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode==121) {
+            callImageGallery()
+        } else if(requestCode==122) {
+            callSoundRecycler()
         }
     }
 

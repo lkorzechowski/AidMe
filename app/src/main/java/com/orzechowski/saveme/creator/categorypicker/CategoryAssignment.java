@@ -124,7 +124,7 @@ public class CategoryAssignment extends Fragment
                             EditText tagInsert = view.findViewById(R.id.tag_insert);
                             submitInsert.setOnClickListener(v -> {
                                 if(tagInsert.getText().length()>3) {
-                                    mCallback.categorySelected(mTutorialTags, new Tag(0,
+                                    mCallback.finalizeCategory(mTutorialTags, new Tag(0,
                                             tagInsert.getText().toString(), mLevel + 1));
                                 } else {
                                     Toast.makeText(activity, R.string.tag_insert_value_too_short,
@@ -140,7 +140,7 @@ public class CategoryAssignment extends Fragment
 
     public interface ActivityCallback
     {
-        void categorySelected(List<TutorialTag> tutorialTags, Tag uniqueTag);
+        void finalizeCategory(List<TutorialTag> tutorialTags, Tag uniqueTag);
     }
 
     public int getLevel()

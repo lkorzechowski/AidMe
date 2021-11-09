@@ -34,15 +34,15 @@ public class VersionMultimediaComposer extends Fragment
     private final List<Multimedia> mMultimedia;
     private VersionTextAdapter mVersionTextAdapter;
     private final Collection<VersionMultimedia> mVersionMultimedias = new LinkedList<>();
-    private final CallbackToActivity mCallback;
+    private final ActivityCallback mCallback;
 
     public VersionMultimediaComposer(List<Version> versions, List<Multimedia> multimedia,
-                                     CallbackToActivity callback)
+                                     ActivityCallback callback)
     {
         mVersions = versions;
         mMultimedia = multimedia;
         mCallback = callback;
-        if(mMultimedia.isEmpty()){
+        if(mMultimedia.isEmpty()) {
             mCallback.finalizeVersionMultimedia(mVersionMultimedias);
         }
     }
@@ -96,7 +96,7 @@ public class VersionMultimediaComposer extends Fragment
                 multimedia.getMultimediaId(), version.getVersionId()));
     }
 
-    public interface CallbackToActivity
+    public interface ActivityCallback
     {
         void finalizeVersionMultimedia(Collection<VersionMultimedia> versionMultimedia);
     }
