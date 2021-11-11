@@ -6,4 +6,4 @@ import androidx.room.PrimaryKey
 @Entity
 data class Keyword(
     @PrimaryKey val keywordId: Long,
-                val word: String)
+                val keyword: String)

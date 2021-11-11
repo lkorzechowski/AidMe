@@ -40,7 +40,7 @@ public class AddedKeywordAdapter
     {
         Keyword keyword = mKeywords.get(position);
         holder.keyword = keyword;
-        holder.keywordButton.setText(keyword.getWord());
+        holder.keywordButton.setText(keyword.getKeyword());
     }
 
     @Override

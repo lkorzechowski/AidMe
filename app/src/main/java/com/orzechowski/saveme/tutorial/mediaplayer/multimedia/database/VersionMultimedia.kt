@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity
 data class VersionMultimedia(
     @PrimaryKey val versionMultimediaId: Long,
-                val multimediaId: Long,
-                val versionId: Long)
+                var multimediaId: Long,
+                var versionId: Long)

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -51,10 +50,9 @@ public class VersionMultimediaComposer extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         FragmentActivity activity = requireActivity();
-        View view = inflater.inflate(R.layout.fragment_version_multimedia,
-                container, false);
-        Button finalizeMultimedia = view.findViewById(R.id.version_multimedia_finalize_button);
-        finalizeMultimedia.setOnClickListener(v -> {
+        View view = inflater.inflate(R.layout.fragment_version_multimedia, container,
+                false);
+        view.findViewById(R.id.version_multimedia_finalize_button).setOnClickListener(v -> {
             if(mVersionMultimedias.isEmpty()) {
                 Toast.makeText(activity, R.string.version_multimedia_not_assigned,
                         Toast.LENGTH_SHORT).show();

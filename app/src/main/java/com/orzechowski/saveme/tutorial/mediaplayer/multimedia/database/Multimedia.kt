@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Multimedia(
     @PrimaryKey val multimediaId: Long,
-                val tutorialId: Long,
+                var tutorialId: Long,
                 var displayTime: Int,
                 val type: Boolean,  //true = image, false = video
                 var fileUriString: String,

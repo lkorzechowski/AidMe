@@ -56,16 +56,13 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.Frag
                     helperViewModel.getByHelperId(helperTag.getHelperId())
                             .observe(requireActivity(), helpers::add);
                 }
-                helperViewModel.getByHelperId(1L).observe(requireActivity(), creator-> {
-                    helpers.add(creator);
-                    for(TutorialTag tutorialTag : tutorialTags) {
-                        tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId())
-                                .observe(requireActivity(), tutorial-> {
-                            tutorials.add(tutorial);
-                            mAdapter.setElementList(tutorials, helpers);
-                        });
-                    }
-                });//TODO: find a different way to remove me from tags
+                for(TutorialTag tutorialTag : tutorialTags) {
+                    tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId())
+                            .observe(requireActivity(), tutorial-> {
+                                tutorials.add(tutorial);
+                                mAdapter.setElementList(tutorials, helpers);
+                            });
+                }
             });
         });
         View view = inflater

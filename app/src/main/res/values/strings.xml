@@ -115,6 +115,8 @@
     <string name="submit_helper_settings_button">Wyślij zmienione dane</string>
     <string name="main_call_info">Aby nawiązywać połączenia telefoniczne za pośrednictwem aplikacji wymagane są środki na koncie</string>
     <string name="main_internet_info">W przypadku braku połączenia z internetem narracje i obrazy nie będą dostępne</string>
+    <string name="version_sound_heading">Podobnie jak w poprzednim kroku, musisz przypisać, tym razem dźwięki, do poszczególnych wersji.</string>
+    <string name="version_sounds_not_assigned">Nie przypisano dźwięków</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

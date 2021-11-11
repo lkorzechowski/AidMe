@@ -123,7 +123,7 @@ public class CategoryAssignment extends Fragment
                             Button submitInsert = view.findViewById(R.id.submit_tag_insert_button);
                             EditText tagInsert = view.findViewById(R.id.tag_insert);
                             submitInsert.setOnClickListener(v -> {
-                                if(tagInsert.getText().length()>3) {
+                                if(tagInsert.getText().length() > 3) {
                                     mCallback.finalizeCategory(mTutorialTags, new Tag(0,
                                             tagInsert.getText().toString(), mLevel + 1));
                                 } else {

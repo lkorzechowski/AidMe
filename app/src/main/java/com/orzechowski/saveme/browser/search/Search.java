@@ -119,7 +119,7 @@ public class Search extends Fragment implements ResultsListAdapter.FragmentCallb
                                             mKeywordViewModel.getAll()
                                                     .observe(requireActivity(), keywords -> {
                                                 for (Keyword keyword : keywords) {
-                                                    String obtainedWord = keyword.getWord();
+                                                    String obtainedWord = keyword.getKeyword();
                                                     if (obtainedWord.contains(wordClean) ||
                                                             wordClean.contains(obtainedWord)) {
                                                         mTagKeywordViewModel

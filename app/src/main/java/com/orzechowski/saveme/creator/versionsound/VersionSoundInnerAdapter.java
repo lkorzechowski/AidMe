@@ -1,4 +1,4 @@
-package com.orzechowski.saveme.creator.versionmultimedia;
+package com.orzechowski.saveme.creator.versionsound;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -15,14 +15,13 @@ import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import java.util.List;
 
-public class VersionMultimediaInnerAdapter
-    extends RecyclerView.Adapter<VersionMultimediaInnerAdapter.VersionViewHolder>
+public class VersionSoundInnerAdapter extends RecyclerView.Adapter<VersionSoundInnerAdapter.VersionViewHolder>
 {
     private List<Version> mVersions = null;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
 
-    public VersionMultimediaInnerAdapter(Activity activity, FragmentCallback callback)
+    public VersionSoundInnerAdapter(Activity activity, FragmentCallback callback)
     {
         mInflater = LayoutInflater.from(activity);
         mCallback = callback;
@@ -32,8 +31,7 @@ public class VersionMultimediaInnerAdapter
     @Override
     public VersionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View row = mInflater
-                .inflate(R.layout.row_inner_version_multimedia_rv, parent, false);
+        View row = mInflater.inflate(R.layout.row_inner_version_sound_rv, parent, false);
         return new VersionViewHolder(row, mCallback);
     }
 
@@ -75,7 +73,7 @@ public class VersionMultimediaInnerAdapter
         }
 
         @Override
-        public void onClick(View v)
+        public void onClick(View view)
         {
             if(!selected) {
                 versionNumberButton.setBackgroundColor(Color

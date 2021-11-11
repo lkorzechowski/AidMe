@@ -70,7 +70,7 @@ public class KeywordAssignment extends Fragment implements AddedKeywordAdapter.F
                     mKeywordViewModel.getAll().observe(activity, keywords -> {
                         String inputLower = keywordInput.getText().toString().toLowerCase();
                         for(Keyword keyword : keywords) {
-                            String word = keyword.getWord();
+                            String word = keyword.getKeyword();
                             if(word.contains(inputLower)) {
                                 if(mKeywords.contains(keyword)) keywords.remove(keyword);
                                 else {

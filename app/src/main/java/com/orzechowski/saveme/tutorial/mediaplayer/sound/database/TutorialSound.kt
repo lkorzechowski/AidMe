@@ -9,5 +9,5 @@ data class TutorialSound(
                 var soundStart: Long,
                 var soundLoop: Boolean,
                 var interval: Long,
-                val tutorialId: Long,
+                var tutorialId: Long,
                 var fileName: String)

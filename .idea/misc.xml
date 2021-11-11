@@ -34,17 +34,20 @@
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_tutorial_link_composer.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_instruction.xml" value="0.1" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_multimedia.xml" value="0.26510416666666664" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_sound.xml" value="0.12222222222222222" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/fragment_version_tree_composer.xml" value="0.1296875" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_added_keyword_rv.xml" value="0.1" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_category_assignment.xml" value="0.11574074074074074" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_image_browser.xml" value="0.13229166666666667" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_inner_version_instruction_rv.xml" value="0.125" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_inner_version_multimedia.xml" value="0.26510416666666664" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_inner_version_sound_rv.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_instruction_text_rv.xml" value="0.125" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_new_instruction_rv.xml" value="0.125" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_new_multimedia_rv.xml" value="0.1578125" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_outer_version_instruction_rv.xml" value="0.125" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_outer_version_multimedia_rv.xml" value="0.26510416666666664" />
+        <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_outer_version_sound_rv.xml" value="0.12222222222222222" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_phone_numbers_rv.xml" value="0.1" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_sound_browser.xml" value="0.159375" />
         <entry key="..\:/Users/Luke/AndroidStudioProjects/Prototyp/app/src/main/res/layout/row_tutorial_link_rv.xml" value="0.1" />

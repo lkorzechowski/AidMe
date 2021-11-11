@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity
 data class TutorialTag(
     @PrimaryKey val tutorialTagId: Long,
-                val tutorialId: Long,
-                val tagId: Long)
+                var tutorialId: Long,
+                var tagId: Long)
