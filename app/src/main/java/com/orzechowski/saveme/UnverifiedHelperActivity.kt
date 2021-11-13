@@ -24,6 +24,7 @@ import com.orzechowski.saveme.imagebrowser.ImageBrowserLoader
 import net.gotev.uploadservice.UploadServiceConfig
 import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 import java.util.*
+import kotlin.concurrent.thread
 
 //Aktywność do której skierowani są użytkownicy którzy zalogowali się do aplikacji przez swoje konto
 //Google, ale którzy nie zostali zweryfikowani po stronie serwera, bądź odebrano im weryfikację.
@@ -44,6 +45,8 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
     {
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
+        UploadServiceConfig.initialize(application,
+            getString(R.string.default_notification_channel_id), true)
         mView = findViewById(R.id.unverified_view)
         viewModelProvider = ViewModelProvider(this)
         mEmail = intent.getStringExtra("email")!!
@@ -89,15 +92,18 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
         findViewById<ImageView>(R.id.document_display).setImageURI(uri)
         uploadButton.visibility = View.VISIBLE
         uploadButton.setOnClickListener {
-            UploadServiceConfig.initialize(application,
-                getString(R.string.default_notification_channel_id), false)
             try {
-                MultipartUploadRequest(this@UnverifiedHelperActivity,
-                    mUrl + "userdocumentuploadimage/" + mEmail)
-                    .addFileToUpload(uri.toString(), "file").setMaxRetries(10)
-                    .setNotificationConfig { context, uploadId ->
-                        UploadServiceConfig.notificationConfigFactory(context, uploadId)
-                    }.startUpload()
+                thread {
+                    MultipartUploadRequest(
+                        this@UnverifiedHelperActivity,
+                        mUrl + "userdocumentuploadimage/" + mEmail
+                    )
+                        .addFileToUpload(uri.toString(), "file").setMaxRetries(10)
+                        .setUsesFixedLengthStreamingMode(true).setMethod("POST")
+                        .setNotificationConfig { context, uploadId ->
+                            UploadServiceConfig.notificationConfigFactory(context, uploadId)
+                        }.startUpload()
+                }
             } catch(e: Exception) {
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }

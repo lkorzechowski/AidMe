@@ -312,7 +312,7 @@ class RequestAPI(val activity: AppCompatActivity)
                         val instructionSet = InstructionSet(instructionSetId,
                             row.getString("title"), row.getString("instructions"),
                             row.getInt("time"), row.getLong("tutorialId"),
-                            row.getInt("position"), row.getString("narrationName"))
+                            row.getInt("position"), row.getString("narrationFile"))
                         mInstructionSetViewModel.getByInstructionSetId(instructionSetId)
                             .observe(activity) {
                                 if(it!=null) {

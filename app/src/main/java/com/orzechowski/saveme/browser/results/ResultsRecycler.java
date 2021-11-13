@@ -36,7 +36,8 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.Frag
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
     {
         long tagId = requireArguments().getLong("tagId");
         TutorialTagViewModel tutorialTagViewModel = new ViewModelProvider(this)

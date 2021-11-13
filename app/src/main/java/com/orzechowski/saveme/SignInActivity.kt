@@ -24,7 +24,7 @@ class SignInActivity : AppCompatActivity()
             try {
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
                 progress(account)
-            } catch (e: ApiException) {
+            } catch (e: Exception) {
                 Toast.makeText(this, "Couldn't sign in", Toast.LENGTH_SHORT)
                 startActivity(Intent(this@SignInActivity, MainActivity::class.java))
             }
@@ -35,8 +35,8 @@ class SignInActivity : AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
-            .requestIdToken("1042713587768-2pk21idihc6mbijp2squmr2ekdv65rac.apps.googleusercontent.com")
-            .build()
+            .requestIdToken("1042713587768-2pk21idihc6mbijp2squmr2ekdv65rac.apps" +
+                    ".googleusercontent.com").build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 

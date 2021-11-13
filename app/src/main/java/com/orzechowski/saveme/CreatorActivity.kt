@@ -547,7 +547,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                         mUrl + "upload/narration").setMaxRetries(10)
                             .addFileToUpload(mNarrationUris[instruction
                                 .instructionSetId.toInt()] ?: "", "file")
-                            .setNotificationConfig { context, uploadId ->
+                            .setMethod("POST").setNotificationConfig { context, uploadId ->
                                 UploadServiceConfig.notificationConfigFactory(context, uploadId)
                             }.startUpload()
                     } catch(e: Exception) {
@@ -565,9 +565,10 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 if(multimedia.type) {
                     try {
                         MultipartUploadRequest(
-                            this@CreatorActivity, mUrl + "upload/image")
+                            this@CreatorActivity, mUrl + "upload/image/")
                             .setMaxRetries(10).addFileToUpload(multimedia.fileUriString,
-                                "file").setNotificationConfig { context, uploadId ->
+                                "file").setMethod("POST")
+                            .setNotificationConfig { context, uploadId ->
                             UploadServiceConfig.notificationConfigFactory(context, uploadId)
                         }.startUpload()
                     } catch (e: Exception) {
@@ -577,8 +578,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     try {
                         MultipartUploadRequest(this@CreatorActivity, mUrl +
                                 "upload/video").setMaxRetries(10).addFileToUpload(multimedia
-                            .fileUriString, "file").setNotificationConfig {
-                                context, uploadId ->
+                            .fileUriString, "file").setMethod("POST")
+                            .setNotificationConfig { context, uploadId ->
                             UploadServiceConfig.notificationConfigFactory(context, uploadId)
                         }.startUpload()
                     } catch (e: Exception) {
@@ -597,7 +598,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     MultipartUploadRequest(this@CreatorActivity, mUrl +
                             "upload/sound").setMaxRetries(10)
                         .addFileToUpload(mSoundUris[sound.soundId.toInt()] ?: "",
-                            "file").setNotificationConfig { context, uploadId ->
+                            "file").setMethod("POST")
+                        .setNotificationConfig { context, uploadId ->
                             UploadServiceConfig.notificationConfigFactory(context, uploadId)
                         }.startUpload()
                 } catch(e: Exception) {

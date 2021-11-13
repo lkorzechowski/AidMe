@@ -20,7 +20,9 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
     private lateinit var mImageBrowserAdapter: ImageBrowserAdapter
     private val mContentObserver: ContentObserver = object : ContentObserver(null) {
         override fun onChange(selfChange: Boolean) {
-            setAdapterImages()
+            requireActivity().runOnUiThread {
+                setAdapterImages()
+            }
         }
     }
 
@@ -52,15 +54,15 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
         } else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         requireActivity().contentResolver.query(uri, arrayOf(MediaStore.Images.Media._ID),
             null, null, null
-        )?.use { cursor ->
-            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+        )!!.use { cursor ->
+            val idColumn = cursor.getColumnIndex(MediaStore.Images.Media._ID)
             while(cursor.moveToNext()) {
-                val id = cursor.getLong(idColumn)
+                val id = cursor.getInt(idColumn)
                 uris.add(ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    id))
+                    id.toLong()))
             }
-            return uris.toList()
-        } ?: return listOf()
+            return uris
+        }
     }
 
     override fun onDestroy()
