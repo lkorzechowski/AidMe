@@ -107,7 +107,7 @@
     <string name="verify_button">Zweryfikuj się!</string>
     <string name="verify_button_post_upload">Zmień obraz</string>
     <string name="document_upload_button">Wyślij dokument</string>
-    <string name="unverified_helper_awaiting_response">Trwa oczekiwanie na odpowiedź administratora, prosimy o cierpliwość.</string>
+    <string name="unverified_helper_awaiting_response">Twój dokument został przesłany, trwa oczekiwanie na odpowiedź administratora, prosimy o cierpliwość.</string>
     <string name="name">Imię</string>
     <string name="surname">Nazwisko</string>
     <string name="profession">Zawód</string>
@@ -117,6 +117,11 @@
     <string name="main_internet_info">W przypadku braku połączenia z internetem narracje i obrazy nie będą dostępne</string>
     <string name="version_sound_heading">Podobnie jak w poprzednim kroku, musisz przypisać, tym razem dźwięki, do poszczególnych wersji.</string>
     <string name="version_sounds_not_assigned">Nie przypisano dźwięków</string>
+    <string name="document_description">Opis dokumentu (do 256 słów):</string>
+    <string name="document_description_input">Twój tekst</string>
+    <string name="document_sent">Twój dokument został przesłany, możesz tu wrócić i go nadpisać w dowolnej chwili.</string>
+    <string name="document_not_found">Nie znaleziono dokumentu dla użytkownika.</string>
+    <string name="document_sending_error">Błąd w trakcie wysyłania dokumentu</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

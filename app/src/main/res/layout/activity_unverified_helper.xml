@@ -46,6 +46,30 @@
             app:layout_constraintTop_toTopOf="@id/document_display"
             app:layout_constraintBottom_toBottomOf="@id/document_display"/>
 
+        <TextView
+            android:id="@+id/document_description_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/document_description"
+            android:layout_marginTop="20dp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/document_display"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <EditText
+            android:id="@+id/document_description_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="false"
+            android:hint="@string/document_description_input"
+            android:inputType="textMultiLine"
+            android:maxLines="30"
+            android:minLines="5"
+            android:visibility="invisible"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/document_description_info" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
