@@ -37,7 +37,7 @@
                 android:id="@+id/tutorial_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="36sp"
+                android:textSize="32sp"
                 android:text="@string/title"
                 app:layout_constraintBottom_toBottomOf="@id/tutorial_title_input"
                 app:layout_constraintTop_toTopOf="@id/tutorial_title_input"
@@ -50,6 +50,8 @@
                 android:autofillHints="false"
                 android:inputType="text"
                 android:hint="@string/tutorial_title_input"
+                android:textColor="@color/white"
+                android:textColorHint="@color/green1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tutorial_miniature"/>
 

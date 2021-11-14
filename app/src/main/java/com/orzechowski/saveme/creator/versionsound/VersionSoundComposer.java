@@ -41,9 +41,6 @@ public class VersionSoundComposer extends Fragment
         mVersions = versions;
         mSounds = sounds;
         mCallback = callback;
-        if(mSounds.isEmpty()) {
-            mCallback.finalizeVersionSounds(mVersionSounds);
-        }
     }
 
     @Override

@@ -8,7 +8,7 @@ data class Multimedia(
     @PrimaryKey val multimediaId: Long,
                 var tutorialId: Long,
                 var displayTime: Int,
-                val type: Boolean,  //true = image, false = video
+                var type: Boolean,  //true = obrazek, false = filmik
                 var fileUriString: String,
                 var loop: Boolean,
                 var position: Int)

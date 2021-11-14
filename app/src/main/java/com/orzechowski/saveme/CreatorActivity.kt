@@ -118,19 +118,34 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         super.onCreate(savedInstanceState)
         mEmail = intent.getStringExtra("email") ?: "f"
         findViewById<Button>(R.id.creator_step_one_button).setOnClickListener {
-            val instructions = mInstructionComposer.instructions
+            mInstructions = mInstructionComposer.instructions
+            mMultimedia = mMultimediaComposer.multimedias
+            mSounds = mSoundComposer.sounds
             var lengthRegex = true
-            for(instruction in instructions) {
+            var displayMedia = true
+            var soundLogicalTime = true
+            for(instruction in mInstructions) {
                 if(instruction.instructions.length < 4) lengthRegex = false
             }
-            if(instructions.isEmpty() || !lengthRegex) {
+            for(multimedia in mMultimedia) {
+                if(multimedia.displayTime <= 0) displayMedia = false
+            }
+            for(sound in mSounds) {
+                if(sound.soundStart < 0 || sound.interval < 0) soundLogicalTime = false
+            }
+            if(mInstructions.isEmpty() || !lengthRegex) {
                 Toast.makeText(this, R.string.instructions_not_provided,
                     Toast.LENGTH_SHORT).show()
+            } else if(!displayMedia) {
+                Toast.makeText(this, R.string.media_length_not_set, Toast.LENGTH_SHORT)
+                    .show()
+            } else if(!soundLogicalTime) {
+                Toast.makeText(this, R.string.illogical_sound_time, Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 val versions = mVersionComposer.versions
                 mVersions = if(versions.isEmpty()) {
-                    mutableListOf(
-                        Version(0, "", 0,
+                    mutableListOf(Version(0, "", 0,
                             delayGlobalSound = true,
                             hasChildren = false,
                             hasParent = false,
@@ -138,10 +153,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                         )
                     )
                 } else versions
-                mMultimedia = mMultimediaComposer.multimedias
-                mInstructions = instructions
                 mTutorialLinkComposer.setInstructions(mInstructions)
-                mSounds = mSoundComposer.sounds
                 supportFragmentManager.beginTransaction().remove(mInstructionComposer).commit()
                 supportFragmentManager.beginTransaction().remove(mMultimediaComposer).commit()
                 supportFragmentManager.beginTransaction().remove(mVersionComposer).commit()
@@ -152,6 +164,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             }
         }
         findViewById<Button>(R.id.tutorial_miniature_upload_button).setOnClickListener {
+            callImageGallery()
             pickingMiniature = true
         }
         mView = findViewById(R.id.initial_creator_view)
@@ -210,13 +223,29 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     override fun imageSubmitted(uri: Uri)
     {
         supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
+        val type = contentResolver.getType(uri)
+        var boolType = false
+        if(type=="image/jpeg" || type=="image/bmp" || type=="image/gif" || type=="image/jpg" ||
+            type=="image/png") {
+            boolType = true
+        }
         if(!pickingMiniature) {
-            mMultimediaComposer.multimedias[mMultimediaComposer.currentPosition].fileUriString =
+            val multimedia = mMultimediaComposer.multimedias[mMultimediaComposer.currentPosition]
+            if(boolType) multimedia.type = true
+            if(boolType || type=="video/wav" || type == "video/mp4") multimedia.fileUriString =
                 uri.toString()
-            mMultimediaComposer.resetAdapterElements()
+            else Toast.makeText(this, R.string.multimedia_bad_format, Toast.LENGTH_SHORT)
+                .show()
+                mMultimediaComposer.resetAdapterElements()
         } else {
-            findViewById<ImageView>(R.id.tutorial_miniature).setImageURI(uri)
-            miniatureFileUri = uri.toString()
+            if(boolType) {
+                findViewById<ImageView>(R.id.tutorial_miniature).setImageURI(uri)
+                miniatureFileUri = uri.toString()
+                pickingMiniature = false
+            } else {
+                Toast.makeText(this, R.string.miniature_bad_format, Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
         mView.visibility = View.VISIBLE
     }
@@ -257,16 +286,24 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private fun commitVersionMultimediaComposer()
     {
         mVersionMultimediaComposer = VersionMultimediaComposer(mVersions, mMultimedia, this)
-        supportFragmentManager.commit {
-            add(R.id.fragment_overlay_layout, mVersionMultimediaComposer)
+        if(mMultimedia.isNotEmpty()) {
+            supportFragmentManager.commit {
+                add(R.id.fragment_overlay_layout, mVersionMultimediaComposer)
+            }
+        } else {
+            commitVersionSoundComposer()
         }
     }
 
     private fun commitVersionSoundComposer()
     {
         mVersionSoundComposer = VersionSoundComposer(mVersions, mSounds, this)
-        supportFragmentManager.commit {
-            add(R.id.fragment_overlay_layout, mVersionSoundComposer)
+        if(mSounds.isNotEmpty()) {
+            supportFragmentManager.commit {
+                add(R.id.fragment_overlay_layout, mVersionSoundComposer)
+            }
+        } else {
+            commitCategoryAssignment()
         }
     }
 

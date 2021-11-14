@@ -60,7 +60,8 @@ public class VersionMultimediaInnerAdapter
     public static class VersionViewHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener
     {
-        Version version;
+        private final int red = Color.argb(100, 200, 0, 0);
+                Version version;
         Button versionNumberButton;
         FragmentCallback callback;
         boolean selected = false;
@@ -69,7 +70,7 @@ public class VersionMultimediaInnerAdapter
         {
             super(itemView);
             versionNumberButton = itemView.findViewById(R.id.version_number_button);
-            versionNumberButton.setBackgroundColor(Color.argb(100, 0, 200, 0));
+            versionNumberButton.setBackgroundColor(red);
             callback = fragmentCallback;
             versionNumberButton.setOnClickListener(this);
         }
@@ -79,12 +80,11 @@ public class VersionMultimediaInnerAdapter
         {
             if(!selected) {
                 versionNumberButton.setBackgroundColor(Color
-                        .argb(100, 200, 0, 0));
+                        .argb(100, 0, 200, 0));
                 callback.select(version);
                 selected = true;
             } else {
-                versionNumberButton.setBackgroundColor(Color
-                        .argb(100, 0, 200, 0));
+                versionNumberButton.setBackgroundColor(red);
                 callback.unselect(version);
                 selected = false;
             }

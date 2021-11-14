@@ -41,9 +41,6 @@ public class VersionMultimediaComposer extends Fragment
         mVersions = versions;
         mMultimedia = multimedia;
         mCallback = callback;
-        if(mMultimedia.isEmpty()) {
-            mCallback.finalizeVersionMultimedia(mVersionMultimedias);
-        }
     }
 
     @Override

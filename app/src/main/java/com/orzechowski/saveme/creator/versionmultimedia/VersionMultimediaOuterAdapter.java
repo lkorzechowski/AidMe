@@ -1,6 +1,7 @@
 package com.orzechowski.saveme.creator.versionmultimedia;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,13 @@ public class VersionMultimediaOuterAdapter
     {
         Multimedia multimedia = mMultimedias.get(position);
         holder.multimedia = multimedia;
+        if(multimedia.getType()) {
+            holder.imageView.setVisibility(View.VISIBLE);
+            holder.imageView.setImageURI(Uri.parse(multimedia.getFileUriString()));
+        } else {
+            holder.videoView.setVisibility(View.VISIBLE);
+            holder.videoView.setVideoURI(Uri.parse(multimedia.getFileUriString()));
+        }
         holder.adapter.setElementList(mVersions);
     }
 
@@ -79,6 +87,8 @@ public class VersionMultimediaOuterAdapter
             super(itemView);
             callback = callbackToFragment;
             recycler = itemView.findViewById(R.id.version_multimedia_inner_rv);
+            imageView = itemView.findViewById(R.id.new_image_embed);
+            videoView = itemView.findViewById(R.id.new_video_embed);
             recycler.setLayoutManager(new LinearLayoutManager(itemView.getContext(),
                     LinearLayoutManager.HORIZONTAL, false));
             adapter = new VersionMultimediaInnerAdapter(requestActivity, this);

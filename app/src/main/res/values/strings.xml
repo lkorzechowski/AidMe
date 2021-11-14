@@ -100,7 +100,7 @@
     <string name="link_edit">Co chciałbyś/ałabyć zmienić?</string>
     <string name="tutorial_loading_info">Aplikacja pobiera pozostałe dane.</string>
     <string name="skip">Pomiń</string>
-    <string name="title">Tytuł</string>
+    <string name="title">Tytuł:</string>
     <string name="tutorial_title_input">Wpisz tytuł</string>
     <string name="tutorial_miniature_upload_button">Wstaw miniaturkę</string>
     <string name="unverified_helper_info">Nie jesteś zweryfikowany/a! Aby móc publikować treść musisz dostarczyć poświadczenie odpowiednich kwalifikacji w formie zdjęcia/skanu dokumentu. Dokumenty przesłane na serwer nie są upubliczniane, dostęp do nich ma i będzie mieć wyłącznie adminstrator.</string>
@@ -121,7 +121,13 @@
     <string name="document_description_input">Twój tekst</string>
     <string name="document_sent">Twój dokument został przesłany, możesz tu wrócić i go nadpisać w dowolnej chwili.</string>
     <string name="document_not_found">Nie znaleziono dokumentu dla użytkownika.</string>
-    <string name="document_sending_error">Błąd w trakcie wysyłania dokumentu</string>
+    <string name="document_sending_error">Błąd w trakcie wysyłania dokumentu.</string>
+    <string name="surname_too_short">Nazwisko jest zbyt krótkie.</string>
+    <string name="name_too_short">Imię jest zbyt krótkie.</string>
+    <string name="media_length_not_set">Nie ustawiono długości wyświetlania multimediów.</string>
+    <string name="illogical_sound_time">Ta wartość czasu dla dźwięków jest nielogiczna!</string>
+    <string name="miniature_bad_format">Niewłaściwy format miniaturki.</string>
+    <string name="multimedia_bad_format">Niewłaściwy format multimediów.</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

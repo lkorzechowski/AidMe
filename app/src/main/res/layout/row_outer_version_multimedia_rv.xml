@@ -9,24 +9,29 @@
 
     <VideoView
         android:id="@+id/new_video_embed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/version_multimedia_inner_rv"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/new_image_embed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="invisible"
+        android:contentDescription="@string/image_default_no_description"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/version_multimedia_inner_rv"
-        android:contentDescription="@string/image_default_no_description"/>
+        app:layout_constraintBottom_toTopOf="@id/version_multimedia_inner_rv"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/version_multimedia_inner_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/new_image_embed"
         tools:listitem="@layout/row_inner_version_instruction_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

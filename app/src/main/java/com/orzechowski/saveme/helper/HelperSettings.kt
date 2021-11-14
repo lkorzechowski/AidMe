@@ -57,7 +57,7 @@ class HelperSettings(val mActivity: HelperActivity): Fragment()
             surnameEdit.setText(surname)
             titleEdit.setText(title)
             professionEdit.setText(profession)
-            phoneEdit.setText(phone)
+            if(phone!="null") phoneEdit.setText(phone)
             submitButton.setOnClickListener {
                 name = nameEdit.text.toString()
                 surname = nameEdit.text.toString()
@@ -70,31 +70,33 @@ class HelperSettings(val mActivity: HelperActivity): Fragment()
                         if(profession.isEmpty()) profession = "null"
                         if(phone.length < 8) phone = "null"
                         mQueue.add(BooleanRequest(
-                            Request.Method.GET,
-                            url +
-                                    "setfullhelperdetailforemail/" + mEmail + "/" +
-                                    result.getString("helperId") + "/" + name + "/" + surname +
-                                    "/" + title + "/" + profession + "/" + phone,
+                            Request.Method.POST,
+                            url + "setfullhelperdetailforemail/" + mEmail + "/" +
+                                    result.getString("helperId") + "/" + name + "/" +
+                                    surname + "/" + title + "/" + profession + "/" + phone,
                             null,
                             {
                                 mCallback.submittedSettings()
                             },
                             {
-                                it.printStackTrace()
+                                Toast.makeText(mActivity, it.message, Toast.LENGTH_SHORT).show()
                             }
                         ))
                     } else {
-                        Toast.makeText(mActivity, "Nazwisko jest zbyt krótkie",
+                        Toast.makeText(mActivity, resources.getString(R.string.surname_too_short),
                             Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(mActivity, "Imię jest zbyt krótkie", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(mActivity, resources.getString(R.string.name_too_short),
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         }, {
-            it.printStackTrace()
+            Toast.makeText(mActivity, it.message, Toast.LENGTH_SHORT).show()
         }))
+        view.findViewById<Button>(R.id.cancel_helper_settings_button).setOnClickListener {
+            mCallback.submittedSettings()
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
