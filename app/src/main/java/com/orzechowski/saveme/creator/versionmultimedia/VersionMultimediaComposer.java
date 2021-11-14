@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
 import com.orzechowski.saveme.creator.initial.VersionTextAdapter;
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.Multimedia;
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.VersionMultimedia;
+import com.orzechowski.saveme.tutorial.multimedia.database.Multimedia;
+import com.orzechowski.saveme.tutorial.multimedia.database.VersionMultimedia;
 import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import org.jetbrains.annotations.NotNull;

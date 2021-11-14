@@ -20,7 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.Multimedia;
+import com.orzechowski.saveme.tutorial.multimedia.database.Multimedia;
 
 import java.util.List;
 
@@ -51,13 +51,13 @@ public class MultimediaComposerAdapter
     public void onBindViewHolder(@NonNull MultimediaViewHolder holder, int position)
     {
         Multimedia multimedia = mMultimedias.get(position);
-        holder.fileName.setText(multimedia.getFileUriString());
+        holder.fileName.setText(multimedia.getFileName());
         holder.displayTime.setText(String.valueOf(multimedia.getDisplayTime()));
         holder.loopCheckBox.setChecked(multimedia.getLoop());
         holder.multimedia = multimedia;
-        if(!multimedia.getFileUriString().isEmpty()) {
+        if(!multimedia.getFileName().isEmpty()) {
             holder.miniature.setVisibility(View.VISIBLE);
-            holder.miniature.setImageURI(Uri.parse(multimedia.getFileUriString()));
+            holder.miniature.setImageURI(Uri.parse(multimedia.getFileName()));
         } else holder.miniature.setVisibility(View.GONE);
     }
 

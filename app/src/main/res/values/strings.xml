@@ -128,6 +128,7 @@
     <string name="illogical_sound_time">Ta wartość czasu dla dźwięków jest nielogiczna!</string>
     <string name="miniature_bad_format">Niewłaściwy format miniaturki.</string>
     <string name="multimedia_bad_format">Niewłaściwy format multimediów.</string>
+    <string name="tutorial_name_not_set">Nie nadano tytułu!</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

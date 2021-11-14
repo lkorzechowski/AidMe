@@ -58,8 +58,8 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
                     findViewById<TextView>(R.id.unverified_helper_info).text =
                         resources.getString(R.string.unverified_helper_awaiting_response)
                 } else {
-                    Toast.makeText(this, R.string.document_not_found, Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, R.string.document_not_found,
+                        Toast.LENGTH_SHORT).show()
                 }
             }, {
                 Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()

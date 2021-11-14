@@ -47,7 +47,7 @@ public class CategoryListAdapter
         String categoryName = category.getCategoryName();
         categoryHolder.name.setText(categoryName);
         if(categoryName.length() > 20) categoryHolder.name.setTextSize(20);
-        Uri uri = Uri.parse(mPathBase + category.getFileName());
+        Uri uri = Uri.parse(mPathBase + category.getMiniatureName());
         if(uri != null) categoryHolder.image.setImageURI(uri);
     }
 

@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
 import com.orzechowski.saveme.creator.initial.VersionTextAdapter;
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.TutorialSound;
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.VersionSound;
+import com.orzechowski.saveme.tutorial.sound.database.TutorialSound;
+import com.orzechowski.saveme.tutorial.sound.database.VersionSound;
 import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import org.jetbrains.annotations.NotNull;

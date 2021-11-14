@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.Multimedia;
+import com.orzechowski.saveme.tutorial.multimedia.database.Multimedia;
 
 import org.jetbrains.annotations.NotNull;
 

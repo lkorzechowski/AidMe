@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.*
 import com.google.gson.Gson
 import com.orzechowski.saveme.browser.search.database.Keyword
+import com.orzechowski.saveme.creator.GsonConverter
 import com.orzechowski.saveme.creator.categorypicker.CategoryAssignment
 import com.orzechowski.saveme.creator.initial.InstructionComposer
 import com.orzechowski.saveme.creator.initial.MultimediaComposer
@@ -36,12 +37,13 @@ import com.orzechowski.saveme.imagebrowser.ImageBrowserLoader
 import com.orzechowski.saveme.tutorial.database.Tutorial
 import com.orzechowski.saveme.tutorial.database.TutorialLink
 import com.orzechowski.saveme.tutorial.instructions.database.InstructionSet
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.Multimedia
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.VersionMultimedia
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.TutorialSound
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.VersionSound
+import com.orzechowski.saveme.tutorial.multimedia.database.Multimedia
+import com.orzechowski.saveme.tutorial.multimedia.database.VersionMultimedia
+import com.orzechowski.saveme.tutorial.sound.database.TutorialSound
+import com.orzechowski.saveme.tutorial.sound.database.VersionSound
 import com.orzechowski.saveme.tutorial.version.database.Version
 import com.orzechowski.saveme.tutorial.version.database.VersionInstruction
+import com.orzechowski.saveme.volley.StringPost
 import net.gotev.uploadservice.UploadServiceConfig
 import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 import org.json.JSONArray
@@ -71,6 +73,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private val mUrl = "https://aidme-326515.appspot.com/"
     private val mSoundUris = mutableMapOf<Int, String>()
     private val mNarrationUris = mutableMapOf<Int, String>()
+    private val mGson = Gson()
+    private val mGsonConverter = GsonConverter()
     private var mCategoryAssignment = CategoryAssignment(this)
     private var mKeywordAssignment = KeywordAssignment(this)
     private var mTutorialLinkComposer = TutorialLinkComposer(this)
@@ -86,6 +90,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private var mSoundUpload = false
     private var mVersionSoundUpload = false
     private var mKeywordUpload = false
+    private var mMultimediaInfoUpload = false
+    private var mSoundInfoUpload = false
     private var mTutorialId by Delegates.notNull<Long>()
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
@@ -124,6 +130,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             var lengthRegex = true
             var displayMedia = true
             var soundLogicalTime = true
+            val tutorialName = mTutorialTitle.isNotEmpty()
             for(instruction in mInstructions) {
                 if(instruction.instructions.length < 4) lengthRegex = false
             }
@@ -137,11 +144,15 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 Toast.makeText(this, R.string.instructions_not_provided,
                     Toast.LENGTH_SHORT).show()
             } else if(!displayMedia) {
-                Toast.makeText(this, R.string.media_length_not_set, Toast.LENGTH_SHORT)
+                Toast.makeText(this, R.string.media_length_not_set,
+                    Toast.LENGTH_SHORT)
                     .show()
             } else if(!soundLogicalTime) {
-                Toast.makeText(this, R.string.illogical_sound_time, Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, R.string.illogical_sound_time,
+                    Toast.LENGTH_SHORT).show()
+            } else if(!tutorialName) {
+                Toast.makeText(this, R.string.tutorial_name_not_set,
+                    Toast.LENGTH_SHORT).show()
             } else {
                 val versions = mVersionComposer.versions
                 mVersions = if(versions.isEmpty()) {
@@ -232,7 +243,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         if(!pickingMiniature) {
             val multimedia = mMultimediaComposer.multimedias[mMultimediaComposer.currentPosition]
             if(boolType) multimedia.type = true
-            if(boolType || type=="video/wav" || type == "video/mp4") multimedia.fileUriString =
+            if(boolType || type=="video/wav" || type == "video/mp4") multimedia.fileName =
                 uri.toString()
             else Toast.makeText(this, R.string.multimedia_bad_format, Toast.LENGTH_SHORT)
                 .show()
@@ -373,7 +384,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         UploadServiceConfig.initialize(application,
             getString(R.string.default_notification_channel_id), false)
-        if(tutorialLinks!=null && tutorialLinks.isNotEmpty()) {
+        if(tutorialLinks != null && tutorialLinks.isNotEmpty()) {
             mTutorialLinks = tutorialLinks
         }
         supportFragmentManager.beginTransaction().remove(mTutorialLinkComposer).commit()
@@ -420,7 +431,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private fun completedUpload() : Boolean
     {
         return mVersionMultimediaUpload && mVersionSoundUpload && mVersionInstructionUpload &&
-                mKeywordUpload && mTutorialLinkUpload && mInstructionUpload
+                mKeywordUpload && mTutorialLinkUpload && mInstructionUpload && mSoundInfoUpload &&
+                mMultimediaInfoUpload
     }
 
     private fun uploadTutorial()
@@ -439,6 +451,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 uploadTutorialLinks()
                 uploadVersions()
                 uploadTags()
+                uploadMultimediaInfo()
+                uploadSoundInfo()
             }, {
                 Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
             })
@@ -451,6 +465,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/instructions",
                 JSONArray(Gson().toJson(mInstructions)), {
                     mInstructionUpload = true
+                    if(mVersionUpload) uploadVersionInstructions()
                 }, {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
@@ -458,40 +473,74 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
     }
 
+    private fun uploadMultimediaInfo()
+    {
+        if(!mMultimediaInfoUpload) {
+            val request = StringPost(Request.Method.POST, mUrl + "create/multimedia", {
+                mMultimediaInfoUpload = true
+                val multimedia = mGsonConverter.obtainMultimedia(it)
+                for(i in 0..multimedia.size) {
+                    mMultimedia[i].multimediaId = multimedia[i].multimediaId
+                }
+                if(mVersionUpload) uploadVersionMultimedia()
+            }, {
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            }).also { it.setRequestBody(mGson.toJson(mMultimedia)) }
+            mQueue.add(request)
+        }
+    }
+
+    private fun uploadSoundInfo()
+    {
+        if(!mSoundInfoUpload) {
+            val request = StringPost(Request.Method.POST, mUrl + "create/sounds", {
+                mSoundInfoUpload = true
+                val sounds = mGsonConverter.obtainSounds(it)
+                for(i in 0..sounds.size) {
+                    mSounds[i].soundId = sounds[i].soundId
+                }
+                if(mVersionUpload) uploadVersionSounds()
+            }, {
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+            }).also { it.setRequestBody(mGson.toJson(mSounds)) }
+            mQueue.add(request)
+        }
+    }
+
     private fun uploadVersions()
     {
         if(!mVersionUpload) {
             for(version in mVersions) version.tutorialId = mTutorialId
-            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/versions",
-                JSONArray(Gson().toJson(mInstructions)), {
-                    mVersionUpload = true
-                    for(i in 0..it.length()) {
-                        val id = mVersions[i].versionId
-                        val newId = it.getJSONObject(i).getLong("versionId")
+            val request = StringPost(Request.Method.POST, mUrl + "create/versions", {
+                mVersionUpload = true
+                val versions  = mGsonConverter.obtainVersions(it)
+                for(i in 0..versions.size) {
+                    val id = mVersions[i].versionId
+                        val newId = versions[i].versionId
                         mVersions[i].versionId = newId
                         for(versionInstruction in mVersionInstructions) {
-                            if(versionInstruction.versionId==id) {
+                            if(versionInstruction.versionId == id) {
                                 versionInstruction.versionId = newId
                             }
                         }
                         for(versionMultimedia in mVersionMultimedia) {
-                            if(versionMultimedia.versionId==id) {
+                            if(versionMultimedia.versionId == id) {
                                 versionMultimedia.versionId = newId
                             }
                         }
                         for(versionSound in mVersionSounds) {
-                            if(versionSound.versionId==id) {
+                            if(versionSound.versionId == id) {
                                 versionSound.versionId = newId
                             }
                         }
                     }
-                    uploadVersionSounds()
-                    uploadVersionInstructions()
-                    uploadVersionMultimedia()
+                    if(mSoundInfoUpload) uploadVersionSounds()
+                    if(mInstructionUpload) uploadVersionInstructions()
+                    if(mMultimediaInfoUpload) uploadVersionMultimedia()
                 }, {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                })
-            )
+                }).also { it.setRequestBody(mGson.toJson(mInstructions)) }
+            mQueue.add(request)
         }
     }
 
@@ -578,11 +627,12 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         if(!mNarrationUpload) {
             for(instruction in mInstructions) {
+                instruction.narrationFile = UUID.randomUUID().toString()
                 if(!instruction.narrationFile.isNullOrEmpty()) {
                     try {
                         MultipartUploadRequest(this@CreatorActivity,
-                        mUrl + "upload/narration").setMaxRetries(10)
-                            .addFileToUpload(mNarrationUris[instruction
+                        mUrl + "upload/narration" + instruction.narrationFile)
+                            .setMaxRetries(10).addFileToUpload(mNarrationUris[instruction
                                 .instructionSetId.toInt()] ?: "", "file")
                             .setMethod("POST").setNotificationConfig { context, uploadId ->
                                 UploadServiceConfig.notificationConfigFactory(context, uploadId)
@@ -598,14 +648,18 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private fun uploadMultimedia()
     {
         if(!mMultimediaUpload) {
+            var uri: String
+            var id: String
             for(multimedia in mMultimedia) {
+                uri = multimedia.fileName
+                id = UUID.randomUUID().toString()
+                multimedia.fileName = id
                 if(multimedia.type) {
                     try {
-                        MultipartUploadRequest(
-                            this@CreatorActivity, mUrl + "upload/image/")
-                            .setMaxRetries(10).addFileToUpload(multimedia.fileUriString,
-                                "file").setMethod("POST")
-                            .setNotificationConfig { context, uploadId ->
+                        MultipartUploadRequest(this@CreatorActivity,
+                            mUrl + "upload/image/" + id)
+                            .setMaxRetries(10).addFileToUpload(uri, "file")
+                            .setMethod("POST").setNotificationConfig { context, uploadId ->
                             UploadServiceConfig.notificationConfigFactory(context, uploadId)
                         }.startUpload()
                     } catch (e: Exception) {
@@ -614,8 +668,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 } else {
                     try {
                         MultipartUploadRequest(this@CreatorActivity, mUrl +
-                                "upload/video").setMaxRetries(10).addFileToUpload(multimedia
-                            .fileUriString, "file").setMethod("POST")
+                                "upload/video" + id).setMaxRetries(10).addFileToUpload(uri,
+                            "file").setMethod("POST")
                             .setNotificationConfig { context, uploadId ->
                             UploadServiceConfig.notificationConfigFactory(context, uploadId)
                         }.startUpload()
@@ -631,9 +685,10 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         if(!mSoundUpload) {
             for(sound in mSounds) {
+                sound.fileName = UUID.randomUUID().toString()
                 try {
                     MultipartUploadRequest(this@CreatorActivity, mUrl +
-                            "upload/sound").setMaxRetries(10)
+                            "upload/sound/" + sound.fileName).setMaxRetries(10)
                         .addFileToUpload(mSoundUris[sound.soundId.toInt()] ?: "",
                             "file").setMethod("POST")
                         .setNotificationConfig { context, uploadId ->
@@ -710,9 +765,9 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                                             @NonNull grantResults: IntArray)
     {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode==121) {
+        if(requestCode == 121) {
             callImageGallery()
-        } else if(requestCode==122) {
+        } else if(requestCode == 122) {
             callSoundRecycler()
         }
     }

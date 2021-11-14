@@ -2,19 +2,18 @@ package com.orzechowski.saveme
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.orzechowski.saveme.tutorial.database.TutorialLink
 import com.orzechowski.saveme.tutorial.instructions.InstructionsRecycler
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.MultimediaPlayer
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.Multimedia
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.MultimediaViewModel
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.VersionMultimediaViewModel
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.SoundAdapter
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.VersionSoundViewModel
+import com.orzechowski.saveme.tutorial.multimedia.MultimediaPlayer
+import com.orzechowski.saveme.tutorial.multimedia.database.Multimedia
+import com.orzechowski.saveme.tutorial.multimedia.database.MultimediaViewModel
+import com.orzechowski.saveme.tutorial.multimedia.database.VersionMultimediaViewModel
+import com.orzechowski.saveme.tutorial.sound.SoundAdapter
+import com.orzechowski.saveme.tutorial.sound.database.TutorialSoundViewModel
+import com.orzechowski.saveme.tutorial.sound.database.VersionSoundViewModel
 import kotlin.properties.Delegates
 
 //Aktywność w której użytkownikowi końcowemu przedstawiana jest wyselekcjonowana treść odpowiedniego
@@ -56,7 +55,6 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
             mediaViewModel.getByTutorialId(mTutorialId).observe(this, {
                     for(multimedia : Multimedia in it) {
                         if(multimediaList.contains(multimedia.multimediaId)) {
-                            Log.w("turkusowy", multimedia.fileUriString)
                             mMediaPlayer.appendMultimedia(multimedia)
                         }
                     }

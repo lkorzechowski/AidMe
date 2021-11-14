@@ -81,8 +81,10 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
                     val createTutorialButton =
                         findViewById<Button>(R.id.helper_create_tutorial_button)
                     createTutorialButton.setOnClickListener {
-                        startActivity(Intent(this@HelperActivity,
-                            CreatorActivity::class.java))
+                        intent = Intent(this@HelperActivity,
+                            CreatorActivity::class.java)
+                        intent.putExtra("email", email)
+                        startActivity(intent)
                     }
                     findViewById<Button>(R.id.helper_settings_button).setOnClickListener {
                         mView.visibility = View.INVISIBLE

@@ -64,7 +64,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
             }
             holder.thisResult = tutorial;
             holder.name.setText(tutorial.getTutorialName());
-            Uri uri = Uri.parse(mPathBase + tutorial.getMiniatureString());
+            Uri uri = Uri.parse(mPathBase + tutorial.getMiniatureName());
             if (uri != null) holder.image.setImageURI(uri);
             float rating = tutorial.getRating();
             if (rating > 4.75) {

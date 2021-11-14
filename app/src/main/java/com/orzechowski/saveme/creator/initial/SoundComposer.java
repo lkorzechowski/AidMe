@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.TutorialSound;
+import com.orzechowski.saveme.tutorial.sound.database.TutorialSound;
 
 import org.jetbrains.annotations.NotNull;
 

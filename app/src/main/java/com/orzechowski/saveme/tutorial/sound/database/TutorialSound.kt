@@ -1,11 +1,11 @@
-package com.orzechowski.saveme.tutorial.mediaplayer.sound.database
+package com.orzechowski.saveme.tutorial.sound.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
 data class TutorialSound(
-    @PrimaryKey val soundId: Long,
+    @PrimaryKey var soundId: Long,
                 var soundStart: Long,
                 var soundLoop: Boolean,
                 var interval: Long,

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.Multimedia;
+import com.orzechowski.saveme.tutorial.multimedia.database.Multimedia;
 import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import java.util.List;
@@ -50,10 +50,10 @@ public class VersionMultimediaOuterAdapter
         holder.multimedia = multimedia;
         if(multimedia.getType()) {
             holder.imageView.setVisibility(View.VISIBLE);
-            holder.imageView.setImageURI(Uri.parse(multimedia.getFileUriString()));
+            holder.imageView.setImageURI(Uri.parse(multimedia.getFileName()));
         } else {
             holder.videoView.setVisibility(View.VISIBLE);
-            holder.videoView.setVideoURI(Uri.parse(multimedia.getFileUriString()));
+            holder.videoView.setVideoURI(Uri.parse(multimedia.getFileName()));
         }
         holder.adapter.setElementList(mVersions);
     }

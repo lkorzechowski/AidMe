@@ -1,4 +1,4 @@
-package com.orzechowski.saveme.tutorial.mediaplayer.multimedia;
+package com.orzechowski.saveme.tutorial.multimedia;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.orzechowski.saveme.R;
 import com.orzechowski.saveme.tutorial.database.TutorialViewModel;
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.Multimedia;
+import com.orzechowski.saveme.tutorial.multimedia.database.Multimedia;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -58,7 +58,7 @@ public class MultimediaPlayer extends Fragment
             position++;
         }
         if(!mMultimedias.isEmpty()) {
-            if(position==mMultimedias.size()){
+            if(position==mMultimedias.size()) {
                 mPlayThread = new Play(mMultimedias.get(0));
             } else mPlayThread = new Play(mMultimedias.get(position));
             mPlayThread.start();
@@ -70,7 +70,7 @@ public class MultimediaPlayer extends Fragment
                         tutorial -> {
                     mPlayThread = new Play(new Multimedia(0, 0, 120000,
                             true, requireActivity().getFilesDir() + "/"
-                            + tutorial.getMiniatureString(), true, 0));
+                            + tutorial.getMiniatureName(), true, 0));
                     mPlayThread.start();
                 })
             );
@@ -100,7 +100,7 @@ public class MultimediaPlayer extends Fragment
                     mVideoView.setVisibility(View.GONE);
                     mImageView.setMinimumWidth(600);
                     mImageView.setMinimumHeight(400);
-                    mImageView.setImageURI(Uri.parse(mPathBase+currentMedia.getFileUriString()));
+                    mImageView.setImageURI(Uri.parse(mPathBase+currentMedia.getFileName()));
                 });
                 if(displayTime>0) {
                     try {
@@ -115,10 +115,12 @@ public class MultimediaPlayer extends Fragment
                 activity.runOnUiThread(() -> {
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.GONE);
-                    mVideoView.setVideoURI(Uri.parse(mPathBase+currentMedia.getFileUriString()));
-                    if(loopBool && size==1) mVideoView.setOnCompletionListener(v->getPlayer(-1));
+                    mVideoView.setVideoURI(Uri.parse(mPathBase+currentMedia.getFileName()));
+                    if(loopBool && size==1) mVideoView.setOnCompletionListener(v->
+                            getPlayer(-1));
                     else {
-                        if(position<size-1) mVideoView.setOnCompletionListener(v->getPlayer(position));
+                        if(position < size-1) mVideoView.setOnCompletionListener(v->
+                                getPlayer(position));
                         else getPlayer(-1);
                     }
                     mVideoView.start();

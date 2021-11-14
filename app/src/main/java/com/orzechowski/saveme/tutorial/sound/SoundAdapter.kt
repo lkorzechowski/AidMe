@@ -1,11 +1,11 @@
-package com.orzechowski.saveme.tutorial.mediaplayer.sound
+package com.orzechowski.saveme.tutorial.sound
 
 import android.app.Activity
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.TutorialSound
+import com.orzechowski.saveme.tutorial.sound.database.TutorialSound
 import java.util.*
 import kotlin.collections.ArrayList
 

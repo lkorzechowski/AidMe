@@ -8,9 +8,9 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.*
 import com.orzechowski.saveme.VersionActivity
 import com.orzechowski.saveme.tutorial.instructions.database.InstructionSetViewModel
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.Multimedia
-import com.orzechowski.saveme.tutorial.mediaplayer.multimedia.database.MultimediaViewModel
-import com.orzechowski.saveme.tutorial.mediaplayer.sound.database.TutorialSoundViewModel
+import com.orzechowski.saveme.tutorial.multimedia.database.Multimedia
+import com.orzechowski.saveme.tutorial.multimedia.database.MultimediaViewModel
+import com.orzechowski.saveme.tutorial.sound.database.TutorialSoundViewModel
 import org.json.JSONObject
 import java.io.*
 import kotlin.concurrent.thread

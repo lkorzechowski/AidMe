@@ -45,7 +45,7 @@ public class TutorialLinkTutorialListAdapter
     {
         Tutorial tutorial = mTutorials.get(position);
         holder.tutorial = tutorial;
-        holder.miniature.setImageURI(Uri.parse(mPathBase+tutorial.getMiniatureString()));
+        holder.miniature.setImageURI(Uri.parse(mPathBase+tutorial.getMiniatureName()));
         holder.name.setText(tutorial.getTutorialName());
     }
 
