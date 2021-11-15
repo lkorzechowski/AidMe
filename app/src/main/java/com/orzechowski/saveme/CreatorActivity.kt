@@ -711,6 +711,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 is ImageBrowserLoader -> {
                     t.remove(mImageBrowser).commit()
                     mView.visibility = View.VISIBLE
+                    pickingMiniature = false
                     handled = true
                 }
                 is VersionTreeComposer -> {
