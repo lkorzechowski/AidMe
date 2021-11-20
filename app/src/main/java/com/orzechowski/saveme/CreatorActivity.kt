@@ -261,6 +261,15 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         mView.visibility = View.VISIBLE
     }
 
+    override fun refreshGallery()
+    {
+        supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
+        mImageBrowser = ImageBrowserLoader(this)
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mImageBrowser)
+        }
+    }
+
     override fun soundSubmitted(sound: Sound)
     {
         val position = mSoundComposer.currentPosition

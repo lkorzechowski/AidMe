@@ -126,6 +126,15 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
         mView.visibility = View.VISIBLE
     }
 
+    override fun refreshGallery()
+    {
+        supportFragmentManager.beginTransaction().remove(mImageBrowser).commit()
+        mImageBrowser = ImageBrowserLoader(this)
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mImageBrowser)
+        }
+    }
+
     override fun onBackPressed()
     {
         startActivity(Intent(this@UnverifiedHelperActivity, MainActivity::class.java))

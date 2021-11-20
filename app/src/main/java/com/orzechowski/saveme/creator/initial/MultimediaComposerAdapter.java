@@ -1,8 +1,6 @@
 package com.orzechowski.saveme.creator.initial;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
@@ -117,17 +114,7 @@ public class MultimediaComposerAdapter
                     callback.modifyLoop(isChecked, multimedia.getPosition());
                 }
             });
-            uploadButton.setOnClickListener(v -> {
-                if(ActivityCompat.checkSelfPermission(activity, Manifest.permission
-                        .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-                {
-                    ActivityCompat.requestPermissions(activity,
-                            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                            121);
-                } else {
-                    callback.addImage(multimedia.getPosition());
-                }
-            });
+            uploadButton.setOnClickListener(v -> callback.addImage(multimedia.getPosition()));
         }
     }
 

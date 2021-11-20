@@ -1,6 +1,8 @@
 package com.orzechowski.saveme.imagebrowser
 
+import android.Manifest
 import android.content.ContentUris
+import android.content.pm.PackageManager
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Build
@@ -10,6 +12,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +29,22 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
             View
     {
         val activity: FragmentActivity = requireActivity()
+        val view = inflater.inflate(R.layout.fragment_image_browser, container, false)
+        if(ActivityCompat.checkSelfPermission(activity, Manifest.permission
+                .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(activity,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 121)
+
+        } else {
+            conditionalSetup(view, activity)
+            setAdapterImages()
+        }
+        return view
+    }
+
+    private fun conditionalSetup(view: View, activity: FragmentActivity)
+    {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             mContentObserver = object: ContentObserver(Handler.createAsync(activity.mainLooper)) {
                 override fun onChange(selfChange: Boolean) {
@@ -43,7 +62,6 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
                 }
             }
         }
-        val view = inflater.inflate(R.layout.fragment_image_browser, container, false)
         val imageRecycler: RecyclerView = view.findViewById(R.id.image_recycler_grid)
         imageRecycler.layoutManager = StaggeredGridLayoutManager(3, RecyclerView.VERTICAL)
         mImageBrowserAdapter = ImageBrowserAdapter(activity, this)
@@ -51,8 +69,6 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
         activity.contentResolver.registerContentObserver(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, mContentObserver
         )
-        setAdapterImages()
-        return view
     }
 
     override fun onResume()
@@ -99,5 +115,6 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
     interface ActivityCallback
     {
         fun imageSubmitted(uri: Uri)
+        fun refreshGallery()
     }
 }
