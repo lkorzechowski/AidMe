@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.NonNull
@@ -49,7 +50,6 @@ import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
-import kotlin.concurrent.thread
 import kotlin.properties.Delegates
 
 //Aktywność w której tworzone są poradniki. Począwszy od wpisania tytyłu i wybrania miniaturki,
@@ -92,7 +92,9 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private var mKeywordUpload = false
     private var mMultimediaInfoUpload = false
     private var mSoundInfoUpload = false
+    private var mMiniatureUpload = false
     private var mTutorialId by Delegates.notNull<Long>()
+    private val mMiniatureId = UUID.randomUUID().toString()
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
     private lateinit var mImageBrowser: ImageBrowserLoader
@@ -112,11 +114,52 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mTutorialTags: List<TutorialTag>
     private lateinit var mKeywords: List<Keyword>
     private lateinit var mUniqueTag: Tag
-    private lateinit var miniatureFileUri: String
+    private lateinit var mMiniatureFileUri: String
     private lateinit var mTutorialTitle: String
     private lateinit var mQueue: RequestQueue
-    private lateinit var mProgressThread: Thread
     private lateinit var mEmail: String
+    private val mProgressThread = Thread {
+        val layout: ConstraintLayout = findViewById(R.id.creator_uploading_data)
+        this@CreatorActivity.runOnUiThread {
+            layout.visibility = View.VISIBLE
+        }
+        val progressOne: View = findViewById(R.id.creator_upload_progress_1)
+        val progressTwo: View = findViewById(R.id.creator_upload_progress_2)
+        val progressThree: View = findViewById(R.id.creator_upload_progress_3)
+        var timeout = 0
+        try {
+            while (timeout < 60 && !completedUpload()) {
+                Thread.sleep(500)
+                this@CreatorActivity.runOnUiThread {
+                    progressOne.visibility = View.VISIBLE
+                }
+                Thread.sleep(500)
+                this@CreatorActivity.runOnUiThread {
+                    progressTwo.visibility = View.VISIBLE
+                }
+                Thread.sleep(500)
+                this@CreatorActivity.runOnUiThread {
+                    progressThree.visibility = View.VISIBLE
+                }
+                Thread.sleep(500)
+                this@CreatorActivity.runOnUiThread {
+                    progressOne.visibility = View.INVISIBLE
+                    progressTwo.visibility = View.INVISIBLE
+                    progressThree.visibility = View.INVISIBLE
+                }
+                timeout++
+            }
+            this@CreatorActivity.runOnUiThread {
+                layout.visibility = View.INVISIBLE
+            }
+        } catch (e: InterruptedException) {
+            this@CreatorActivity.runOnUiThread {
+                layout.visibility = View.INVISIBLE
+            }
+            Toast.makeText(this, getString(R.string.interrupted_upload), Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -130,7 +173,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             var lengthRegex = true
             var displayMedia = true
             var soundLogicalTime = true
-            val tutorialName = mTutorialTitle.isNotEmpty()
+            val tutorialName = this::mTutorialTitle.isInitialized
             for(instruction in mInstructions) {
                 if(instruction.instructions.length < 4) lengthRegex = false
             }
@@ -251,7 +294,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         } else {
             if(boolType) {
                 findViewById<ImageView>(R.id.tutorial_miniature).setImageURI(uri)
-                miniatureFileUri = uri.toString()
+                mMiniatureFileUri = uri.toString()
                 pickingMiniature = false
             } else {
                 Toast.makeText(this, R.string.miniature_bad_format, Toast.LENGTH_SHORT)
@@ -334,6 +377,13 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         }
     }
 
+    private fun commitTutorialLinks()
+    {
+        supportFragmentManager.commit {
+            add(R.id.fragment_overlay_layout, mTutorialLinkComposer)
+        }
+    }
+
     override fun narrationSubmitted(narration: Sound)
     {
         supportFragmentManager.beginTransaction().remove(mNarrationBrowser).commit()
@@ -370,9 +420,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         mKeywords = keywords
         supportFragmentManager.beginTransaction().remove(mKeywordAssignment).commit()
-        supportFragmentManager.commit {
-            add(R.id.fragment_overlay_layout, mTutorialLinkComposer)
-        }
+        commitTutorialLinks()
     }
 
     override fun finalizeVersionMultimedia(versionMultimedia: MutableCollection<VersionMultimedia>)
@@ -397,42 +445,13 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             mTutorialLinks = tutorialLinks
         }
         supportFragmentManager.beginTransaction().remove(mTutorialLinkComposer).commit()
-        val uploadLayout: ConstraintLayout = findViewById(R.id.creator_uploading_data)
-        uploadLayout.visibility = View.VISIBLE
         val cache = DiskBasedCache(cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
         mQueue = RequestQueue(cache, network).apply { start() }
-        mProgressThread = thread {
-            val progressOne: View = findViewById(R.id.creator_upload_progress_1)
-            val progressTwo: View = findViewById(R.id.creator_upload_progress_2)
-            val progressThree: View = findViewById(R.id.creator_upload_progress_3)
-            var timeout = 0
-            try {
-                while (timeout < 60 && !completedUpload()) {
-                    Thread.sleep(500)
-                    this@CreatorActivity.runOnUiThread {
-                        progressOne.visibility = View.VISIBLE
-                    }
-                    Thread.sleep(500)
-                    this@CreatorActivity.runOnUiThread {
-                        progressTwo.visibility = View.VISIBLE
-                    }
-                    Thread.sleep(500)
-                    this@CreatorActivity.runOnUiThread {
-                        progressThree.visibility = View.VISIBLE
-                    }
-                    Thread.sleep(500)
-                    this@CreatorActivity.runOnUiThread {
-                        progressOne.visibility = View.INVISIBLE
-                        progressTwo.visibility = View.INVISIBLE
-                        progressThree.visibility = View.INVISIBLE
-                    }
-                    timeout++
-                }
-            } catch (ignored: InterruptedException) {}
-        }
+        mProgressThread.start()
         uploadTutorial()
         uploadMultimedia()
+        uploadMiniature()
         uploadNarrations()
         uploadSounds()
     }
@@ -446,7 +465,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
 
     private fun uploadTutorial()
     {
-        val tutorial = Tutorial(0, mTutorialTitle, 0, "", 0F)
+        val tutorial = Tutorial(0, mTutorialTitle, 0, mMiniatureId, 0F)
         mQueue.add(JsonObjectRequest(Request.Method.POST, mUrl + "create/tutorial/" + mEmail,
             JSONObject(Gson().toJson(tutorial)), {
                 mTutorialId = it.getLong("tutorialId")
@@ -463,7 +482,10 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 uploadMultimediaInfo()
                 uploadSoundInfo()
             }, {
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                if(it.message!=null) {
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    Log.e("error", it.message!!)
+                }
             })
         )
     }
@@ -471,98 +493,137 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private fun uploadInstructions()
     {
         if(!mInstructionUpload) {
-            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/instructions",
-                JSONArray(Gson().toJson(mInstructions)), {
-                    mInstructionUpload = true
-                    if(mVersionUpload) uploadVersionInstructions()
-                }, {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-            ))
+            if (this::mInstructions.isInitialized && mInstructions.isNotEmpty()) {
+                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/instructions",
+                    JSONArray(Gson().toJson(mInstructions)), {
+                        mInstructionUpload = true
+                        if (mVersionUpload) uploadVersionInstructions()
+                    }, {
+                        if (it.message != null) {
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                            Log.e("error", it.message!!)
+                        }
+                    }
+                ))
+            } else {
+
+            }
         }
     }
 
     private fun uploadMultimediaInfo()
     {
         if(!mMultimediaInfoUpload) {
-            val request = StringPost(Request.Method.POST, mUrl + "create/multimedia", {
-                mMultimediaInfoUpload = true
-                val multimedia = mGsonConverter.obtainMultimedia(it)
-                for(i in 0..multimedia.size) {
-                    mMultimedia[i].multimediaId = multimedia[i].multimediaId
-                }
-                if(mVersionUpload) uploadVersionMultimedia()
-            }, {
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            }).also { it.setRequestBody(mGson.toJson(mMultimedia)) }
-            mQueue.add(request)
+            if(this::mMultimedia.isInitialized && mMultimedia.isNotEmpty()) {
+                val request = StringPost(Request.Method.POST, mUrl + "create/multimedia", {
+                    mMultimediaInfoUpload = true
+                    val multimedia = mGsonConverter.obtainMultimedia(it)
+                    for (i in 0..multimedia.size) {
+                        mMultimedia[i].multimediaId = multimedia[i].multimediaId
+                    }
+                    if (mVersionUpload) uploadVersionMultimedia()
+                }, {
+                    if (it.message != null) {
+                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                        Log.e("error", it.message!!)
+                    }
+                }).also { it.setRequestBody(mGson.toJson(mMultimedia)) }
+                mQueue.add(request)
+            } else {
+
+            }
         }
     }
 
     private fun uploadSoundInfo()
     {
         if(!mSoundInfoUpload) {
-            val request = StringPost(Request.Method.POST, mUrl + "create/sounds", {
-                mSoundInfoUpload = true
-                val sounds = mGsonConverter.obtainSounds(it)
-                for(i in 0..sounds.size) {
-                    mSounds[i].soundId = sounds[i].soundId
-                }
-                if(mVersionUpload) uploadVersionSounds()
-            }, {
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            }).also { it.setRequestBody(mGson.toJson(mSounds)) }
-            mQueue.add(request)
+            if(this::mSounds.isInitialized && mSounds.isNotEmpty()) {
+                val request = StringPost(Request.Method.POST, mUrl + "create/sounds", {
+                    mSoundInfoUpload = true
+                    val sounds = mGsonConverter.obtainSounds(it)
+                    for (i in 0..sounds.size) {
+                        mSounds[i].soundId = sounds[i].soundId
+                    }
+                    if (mVersionUpload) uploadVersionSounds()
+                }, {
+                    if (it.message != null) {
+                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                        Log.e("error", it.message!!)
+                    }
+                }).also { it.setRequestBody(mGson.toJson(mSounds)) }
+                mQueue.add(request)
+            } else {
+
+            }
         }
     }
 
     private fun uploadVersions()
     {
         if(!mVersionUpload) {
-            for(version in mVersions) version.tutorialId = mTutorialId
-            val request = StringPost(Request.Method.POST, mUrl + "create/versions", {
-                mVersionUpload = true
-                val versions  = mGsonConverter.obtainVersions(it)
-                for(i in 0..versions.size) {
-                    val id = mVersions[i].versionId
+            if(this::mVersions.isInitialized && mVersions.isNotEmpty()) {
+                for (version in mVersions) version.tutorialId = mTutorialId
+                val request = StringPost(Request.Method.POST, mUrl + "create/versions",
+                {
+                    mVersionUpload = true
+                    val versions = mGsonConverter.obtainVersions(it)
+                    for (i in 0..versions.size) {
+                        val id = mVersions[i].versionId
                         val newId = versions[i].versionId
                         mVersions[i].versionId = newId
-                        for(versionInstruction in mVersionInstructions) {
-                            if(versionInstruction.versionId == id) {
+                        for (versionInstruction in mVersionInstructions) {
+                            if (versionInstruction.versionId == id) {
                                 versionInstruction.versionId = newId
                             }
                         }
-                        for(versionMultimedia in mVersionMultimedia) {
-                            if(versionMultimedia.versionId == id) {
+                        for (versionMultimedia in mVersionMultimedia) {
+                            if (versionMultimedia.versionId == id) {
                                 versionMultimedia.versionId = newId
                             }
                         }
-                        for(versionSound in mVersionSounds) {
-                            if(versionSound.versionId == id) {
+                        for (versionSound in mVersionSounds) {
+                            if (versionSound.versionId == id) {
                                 versionSound.versionId = newId
                             }
                         }
                     }
-                    if(mSoundInfoUpload) uploadVersionSounds()
-                    if(mInstructionUpload) uploadVersionInstructions()
-                    if(mMultimediaInfoUpload) uploadVersionMultimedia()
+                    if (mSoundInfoUpload) uploadVersionSounds()
+                    if (mInstructionUpload) uploadVersionInstructions()
+                    if (mMultimediaInfoUpload) uploadVersionMultimedia()
                 }, {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    if (it.message != null) {
+                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                        Log.e("error", it.message!!)
+                    }
                 }).also { it.setRequestBody(mGson.toJson(mInstructions)) }
-            mQueue.add(request)
+                mQueue.add(request)
+            } else {
+
+            }
         }
     }
 
     private fun uploadVersionInstructions()
     {
         if(!mVersionInstructionUpload) {
-            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/versioninstructions",
-                JSONArray(Gson().toJson(mVersionInstructions)), {
-                    mVersionInstructionUpload = true
-                }, {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-            ))
+            if(this::mVersionInstructions.isInitialized && mVersionInstructions.isNotEmpty()) {
+                mQueue.add(JsonArrayRequest(Request.Method.POST,
+                    mUrl + "create/versioninstructions",
+                    JSONArray(Gson().toJson(mVersionInstructions)),
+                    {
+                        mVersionInstructionUpload = true
+                    },
+                    {
+                        if (it.message != null) {
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                            Log.e("error", it.message!!)
+                        }
+                    }
+                ))
+            } else {
+
+            }
         }
     }
 
@@ -570,13 +631,20 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         for(link in mTutorialLinks) link.originId = mTutorialId
         if(!mTutorialLinkUpload) {
-            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/tutoriallinks",
-                JSONArray(Gson().toJson(mTutorialLinks)), {
-                    mTutorialLinkUpload = true
-                }, {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-            ))
+            if(this::mTutorialLinks.isInitialized && mTutorialLinks.isNotEmpty()) {
+                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/tutoriallinks",
+                    JSONArray(Gson().toJson(mTutorialLinks)), {
+                        mTutorialLinkUpload = true
+                    }, {
+                        if (it.message != null) {
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                            Log.e("error", it.message!!)
+                        }
+                    }
+                ))
+            } else {
+
+            }
         }
     }
 
@@ -584,51 +652,83 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         for(tutorialTag in mTutorialTags)
         if(!mTagUpload) {
-            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/tutorialtags/" +
-                    mTutorialId + "/" + mUniqueTag.tagName + "/" + mUniqueTag.tagLevel,
-                JSONArray(Gson().toJson(mTutorialTags)), {
-                    mTagUpload = true
-                    uploadKeywords(it.getLong(1))
-                }, {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
-            ))
+            if(this::mTutorialTags.isInitialized && mTutorialTags.isNotEmpty()) {
+                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/tutorialtags/" +
+                        mTutorialId + "/" + mUniqueTag.tagName + "/" + mUniqueTag.tagLevel,
+                    JSONArray(Gson().toJson(mTutorialTags)), {
+                        mTagUpload = true
+                        uploadKeywords(it.getLong(1))
+                    }, {
+                        if (it.message != null) {
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                            Log.e("error", it.message!!)
+                        }
+                    }
+                ))
+            } else {
+
+            }
         }
     }
 
     private fun uploadVersionMultimedia()
     {
         if(!mVersionMultimediaUpload) {
-            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/versionmultimedia",
-            JSONArray(Gson().toJson(mVersionMultimedia)), {
-                    mVersionMultimediaUpload = true
-                }, {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }))
+            if (this::mVersionMultimedia.isInitialized && mVersionMultimedia.isNotEmpty()) {
+                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl +
+                        "create/versionmultimedia", JSONArray(Gson().toJson(mVersionMultimedia)),
+                    {
+                        mVersionMultimediaUpload = true
+                    }, {
+                        if (it.message != null) {
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                            Log.e("error", it.message!!)
+                        }
+                    })
+                )
+            } else {
+
+            }
         }
     }
 
     private fun uploadVersionSounds()
     {
         if(!mVersionSoundUpload) {
-            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/versionsounds",
-            JSONArray(Gson().toJson(mVersionSounds)), {
-                    mVersionSoundUpload = true
-                }, {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }))
+            if(this::mVersionSounds.isInitialized && mVersionSounds.isNotEmpty()) {
+                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/versionsounds",
+                    JSONArray(Gson().toJson(mVersionSounds)), {
+                        mVersionSoundUpload = true
+                    }, {
+                        if (it.message != null) {
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                            Log.e("error", it.message!!)
+                        }
+                    })
+                )
+            } else {
+
+            }
         }
     }
 
     private fun uploadKeywords(uniqueTagId: Long)
     {
         if(!mKeywordUpload) {
-            mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/keywords/" +
-                    uniqueTagId, JSONArray(Gson().toJson(mKeywords)), {
+            if(this::mKeywords.isInitialized && mKeywords.isNotEmpty()) {
+                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/keywords/" +
+                        uniqueTagId, JSONArray(Gson().toJson(mKeywords)), {
                     mKeywordUpload = true
                 }, {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }))
+                    if (it.message != null) {
+                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                        Log.e("error", it.message!!)
+                    }
+                })
+                )
+            } else {
+
+            }
         }
     }
 
@@ -636,19 +736,39 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         if(!mNarrationUpload) {
             for(instruction in mInstructions) {
-                instruction.narrationFile = UUID.randomUUID().toString()
-                if(!instruction.narrationFile.isNullOrEmpty()) {
+                val fileLocation = mNarrationUris[instruction.instructionSetId.toInt()] ?: ""
+                if(fileLocation.isNotEmpty()) {
+                    instruction.narrationFile = UUID.randomUUID().toString()
                     try {
                         MultipartUploadRequest(this@CreatorActivity,
                         mUrl + "upload/narration" + instruction.narrationFile)
-                            .setMaxRetries(10).addFileToUpload(mNarrationUris[instruction
-                                .instructionSetId.toInt()] ?: "", "file")
+                            .setMaxRetries(10).addFileToUpload(fileLocation, "file")
                             .setMethod("POST").setNotificationConfig { context, uploadId ->
                                 UploadServiceConfig.notificationConfigFactory(context, uploadId)
                             }.startUpload()
                     } catch(e: Exception) {
                         Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                        e.printStackTrace()
                     }
+                }
+            }
+        }
+    }
+
+    private fun uploadMiniature()
+    {
+        if(!mMiniatureUpload) {
+            if(this::mMiniatureFileUri.isInitialized) {
+                try {
+                    MultipartUploadRequest(this@CreatorActivity, mUrl +
+                            "upload/image/" + mMiniatureId).setMaxRetries(10)
+                        .addFileToUpload(mMiniatureFileUri, "file").setMethod("POST")
+                        .setNotificationConfig { context, uploadId ->
+                            UploadServiceConfig.notificationConfigFactory(context, uploadId)
+                        }.startUpload()
+                } catch (e: Exception) {
+                    Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
                 }
             }
         }
@@ -673,6 +793,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                         }.startUpload()
                     } catch (e: Exception) {
                         Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                        e.printStackTrace()
                     }
                 } else {
                     try {
@@ -684,6 +805,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                         }.startUpload()
                     } catch (e: Exception) {
                         Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                        e.printStackTrace()
                     }
                 }
             }
@@ -705,6 +827,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                         }.startUpload()
                 } catch(e: Exception) {
                     Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
                 }
             }
         }
@@ -768,7 +891,10 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 }
             }
         }
-        if(!handled) super.onBackPressed()
+        if(!handled && mProgressThread.isAlive) {
+            mProgressThread.interrupt()
+            //TODO: unsending data
+        } else super.onBackPressed()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>,
@@ -784,8 +910,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
 
     override fun onDestroy()
     {
-        mQueue.stop()
-        mProgressThread.interrupt()
+        if(this::mQueue.isInitialized) mQueue.stop()
+        if(mProgressThread.isAlive) mProgressThread.interrupt()
         super.onDestroy()
     }
 }

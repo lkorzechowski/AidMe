@@ -131,6 +131,7 @@
     <string name="tutorial_name_not_set">Nie nadano tytułu!</string>
     <string name="client_id">1042713587768-2pk21idihc6mbijp2squmr2ekdv65rac.apps.googleusercontent.com</string>
     <string name="login_failed">Nie udało się zalogować</string>
+    <string name="interrupted_upload">Przerwano wysyłanie plików</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

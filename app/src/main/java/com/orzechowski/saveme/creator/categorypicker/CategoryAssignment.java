@@ -49,7 +49,8 @@ public class CategoryAssignment extends Fragment
 
     public void restorePrevious()
     {
-        mLevel -= 2;
+        if(mLevel == 1) mLevel = 0;
+        else mLevel -= 2;
         int size = mCategoryPath.size();
         mCategoryPath.remove(size-1);
         pickCategory(mCategoryPath.get(size-2));

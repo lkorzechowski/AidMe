@@ -35,7 +35,6 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
         {
             ActivityCompat.requestPermissions(activity,
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 121)
-
         } else {
             conditionalSetup(view, activity)
             setAdapterImages()
