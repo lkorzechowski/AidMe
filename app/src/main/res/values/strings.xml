@@ -132,6 +132,7 @@
     <string name="client_id">1042713587768-2pk21idihc6mbijp2squmr2ekdv65rac.apps.googleusercontent.com</string>
     <string name="login_failed">Nie udało się zalogować</string>
     <string name="interrupted_upload">Przerwano wysyłanie plików</string>
+    <string name="unexpected_missing_instructions">Brak instrukcji!?</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
