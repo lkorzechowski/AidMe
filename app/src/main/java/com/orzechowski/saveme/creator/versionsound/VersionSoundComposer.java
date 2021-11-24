@@ -21,7 +21,6 @@ import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class VersionSoundComposer extends Fragment
     private final List<Version> mVersions;
     private final List<TutorialSound> mSounds;
     private VersionTextAdapter mVersionTextAdapter;
-    private final Collection<VersionSound> mVersionSounds = new LinkedList<>();
+    private final List<VersionSound> mVersionSounds = new LinkedList<>();
     private final ActivityCallback mCallback;
 
     public VersionSoundComposer(List<Version> versions, List<TutorialSound> sounds,
@@ -92,6 +91,6 @@ public class VersionSoundComposer extends Fragment
 
     public interface ActivityCallback
     {
-        void finalizeVersionSounds(Collection<VersionSound> versionSounds);
+        void finalizeVersionSounds(List<VersionSound> versionSounds);
     }
 }

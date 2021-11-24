@@ -47,8 +47,6 @@ import com.orzechowski.saveme.tutorial.version.database.VersionInstruction
 import com.orzechowski.saveme.volley.StringPost
 import net.gotev.uploadservice.UploadServiceConfig
 import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.*
 
 //Aktywność w której tworzone są poradniki. Począwszy od wpisania tytyłu i wybrania miniaturki,
@@ -108,8 +106,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private lateinit var mSounds: List<TutorialSound>
     private lateinit var mTutorialLinks: List<TutorialLink>
     private lateinit var mVersionInstructions: Collection<VersionInstruction>
-    private lateinit var mVersionMultimedia: Collection<VersionMultimedia>
-    private lateinit var mVersionSounds: Collection<VersionSound>
+    private lateinit var mVersionMultimedia: MutableList<VersionMultimedia>
+    private lateinit var mVersionSounds: MutableList<VersionSound>
     private lateinit var mTutorialTags: List<TutorialTag>
     private lateinit var mKeywords: List<Keyword>
     private lateinit var mUniqueTag: Tag
@@ -202,7 +200,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                             delayGlobalSound = true,
                             hasChildren = false,
                             hasParent = false,
-                            parentVersionId = null
+                            parentVersionId = -1L
                         )
                     )
                 } else versions
@@ -351,8 +349,17 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         mVersionMultimediaComposer = VersionMultimediaComposer(mVersions, mMultimedia, this)
         if(mMultimedia.isNotEmpty()) {
-            supportFragmentManager.commit {
-                add(R.id.fragment_overlay_layout, mVersionMultimediaComposer)
+            if(mVersions.size > 1) {
+                supportFragmentManager.commit {
+                    add(R.id.fragment_overlay_layout, mVersionMultimediaComposer)
+                }
+            } else {
+                mVersionMultimedia = mutableListOf()
+                for(multimedia in mMultimedia) {
+                    mVersionMultimedia.add(VersionMultimedia(0,
+                        multimedia.multimediaId, 0))
+                }
+                commitVersionSoundComposer()
             }
         } else {
             commitVersionSoundComposer()
@@ -363,8 +370,16 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         mVersionSoundComposer = VersionSoundComposer(mVersions, mSounds, this)
         if(mSounds.isNotEmpty()) {
-            supportFragmentManager.commit {
-                add(R.id.fragment_overlay_layout, mVersionSoundComposer)
+            if(mVersions.size > 1) {
+                supportFragmentManager.commit {
+                    add(R.id.fragment_overlay_layout, mVersionSoundComposer)
+                }
+            } else {
+                mVersionSounds = mutableListOf()
+                for(sound in mSounds) {
+                    mVersionSounds.add(VersionSound(0, sound.soundId, 0))
+                }
+                commitCategoryAssignment()
             }
         } else {
             commitCategoryAssignment()
@@ -424,14 +439,14 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         commitTutorialLinks()
     }
 
-    override fun finalizeVersionMultimedia(versionMultimedia: MutableCollection<VersionMultimedia>)
+    override fun finalizeVersionMultimedia(versionMultimedia: MutableList<VersionMultimedia>)
     {
         mVersionMultimedia = versionMultimedia
         supportFragmentManager.beginTransaction().remove(mVersionMultimediaComposer).commit()
         commitVersionSoundComposer()
     }
 
-    override fun finalizeVersionSounds(versionSounds: MutableCollection<VersionSound>)
+    override fun finalizeVersionSounds(versionSounds: MutableList<VersionSound>)
     {
         mVersionSounds = versionSounds
         supportFragmentManager.beginTransaction().remove(mVersionSoundComposer).commit()
@@ -466,10 +481,9 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
 
     private fun uploadTutorial()
     {
-        val tutorial = Tutorial(0, mTutorialTitle, 0, mMiniatureId, 0F)
-        mQueue.add(JsonObjectRequest(Request.Method.POST, mUrl + "create/tutorial/" + mEmail,
-            JSONObject(Gson().toJson(tutorial)), {
-                mTutorialId = it.getLong("tutorialId")
+        mQueue.add(StringPost(Request.Method.POST, mUrl + "create/tutorial/" + mEmail,
+            {
+                mTutorialId = it.toLong()
                 if(mTutorialId != -1L) {
                     for (multimedia in mMultimedia) multimedia.tutorialId = mTutorialId
                     for (sound in mSounds) sound.tutorialId = mTutorialId
@@ -489,16 +503,16 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                     Log.e("error", it.message!!)
                 }
-            })
-        )
+            }).also { it.setRequestBody(mGson.toJson(Tutorial(0, mTutorialTitle, 0,
+            mMiniatureId, 0F))) })
     }
 
     private fun uploadInstructions()
     {
         if(!mInstructionUpload) {
             if (this::mInstructions.isInitialized && mInstructions.isNotEmpty()) {
-                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/instructions",
-                    JSONArray(Gson().toJson(mInstructions)), {
+                val request = StringPost(Request.Method.POST, mUrl + "create/instructions",
+                    {
                         mInstructionUpload = true
                         if (mVersionUpload) uploadVersionInstructions()
                     }, {
@@ -507,7 +521,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                             Log.e("error", it.message!!)
                         }
                     }
-                ))
+                ).also { it.setRequestBody(mGson.toJson(mInstructions)) }
+                mQueue.add(request)
             } else {
                 Toast.makeText(this@CreatorActivity, getString(R.string
                     .unexpected_missing_instructions), Toast.LENGTH_SHORT).show()
@@ -530,7 +545,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 {
                     mMultimediaInfoUpload = true
                     val multimedia = mGsonConverter.obtainMultimedia(it)
-                    for (i in 0..multimedia.size) {
+                    for (i in 0 until multimedia.size) {
                         mMultimedia[i].multimediaId = multimedia[i].multimediaId
                     }
                     if (mVersionUpload) uploadVersionMultimedia()
@@ -554,7 +569,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 val request = StringPost(Request.Method.POST, mUrl + "create/sounds", {
                     mSoundInfoUpload = true
                     val sounds = mGsonConverter.obtainSounds(it)
-                    for (i in 0..sounds.size) {
+                    for (i in 0 until sounds.size) {
                         mSounds[i].soundId = sounds[i].soundId
                     }
                     if (mVersionUpload) uploadVersionSounds()
@@ -574,50 +589,49 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private fun uploadVersions()
     {
         if(!mVersionUpload) {
-            if(this::mVersions.isInitialized && mVersions.isNotEmpty()) {
-                val request = StringPost(Request.Method.POST, mUrl + "create/versions",
-                {
-                    mVersionUpload = true
-                    val versions = mGsonConverter.obtainVersions(it)
-                    for (i in 0..versions.size) {
-                        val id = mVersions[i].versionId
-                        val newId = versions[i].versionId
-                        mVersions[i].versionId = newId
-                        for (versionInstruction in mVersionInstructions) {
-                            if (versionInstruction.versionId == id) {
-                                versionInstruction.versionId = newId
-                            }
+            if(!this::mVersions.isInitialized || mVersions.isEmpty()) {
+                mVersions.add(Version(0, "default", mTutorialId,
+                    delayGlobalSound = false,
+                    hasChildren = false,
+                    hasParent = false, -1))
+            }
+            val request = StringPost(Request.Method.POST, mUrl + "create/versions", {
+                mVersionUpload = true
+                val versions = mGsonConverter.obtainVersions(it)
+                for (i in 0 until versions.size) {
+                    val id = mVersions[i].versionId
+                    val newId = versions[i].versionId
+                    mVersions[i].versionId = newId
+                    for (versionInstruction in mVersionInstructions) {
+                        if (versionInstruction.versionId == id) {
+                            versionInstruction.versionId = newId
                         }
+                    }
+                    if(this::mVersionMultimedia.isInitialized) {
                         for (versionMultimedia in mVersionMultimedia) {
                             if (versionMultimedia.versionId == id) {
                                 versionMultimedia.versionId = newId
                             }
                         }
+                    }
+                    if(this::mVersionSounds.isInitialized) {
                         for (versionSound in mVersionSounds) {
                             if (versionSound.versionId == id) {
                                 versionSound.versionId = newId
                             }
                         }
                     }
-                    if (mSoundInfoUpload) uploadVersionSounds()
-                    if (mInstructionUpload) uploadVersionInstructions()
-                    if (mMultimediaInfoUpload) uploadVersionMultimedia()
-                }, {
-                    if (it.message != null) {
-                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                        Log.e("error", it.message!!)
-                    }
-                }).also { it.setRequestBody(mGson.toJson(mInstructions)) }
-                mQueue.add(request)
-            } else {
-                val request = StringPost(Request.Method.POST, mUrl + "create/uploaderror",
-                {
-                    mVersionUpload = true
-                }, {
+                }
+                if (mSoundInfoUpload) uploadVersionSounds()
+                if (mInstructionUpload) uploadVersionInstructions()
+                if (mMultimediaInfoUpload) uploadVersionMultimedia()
+            }, {
+                if (it.message != null) {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }).also { it.setRequestBody(mTutorialId.toString()) }
-                mQueue.add(request)
-            }
+                    Log.e("error", it.message!!)
+                }
+            }).also { it.setRequestBody(mGson.toJson(mVersions)) }
+            mQueue.add(request)
         }
     }
 
@@ -625,10 +639,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         if(!mVersionInstructionUpload) {
             if(this::mVersionInstructions.isInitialized && mVersionInstructions.isNotEmpty()) {
-                mQueue.add(JsonArrayRequest(Request.Method.POST,
-                    mUrl + "create/versioninstructions",
-                    JSONArray(Gson().toJson(mVersionInstructions)),
-                    {
+                val request = StringPost(Request.Method.POST, mUrl +
+                        "create/versioninstructions", {
                         mVersionInstructionUpload = true
                     },
                     {
@@ -637,7 +649,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                             Log.e("error", it.message!!)
                         }
                     }
-                ))
+                ).also { it.setRequestBody(mGson.toJson(mVersionInstructions)) }
+                mQueue.add(request)
             } else {
                 val request = StringPost(Request.Method.POST, mUrl + "create/uploaderror",
                 {
@@ -654,8 +667,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         if(!mTutorialLinkUpload) {
             if(this::mTutorialLinks.isInitialized && mTutorialLinks.isNotEmpty()) {
-                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/tutoriallinks",
-                    JSONArray(Gson().toJson(mTutorialLinks)), {
+                mQueue.add(StringPost(Request.Method.POST, mUrl + "create/tutoriallinks",
+                    {
                         mTutorialLinkUpload = true
                     }, {
                         if (it.message != null) {
@@ -663,7 +676,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                             Log.e("error", it.message!!)
                         }
                     }
-                ))
+                ).also { it.setRequestBody(mGson.toJson(mTutorialLinks)) })
             } else {
                 mTutorialLinkUpload = true
             }
@@ -672,21 +685,20 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
 
     private fun uploadTags()
     {
-        for(tutorialTag in mTutorialTags)
         if(!mTagUpload) {
             if(this::mTutorialTags.isInitialized && mTutorialTags.isNotEmpty()) {
-                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/tutorialtags/" +
+                mQueue.add(StringPost(Request.Method.POST, mUrl + "create/tutorialtags/" +
                         mTutorialId + "/" + mUniqueTag.tagName + "/" + mUniqueTag.tagLevel,
-                    JSONArray(Gson().toJson(mTutorialTags)), {
+                    {
                         mTagUpload = true
-                        uploadKeywords(it.getLong(1))
+                        uploadKeywords(it.toLong())
                     }, {
                         if (it.message != null) {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                             Log.e("error", it.message!!)
                         }
                     }
-                ))
+                ).also { it.setRequestBody(mGson.toJson(mTutorialTags)) })
             } else {
                 val request = StringPost(Request.Method.POST, mUrl + "create/uploaderror",
                 {
@@ -703,8 +715,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         if(!mVersionMultimediaUpload) {
             if (this::mVersionMultimedia.isInitialized && mVersionMultimedia.isNotEmpty()) {
-                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl +
-                        "create/versionmultimedia", JSONArray(Gson().toJson(mVersionMultimedia)),
+                mQueue.add(StringPost(Request.Method.POST, mUrl + "create/versionmultimedia",
                     {
                         mVersionMultimediaUpload = true
                     }, {
@@ -712,7 +723,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                             Log.e("error", it.message!!)
                         }
-                    })
+                    }).also { it.setRequestBody(mGson.toJson(mVersionMultimedia)) }
                 )
             } else {
                 mVersionMultimediaUpload = true
@@ -724,15 +735,15 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         if(!mVersionSoundUpload) {
             if(this::mVersionSounds.isInitialized && mVersionSounds.isNotEmpty()) {
-                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/versionsounds",
-                    JSONArray(Gson().toJson(mVersionSounds)), {
+                mQueue.add(StringPost(Request.Method.POST, mUrl + "create/versionsounds",
+                    {
                         mVersionSoundUpload = true
                     }, {
                         if (it.message != null) {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                             Log.e("error", it.message!!)
                         }
-                    })
+                    }).also { it.setRequestBody(mGson.toJson(mVersionSounds)) }
                 )
             } else {
                 mVersionSoundUpload = true
@@ -744,16 +755,15 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     {
         if(!mKeywordUpload) {
             if(this::mKeywords.isInitialized && mKeywords.isNotEmpty()) {
-                mQueue.add(JsonArrayRequest(Request.Method.POST, mUrl + "create/keywords/" +
-                        uniqueTagId, JSONArray(Gson().toJson(mKeywords)), {
+                mQueue.add(StringPost(Request.Method.POST, mUrl + "create/keywords/" +
+                        uniqueTagId, {
                     mKeywordUpload = true
                 }, {
                     if (it.message != null) {
                         Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                         Log.e("error", it.message!!)
                     }
-                })
-                )
+                }).also { it.setRequestBody(mGson.toJson(mKeywords)) })
             } else {
                 mKeywordUpload = true
             }

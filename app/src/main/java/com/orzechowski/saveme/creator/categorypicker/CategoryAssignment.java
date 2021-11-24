@@ -90,7 +90,7 @@ public class CategoryAssignment extends Fragment
                 mTagViewModel.getByTagId(categoryTag.getTagId()).observe(activity, tag-> {
                     if(category.getHasSubcategories()) {
                         if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
-                        if(tag.getTagLevel()!=null && tag.getTagLevel()>mLevel) {
+                        if(tag.getTagLevel() != null && tag.getTagLevel() > mLevel) {
                             mLevel++;
                             mCategoryViewModel.getByLevel(mLevel)
                                     .observe(activity, categories-> {
@@ -100,10 +100,10 @@ public class CategoryAssignment extends Fragment
                                             .observe(activity, catTag-> {
                                         boolean match = false;
                                         for(CategoryTag oneTag : catTag) {
-                                            if(oneTag.getTagId()==tag.getTagId()) match = true;
+                                            if(oneTag.getTagId() == tag.getTagId()) match = true;
                                         }
                                         if(!match) categories.remove(cat);
-                                        if(cat.getCategoryId()==finalId) {
+                                        if(cat.getCategoryId() == finalId) {
                                             mAdapter.setElementList(categories);
                                         }
                                     });
@@ -113,7 +113,7 @@ public class CategoryAssignment extends Fragment
                     } else {
                         mTutorialTags
                                 .add(new TutorialTag(0L, 0L, tag.getTagId()));
-                        if(mTutorialTags.size()==mCategoryPath.size()) {
+                        if(mTutorialTags.size() == mCategoryPath.size()) {
                             View view = requireView();
                             TextView header = view.findViewById(R.id.category_assignment_header);
                             header.setText(R.string.category_assignment_header_second_step);

@@ -21,7 +21,6 @@ import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class VersionMultimediaComposer extends Fragment
     private final List<Version> mVersions;
     private final List<Multimedia> mMultimedia;
     private VersionTextAdapter mVersionTextAdapter;
-    private final Collection<VersionMultimedia> mVersionMultimedias = new LinkedList<>();
+    private final List<VersionMultimedia> mVersionMultimedia = new LinkedList<>();
     private final ActivityCallback mCallback;
 
     public VersionMultimediaComposer(List<Version> versions, List<Multimedia> multimedia,
@@ -50,11 +49,11 @@ public class VersionMultimediaComposer extends Fragment
         View view = inflater.inflate(R.layout.fragment_version_multimedia, container,
                 false);
         view.findViewById(R.id.version_multimedia_finalize_button).setOnClickListener(v -> {
-            if(mVersionMultimedias.isEmpty()) {
+            if(mVersionMultimedia.isEmpty()) {
                 Toast.makeText(activity, R.string.version_multimedia_not_assigned,
                         Toast.LENGTH_SHORT).show();
             } else {
-                mCallback.finalizeVersionMultimedia(mVersionMultimedias);
+                mCallback.finalizeVersionMultimedia(mVersionMultimedia);
             }
         });
         mOuterAdapter = new VersionMultimediaOuterAdapter(activity, this);
@@ -80,19 +79,19 @@ public class VersionMultimediaComposer extends Fragment
     @Override
     public void select(Multimedia multimedia, Version version)
     {
-        mVersionMultimedias.add(new VersionMultimedia(0,
+        mVersionMultimedia.add(new VersionMultimedia(0,
                 multimedia.getMultimediaId(), version.getVersionId()));
     }
 
     @Override
     public void unselect(Multimedia multimedia, Version version)
     {
-        mVersionMultimedias.remove(new VersionMultimedia(0,
+        mVersionMultimedia.remove(new VersionMultimedia(0,
                 multimedia.getMultimediaId(), version.getVersionId()));
     }
 
     public interface ActivityCallback
     {
-        void finalizeVersionMultimedia(Collection<VersionMultimedia> versionMultimedia);
+        void finalizeVersionMultimedia(List<VersionMultimedia> versionMultimedia);
     }
 }
