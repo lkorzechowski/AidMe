@@ -3,7 +3,6 @@ package com.orzechowski.saveme
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +18,6 @@ class SignInActivity : AppCompatActivity()
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private val mResultLauncher = registerForActivityResult(ActivityResultContracts
         .StartActivityForResult()) { result ->
-        Log.w("turkusowy", result.resultCode.toString())
         if(result.resultCode == Activity.RESULT_OK) {
             val data = result.data
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)

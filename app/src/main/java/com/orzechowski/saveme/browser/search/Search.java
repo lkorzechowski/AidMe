@@ -86,7 +86,7 @@ public class Search extends Fragment implements ResultsListAdapter.FragmentCallb
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
-                if(s.length()>2) {
+                if(s.length() > 2) {
                     mScoredTutorialIds.clear();
                     String[] words = String.valueOf(s).toLowerCase().split("\\W+");
                     mHelperViewModel.getAll().observe(requireActivity(), helpers ->
@@ -196,8 +196,8 @@ public class Search extends Fragment implements ResultsListAdapter.FragmentCallb
         if(mScoredTutorialIds.containsKey(id)) {
             int oldValue = Objects.requireNonNull(mScoredTutorialIds.get(id));
             mScoredTutorialIds.remove(id);
-            if(!titleMatch) mScoredTutorialIds.put(id, oldValue+1);
-            else mScoredTutorialIds.put(id, oldValue+10);
+            if(!titleMatch) mScoredTutorialIds.put(id, oldValue + 1);
+            else mScoredTutorialIds.put(id, oldValue + 10);
         } else {
             if(!titleMatch) mScoredTutorialIds.put(id, 1);
             else mScoredTutorialIds.put(id, 10);

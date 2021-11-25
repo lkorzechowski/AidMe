@@ -23,10 +23,10 @@ public class StringPost extends StringRequest
     }
 
     @Override
-    public byte[] getBody() {
+    public byte[] getBody()
+    {
         return mRequestBody == null ? null : mRequestBody.getBytes(StandardCharsets.UTF_8);
     }
-
 
     @Override
     public String getBodyContentType()
