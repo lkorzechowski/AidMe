@@ -133,6 +133,8 @@
     <string name="login_failed">Nie udało się zalogować</string>
     <string name="interrupted_upload">Przerwano wysyłanie plików</string>
     <string name="unexpected_missing_instructions">Brak instrukcji!?</string>
+    <string name="suggest_helper_accept">Połącz</string>
+    <string name="suggest_helper_refuse">Schowaj</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

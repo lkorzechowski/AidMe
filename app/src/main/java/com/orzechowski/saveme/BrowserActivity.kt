@@ -1,14 +1,22 @@
 package com.orzechowski.saveme
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.orzechowski.saveme.browser.categories.CategoryRecycler
+import com.orzechowski.saveme.browser.results.HelperFull
+import com.orzechowski.saveme.browser.results.RequestLiveAid
 import com.orzechowski.saveme.browser.results.ResultsRecycler
 import com.orzechowski.saveme.browser.search.Search
 import com.orzechowski.saveme.tutorial.database.Tutorial
@@ -17,13 +25,21 @@ import com.orzechowski.saveme.tutorial.database.Tutorial
 //wyszukiwarki. Klasy podlegające tej aktywności znajdują się w com.orzechowski.saveme.browser.
 class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
     CategoryRecycler.CallbackToResults, ResultsRecycler.CallbackForTutorial,
-    Search.CallbackForTutorial
+    Search.CallbackForTutorial, RequestLiveAid.ActivityCallback
 {
     private lateinit var mCategory: CategoryRecycler
     private val mSearch = Search(this)
     private val mResults = ResultsRecycler(this)
+    private val mRequest = RequestLiveAid(this)
+    private val mPhoneIntent = Intent(Intent.ACTION_CALL)
+    private val mHelpRefusedForTag = mutableListOf<Long>()
     private var returning = false
     private lateinit var mSearchButton: Button
+    private val mPermissionResult = registerForActivityResult(ActivityResultContracts
+        .RequestPermission()
+    ) { result ->
+        if (result) startActivity(mPhoneIntent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -69,8 +85,8 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
 
     override fun serveResults(tagId: Long)
     {
-        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-        t.remove(mCategory).commit()
+        mRequest.getRequest(cacheDir, tagId)
+        supportFragmentManager.beginTransaction().remove(mCategory).commit()
         mResults.arguments = bundleOf(Pair("tagId", tagId))
         commitResults()
     }
@@ -120,15 +136,13 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
 
     override fun serveTutorial(tutorial: Tutorial)
     {
-        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-        t.remove(mResults).commit()
+        supportFragmentManager.beginTransaction().remove(mResults).commit()
         startTutorial(tutorial.tutorialId)
     }
 
     override fun serveSearchedTutorial(tutorial: Tutorial)
     {
-        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-        t.remove(mSearch).commit()
+        supportFragmentManager.beginTransaction().remove(mSearch).commit()
         startTutorial(tutorial.tutorialId)
     }
 
@@ -137,5 +151,31 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
         val intent = Intent(this@BrowserActivity, VersionActivity::class.java)
         intent.putExtra("tutorialId", tutorialId)
         startActivity(intent)
+    }
+
+    override fun suggestHelper(helper: HelperFull, tagId: Long)
+    {
+        if(mResults.isAdded) {
+            supportFragmentManager.beginTransaction().remove(mResults).commit()
+            val suggestLayout = findViewById<View>(R.id.suggest_helper_layout)
+            suggestLayout.visibility = View.VISIBLE
+            findViewById<TextView>(R.id.suggest_helper_info).text = helper.helperDescription
+            findViewById<Button>(R.id.suggest_helper_accept).setOnClickListener {
+                suggestLayout.visibility = View.GONE
+                mRequest.postRequest(helper.helperNumber)
+                mPhoneIntent.data = Uri.parse("tel:" + helper.helperNumber)
+                if(ContextCompat.checkSelfPermission(applicationContext, Manifest.permission
+                        .CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    mPermissionResult.launch(Manifest.permission.CALL_PHONE)
+                } else {
+                    startActivity(mPhoneIntent)
+                }
+            }
+            findViewById<Button>(R.id.suggest_helper_refuse).setOnClickListener {
+                mHelpRefusedForTag.add(tagId)
+                suggestLayout.visibility = View.GONE
+                commitResults()
+            }
+        }
     }
 }

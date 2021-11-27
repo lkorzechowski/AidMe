@@ -17,23 +17,24 @@ import kotlin.concurrent.thread
 
 class RequestMedia(private val mActivity: VersionActivity, private val mTutorialId: Long)
 {
-    private val viewModelProvider = ViewModelProvider(mActivity)
-    private val multimediaViewModel = viewModelProvider.get(MultimediaViewModel::class.java)
-    private val instructionSetViewModel = viewModelProvider.get(InstructionSetViewModel::class.java)
-    private val soundViewModel = viewModelProvider.get(TutorialSoundViewModel::class.java)
-    private lateinit var queue: RequestQueue
-    private lateinit var multimediaThread: Thread
-    private lateinit var narrationThread: Thread
-    private lateinit var soundThread: Thread
-    private var multimediaResponse: Boolean = false
+    private val mViewModelProvider = ViewModelProvider(mActivity)
+    private val mMultimediaViewModel = mViewModelProvider.get(MultimediaViewModel::class.java)
+    private val mInstructionSetViewModel = mViewModelProvider
+        .get(InstructionSetViewModel::class.java)
+    private val mSoundViewModel = mViewModelProvider.get(TutorialSoundViewModel::class.java)
+    private lateinit var mQueue: RequestQueue
+    private lateinit var mMultimediaThread: Thread
+    private lateinit var mNarrationThread: Thread
+    private lateinit var mSoundThread: Thread
+    private var mMultimediaResponse: Boolean = false
 
     fun end()
     {
         thread {
-            queue.stop()
-            multimediaThread.interrupt()
-            narrationThread.interrupt()
-            soundThread.interrupt()
+            mQueue.stop()
+            mMultimediaThread.interrupt()
+            mNarrationThread.interrupt()
+            mSoundThread.interrupt()
         }
     }
 
@@ -42,12 +43,12 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
         val url = "https://aidme-326515.appspot.com/"
         val cache = DiskBasedCache(cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
-        queue = RequestQueue(cache, network).apply {
+        mQueue = RequestQueue(cache, network).apply {
             start()
         }
         val dir = File(mActivity.filesDir.absolutePath).absolutePath + "/"
-        multimediaThread = thread {
-            queue.add(JsonArrayRequest(Request.Method.GET, url + "multimedia/" + mTutorialId,
+        mMultimediaThread = thread {
+            mQueue.add(JsonArrayRequest(Request.Method.GET, url + "multimedia/" + mTutorialId,
                 null, { array ->
                         for(i in 0 until array.length()) {
                             val row: JSONObject = array.getJSONObject(i)
@@ -57,19 +58,19 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                                 row.getLong("tutorialId"), row.getInt("displayTime"),
                                 row.getBoolean("type"), fileName,
                                 row.getBoolean("loop"), row.getInt("position"))
-                            if(!multimediaResponse) {
-                                multimediaResponse = true
-                                multimediaViewModel.getByMultimediaId(multimediaId)
+                            if(!mMultimediaResponse) {
+                                mMultimediaResponse = true
+                                mMultimediaViewModel.getByMultimediaId(multimediaId)
                                     .observe(mActivity) {
                                         if (it != null) {
-                                            multimediaViewModel.update(multimedia)
+                                            mMultimediaViewModel.update(multimedia)
                                         } else {
-                                            multimediaViewModel.insert(multimedia)
+                                            mMultimediaViewModel.insert(multimedia)
                                         }
                                         val file = File(dir + fileName)
                                         if (!file.exists()) {
                                             if (multimedia.type) {
-                                                queue.add(
+                                                mQueue.add(
                                                     ImageRequest(url + "files/images/" +
                                                             fileName, { bitmap ->
                                                             try {
@@ -92,7 +93,7 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                                                         })
                                                 )
                                             } else {
-                                                queue.add(
+                                                mQueue.add(
                                                     FileRequest(
                                                         Request.Method.GET,
                                                         url + "files/vids/" + fileName,
@@ -116,12 +117,12 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                     it.printStackTrace()
                 }))
         }
-        instructionSetViewModel.getByTutorialId(mTutorialId).observe(mActivity) { instructions ->
-            narrationThread = thread {
+        mInstructionSetViewModel.getByTutorialId(mTutorialId).observe(mActivity) { instructions ->
+            mNarrationThread = thread {
                 for (instruction in instructions) {
                     val file = File(dir + instruction.narrationFile)
                     if(!file.exists()) {
-                        queue.add(FileRequest(Request.Method.GET, url + "files/narrations/" +
+                        mQueue.add(FileRequest(Request.Method.GET, url + "files/narrations/" +
                                 instruction.narrationFile, { byteArray ->
                             file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
                         }, {
@@ -131,12 +132,12 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                 }
             }
         }
-        soundViewModel.getByTutorialId(mTutorialId).observe(mActivity) { sounds ->
-            soundThread = thread {
+        mSoundViewModel.getByTutorialId(mTutorialId).observe(mActivity) { sounds ->
+            mSoundThread = thread {
                 for(sound in sounds) {
                     val file = File(dir + sound.fileName)
                     if(!file.exists()) {
-                        queue.add(FileRequest(Request.Method.GET, url + "files/sounds/" +
+                        mQueue.add(FileRequest(Request.Method.GET, url + "files/sounds/" +
                                 sound.fileName, { byteArray ->
                             file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
                         }, {
