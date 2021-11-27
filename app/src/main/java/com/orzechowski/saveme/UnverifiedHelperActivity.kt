@@ -31,11 +31,11 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
 {
     private lateinit var mImageBrowser: ImageBrowserLoader
     private lateinit var mQueue: RequestQueue
-    private lateinit var viewModelProvider: ViewModelProvider
+    private lateinit var mViewModelProvider: ViewModelProvider
     private lateinit var mVerifyButton: Button
     private lateinit var mView: View
     private lateinit var mEmail: String
-    private val mUrl = "https://aidme-326515.appspot.com/"
+    private val mUrl = getString(R.string.url)
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -44,7 +44,7 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
         UploadServiceConfig.initialize(application,
             getString(R.string.default_notification_channel_id), true)
         mView = findViewById(R.id.unverified_view)
-        viewModelProvider = ViewModelProvider(this)
+        mViewModelProvider = ViewModelProvider(this)
         mEmail = intent.getStringExtra("email")!!
         val cache = DiskBasedCache(cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
@@ -54,7 +54,7 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
         mVerifyButton = findViewById(R.id.verify_button)
         mQueue.add(StringRequest(Request.Method.GET, mUrl + "documentexists/" + mEmail,
             {
-                if(it=="ok") {
+                if(it == "ok") {
                     findViewById<TextView>(R.id.unverified_helper_info).text =
                         resources.getString(R.string.unverified_helper_awaiting_response)
                 } else {
@@ -107,8 +107,8 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
                     mVerifyButton.visibility = View.INVISIBLE
                     descriptionEdit.visibility = View.INVISIBLE
                     descriptionInfo.visibility = View.INVISIBLE
-                    findViewById<TextView>(R.id.unverified_helper_info).setText(R.string
-                        .document_sent)
+                    findViewById<TextView>(R.id.unverified_helper_info)
+                        .setText(R.string.document_sent)
                 }, {
                     val output = if(!it.message.isNullOrEmpty()) it.message!!
                     else resources.getString(R.string.document_sending_error)

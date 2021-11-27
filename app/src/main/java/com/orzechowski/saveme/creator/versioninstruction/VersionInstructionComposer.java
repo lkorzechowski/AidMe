@@ -49,7 +49,7 @@ public class VersionInstructionComposer extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
-        if(mVersions.size()==1) {
+        if(mVersions.size() == 1) {
             for(InstructionSet set: mInstructions) {
                 mVersionInstructions.add(new VersionInstruction(0, 0,
                         set.getPosition()));

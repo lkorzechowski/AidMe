@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.ResultViewHolder>
 {
-    private List<Tutorial> mTutorials = null;
+    private List<Tutorial> mTutorials;
     private final LayoutInflater mInflater;
     private final Activity mActivity;
     private List<Helper> mHelpers;
@@ -52,7 +52,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     public void onBindViewHolder(@NonNull ResultViewHolder holder, int rowNumber)
     {
         Tutorial tutorial = mTutorials.get(rowNumber);
-        if(tutorial!=null) {
+        if(tutorial != null) {
             long authorId = tutorial.getAuthorId();
             for (Helper helper : mHelpers) {
                 if (helper != null) {
@@ -108,7 +108,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     @Override
     public int getItemCount()
     {
-        return (mTutorials==null) ? 0 : mTutorials.size();
+        return (mTutorials == null) ? 0 : mTutorials.size();
     }
 
     public void setElementList(List<Tutorial> tutorials, List<Helper> helpers)

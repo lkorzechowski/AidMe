@@ -28,7 +28,7 @@ class HelperSettings(val mActivity: HelperActivity): Fragment()
             View
     {
         val view = R.layout.fragment_helper_settings
-        mEmail = requireArguments().getString("email") ?: "retrieval error"
+        mEmail = requireArguments().getString("email") ?: " "
         return inflater.inflate(view, container, false)
     }
 
@@ -40,7 +40,7 @@ class HelperSettings(val mActivity: HelperActivity): Fragment()
         val professionEdit = view.findViewById<EditText>(R.id.profession_edit)
         val phoneEdit = view.findViewById<EditText>(R.id.phone_edit)
         val submitButton = view.findViewById<Button>(R.id.submit_helper_settings_button)
-        val url = "https://aidme-326515.appspot.com/"
+        val url = getString(R.string.url)
         val cache = DiskBasedCache(mActivity.cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
         mQueue = RequestQueue(cache, network).apply {
@@ -66,9 +66,10 @@ class HelperSettings(val mActivity: HelperActivity): Fragment()
                 phone = phoneEdit.text.toString()
                 if(name.length > 2) {
                     if(surname.length > 2) {
-                        if(title.isEmpty()) title = "null"
-                        if(profession.isEmpty()) profession = "null"
-                        if(phone.length < 8) phone = "null"
+                        val n = "null"
+                        if(title.isEmpty()) title = n
+                        if(profession.isEmpty()) profession = n
+                        if(phone.length < 8) phone = n
                         mQueue.add(BooleanRequest(
                             Request.Method.POST,
                             url + "setfullhelperdetailforemail/" + mEmail + "/" +

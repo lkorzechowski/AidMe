@@ -79,7 +79,7 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.Fr
                 for(CategoryTag categoryTag : categoryTags) {
                     mTagViewModel.getByTagId(categoryTag.getTagId()).observe(requireActivity(),
                             tag-> {
-                        if(tag.getTagLevel()!=null && tag.getTagLevel()>mLevel) {
+                        if(tag.getTagLevel() != null && tag.getTagLevel()>mLevel) {
                             mLevel++;
                             mCategoryViewModel.getByLevel(mLevel)
                                     .observe(requireActivity(), categories-> {
@@ -92,7 +92,7 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.Fr
                                             if(oneTag.getTagId()==tag.getTagId()) match = true;
                                         }
                                         if(!match) categories.remove(cat);
-                                        if(cat.getCategoryId()==finalId) {
+                                        if(cat.getCategoryId() == finalId) {
                                             mAdapter.setElementList(categories);
                                         }
                                     });

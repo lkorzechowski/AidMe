@@ -31,8 +31,8 @@ class NarrationBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
         val view = inflater.inflate(R.layout.fragment_narration_browser, container,
             false)
         val narrationRecycler: RecyclerView = view.findViewById(R.id.new_narration_picker_rv)
-        narrationRecycler.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL,
-            false)
+        narrationRecycler.layoutManager = LinearLayoutManager(activity,
+            LinearLayoutManager.VERTICAL, false)
         mNarrationbrowserAdapter = NarrationBrowserAdapter(requireActivity(), this)
         narrationRecycler.adapter = mNarrationbrowserAdapter
         requireActivity().contentResolver.registerContentObserver(

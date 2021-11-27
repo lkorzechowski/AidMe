@@ -88,9 +88,8 @@ class RequestAPI(val activity: AppCompatActivity)
                 mKeywordDownload && mTagDownload && mTutorialDownload && mVersionMultimediaDownload
     }
 
-    fun requestData(cacheDir: File)
+    fun requestData(cacheDir: File, url: String)
     {
-        val url = "https://aidme-326515.appspot.com/"
         val cache = DiskBasedCache(cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
         mQueue = RequestQueue(cache, network).apply {
@@ -98,8 +97,8 @@ class RequestAPI(val activity: AppCompatActivity)
         }
         val imageDir = File(activity.filesDir.absolutePath).absolutePath + "/"
         thread {
-            mQueue.add(JsonArrayRequest(Request.Method.GET, url + "tutorials", null, {
-                    array ->
+            mQueue.add(JsonArrayRequest(Request.Method.GET, url + "tutorials", null,
+                { array ->
                 mTutorialDownload = true
                 for(i in 0 until array.length()) {
                     val row: JSONObject = array.getJSONObject(i)
@@ -134,8 +133,6 @@ class RequestAPI(val activity: AppCompatActivity)
                     )
                 }
             }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "categories", null,
                 { array ->
                 mCategoryDownload = true
@@ -165,8 +162,6 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
                 }
             }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "tags", null, {
                     array ->
                 mTagDownload = true
@@ -184,8 +179,6 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
                 }
             }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "keywords", null, {
                     array ->
                 mKeywordDownload = true
@@ -202,8 +195,6 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
                 }
             }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "helperlist", null,
                 { array ->
                 mHelperDownload = true
@@ -222,8 +213,6 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
                 }
             }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "helpertags", null,
                 { array ->
                 mHelperTagDownload = true
@@ -241,8 +230,6 @@ class RequestAPI(val activity: AppCompatActivity)
                     }
                 }
             }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "tutorialtags",
                 null, { array ->
                     mTutorialTagDownload = true
@@ -261,8 +248,6 @@ class RequestAPI(val activity: AppCompatActivity)
                         }
                     }
             }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "tagkeywords", null,
                 { array ->
                     mTagKeywordDownload = true
@@ -281,8 +266,6 @@ class RequestAPI(val activity: AppCompatActivity)
                         }
                     }
             }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "categorytags",
                 null, { array ->
                     mCategoryTagDownload = true
@@ -301,8 +284,6 @@ class RequestAPI(val activity: AppCompatActivity)
                         }
                     }
             }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "instructions",
                 null, { array ->
                     mInstructionsDownload = true
@@ -323,8 +304,6 @@ class RequestAPI(val activity: AppCompatActivity)
                             }
                         }
                 }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "tutoriallinks",
                 null, { array ->
                     mTutorialLinkDownload = true
@@ -344,8 +323,6 @@ class RequestAPI(val activity: AppCompatActivity)
                         }
                     }
                 }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "tutorialsounds",
                 null, { array ->
                     mTutorialSoundDownload = true
@@ -365,8 +342,6 @@ class RequestAPI(val activity: AppCompatActivity)
                         }
                     }
                 }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "versions", null,
                 { array ->
                     mVersionDownload = true
@@ -387,8 +362,6 @@ class RequestAPI(val activity: AppCompatActivity)
                         }
                     }
                 }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "versioninstructions",
                 null, { array ->
                     mVersionInstructionDownload = true
@@ -407,8 +380,6 @@ class RequestAPI(val activity: AppCompatActivity)
                             }
                     }
                 }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "versionmultimedia",
                 null, { array ->
                     mVersionMultimediaDownload = true
@@ -427,8 +398,6 @@ class RequestAPI(val activity: AppCompatActivity)
                             }
                     }
                 }, null))
-        }
-        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "versionsound",
                 null, { array ->
                     mVersionSoundDownload = true

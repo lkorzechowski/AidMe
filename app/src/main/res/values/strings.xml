@@ -135,6 +135,7 @@
     <string name="unexpected_missing_instructions">Brak instrukcji!?</string>
     <string name="suggest_helper_accept">Połącz</string>
     <string name="suggest_helper_refuse">Schowaj</string>
+    <string name="url">https://aidme-326515.appspot.com/</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

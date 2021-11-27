@@ -17,7 +17,7 @@ import java.util.List;
 public class VersionTextAdapter
     extends RecyclerView.Adapter<VersionTextAdapter.VersionViewHolder>
 {
-    private List<Version> mVersions = null;
+    private List<Version> mVersions;
     private final LayoutInflater mInflater;
 
     public VersionTextAdapter(Activity activity)
@@ -44,7 +44,7 @@ public class VersionTextAdapter
     @Override
     public int getItemCount()
     {
-        if(mVersions!=null) return mVersions.size();
+        if(mVersions != null) return mVersions.size();
         else return 0;
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
 public class VersionMultimediaInnerAdapter
     extends RecyclerView.Adapter<VersionMultimediaInnerAdapter.VersionViewHolder>
 {
-    private List<Version> mVersions = null;
+    private List<Version> mVersions;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
 
@@ -48,7 +48,7 @@ public class VersionMultimediaInnerAdapter
     @Override
     public int getItemCount()
     {
-        return(mVersions==null) ? 0 : mVersions.size();
+        return(mVersions == null) ? 0 : mVersions.size();
     }
 
     public void setElementList(List<Version> versions)

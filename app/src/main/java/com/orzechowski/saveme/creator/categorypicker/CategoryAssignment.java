@@ -85,19 +85,19 @@ public class CategoryAssignment extends Fragment
     {
         FragmentActivity activity = requireActivity();
         mCategoryTagViewModel.getByCategoryId(category.getCategoryId())
-                .observe(activity, categoryTags-> {
+                .observe(activity, categoryTags -> {
             for(CategoryTag categoryTag : categoryTags) {
-                mTagViewModel.getByTagId(categoryTag.getTagId()).observe(activity, tag-> {
+                mTagViewModel.getByTagId(categoryTag.getTagId()).observe(activity, tag -> {
                     if(category.getHasSubcategories()) {
                         if(!mCategoryPath.contains(category)) mCategoryPath.add(category);
                         if(tag.getTagLevel() != null && tag.getTagLevel() > mLevel) {
                             mLevel++;
                             mCategoryViewModel.getByLevel(mLevel)
-                                    .observe(activity, categories-> {
+                                    .observe(activity, categories -> {
                                 long finalId = categories.get(categories.size()-1).getCategoryId();
                                 for (Category cat : categories) {
                                     mCategoryTagViewModel.getByCategoryId(cat.getCategoryId())
-                                            .observe(activity, catTag-> {
+                                            .observe(activity, catTag -> {
                                         boolean match = false;
                                         for(CategoryTag oneTag : catTag) {
                                             if(oneTag.getTagId() == tag.getTagId()) match = true;

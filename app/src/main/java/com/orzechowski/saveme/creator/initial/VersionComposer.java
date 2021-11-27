@@ -56,7 +56,7 @@ public class VersionComposer extends Fragment implements VersionComposerAdapter.
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState)
     {
         Button addVersionButton = view.findViewById(R.id.new_version_button);
-        addVersionButton.setOnClickListener(v-> {
+        addVersionButton.setOnClickListener(v -> {
             mVersions.add(new Version(mVersions.size(), "", 0, true,
                     false, false, null));
             mAdapter.setElementList(mVersions);

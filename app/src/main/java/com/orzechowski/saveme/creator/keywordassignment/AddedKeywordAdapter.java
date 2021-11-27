@@ -17,7 +17,7 @@ import java.util.List;
 public class AddedKeywordAdapter
         extends RecyclerView.Adapter<AddedKeywordAdapter.KeywordViewHolder>
 {
-    private List<Keyword> mKeywords = null;
+    private List<Keyword> mKeywords;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
 
@@ -46,7 +46,7 @@ public class AddedKeywordAdapter
     @Override
     public int getItemCount()
     {
-        return (mKeywords==null) ? 0 : mKeywords.size();
+        return (mKeywords == null) ? 0 : mKeywords.size();
     }
 
     public void setElementList(List<Keyword> keywords)

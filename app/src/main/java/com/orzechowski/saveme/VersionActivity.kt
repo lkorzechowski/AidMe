@@ -21,7 +21,7 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
     VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback,
     TutorialLoading.ActivityCallback
 {
-    private val bundle = Bundle()
+    private val mBundle = Bundle()
     private val mVersionRecycler = VersionRecycler(this)
     private val mTutorialLoading = TutorialLoading(this, this)
     private var mTutorialId by Delegates.notNull<Long>()
@@ -33,9 +33,9 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         mTutorialId = intent.getLongExtra("tutorialId", -1L)
-        bundle.putLong("tutorialId", mTutorialId)
+        mBundle.putLong("tutorialId", mTutorialId)
         supportFragmentManager.commit {
-            mVersionRecycler.arguments = bundle
+            mVersionRecycler.arguments = mBundle
             add(R.id.layout_version_fragment, mVersionRecycler)
         }
 
@@ -43,7 +43,9 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
 
     override fun onResume()
     {
-        mRequestMedia = RequestMedia(this, mTutorialId).also { it.requestData(cacheDir) }
+        mRequestMedia = RequestMedia(this, mTutorialId).also {
+            it.requestData(cacheDir, getString(R.string.url))
+        }
         super.onResume()
     }
 
@@ -53,8 +55,8 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
             mVersionRecycler.getChildVersions(version.versionId)
         } else {
             mPickedVersion = version
-            supportFragmentManager.beginTransaction().remove(mVersionRecycler).commit()
             supportFragmentManager.commit {
+                remove(mVersionRecycler)
                 add(R.id.layout_version_fragment, mTutorialLoading)
             }
         }

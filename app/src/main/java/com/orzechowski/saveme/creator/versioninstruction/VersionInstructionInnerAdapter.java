@@ -18,7 +18,7 @@ import java.util.List;
 public class VersionInstructionInnerAdapter
     extends RecyclerView.Adapter<VersionInstructionInnerAdapter.InstructionViewHolder>
 {
-    private List<InstructionSet> mInstructions = null;
+    private List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
 
@@ -48,7 +48,7 @@ public class VersionInstructionInnerAdapter
     @Override
     public int getItemCount()
     {
-        return (mInstructions==null) ? 0 : mInstructions.size();
+        return (mInstructions == null) ? 0 : mInstructions.size();
     }
 
     public void setElementList(List<InstructionSet> instructions)

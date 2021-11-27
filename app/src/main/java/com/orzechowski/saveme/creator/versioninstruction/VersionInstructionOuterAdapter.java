@@ -19,8 +19,8 @@ import java.util.List;
 public class VersionInstructionOuterAdapter
         extends RecyclerView.Adapter<VersionInstructionOuterAdapter.VersionViewHolder>
 {
-    private List<Version> mVersions = null;
-    private List<InstructionSet> mInstructions = null;
+    private List<Version> mVersions;
+    private List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
     private final Activity mActivity;
     private final FragmentCallback mCallback;
@@ -53,7 +53,7 @@ public class VersionInstructionOuterAdapter
     @Override
     public int getItemCount()
     {
-        return(mVersions==null) ? 0 : mVersions.size();
+        return(mVersions == null) ? 0 : mVersions.size();
     }
 
     public void setElementList(List<Version> versions, List<InstructionSet> instructions)

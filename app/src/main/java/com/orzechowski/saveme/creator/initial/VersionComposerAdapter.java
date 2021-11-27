@@ -21,7 +21,7 @@ import java.util.List;
 public class VersionComposerAdapter
     extends RecyclerView.Adapter<VersionComposerAdapter.VersionViewHolder>
 {
-    private List<Version> mVersions = null;
+    private List<Version> mVersions;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
 
@@ -51,7 +51,7 @@ public class VersionComposerAdapter
     @Override
     public int getItemCount()
     {
-        return (mVersions==null) ? 0 : mVersions.size();
+        return (mVersions == null) ? 0 : mVersions.size();
     }
 
     public void setElementList(List<Version> versions)
@@ -82,7 +82,8 @@ public class VersionComposerAdapter
                 public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
                     if(version!=null  && callback!=null) {
-                        callback.modifyText(String.valueOf(versionText.getText()), version.getVersionId());
+                        callback.modifyText(String.valueOf(versionText.getText()),
+                                version.getVersionId());
                     }
                 }
 

@@ -26,8 +26,8 @@ import java.util.List;
 public class EmergencyNumbersRecycler extends Fragment
         implements EmergencyNumbersListAdapter.FragmentCallback
 {
-    protected RecyclerView recycler;
-    protected EmergencyNumbersListAdapter adapter;
+    protected RecyclerView mRecycler;
+    protected EmergencyNumbersListAdapter mAdapter;
     private ActivityResultLauncher<String> mPermissionResult;
     private Intent mPhoneIntent;
 
@@ -56,12 +56,12 @@ public class EmergencyNumbersRecycler extends Fragment
         for(int i = 0; i < serviceNames.length; i++) {
             numbersList.add(new EmergencyNumber(phoneNumbers[i], serviceNames[i]));
         }
-        adapter = new EmergencyNumbersListAdapter(requireActivity(), numbersList,
+        mAdapter = new EmergencyNumbersListAdapter(requireActivity(), numbersList,
                 this);
         View view = inflater.inflate(R.layout.fragment_recycler_main, container, false);
-        recycler = view.findViewById(R.id.numery_rv);
-        recycler.setAdapter(adapter);
-        recycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mRecycler = view.findViewById(R.id.numery_rv);
+        mRecycler.setAdapter(mAdapter);
+        mRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
         return view;
     }
 

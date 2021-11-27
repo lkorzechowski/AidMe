@@ -20,7 +20,7 @@ import java.util.List;
 public class TutorialLinkComposerAdapter
     extends RecyclerView.Adapter<TutorialLinkComposerAdapter.LinkViewHolder>
 {
-    private List<TutorialLink> mLinks = null;
+    private List<TutorialLink> mLinks;
     private final List<Tutorial> mTutorials;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
@@ -58,7 +58,7 @@ public class TutorialLinkComposerAdapter
     @Override
     public int getItemCount()
     {
-        return(mLinks==null) ? 0 : mLinks.size();
+        return(mLinks == null) ? 0 : mLinks.size();
     }
 
     public void setElementList(List<TutorialLink> links)

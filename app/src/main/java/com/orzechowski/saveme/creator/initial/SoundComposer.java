@@ -67,7 +67,7 @@ public class SoundComposer extends Fragment implements SoundComposerAdapter.Frag
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState)
     {
         Button addSoundButton = view.findViewById(R.id.new_sound_button);
-        addSoundButton.setOnClickListener(v-> {
+        addSoundButton.setOnClickListener(v -> {
             mSounds.add(new TutorialSound(mSounds.size(), 0,
                     false, 0, 0, ""));
             resetAdapterElements();

@@ -99,9 +99,8 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.
 
     override fun onClick()
     {
-        val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-        t.remove(mContact).commit()
         supportFragmentManager.commit {
+            remove(mContact)
             setReorderingAllowed(true)
             add(R.id.fragment_layout, mContactForm)
         }

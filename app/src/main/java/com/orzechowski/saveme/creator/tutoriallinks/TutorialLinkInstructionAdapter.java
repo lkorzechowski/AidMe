@@ -48,7 +48,7 @@ public class TutorialLinkInstructionAdapter
     @Override
     public int getItemCount()
     {
-        return(mInstructions==null) ? 0 : mInstructions.size();
+        return(mInstructions == null) ? 0 : mInstructions.size();
     }
 
     public void setElementList(List<InstructionSet> instructions)

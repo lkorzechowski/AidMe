@@ -43,7 +43,7 @@ class SignInActivity : AppCompatActivity()
     {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this)
-        if(account!=null) progress(account)
+        if(account != null) progress(account)
         else mResultLauncher.launch(mGoogleSignInClient.signInIntent)
     }
 

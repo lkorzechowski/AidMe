@@ -46,7 +46,7 @@ public class VersionSoundInnerAdapter extends RecyclerView.Adapter<VersionSoundI
     @Override
     public int getItemCount()
     {
-        return(mVersions==null) ? 0 : mVersions.size();
+        return(mVersions == null) ? 0 : mVersions.size();
     }
 
     public void setElementList(List<Version> versions)
@@ -62,12 +62,13 @@ public class VersionSoundInnerAdapter extends RecyclerView.Adapter<VersionSoundI
         Button versionNumberButton;
         FragmentCallback callback;
         boolean selected = false;
+        int green = Color.argb(100, 0, 200, 0);
 
         public VersionViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
         {
             super(itemView);
             versionNumberButton = itemView.findViewById(R.id.version_number_button);
-            versionNumberButton.setBackgroundColor(Color.argb(100, 0, 200, 0));
+            versionNumberButton.setBackgroundColor(green);
             callback = fragmentCallback;
             versionNumberButton.setOnClickListener(this);
         }
@@ -81,8 +82,7 @@ public class VersionSoundInnerAdapter extends RecyclerView.Adapter<VersionSoundI
                 callback.select(version);
                 selected = true;
             } else {
-                versionNumberButton.setBackgroundColor(Color
-                        .argb(100, 0, 200, 0));
+                versionNumberButton.setBackgroundColor(green);
                 callback.unselect(version);
                 selected = false;
             }

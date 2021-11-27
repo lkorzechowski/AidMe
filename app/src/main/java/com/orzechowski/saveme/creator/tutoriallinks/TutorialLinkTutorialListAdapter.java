@@ -52,7 +52,7 @@ public class TutorialLinkTutorialListAdapter
     @Override
     public int getItemCount()
     {
-        return(mTutorials==null) ? 0 : mTutorials.size();
+        return(mTutorials == null) ? 0 : mTutorials.size();
     }
 
     public void setElementList(List<Tutorial> tutorials)

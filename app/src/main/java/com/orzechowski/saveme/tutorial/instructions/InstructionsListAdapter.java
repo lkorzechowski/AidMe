@@ -17,7 +17,7 @@ import java.util.List;
 public class InstructionsListAdapter
         extends RecyclerView.Adapter<InstructionsListAdapter.InstructionsViewHolder>
 {
-    private List<InstructionSet> mInstructions = null;
+    private List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
 

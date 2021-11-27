@@ -38,9 +38,8 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
         }
     }
 
-    fun requestData(cacheDir: File)
+    fun requestData(cacheDir: File, url: String)
     {
-        val url = "https://aidme-326515.appspot.com/"
         val cache = DiskBasedCache(cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
         mQueue = RequestQueue(cache, network).apply {

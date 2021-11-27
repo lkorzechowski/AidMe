@@ -49,9 +49,9 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.Frag
         HelperViewModel helperViewModel = new ViewModelProvider(this)
                 .get(HelperViewModel.class);
         mAdapter = new ResultsListAdapter(requireActivity(), this);
-        tutorialTagViewModel.getByTagId(tagId).observe(requireActivity(), tutorialTags-> {
+        tutorialTagViewModel.getByTagId(tagId).observe(requireActivity(), tutorialTags -> {
             List<Tutorial> tutorials = new LinkedList<>();
-            helperTagViewModel.getByTagId(tagId).observe(requireActivity(), helperTags-> {
+            helperTagViewModel.getByTagId(tagId).observe(requireActivity(), helperTags -> {
                 List<Helper> helpers = new LinkedList<>();
                 for(HelperTag helperTag : helperTags) {
                     helperViewModel.getByHelperId(helperTag.getHelperId())
@@ -59,7 +59,7 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.Frag
                 }
                 for(TutorialTag tutorialTag : tutorialTags) {
                     tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId())
-                            .observe(requireActivity(), tutorial-> {
+                            .observe(requireActivity(), tutorial -> {
                                 tutorials.add(tutorial);
                                 mAdapter.setElementList(tutorials, helpers);
                             });

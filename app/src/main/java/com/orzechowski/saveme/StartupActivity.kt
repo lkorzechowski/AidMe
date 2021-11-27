@@ -22,7 +22,9 @@ class StartupActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_startup)
-        mRequestAPI = RequestAPI(this).also { it.requestData(cacheDir) }
+        mRequestAPI = RequestAPI(this).also {
+            it.requestData(cacheDir, getString(R.string.url))
+        }
         val progressOne = findViewById<View>(R.id.main_loading_progress_1)
         val progressTwo = findViewById<View>(R.id.main_loading_progress_2)
         val progressThree = findViewById<View>(R.id.main_loading_progress_3)

@@ -13,9 +13,7 @@ public class BooleanRequest extends Request<Boolean>
     private final Response.Listener<Boolean> mListener;
     private final Response.ErrorListener mErrorListener;
     private final String mRequestBody;
-    private final String PROTOCOL_CHARSET = "utf-8";
-    private final String PROTOCOL_CONTENT_TYPE =
-            String.format("application/json; charset=%s", PROTOCOL_CHARSET);
+    private final String mProtocol = "utf-8";
 
     public BooleanRequest(int method, String url, String requestBody,
                           Response.Listener<Boolean> listener, Response.ErrorListener errorListener)
@@ -60,14 +58,14 @@ public class BooleanRequest extends Request<Boolean>
     @Override
     public String getBodyContentType()
     {
-        return PROTOCOL_CONTENT_TYPE;
+        return String.format("application/json; charset=%s", mProtocol);
     }
 
     @Override
     public byte[] getBody()
     {
         try {
-            return mRequestBody == null ? null : mRequestBody.getBytes(PROTOCOL_CHARSET);
+            return mRequestBody == null ? null : mRequestBody.getBytes(mProtocol);
         } catch (UnsupportedEncodingException e) {
             return null;
         }

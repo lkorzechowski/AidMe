@@ -17,7 +17,7 @@ import java.util.List;
 public class CategoryAssignmentAdapter
         extends RecyclerView.Adapter<CategoryAssignmentAdapter.CategoryViewHolder>
 {
-    private List<Category> mCategories = null;
+    private List<Category> mCategories;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
 
@@ -46,7 +46,7 @@ public class CategoryAssignmentAdapter
     @Override
     public int getItemCount()
     {
-        if(mCategories!=null) return mCategories.size();
+        if(mCategories != null) return mCategories.size();
         else return 0;
     }
 

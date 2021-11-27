@@ -24,7 +24,7 @@ import java.util.List;
 public class MultimediaComposerAdapter
     extends RecyclerView.Adapter<MultimediaComposerAdapter.MultimediaViewHolder>
 {
-    private List<Multimedia> mMultimedias = null;
+    private List<Multimedia> mMultimedias;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
     private final Activity mActivity;
@@ -61,7 +61,7 @@ public class MultimediaComposerAdapter
     @Override
     public int getItemCount()
     {
-        return (mMultimedias==null) ? 0: mMultimedias.size();
+        return (mMultimedias == null) ? 0: mMultimedias.size();
     }
 
     public void setElementList(List<Multimedia> multimedias)
@@ -91,7 +91,7 @@ public class MultimediaComposerAdapter
             loopCheckBox = itemView.findViewById(R.id.new_multimedia_loop_checkbox);
             miniature = itemView.findViewById(R.id.new_image_miniature);
             deleteMultimedia = itemView.findViewById(R.id.delete_new_multimedia);
-            deleteMultimedia.setOnClickListener(v-> callback.delete(multimedia));
+            deleteMultimedia.setOnClickListener(v -> callback.delete(multimedia));
             displayTime.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -100,7 +100,7 @@ public class MultimediaComposerAdapter
                 public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
                     String timeText = String.valueOf(displayTime.getText());
-                    if(multimedia!=null  && callback!=null && !timeText.isEmpty()) {
+                    if(multimedia != null  && callback != null && !timeText.isEmpty()) {
                         callback.modifyDisplayTime(Integer.parseInt(timeText),
                                 multimedia.getPosition());
                     }
@@ -110,7 +110,7 @@ public class MultimediaComposerAdapter
                 public void afterTextChanged(Editable s) {}
             });
             loopCheckBox.setOnCheckedChangeListener((buttonView, isChecked)-> {
-                if(multimedia!=null && callback!=null) {
+                if(multimedia != null && callback != null) {
                     callback.modifyLoop(isChecked, multimedia.getPosition());
                 }
             });

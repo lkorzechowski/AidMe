@@ -27,14 +27,14 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
     CategoryRecycler.CallbackToResults, ResultsRecycler.CallbackForTutorial,
     Search.CallbackForTutorial, RequestLiveAid.ActivityCallback
 {
+    private var mReturning = false
+    private lateinit var mSearchButton: Button
     private lateinit var mCategory: CategoryRecycler
     private val mSearch = Search(this)
     private val mResults = ResultsRecycler(this)
-    private val mRequest = RequestLiveAid(this)
+    private lateinit var mRequest: RequestLiveAid
     private val mPhoneIntent = Intent(Intent.ACTION_CALL)
     private val mHelpRefusedForTag = mutableListOf<Long>()
-    private var returning = false
-    private lateinit var mSearchButton: Button
     private val mPermissionResult = registerForActivityResult(ActivityResultContracts
         .RequestPermission()
     ) { result ->
@@ -45,13 +45,13 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
     {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
+        mRequest = RequestLiveAid(this, getString(R.string.url))
         mCategory = CategoryRecycler(this)
         mSearchButton = findViewById(R.id.search_button)
         mSearchButton.setOnClickListener {
             mSearchButton.visibility = View.GONE
-            val t: FragmentTransaction = supportFragmentManager.beginTransaction()
-            t.remove(mCategory).commit()
             supportFragmentManager.commit {
+                remove(mCategory)
                 add(R.id.search_fragment_layout, mSearch)
             }
         }
@@ -60,12 +60,12 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
     override fun onStart()
     {
         super.onStart()
-        if(!returning) {
+        if(!mReturning) {
             commitBrowser()
         }
         else {
             commitResults()
-            returning = false
+            mReturning = false
         }
     }
 
@@ -131,7 +131,7 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
     override fun onRestart()
     {
         super.onRestart()
-        returning = true
+        mReturning = true
     }
 
     override fun serveTutorial(tutorial: Tutorial)

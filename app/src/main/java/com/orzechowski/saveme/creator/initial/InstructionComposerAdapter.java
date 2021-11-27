@@ -25,7 +25,7 @@ import java.util.List;
 public class InstructionComposerAdapter
     extends RecyclerView.Adapter<InstructionComposerAdapter.InstructionsViewHolder>
 {
-    private List<InstructionSet> mInstructions = null;
+    private List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
     private final Activity mActivity;
@@ -88,7 +88,7 @@ public class InstructionComposerAdapter
             position = itemView.findViewById(R.id.new_instruction_position);
             uploadNarration = itemView.findViewById(R.id.new_instruction_narration_upload_button);
             deleteInstruction = itemView.findViewById(R.id.delete_new_instruction);
-            deleteInstruction.setOnClickListener(v-> callback.delete(instruction));
+            deleteInstruction.setOnClickListener(v -> callback.delete(instruction));
             uploadNarration.setOnClickListener(v -> {
                 if(ActivityCompat.checkSelfPermission(activity, Manifest.permission
                         .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
@@ -107,7 +107,7 @@ public class InstructionComposerAdapter
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
-                    if(instruction!=null && callback!=null) {
+                    if(instruction != null && callback != null) {
                         callback.modifyTitle(String.valueOf(title.getText()),
                                 instruction.getPosition());
                     }
@@ -123,8 +123,9 @@ public class InstructionComposerAdapter
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
-                    if(instruction!=null  && callback!=null) {
-                        callback.modifyContent(String.valueOf(content.getText()), instruction.getPosition());
+                    if(instruction != null  && callback != null) {
+                        callback.modifyContent(String.valueOf(content.getText()),
+                                instruction.getPosition());
                     }
                 }
 
@@ -139,8 +140,9 @@ public class InstructionComposerAdapter
                 public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
                     String timeText = String.valueOf(displayTime.getText());
-                    if(instruction!=null  && callback!=null && !timeText.isEmpty()) {
-                        callback.modifyDisplayTime(Integer.parseInt(timeText), instruction.getPosition());
+                    if(instruction != null  && callback != null && !timeText.isEmpty()) {
+                        callback.modifyDisplayTime(Integer.parseInt(timeText),
+                                instruction.getPosition());
                     }
                 }
 

@@ -67,7 +67,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer(this)
-    private val mUrl = "https://aidme-326515.appspot.com/"
+    private val mUrl = getString(R.string.url)
     private val mSoundUris = mutableMapOf<Int, String>()
     private val mNarrationUris = mutableMapOf<Int, String>()
     private val mGson = Gson()
@@ -185,8 +185,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     Toast.LENGTH_SHORT).show()
             } else if(!displayMedia) {
                 Toast.makeText(this, R.string.media_length_not_set,
-                    Toast.LENGTH_SHORT)
-                    .show()
+                    Toast.LENGTH_SHORT).show()
             } else if(!soundLogicalTime) {
                 Toast.makeText(this, R.string.illogical_sound_time,
                     Toast.LENGTH_SHORT).show()
@@ -524,8 +523,8 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 ).also { it.setRequestBody(mGson.toJson(mInstructions)) }
                 mQueue.add(request)
             } else {
-                Toast.makeText(this@CreatorActivity, getString(R.string
-                    .unexpected_missing_instructions), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CreatorActivity,
+                    getString(R.string.unexpected_missing_instructions),Toast.LENGTH_SHORT).show()
                 val request = StringPost(Request.Method.POST, mUrl + "create/uploaderror",
                 {
                     mInstructionUpload = true

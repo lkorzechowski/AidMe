@@ -156,14 +156,10 @@ public class Search extends Fragment implements ResultsListAdapter.FragmentCallb
 
     private String removeSpecialSigns(String input)
     {
-        return input.replace('ł', 'l')
-                .replace('ą', 'a')
-                .replace('ń', 'n')
-                .replace('ę', 'e')
-                .replace('ć', 'c')
-                .replace('ż', 'z')
-                .replace('ź', 'z')
-                .replace('ó', 'o')
+        return input.replace('ł', 'l').replace('ą', 'a')
+                .replace('ń', 'n').replace('ę', 'e')
+                .replace('ć', 'c').replace('ż', 'z')
+                .replace('ź', 'z').replace('ó', 'o')
                 .replace('ś', 's');
     }
 

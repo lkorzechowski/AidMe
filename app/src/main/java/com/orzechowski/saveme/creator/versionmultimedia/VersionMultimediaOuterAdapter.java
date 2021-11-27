@@ -21,8 +21,8 @@ import java.util.List;
 public class VersionMultimediaOuterAdapter
     extends RecyclerView.Adapter<VersionMultimediaOuterAdapter.MultimediaViewHolder>
 {
-    private List<Version> mVersions = null;
-    private List<Multimedia> mMultimedias = null;
+    private List<Version> mVersions;
+    private List<Multimedia> mMultimedias;
     private final LayoutInflater mInflater;
     private final Activity mActivity;
     private final FragmentCallback mCallback;
@@ -61,7 +61,7 @@ public class VersionMultimediaOuterAdapter
     @Override
     public int getItemCount()
     {
-        return(mMultimedias==null) ? 0 : mMultimedias.size();
+        return(mMultimedias == null) ? 0 : mMultimedias.size();
     }
 
     public void setElementList(List<Multimedia> multimedia, List<Version> versions)

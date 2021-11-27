@@ -11,7 +11,7 @@ public class FileRequest extends Request<byte[]>
 {
     private final Response.Listener<byte[]> mListener;
     private final Map<String, String> mParams;
-    public Map<String, String> responseHeaders;
+    public Map<String, String> mResponseHeaders;
 
     public FileRequest(int post, String mUrl, Response.Listener<byte[]> listener,
                        Response.ErrorListener errorListener, Map<String, String> params)
@@ -37,7 +37,7 @@ public class FileRequest extends Request<byte[]>
     @Override
     protected Response<byte[]> parseNetworkResponse(NetworkResponse response)
     {
-        responseHeaders = response.headers;
+        mResponseHeaders = response.headers;
         return Response.success(response.data, HttpHeaderParser.parseCacheHeaders(response));
     }
 }

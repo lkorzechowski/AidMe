@@ -19,8 +19,8 @@ import java.util.List;
 public class VersionSoundOuterAdapter
         extends RecyclerView.Adapter<VersionSoundOuterAdapter.SoundViewHolder>
 {
-    private List<Version> mVersions = null;
-    private List<TutorialSound> mSounds = null;
+    private List<Version> mVersions;
+    private List<TutorialSound> mSounds;
     private final LayoutInflater mInflater;
     private final Activity mActivity;
     private final FragmentCallback mCallback;
@@ -52,7 +52,7 @@ public class VersionSoundOuterAdapter
     @Override
     public int getItemCount()
     {
-        return (mSounds==null) ? 0 : mSounds.size();
+        return (mSounds == null) ? 0 : mSounds.size();
     }
 
     public void setElementList(List<TutorialSound> sounds, List<Version> versions)

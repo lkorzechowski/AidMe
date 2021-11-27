@@ -23,11 +23,11 @@ import com.orzechowski.saveme.volley.BooleanRequest
 //tej aktywności znajdują się w com.orzechowski.saveme.helper.
 class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettings.ActivityCallback
 {
-    private val red = ColorStateList.valueOf(Color.argb(100, 255, 0, 0))
-    private val green = ColorStateList.valueOf(Color.argb(100, 0, 255, 0))
+    private val mRed = ColorStateList.valueOf(Color.argb(100, 255, 0, 0))
+    private val mGreen = ColorStateList.valueOf(Color.argb(100, 0, 255, 0))
     private val mSettings = HelperSettings(this)
-    private lateinit var viewModelProvider: ViewModelProvider
-    private lateinit var queue: RequestQueue
+    private lateinit var mViewModelProvider: ViewModelProvider
+    private lateinit var mQueue: RequestQueue
     private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -35,17 +35,17 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         mView = findViewById(R.id.helper_primary_view)
-        viewModelProvider = ViewModelProvider(this)
+        mViewModelProvider = ViewModelProvider(this)
         val email = intent.getStringExtra("email")!!.replace(".", "xyz121")
             .replace("@", "xyz122")
         mSettings.arguments = bundleOf(Pair("email", email))
-        val url = "https://aidme-326515.appspot.com/"
+        val url = getString(R.string.url)
         val cache = DiskBasedCache(cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
-        queue = RequestQueue(cache, network).apply {
+        mQueue = RequestQueue(cache, network).apply {
             start()
         }
-        queue.add(
+        mQueue.add(
             JsonObjectRequest(Request.Method.GET, url + "login/" + email, null,
             { array ->
                 val verified = array.getBoolean("verified")
@@ -55,26 +55,26 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
                         findViewById<ExtendedFloatingActionButton>(R.id.helper_toggle_help)
                     if(helping) {
                         helperToggleButton.setIconResource(R.drawable.ic_check)
-                        helperToggleButton.backgroundTintList = green
+                        helperToggleButton.backgroundTintList = mGreen
                     } else {
                         helperToggleButton.setIconResource(R.drawable.ic_cross)
-                        helperToggleButton.backgroundTintList = red
+                        helperToggleButton.backgroundTintList = mRed
                     }
                     helperToggleButton.setOnClickListener {
                         if(!helping) {
                             helping = true
-                            queue.add(BooleanRequest(Request.Method.GET,
+                            mQueue.add(BooleanRequest(Request.Method.GET,
                                 url + "help/" + email + "/t", null, {}, {})
                             )
-                            helperToggleButton.backgroundTintList = green
+                            helperToggleButton.backgroundTintList = mGreen
                             helperToggleButton.setIconResource(R.drawable.ic_check)
                         } else {
                             helping = false
-                            queue.add(BooleanRequest(
+                            mQueue.add(BooleanRequest(
                                 Request.Method.GET, url + "help/" + email + "/f",
                                 null, {}, {})
                             )
-                            helperToggleButton.backgroundTintList = red
+                            helperToggleButton.backgroundTintList = mRed
                             helperToggleButton.setIconResource(R.drawable.ic_cross)
                         }
                     }
@@ -114,7 +114,7 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
 
     override fun onDestroy()
     {
-        queue.stop()
+        mQueue.stop()
         super.onDestroy()
     }
 

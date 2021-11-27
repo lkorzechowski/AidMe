@@ -9,9 +9,8 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.orzechowski.saveme.volley.StringPost
 import java.io.File
 
-class RequestLiveAid(private val mCallback: ActivityCallback)
+class RequestLiveAid(private val mCallback: ActivityCallback, private val mUrl: String)
 {
-    private val mUrl = "https://aidme-326515.appspot.com/"
     private lateinit var mQueue: RequestQueue
 
     fun getRequest(cacheDir: File, tagId: Long)

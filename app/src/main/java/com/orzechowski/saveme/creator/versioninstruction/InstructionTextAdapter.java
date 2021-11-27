@@ -17,7 +17,7 @@ import java.util.List;
 public class InstructionTextAdapter
     extends RecyclerView.Adapter<InstructionTextAdapter.InstructionViewHolder>
 {
-    private List<InstructionSet> mInstructions = null;
+    private List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
 
     public InstructionTextAdapter(Activity activity)
@@ -44,7 +44,7 @@ public class InstructionTextAdapter
     @Override
     public int getItemCount()
     {
-        return (mInstructions==null) ? 0 : mInstructions.size();
+        return (mInstructions == null) ? 0 : mInstructions.size();
     }
 
     public void setElementList(List<InstructionSet> instructions)

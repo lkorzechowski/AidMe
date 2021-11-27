@@ -19,7 +19,7 @@ import java.util.List;
 public class CategoryListAdapter
         extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder>
 {
-    private List<Category> mCategories = null;
+    private List<Category> mCategories;
     private final LayoutInflater mInflater;
     private final FragmentCallback mListener;
     private final String mPathBase;
@@ -54,7 +54,7 @@ public class CategoryListAdapter
     @Override
     public int getItemCount()
     {
-        return (mCategories==null) ? 0 : mCategories.size();
+        return (mCategories == null) ? 0 : mCategories.size();
     }
 
     public void setElementList(List<Category> categories)

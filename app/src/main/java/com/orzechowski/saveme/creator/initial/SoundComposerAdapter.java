@@ -26,7 +26,7 @@ import java.util.List;
 public class SoundComposerAdapter
     extends RecyclerView.Adapter<SoundComposerAdapter.SoundViewHolder>
 {
-    private List<TutorialSound> mSounds = null;
+    private List<TutorialSound> mSounds;
     private final LayoutInflater mInflater;
     private final FragmentCallback mCallback;
     private final Activity mActivity;
@@ -60,7 +60,7 @@ public class SoundComposerAdapter
     @Override
     public int getItemCount()
     {
-        return (mSounds==null) ? 0 : mSounds.size();
+        return (mSounds == null) ? 0 : mSounds.size();
     }
 
     public void setElementList(List<TutorialSound> sounds)
@@ -90,9 +90,9 @@ public class SoundComposerAdapter
             fileName = itemView.findViewById(R.id.new_sound_filename_display);
             soundLoop = itemView.findViewById(R.id.new_sound_loop_checkbox);
             deleteSound = itemView.findViewById(R.id.delete_new_sound);
-            deleteSound.setOnClickListener(v-> callback.delete(sound));
-            soundLoop.setOnCheckedChangeListener((buttonView, isChecked)-> {
-                if(sound!=null && callback!=null) {
+            deleteSound.setOnClickListener(v -> callback.delete(sound));
+            soundLoop.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if(sound != null && callback != null) {
                     callback.modifyLoop(isChecked, sound.getSoundId());
                 }
             });
@@ -115,7 +115,7 @@ public class SoundComposerAdapter
                 public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
                     String startText = String.valueOf(soundStart.getText());
-                    if(sound!=null  && callback!=null && !startText.isEmpty()) {
+                    if(sound!=null  && callback != null && !startText.isEmpty()) {
                         callback.modifyStart(Integer.parseInt(startText), sound.getSoundId());
                     }
                 }
@@ -131,7 +131,7 @@ public class SoundComposerAdapter
                 public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
                     String intervalText = String.valueOf(playInterval.getText());
-                    if(sound!=null  && callback!=null && !intervalText.isEmpty()) {
+                    if(sound != null  && callback != null && !intervalText.isEmpty()) {
                         callback.modifyInterval(Integer.parseInt(intervalText), sound.getSoundId());
                     }
                 }
