@@ -15,7 +15,7 @@ public class InstructionSetRepository
     public InstructionSetRepository(Application application)
     {
         GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
-        mDao = globalDatabase.instructionDao();
+        mDao = globalDatabase.instructionDAO();
     }
     public void deleteAll()
     {

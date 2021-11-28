@@ -16,7 +16,7 @@ public class HelperRepository
     public HelperRepository(Application application)
     {
         GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
-        mDao = globalDatabase.helperDao();
+        mDao = globalDatabase.helperDAO();
         mHelpers = mDao.getAll();
     }
 

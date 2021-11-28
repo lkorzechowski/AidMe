@@ -15,7 +15,7 @@ public class TutorialRepository
     TutorialRepository(Application application)
     {
         GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
-        mDao = globalDatabase.tutorialDao();
+        mDao = globalDatabase.tutorialDAO();
     }
 
     void deleteAll()

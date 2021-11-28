@@ -56,11 +56,11 @@ import java.util.concurrent.Executors;
 
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
-    public abstract VersionDAO versionDao();
-    public abstract InstructionSetDAO instructionDao();
-    public abstract TutorialDAO tutorialDao();
+    public abstract VersionDAO versionDAO();
+    public abstract InstructionSetDAO instructionDAO();
+    public abstract TutorialDAO tutorialDAO();
     public abstract TutorialSoundDAO tutorialSoundDAO();
-    public abstract HelperDAO helperDao();
+    public abstract HelperDAO helperDAO();
     public abstract MultimediaDAO multimediaDAO();
     public abstract CategoryDAO categoryDAO();
     public abstract VersionInstructionDAO versionInstructionDAO();

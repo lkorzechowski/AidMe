@@ -1,5 +1,8 @@
 package com.orzechowski.saveme
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -11,7 +14,10 @@ import kotlin.concurrent.thread
 //Aktywność uruchamiająca się jedynie raz po wejściu do aplikacji. Poprzedza przejście do MainActivity
 //i służy jako bufor pozwalający aplikacji rozpocząć zaciąganie danych z chmury zanim użytkownik
 //zacznie wyświetlać treść. Aktywność sama się wyłącza po czterech sekundach. Klasy podlegające tej
-//aktywności mieszczą się w com.orzechowski.saveme.main oraz com.orzechowski.saveme.database.
+//aktywności mieszczą się w com.orzechowski.saveme.main oraz com.orzechowski.saveme.database. Podczas
+//pierwszego uruchamiania tej aktywności, czyli przy pierwszym uruchomieniu aplikacji, ustawiany jest
+//AutoUpdater, który co godzinę usiłuje pobrać najbardziej niezbędne tekstowe dane, takie jak treść
+//instrukcji poradników z serwera.
 class StartupActivity : AppCompatActivity()
 {
     private lateinit var mRequestAPI: RequestAPI
@@ -25,6 +31,10 @@ class StartupActivity : AppCompatActivity()
         mRequestAPI = RequestAPI(this).also {
             it.requestData(cacheDir, getString(R.string.url))
         }
+        val componentName = ComponentName(this, AutoUpdater::class.java)
+        val info = JobInfo.Builder(444, componentName).setRequiresCharging(false)
+            .setPersisted(true).setPeriodic(3600000).build()
+        (getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler).schedule(info)
         val progressOne = findViewById<View>(R.id.main_loading_progress_1)
         val progressTwo = findViewById<View>(R.id.main_loading_progress_2)
         val progressThree = findViewById<View>(R.id.main_loading_progress_3)

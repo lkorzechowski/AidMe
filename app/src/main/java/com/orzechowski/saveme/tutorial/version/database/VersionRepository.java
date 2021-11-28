@@ -15,7 +15,7 @@ public class VersionRepository
     public VersionRepository(Application application)
     {
         GlobalRoomDatabase database = GlobalRoomDatabase.getDatabase(application);
-        mDao = database.versionDao();
+        mDao = database.versionDAO();
     }
 
     public void deleteAll()
