@@ -5,7 +5,7 @@
     <string name="upload_channel_description">Kanał powiadomień</string>
     <string name="mainactivity_help">Pomoc</string>
     <string name="mainactivity_login">Portal dla pomocników</string>
-    <string name="download_all_tutorials">Pobierz wszystkie poradniki</string>
+    <string name="report_a_user_button">Zgłoś użytkownika</string>
     <string name="header_select_theme">Motyw</string>
     <string name="light">Jasny</string>
     <string name="dark">Ciemny</string>
@@ -136,6 +136,11 @@
     <string name="suggest_helper_accept">Połącz</string>
     <string name="suggest_helper_refuse">Schowaj</string>
     <string name="url">https://aidme-326515.appspot.com/</string>
+    <string name="report_user_header">Numer telefonu użytkownika którego chcesz zgłosić:</string>
+    <string name="empty_space" />
+    <string name="report_user_info">Zgłoszony użytkownik zostanie automatycznie zablokowany w systemie. Nie zgłaszaj użytkowników pochopnie, jedynie wtedy, kiedy przeszkodzili ci w uzyskaniu dostępu do pomocy lub udzielaniu jej.</string>
+    <string name="number_too_short">Numer jest zbyt krótki!</string>
+    <string name="report_submitted_toast">Twoje zgłoszenie zostało wysłane.</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

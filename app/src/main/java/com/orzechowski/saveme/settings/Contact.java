@@ -42,11 +42,6 @@ public class Contact extends Fragment
         contactFormButton.setOnClickListener(v -> mCallback.onClick());
     }
 
-    public boolean onBackPressed()
-    {
-        return true;
-    }
-
     public interface ActivityCallback
     {
         void onClick();

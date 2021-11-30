@@ -17,9 +17,4 @@ public class Policy extends Fragment
     {
         return inflater.inflate(R.layout.fragment_policy, container, false);
     }
-
-    public boolean onBackPressed()
-    {
-        return true;
-    }
 }

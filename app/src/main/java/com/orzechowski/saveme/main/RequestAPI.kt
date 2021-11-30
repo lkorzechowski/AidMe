@@ -90,11 +90,8 @@ class RequestAPI(val activity: AppCompatActivity)
 
     fun requestData(cacheDir: File, url: String)
     {
-        val cache = DiskBasedCache(cacheDir, 1024*1024)
-        val network = BasicNetwork(HurlStack())
-        mQueue = RequestQueue(cache, network).apply {
-            start()
-        }
+        mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024*1024),
+            BasicNetwork(HurlStack())).apply { start() }
         val imageDir = File(activity.filesDir.absolutePath).absolutePath + "/"
         thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "tutorials", null,

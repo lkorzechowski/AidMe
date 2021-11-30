@@ -60,7 +60,10 @@
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/drawable/ic_password.xml" value="0.165625" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/drawable/ic_touch.xml" value="0.165625" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/activity_browser.xml" value="0.192481884057971" />
-        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/activity_settings.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/activity_creator.xml" value="0.1875" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/activity_helper.xml" value="0.1875" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/activity_main.xml" value="0.1875" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/activity_settings.xml" value="0.1" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/activity_startup.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/activity_tutorial.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/activity_unverified_helper.xml" value="0.192481884057971" />
@@ -77,6 +80,7 @@
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_recycler_results.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_recycler_tutorial.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_recycler_versions.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_report_form.xml" value="0.1" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_search.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_sound_browser.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_sound_composer.xml" value="0.192481884057971" />

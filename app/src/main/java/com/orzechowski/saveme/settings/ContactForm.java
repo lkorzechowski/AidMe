@@ -13,19 +13,8 @@ import com.orzechowski.saveme.R;
 public class ContactForm extends Fragment
 {
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
         return inflater.inflate(R.layout.fragment_contact_form, container, false);
-    }
-
-    public boolean onBackPressed()
-    {
-        return true;
     }
 }

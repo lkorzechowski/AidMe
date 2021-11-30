@@ -42,9 +42,4 @@ public class HelperRecycler extends Fragment implements HelperListAdapter.Fragme
     {
 
     }
-
-    public boolean onBackPressed()
-    {
-        return true;
-    }
 }

@@ -46,7 +46,7 @@ public class HelperListAdapter extends RecyclerView.Adapter<HelperListAdapter.He
 
     @Override
     public int getItemCount() {
-        return (mHelpers==null) ? 0 : mHelpers.size();
+        return (mHelpers == null) ? 0 : mHelpers.size();
     }
 
     public void setElementList(List<Helper> helpers)

@@ -40,11 +40,8 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
 
     fun requestData(cacheDir: File, url: String)
     {
-        val cache = DiskBasedCache(cacheDir, 1024*1024)
-        val network = BasicNetwork(HurlStack())
-        mQueue = RequestQueue(cache, network).apply {
-            start()
-        }
+        mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024*1024),
+            BasicNetwork(HurlStack())).apply { start() }
         val dir = File(mActivity.filesDir.absolutePath).absolutePath + "/"
         mMultimediaThread = thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "multimedia/" + mTutorialId,
