@@ -78,7 +78,7 @@
     <string name="helper_toggle_button">Pomagam</string>
     <string name="helper_create_tutorial">Utwórz nowy poradnik</string>
     <string name="helper_settings_button">Ustawienia</string>
-    <string name="helper_chat_button">Czat</string>
+    <string name="helper_peer_review_button">Zatwierdź poradniki</string>
     <string name="narration_recycler_header">Poniższe pliki mieszczą się w limicie czasowym 20 sekund</string>
     <string name="sound_recycler_header">Wybierz dźwięk</string>
     <string name="keyword_input">Wpisz słowo kluczowe</string>
@@ -146,6 +146,8 @@
     <string name="client_email_error">Twój serwis E-mail jest niekompatybilny.</string>
     <string name="email_chooser_header">Wybierz usługę mailową:</string>
     <string name="request_code_info">Numer twojego zgłoszenia to: </string>
+    <string name="reject">Odrzuć</string>
+    <string name="accept">Zaakceptuj</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

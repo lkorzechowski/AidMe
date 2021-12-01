@@ -77,8 +77,11 @@
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_keyword_assignment.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_multimedia_composer.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_multimedia_player.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_narration_browser.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_peer_review.xml" value="0.14270833333333333" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_policy.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_recycler_browser.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_recycler_helper.xml" value="0.14270833333333333" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_recycler_main.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_recycler_results.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_recycler_tutorial.xml" value="0.192481884057971" />
@@ -97,6 +100,10 @@
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/fragment_version_tree_composer.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/row_added_keyword_rv.xml" value="0.192481884057971" />
         <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/row_instruction_text_rv.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/row_peer_review.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/row_peer_review_rv.xml" value="0.2" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/row_results_rv.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/osagi/StudioProjects/AidMe/app/src/main/res/layout/row_tutorials_rv.xml" value="0.14270833333333333" />
       </map>
     </option>
   </component>

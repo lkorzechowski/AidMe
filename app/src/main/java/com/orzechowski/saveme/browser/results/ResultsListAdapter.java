@@ -44,8 +44,8 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
     @Override
     public ResultViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
     {
-        View row = mInflater.inflate(R.layout.row_results_rv, viewGroup, false);
-        return new ResultViewHolder(row, mCallback, mActivity);
+        return new ResultViewHolder(mInflater.inflate(R.layout.row_results_rv, viewGroup,
+                false), mCallback, mActivity);
     }
 
     @Override
