@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -12,13 +13,13 @@ import java.util.List;
 @Dao
 public interface TutorialSoundDAO
 {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(TutorialSound tutorialSound);
 
     @Delete
     void delete(TutorialSound tutorialSound);
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.IGNORE)
     void update(TutorialSound tutorialSound);
 
     @Query("DELETE FROM tutorialSound")

@@ -1,10 +1,12 @@
 package com.orzechowski.saveme
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -30,11 +32,14 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
     private var mReturning = false
     private lateinit var mSearchButton: Button
     private lateinit var mCategory: CategoryRecycler
-    private val mSearch = Search(this)
-    private val mResults = ResultsRecycler(this)
     private lateinit var mRequest: RequestLiveAid
+    @SuppressLint("HardwareIds")
+    private val mId: String = Settings.Secure.getString(applicationContext.contentResolver,
+        Settings.Secure.ANDROID_ID)
     private val mPhoneIntent = Intent(Intent.ACTION_CALL)
     private val mHelpRefusedForTag = mutableListOf<Long>()
+    private val mSearch = Search(this)
+    private val mResults = ResultsRecycler(this)
     private val mPermissionResult = registerForActivityResult(ActivityResultContracts
         .RequestPermission()
     ) { result ->
@@ -85,7 +90,7 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
 
     override fun serveResults(tagId: Long)
     {
-        mRequest.getRequest(cacheDir, tagId)
+        mRequest.getRequest(cacheDir, tagId, mId)
         supportFragmentManager.beginTransaction().remove(mCategory).commit()
         mResults.arguments = bundleOf(Pair("tagId", tagId))
         commitResults()

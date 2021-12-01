@@ -24,6 +24,8 @@ import com.orzechowski.saveme.database.tag.Tag;
 import com.orzechowski.saveme.database.tag.TagDAO;
 import com.orzechowski.saveme.database.tag.TutorialTag;
 import com.orzechowski.saveme.database.tag.TutorialTagDAO;
+import com.orzechowski.saveme.helper.database.Email;
+import com.orzechowski.saveme.helper.database.EmailDAO;
 import com.orzechowski.saveme.helper.database.Helper;
 import com.orzechowski.saveme.helper.database.HelperDAO;
 import com.orzechowski.saveme.tutorial.database.Tutorial;
@@ -51,7 +53,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class, VersionInstruction.class,
         TutorialSound.class, Helper.class, Multimedia.class, Category.class, TutorialLink.class,
         Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class, VersionMultimedia.class,
-        Keyword.class, TagKeyword.class, VersionSound.class, Rating.class},
+        Keyword.class, TagKeyword.class, VersionSound.class, Rating.class, Email.class},
         version = 1, exportSchema = false)
 
 public abstract class GlobalRoomDatabase extends RoomDatabase
@@ -74,6 +76,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract TutorialLinkDAO tutorialLinkDAO();
     public abstract VersionSoundDAO soundInVersionDAO();
     public abstract RatingDAO ratingDAO();
+    public abstract EmailDAO emailDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
     public static final ExecutorService executor = Executors.newFixedThreadPool(4);

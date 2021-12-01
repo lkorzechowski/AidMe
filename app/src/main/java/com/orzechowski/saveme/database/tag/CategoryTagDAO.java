@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -12,13 +13,13 @@ import java.util.List;
 @Dao
 public interface CategoryTagDAO
 {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(CategoryTag tag);
 
     @Delete
     void delete(CategoryTag tag);
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.IGNORE)
     void update(CategoryTag tag);
 
     @Query("DELETE FROM categorytag")

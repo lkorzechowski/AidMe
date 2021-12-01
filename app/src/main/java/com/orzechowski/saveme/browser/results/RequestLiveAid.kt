@@ -12,15 +12,17 @@ import java.io.File
 class RequestLiveAid(private val mCallback: ActivityCallback, private val mUrl: String)
 {
     private lateinit var mQueue: RequestQueue
+    private lateinit var mId: String
 
-    fun getRequest(cacheDir: File, tagId: Long)
+    fun getRequest(cacheDir: File, tagId: Long, id: String)
     {
+        mId = id
         val cache = DiskBasedCache(cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
         mQueue = RequestQueue(cache, network).apply {
             start()
         }
-        mQueue.add(JsonObjectRequest(Request.Method.GET, mUrl + "number/" + tagId,
+        mQueue.add(JsonObjectRequest(Request.Method.GET, mUrl + "number/" + tagId + "/" + mId,
             null, {
             val helper = HelperFull(it.getInt("phone"),
                 it.getString("title") + " " + it.getString("name") + " " +
@@ -33,8 +35,8 @@ class RequestLiveAid(private val mCallback: ActivityCallback, private val mUrl: 
 
     fun postRequest(number: Int)
     {
-        mQueue.add(StringPost(Request.Method.POST, mUrl + "switchoccupied/" + number, {},
-        {
+        mQueue.add(StringPost(Request.Method.POST, mUrl + "switchoccupied/" + number + "/" +
+                mId, {}, {
             it.printStackTrace()
         }))
     }

@@ -12,6 +12,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.orzechowski.saveme.database.GlobalRoomDatabase
+import com.orzechowski.saveme.helper.database.Email
 
 class SignInActivity : AppCompatActivity()
 {
@@ -49,8 +51,12 @@ class SignInActivity : AppCompatActivity()
 
     private fun progress(account: GoogleSignInAccount)
     {
+        val email = account.email
+        if(email != null) {
+            GlobalRoomDatabase.getDatabase(this).emailDAO().insert(Email(email))
+        }
         val intent = Intent(this@SignInActivity, HelperActivity::class.java)
-        intent.putExtra("email", account.email)
+        intent.putExtra("email", email)
         startActivity(intent)
     }
 }

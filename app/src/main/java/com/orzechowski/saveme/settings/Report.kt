@@ -15,6 +15,7 @@ import com.android.volley.toolbox.BasicNetwork
 import com.android.volley.toolbox.DiskBasedCache
 import com.android.volley.toolbox.HurlStack
 import com.orzechowski.saveme.R
+import com.orzechowski.saveme.database.GlobalRoomDatabase
 import com.orzechowski.saveme.volley.StringPost
 
 class Report(val mCallback: ActivityCallback) : Fragment()
@@ -32,12 +33,14 @@ class Report(val mCallback: ActivityCallback) : Fragment()
         view.findViewById<Button>(R.id.report_submit_button).setOnClickListener {
             val text = input.text.toString()
             if(text.length > 8) {
+                val email = GlobalRoomDatabase.getDatabase(activity).emailDAO().get()
+                val url = if(email != null) getString(R.string.url) + "report/" + email
+                else getString(R.string.url) + "report/n"
                 RequestQueue(DiskBasedCache(activity.cacheDir, 1024*1024),
-                    BasicNetwork(HurlStack())).apply { start() }.add(
-                    StringPost(Request.Method.POST, getString(R.string.url) + "report",
-                        {
+                    BasicNetwork(HurlStack())).apply { start() }.add(StringPost(Request.Method.POST,
+                    url, {
                             mCallback.reportSubmitted()
-                        }, {
+                         }, {
                             if (it.message != null) {
                                 Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
                                 Log.e("error", it.message!!)
