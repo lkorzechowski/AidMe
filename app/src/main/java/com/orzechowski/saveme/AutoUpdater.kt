@@ -18,6 +18,7 @@ import com.orzechowski.saveme.tutorial.instructions.database.InstructionSet
 import com.orzechowski.saveme.tutorial.version.database.Version
 import com.orzechowski.saveme.tutorial.version.database.VersionInstruction
 import org.json.JSONObject
+import kotlin.concurrent.thread
 
 class AutoUpdater : JobService()
 {
@@ -39,10 +40,12 @@ class AutoUpdater : JobService()
                     val tutorial = Tutorial(tutorialId, row.getString("tutorialName"),
                         row.getLong("authorId"), miniatureName,
                         row.getDouble("rating").toFloat())
-                    if(database.tutorialDAO().getByTutorialId(tutorialId) != null) {
-                        database.tutorialDAO().update(tutorial)
-                    } else {
-                        database.tutorialDAO().insert(tutorial)
+                    thread {
+                        if (database.tutorialDAO().getByTutorialId(tutorialId) != null) {
+                            database.tutorialDAO().update(tutorial)
+                        } else {
+                            database.tutorialDAO().insert(tutorial)
+                        }
                     }
                 }
             }, null))
@@ -55,10 +58,12 @@ class AutoUpdater : JobService()
                     val category = Category(categoryId, row.getString("categoryName"),
                         row.getBoolean("hasSubcategories"), miniatureName,
                         row.getInt("categoryLevel"))
-                    if(database.categoryDAO().getByCategoryId(categoryId) != null) {
-                        database.categoryDAO().update(category)
-                    } else {
-                        database.categoryDAO().insert(category)
+                    thread {
+                        if (database.categoryDAO().getByCategoryId(categoryId) != null) {
+                            database.categoryDAO().update(category)
+                        } else {
+                            database.categoryDAO().insert(category)
+                        }
                     }
                 }
             }, null))
@@ -67,10 +72,12 @@ class AutoUpdater : JobService()
                 val row: JSONObject = array.getJSONObject(i)
                 val tagId = row.getLong("tagId")
                 val tag = Tag(tagId, row.getString("tagName"), row.getInt("tagLevel"))
-                if(database.tagDAO().getByTagId(tagId) != null) {
-                    database.tagDAO().update(tag)
-                } else {
-                    database.tagDAO().insert(tag)
+                thread {
+                    if (database.tagDAO().getByTagId(tagId) != null) {
+                        database.tagDAO().update(tag)
+                    } else {
+                        database.tagDAO().insert(tag)
+                    }
                 }
             }
         }, null))
@@ -80,10 +87,12 @@ class AutoUpdater : JobService()
                 val row: JSONObject = array.getJSONObject(i)
                 val keywordId = row.getLong("keywordId")
                 val keyword = Keyword(keywordId, row.getString("keyword"))
-                if(database.keywordDAO().getByKeywordId(keywordId) != null) {
-                    database.keywordDAO().update(keyword)
-                } else {
-                    database.keywordDAO().insert(keyword)
+                thread {
+                    if (database.keywordDAO().getByKeywordId(keywordId) != null) {
+                        database.keywordDAO().update(keyword)
+                    } else {
+                        database.keywordDAO().insert(keyword)
+                    }
                 }
             }
         }, null))
@@ -95,10 +104,12 @@ class AutoUpdater : JobService()
                     val tutorialTagId = row.getLong("tutorialTagId")
                     val tutorialTag = TutorialTag(tutorialTagId, row.getLong("tutorialId"),
                         row.getLong("tagId"))
-                    if(database.tutorialTagDAO().getByTutorialTagId(tutorialTagId) != null) {
-                        database.tutorialTagDAO().update(tutorialTag)
-                    } else {
-                        database.tutorialTagDAO().insert(tutorialTag)
+                    thread {
+                        if (database.tutorialTagDAO().getByTutorialTagId(tutorialTagId) != null) {
+                            database.tutorialTagDAO().update(tutorialTag)
+                        } else {
+                            database.tutorialTagDAO().insert(tutorialTag)
+                        }
                     }
                 }
             }, null)
@@ -111,10 +122,12 @@ class AutoUpdater : JobService()
                     val tagKeywordId = row.getLong("tagKeywordId")
                     val tagKeyword = TagKeyword(tagKeywordId,
                         row.getLong("keywordId"), row.getLong("tagId"))
-                    if(database.tagKeywordDAO().getByTagKeywordId(tagKeywordId) != null) {
-                        database.tagKeywordDAO().update(tagKeyword)
-                    } else {
-                        database.tagKeywordDAO().insert(tagKeyword)
+                    thread {
+                        if (database.tagKeywordDAO().getByTagKeywordId(tagKeywordId) != null) {
+                            database.tagKeywordDAO().update(tagKeyword)
+                        } else {
+                            database.tagKeywordDAO().insert(tagKeyword)
+                        }
                     }
                 }
             }, null)
@@ -127,10 +140,12 @@ class AutoUpdater : JobService()
                     val categoryTagId = row.getLong("categoryTagId")
                     val categoryTag = CategoryTag(categoryTagId,
                         row.getLong("categoryId"), row.getLong("tagId"))
-                    if(database.categoryTagDAO().getByCategoryTagId(categoryTagId) != null) {
-                        database.categoryTagDAO().update(categoryTag)
-                    } else {
-                        database.categoryTagDAO().insert(categoryTag)
+                    thread {
+                        if (database.categoryTagDAO().getByCategoryTagId(categoryTagId) != null) {
+                            database.categoryTagDAO().update(categoryTag)
+                        } else {
+                            database.categoryTagDAO().insert(categoryTag)
+                        }
                     }
                 }
             }, null)
@@ -145,10 +160,13 @@ class AutoUpdater : JobService()
                         row.getString("title"), row.getString("instructions"),
                         row.getInt("time"), row.getLong("tutorialId"),
                         row.getInt("position"), row.getString("narrationFile"))
-                    if(database.instructionDAO().getByInstructionSetId(instructionSetId) != null) {
-                        database.instructionDAO().update(instructionSet)
-                    } else {
-                        database.instructionDAO().insert(instructionSet)
+                    thread {
+                        if (database.instructionDAO()
+                                .getByInstructionSetId(instructionSetId) != null) {
+                            database.instructionDAO().update(instructionSet)
+                        } else {
+                            database.instructionDAO().insert(instructionSet)
+                        }
                     }
                 }
             }, null)
@@ -162,10 +180,13 @@ class AutoUpdater : JobService()
                     val tutorialLink = TutorialLink(tutorialLinkId,
                         row.getLong("tutorialId"), row.getLong("originId"),
                         row.getInt("instructionNumber"))
-                    if(database.tutorialLinkDAO().getByTutorialLinkId(tutorialLinkId) != null) {
-                        database.tutorialLinkDAO().update(tutorialLink)
-                    } else {
-                        database.tutorialLinkDAO().insert(tutorialLink)
+                    thread {
+                        if (database.tutorialLinkDAO()
+                                .getByTutorialLinkId(tutorialLinkId) != null) {
+                            database.tutorialLinkDAO().update(tutorialLink)
+                        } else {
+                            database.tutorialLinkDAO().insert(tutorialLink)
+                        }
                     }
                 }
             }, null)
@@ -179,10 +200,12 @@ class AutoUpdater : JobService()
                         row.getLong("tutorialId"), row.getBoolean("delayGlobalSound"),
                         row.getBoolean("hasChildren"), row.getBoolean("hasParent"),
                         row.getLong("parentVersionId"))
-                    if(database.versionDAO().getByVersionId(versionId) != null) {
-                        database.versionDAO().update(version)
-                    } else {
-                        database.versionDAO().insert(version)
+                    thread {
+                        if (database.versionDAO().getByVersionId(versionId) != null) {
+                            database.versionDAO().update(version)
+                        } else {
+                            database.versionDAO().insert(version)
+                        }
                     }
                 }
             }, null)
@@ -195,11 +218,13 @@ class AutoUpdater : JobService()
                     val versionInstructionId = row.getLong("versionInstructionId")
                     val versionInstruction = VersionInstruction(versionInstructionId,
                         row.getLong("versionId"), row.getInt("instructionPosition"))
-                    if(database.versionInstructionDAO()
-                            .getByVersionInstructionId(versionInstructionId) != null) {
-                        database.versionInstructionDAO().update(versionInstruction)
-                    } else {
-                        database.versionInstructionDAO().insert(versionInstruction)
+                    thread {
+                        if (database.versionInstructionDAO()
+                                .getByVersionInstructionId(versionInstructionId) != null) {
+                            database.versionInstructionDAO().update(versionInstruction)
+                        } else {
+                            database.versionInstructionDAO().insert(versionInstruction)
+                        }
                     }
                 }
             }, null)

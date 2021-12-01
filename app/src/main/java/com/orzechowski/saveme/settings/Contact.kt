@@ -1,49 +1,47 @@
-package com.orzechowski.saveme.settings;
+package com.orzechowski.saveme.settings
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.orzechowski.saveme.R
+import android.widget.Toast
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import com.orzechowski.saveme.R;
-
-import org.jetbrains.annotations.NotNull;
-
-public class Contact extends Fragment
+class Contact : Fragment()
 {
-    private final ActivityCallback mCallback;
-
-    public Contact(ActivityCallback callback)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, bundle: Bundle?):
+            View?
     {
-        mCallback = callback;
+        return inflater.inflate(R.layout.fragment_contact, container, false)
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
-    {
-        return inflater.inflate(R.layout.fragment_contact, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState)
-    {
-        Button contactFormButton = view.findViewById(R.id.contact_form_button);
-        contactFormButton.setOnClickListener(v -> mCallback.onClick());
-    }
-
-    public interface ActivityCallback
-    {
-        void onClick();
+        view.findViewById<Button>(R.id.contact_write_email_button).setOnClickListener {
+            val messageId = (Math.random() * 10000).toInt().toString()
+            (getString(R.string.request_code_info) + messageId).also {
+                view.findViewById<TextView>(R.id.contact_info).text = it }
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.data = Uri.parse("mailto:")
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.mail)))
+            intent.putExtra(Intent.EXTRA_TEXT, view.findViewById<EditText>(R.id.contact_input).text
+                .toString())
+            intent.putExtra(Intent.EXTRA_SUBJECT, messageId)
+            try {
+                startActivity(Intent.createChooser(intent,
+                    getString(R.string.email_chooser_header)))
+            } catch (ex: ActivityNotFoundException) {
+                Toast.makeText(requireContext(), getString(R.string.client_email_error),
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

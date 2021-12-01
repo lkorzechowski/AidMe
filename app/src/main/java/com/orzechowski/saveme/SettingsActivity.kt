@@ -15,14 +15,12 @@ import com.orzechowski.saveme.settings.*
 //(dostępny również motyw dla użytkowników ze ślepotą barw), wyświetlić listę wszystkich
 //wolontariuszy, skontaktować się bezpośrednio z administratorem i wyczyścić pamięć aplikacji.
 //Klasy podlegające tej aktywności znajdują się w com.orzechowski.saveme.settings
-class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.ActivityCallback,
-    Report.ActivityCallback
+class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Report.ActivityCallback
 {
     private val mPolicy = Policy()
     private val mHelpers = HelperRecycler()
-    private val mContact = Contact(this)
+    private val mContact = Contact()
     private val mReport = Report(this)
-    private val mContactForm = ContactForm()
     private lateinit var mParentLayout: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -85,25 +83,12 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Contact.
                 t.remove(mContact).commit()
                 if(handled) break
             }
-            else if(f is ContactForm) {
-                handled = true
-                t.remove(mContactForm).commit()
-            }
             else if(f is Report) {
                 handled = true
                 t.remove(mReport).commit()
             }
         }
         if(!handled) super.onBackPressed()
-    }
-
-    override fun onClick()
-    {
-        supportFragmentManager.commit {
-            remove(mContact)
-            setReorderingAllowed(true)
-            add(R.id.fragment_layout, mContactForm)
-        }
     }
 
     override fun reportSubmitted()

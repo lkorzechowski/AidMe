@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SaveMe</string>
     <string name="default_notification_channel_id" translatable="false">notifications_upload</string>
     <string name="upload_channel_name">Wysyłanie plików</string>
@@ -15,8 +15,8 @@
     <string name="contributor_list">Lista wolontariuszy</string>
     <string name="policy_note">Administrator dołoży wszelkich starań, by materiał zawarty w serwisie był kompletny i oferował wyższy standard pomocy, jednak nie może on udzielić żadnej gwarancji - wyrażonej w sposób jednoznaczny czy implikowany - że prezentowane w serwisie treści pozbawione są jakichkolwiek błędów i niedokładności. Administrator nie ponosi odpowiedzialności za wykroczenia popełnione przez wolontariuszy, użytkownicy proszeni są o zgłaszanie ich w trybie natychmiastowym w celu automatycznego zablokowania ich konta. Treść poradników nie jest w stanie ani nie usiłuje zastąpić szkoleń w zakresie pierwszej pomocy udzielanych przez profesjonalistów, ma na celu jedynie częściowe doinformowanie osób które nie posiadają odpowiedniej wiedzy w przypadku gdy czas jest krytycznie ograniczony. Administrator nie rości sobie praw do żadnych treści multimedialnych opublikowanych w tym serwisie. Wszelkie zastrzeżenia dotyczące praw autorskich proszę kierować do lkorzechowski@gmail.com. Treści opublikowane w aplikacji należą do poszczególnych autorów i mogą zostać usunięte na ich życzenie.</string>
     <string name="image_default_no_description">Autor nie podał opisu obrazu</string>
-    <string name="contact_email">E-mail autora aplikacji: lkorzechowski@gmail.com</string>
-    <string name="contact_form">Formularz zgłoszeniowy</string>
+    <string name="contact_email">E-mail autora aplikacji: savemeorzechowski@gmail.com</string>
+    <string name="contact_write_email_button">Wyślij E-mail</string>
     <string name="send">Wyślij</string>
     <string name="form_content_hint">Proszę podać treść zgłoszenia</string>
     <string name="search_button">Wyszukiwarka</string>
@@ -24,7 +24,7 @@
     <string name="suggestion_text">Być może chodzi ci o:</string>
     <string name="login_mode_button_register_text">Zarejestruj się</string>
     <string name="login_mode_button_login_text">Zaloguj się</string>
-    <string name="login_email_address_header">Adres e-mail</string>
+    <string name="login_email_address_header">Adres E-mail</string>
     <string name="three_dots">…</string>
     <string name="login_password_header">Hasło</string>
     <string name="login_button_text">Login</string>
@@ -129,18 +129,23 @@
     <string name="miniature_bad_format">Niewłaściwy format miniaturki.</string>
     <string name="multimedia_bad_format">Niewłaściwy format multimediów.</string>
     <string name="tutorial_name_not_set">Nie nadano tytułu!</string>
-    <string name="client_id">1042713587768-2pk21idihc6mbijp2squmr2ekdv65rac.apps.googleusercontent.com</string>
+    <string name="client_id" tools:ignore="TypographyDashes">1042713587768-2pk21idihc6mbijp2squmr2ekdv65rac.apps.googleusercontent.com</string>
     <string name="login_failed">Nie udało się zalogować</string>
     <string name="interrupted_upload">Przerwano wysyłanie plików</string>
     <string name="unexpected_missing_instructions">Brak instrukcji!?</string>
     <string name="suggest_helper_accept">Połącz</string>
     <string name="suggest_helper_refuse">Schowaj</string>
     <string name="url">https://aidme-326515.appspot.com/</string>
+    <string name="mail">savemeorzechowski@gmail.com</string>
     <string name="report_user_header">Numer telefonu użytkownika którego chcesz zgłosić:</string>
     <string name="empty_space" />
     <string name="report_user_info">Zgłoszony użytkownik zostanie automatycznie zablokowany w systemie. Nie zgłaszaj użytkowników pochopnie, jedynie wtedy, kiedy przeszkodzili ci w uzyskaniu dostępu do pomocy lub udzielaniu jej.</string>
     <string name="number_too_short">Numer jest zbyt krótki!</string>
     <string name="report_submitted_toast">Twoje zgłoszenie zostało wysłane.</string>
+    <string name="contact_input">Treść E-maila, do 500 znaków…</string>
+    <string name="client_email_error">Twój serwis E-mail jest niekompatybilny.</string>
+    <string name="email_chooser_header">Wybierz usługę mailową:</string>
+    <string name="request_code_info">Numer twojego zgłoszenia to: </string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

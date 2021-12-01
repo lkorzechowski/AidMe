@@ -14,7 +14,6 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.BasicNetwork
 import com.android.volley.toolbox.DiskBasedCache
 import com.android.volley.toolbox.HurlStack
-import com.google.gson.Gson
 import com.orzechowski.saveme.R
 import com.orzechowski.saveme.volley.StringPost
 
@@ -43,7 +42,7 @@ class Report(val mCallback: ActivityCallback) : Fragment()
                                 Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
                                 Log.e("error", it.message!!)
                             }
-                        }).also { it.setRequestBody(Gson().toJson(text)) })
+                        }).also { it.setRequestBody(text) })
             } else {
                 input.error = getString(R.string.number_too_short)
             }
