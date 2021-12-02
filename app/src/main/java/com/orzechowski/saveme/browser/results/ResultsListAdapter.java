@@ -1,12 +1,15 @@
 package com.orzechowski.saveme.browser.results;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.net.Uri;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,11 +18,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.orzechowski.saveme.R;
 import com.orzechowski.saveme.browser.userrating.Rating;
 import com.orzechowski.saveme.browser.userrating.RatingViewModel;
 import com.orzechowski.saveme.helper.database.Helper;
 import com.orzechowski.saveme.tutorial.database.Tutorial;
+import com.orzechowski.saveme.volley.StringPost;
 
 import java.util.List;
 
@@ -62,7 +71,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
                     }
                 }
             }
-            holder.thisResult = tutorial;
+            holder.tutorial = tutorial;
             holder.name.setText(tutorial.getTutorialName());
             Uri uri = Uri.parse(mPathBase + tutorial.getMiniatureName());
             if (uri != null) holder.image.setImageURI(uri);
@@ -124,13 +133,19 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         TextView name, author;
         ImageView image, starOne, starTwo, starThree, starFour, starFive;
         FragmentCallback callback;
-        Tutorial thisResult;
+        Tutorial tutorial;
         ConstraintLayout starLayout;
+        RequestQueue queue;
+        Activity mActivity;
+        RatingViewModel ratingViewModel;
 
         public ResultViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback,
                                 Activity activity)
         {
             super(itemView);
+            queue = new RequestQueue(new DiskBasedCache(activity.getCacheDir(),
+                    1024*1024), new BasicNetwork(new HurlStack()));
+            mActivity = activity;
             name = itemView.findViewById(R.id.result_name_text);
             image = itemView.findViewById(R.id.result_image);
             author = itemView.findViewById(R.id.author);
@@ -140,23 +155,27 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
             starFour = itemView.findViewById(R.id.star_four);
             starFive = itemView.findViewById(R.id.star_five);
             starLayout = itemView.findViewById(R.id.star_rating_layout);
-            starLayout.setOnClickListener(v -> {
-                RatingViewModel ratingViewModel =
-                        new ViewModelProvider((ViewModelStoreOwner) activity)
-                                .get(RatingViewModel.class);
-                ratingViewModel.getAll().observe((LifecycleOwner) activity, ratings -> {
-                    long tutorialId = thisResult.getTutorialId();
-                    boolean match = false;
-                    for(Rating rating : ratings) {
-                        if(rating.getTutorialId()==tutorialId) {
-                            match = true;
-                        }
+            ratingViewModel = new ViewModelProvider((ViewModelStoreOwner) activity)
+                    .get(RatingViewModel.class);
+            ratingViewModel.getAll().observe((LifecycleOwner) activity, ratings -> {
+                boolean match = false;
+                long tutorialId = tutorial.getTutorialId();
+                for(Rating rating : ratings) {
+                    if(rating.getTutorialId() == tutorialId) {
+                        match = true;
                     }
-                    if(!match) {
-                        ratingViewModel.insert(new Rating(ratings.size(), tutorialId));
-                    }
-                });
-
+                }
+                if(match) {
+                    starLayout.setOnClickListener(v -> Toast.makeText(activity,
+                            activity.getString(R.string.tutorial_already_rated),
+                            Toast.LENGTH_SHORT).show());
+                } else {
+                    starOne.setOnClickListener(v -> sendRating(1));
+                    starTwo.setOnClickListener(v -> sendRating(2));
+                    starThree.setOnClickListener(v -> sendRating(3));
+                    starFour.setOnClickListener(v -> sendRating(4));
+                    starFive.setOnClickListener(v -> sendRating(5));
+                }
             });
             callback = fragmentCallback;
             itemView.setOnClickListener(this);
@@ -165,7 +184,24 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         @Override
         public void onClick(View v)
         {
-            callback.onClick(thisResult);
+            callback.onClick(tutorial);
+        }
+
+        private void sendRating(int rating)
+        {
+            queue.start();
+            @SuppressLint("HardwareIds") String id = Settings.Secure
+                    .getString(mActivity.getContentResolver(), Settings.Secure.ANDROID_ID);
+            queue.add(new StringPost(Request.Method.POST, mActivity.getString(R.string.url) +
+                    "rating/" + tutorial.getTutorialId() + "/" + rating + "/" + id,  string -> {
+                if(string.equals("ok")) {
+                    ratingViewModel.insert(new Rating(tutorial.getTutorialId()));
+                    Toast.makeText(mActivity, R.string.tutorial_rating_submitted,
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mActivity, R.string.server_error, Toast.LENGTH_SHORT).show();
+                }
+            }, Throwable::printStackTrace));
         }
     }
 

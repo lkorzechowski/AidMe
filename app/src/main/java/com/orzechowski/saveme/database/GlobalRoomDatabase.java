@@ -28,6 +28,8 @@ import com.orzechowski.saveme.helper.database.Email;
 import com.orzechowski.saveme.helper.database.EmailDAO;
 import com.orzechowski.saveme.helper.database.Helper;
 import com.orzechowski.saveme.helper.database.HelperDAO;
+import com.orzechowski.saveme.settings.database.Preference;
+import com.orzechowski.saveme.settings.database.PreferenceDAO;
 import com.orzechowski.saveme.tutorial.database.Tutorial;
 import com.orzechowski.saveme.tutorial.database.TutorialDAO;
 import com.orzechowski.saveme.tutorial.database.TutorialLink;
@@ -53,8 +55,8 @@ import java.util.concurrent.Executors;
 @Database(entities = {Version.class, InstructionSet.class, Tutorial.class, VersionInstruction.class,
         TutorialSound.class, Helper.class, Multimedia.class, Category.class, TutorialLink.class,
         Tag.class, HelperTag.class, TutorialTag.class, CategoryTag.class, VersionMultimedia.class,
-        Keyword.class, TagKeyword.class, VersionSound.class, Rating.class, Email.class},
-        version = 1, exportSchema = false)
+        Keyword.class, TagKeyword.class, VersionSound.class, Rating.class, Email.class,
+        Preference.class}, version = 1, exportSchema = false)
 
 public abstract class GlobalRoomDatabase extends RoomDatabase
 {
@@ -77,6 +79,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     public abstract VersionSoundDAO soundInVersionDAO();
     public abstract RatingDAO ratingDAO();
     public abstract EmailDAO emailDAO();
+    public abstract PreferenceDAO preferenceDAO();
 
     private static volatile GlobalRoomDatabase INSTANCE;
     public static final ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -96,6 +99,10 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
+            executor.execute(()-> {
+                PreferenceDAO preferenceDAO = INSTANCE.preferenceDAO();
+                preferenceDAO.insert(new Preference(0, false));
+            });
         }
     };
 }

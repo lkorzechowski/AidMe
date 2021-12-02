@@ -7,8 +7,7 @@
     <string name="mainactivity_login">Portal dla pomocników</string>
     <string name="report_a_user_button">Zgłoś użytkownika</string>
     <string name="header_select_theme">Motyw</string>
-    <string name="light">Jasny</string>
-    <string name="dark">Ciemny</string>
+    <string name="standard">Standardowy</string>
     <string name="color_blind">Ślepota barw</string>
     <string name="app_policy">Nota prawna</string>
     <string name="contact">Kontakt</string>
@@ -146,6 +145,9 @@
     <string name="client_email_error">Twój serwis E-mail jest niekompatybilny.</string>
     <string name="email_chooser_header">Wybierz usługę mailową:</string>
     <string name="request_code_info">Numer twojego zgłoszenia to: </string>
+    <string name="tutorial_already_rated">Oceniłeś/aś już ten poradnik!</string>
+    <string name="tutorial_rating_submitted">Twoja ocena dotarła na serwer.</string>
+    <string name="server_error">Błąd serwera</string>
     <string name="reject">Odrzuć</string>
     <string name="accept">Zaakceptuj</string>
     <string name="play">Odtwórz</string>

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.tutorial.RequestMedia
 import com.orzechowski.saveme.tutorial.version.TutorialLoading
 import com.orzechowski.saveme.tutorial.version.VersionListAdapter
@@ -38,7 +39,6 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
             mVersionRecycler.arguments = mBundle
             add(R.id.layout_version_fragment, mVersionRecycler)
         }
-
     }
 
     override fun onResume()
@@ -46,6 +46,9 @@ class VersionActivity : AppCompatActivity(R.layout.activity_version),
         mRequestMedia = RequestMedia(this, mTutorialId).also {
             it.requestData(cacheDir, getString(R.string.url))
         }
+        PreferenceViewModel(application).get().observe(this, {
+            if(it.motive) setTheme(R.style.ColorBlind)
+        })
         super.onResume()
     }
 

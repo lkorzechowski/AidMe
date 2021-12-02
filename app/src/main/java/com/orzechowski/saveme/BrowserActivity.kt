@@ -21,6 +21,7 @@ import com.orzechowski.saveme.browser.results.HelperFull
 import com.orzechowski.saveme.browser.results.RequestLiveAid
 import com.orzechowski.saveme.browser.results.ResultsRecycler
 import com.orzechowski.saveme.browser.search.Search
+import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.tutorial.database.Tutorial
 
 //Aktywność w której zamieszczono fragmenty przeszukiwarek kategorii i wyników, oraz fragment
@@ -183,5 +184,13 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
                 commitResults()
             }
         }
+    }
+
+    override fun onResume()
+    {
+        PreferenceViewModel(application).get().observe(this, {
+            if(it.motive) setTheme(R.style.ColorBlind)
+        })
+        super.onResume()
     }
 }

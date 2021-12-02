@@ -35,6 +35,7 @@ import com.orzechowski.saveme.creator.versiontree.VersionTreeComposer
 import com.orzechowski.saveme.database.tag.Tag
 import com.orzechowski.saveme.database.tag.TutorialTag
 import com.orzechowski.saveme.imagebrowser.ImageBrowserLoader
+import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.tutorial.database.Tutorial
 import com.orzechowski.saveme.tutorial.database.TutorialLink
 import com.orzechowski.saveme.tutorial.instructions.database.InstructionSet
@@ -961,5 +962,13 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         if(this::mQueue.isInitialized) mQueue.stop()
         if(mProgressThread.isAlive) mProgressThread.interrupt()
         super.onDestroy()
+    }
+
+    override fun onResume()
+    {
+        PreferenceViewModel(application).get().observe(this, {
+            if(it.motive) setTheme(R.style.ColorBlind)
+        })
+        super.onResume()
     }
 }

@@ -9,6 +9,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.orzechowski.saveme.settings.*
+import com.orzechowski.saveme.settings.database.Preference
+import com.orzechowski.saveme.settings.database.PreferenceViewModel
 
 //W tej aktywności użytkownik może dostosować ustawienia aplikacji i nie tylko. Znajduje się tu nota
 //prawna do wglądu użytkowników, można stąd pobrać zawartość wszystkich poradników, ustawić motyw
@@ -22,6 +24,7 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Report.A
     private val mContact = Contact()
     private val mReport = Report(this)
     private lateinit var mParentLayout: ConstraintLayout
+    private lateinit var mPreferenceViewModel: PreferenceViewModel
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -51,14 +54,19 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Report.A
                 add(R.id.fragment_layout, mContact)
             }
         }
-        findViewById<Button>(R.id.themes_button_colorblind).setOnClickListener {
-            setTheme(R.style.ColorBlind)
-            setContentView(R.layout.activity_settings)
-        }
-        findViewById<Button>(R.id.themes_button_dark).setOnClickListener {
-            setTheme(R.style.Default)
-            setContentView(R.layout.activity_settings)
-        }
+        mPreferenceViewModel = PreferenceViewModel(application)
+        mPreferenceViewModel.get().observe(this, {
+            findViewById<Button>(R.id.themes_button_colorblind).setOnClickListener {
+                setTheme(R.style.ColorBlind)
+                mPreferenceViewModel.update(Preference(0, true))
+                setContentView(R.layout.activity_settings)
+            }
+            findViewById<Button>(R.id.themes_button_default).setOnClickListener {
+                setTheme(R.style.Default)
+                mPreferenceViewModel.update(Preference(0, false))
+                setContentView(R.layout.activity_settings)
+            }
+        })
     }
 
     override fun onBackPressed()
@@ -97,5 +105,13 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Report.A
         mParentLayout.visibility = View.VISIBLE
         Toast.makeText(this, getString(R.string.report_submitted_toast), Toast.LENGTH_SHORT)
             .show()
+    }
+
+    override fun onResume()
+    {
+        mPreferenceViewModel.get().observe(this, {
+            if(it.motive) setTheme(R.style.ColorBlind)
+        })
+        super.onResume()
     }
 }

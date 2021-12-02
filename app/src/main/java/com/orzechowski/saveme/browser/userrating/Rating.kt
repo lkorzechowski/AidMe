@@ -4,6 +4,4 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Rating(
-    @PrimaryKey val ratingId: Long,
-                val tutorialId: Long)
+data class Rating(@PrimaryKey val tutorialId: Long)

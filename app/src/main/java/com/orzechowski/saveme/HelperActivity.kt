@@ -16,6 +16,7 @@ import com.android.volley.toolbox.*
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.orzechowski.saveme.helper.HelperSettings
 import com.orzechowski.saveme.helper.PeerReview
+import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.tutorial.database.Tutorial
 import com.orzechowski.saveme.volley.BooleanRequest
 
@@ -139,5 +140,13 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
         intent = Intent(this@HelperActivity, VersionActivity::class.java)
         intent.putExtra("tutorialId", tutorial.tutorialId)
         startActivity(intent)
+    }
+
+    override fun onResume()
+    {
+        PreferenceViewModel(application).get().observe(this, {
+            if(it.motive) setTheme(R.style.ColorBlind)
+        })
+        super.onResume()
     }
 }

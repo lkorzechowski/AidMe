@@ -15,6 +15,7 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.*
 import com.orzechowski.saveme.imagebrowser.ImageBrowserLoader
+import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.volley.StringPost
 import net.gotev.uploadservice.UploadServiceConfig
 import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
@@ -144,5 +145,13 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
     {
         mQueue.stop()
         super.onDestroy()
+    }
+
+    override fun onResume()
+    {
+        PreferenceViewModel(application).get().observe(this, {
+            if(it.motive) setTheme(R.style.ColorBlind)
+        })
+        super.onResume()
     }
 }

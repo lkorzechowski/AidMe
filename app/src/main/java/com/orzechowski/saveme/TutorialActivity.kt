@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.tutorial.database.TutorialLink
 import com.orzechowski.saveme.tutorial.instructions.InstructionsRecycler
 import com.orzechowski.saveme.tutorial.multimedia.MultimediaPlayer
@@ -90,5 +91,13 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
     override fun onBackPressed()
     {
         startActivity(Intent(this@TutorialActivity, BrowserActivity::class.java))
+    }
+
+    override fun onResume()
+    {
+        PreferenceViewModel(application).get().observe(this, {
+            if(it.motive) setTheme(R.style.ColorBlind)
+        })
+        super.onResume()
     }
 }
