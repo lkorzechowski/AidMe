@@ -16,6 +16,7 @@ import com.android.volley.toolbox.*
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.orzechowski.saveme.helper.HelperSettings
 import com.orzechowski.saveme.helper.PeerReview
+import com.orzechowski.saveme.tutorial.database.Tutorial
 import com.orzechowski.saveme.volley.BooleanRequest
 
 //Aktywność w której po zweryfikowaniu wolontariusza uzyskuje on dostęp do kokpitu z którego może
@@ -28,6 +29,7 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
     private val mRed = ColorStateList.valueOf(Color.argb(100, 255, 0, 0))
     private val mGreen = ColorStateList.valueOf(Color.argb(100, 0, 255, 0))
     private val mSettings = HelperSettings(this)
+    private val mPeerReview = PeerReview(this)
     private lateinit var mViewModelProvider: ViewModelProvider
     private lateinit var mQueue: RequestQueue
     private lateinit var mView: View
@@ -40,7 +42,9 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
         mViewModelProvider = ViewModelProvider(this)
         val email = intent.getStringExtra("email")!!.replace(".", "xyz121")
             .replace("@", "xyz122")
-        mSettings.arguments = bundleOf(Pair("email", email))
+        val argument = bundleOf(Pair("email", email))
+        mSettings.arguments = argument
+        mPeerReview.arguments = argument
         val url = getString(R.string.url)
         val cache = DiskBasedCache(cacheDir, 1024*1024)
         val network = BasicNetwork(HurlStack())
@@ -95,7 +99,10 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
                         }
                     }
                     findViewById<Button>(R.id.helper_peer_review_button).setOnClickListener {
-
+                        mView.visibility = View.INVISIBLE
+                        supportFragmentManager.commit {
+                            add(R.id.fragment_overlay_layout, mPeerReview)
+                        }
                     }
                 } else {
                     intent = Intent(this@HelperActivity,
@@ -127,8 +134,10 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
         mView.visibility = View.VISIBLE
     }
 
-    override fun playTutorial()
+    override fun playTutorial(tutorial: Tutorial)
     {
-
+        intent = Intent(this@HelperActivity, VersionActivity::class.java)
+        intent.putExtra("tutorialId", tutorial.tutorialId)
+        startActivity(intent)
     }
 }

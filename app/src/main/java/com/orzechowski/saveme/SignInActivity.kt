@@ -14,6 +14,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.orzechowski.saveme.database.GlobalRoomDatabase
 import com.orzechowski.saveme.helper.database.Email
+import kotlin.concurrent.thread
 
 class SignInActivity : AppCompatActivity()
 {
@@ -53,7 +54,9 @@ class SignInActivity : AppCompatActivity()
     {
         val email = account.email
         if(email != null) {
-            GlobalRoomDatabase.getDatabase(this).emailDAO().insert(Email(email))
+            thread {
+                GlobalRoomDatabase.getDatabase(this).emailDAO().insert(Email(email))
+            }
         }
         val intent = Intent(this@SignInActivity, HelperActivity::class.java)
         intent.putExtra("email", email)

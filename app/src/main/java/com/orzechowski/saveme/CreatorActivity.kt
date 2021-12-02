@@ -67,7 +67,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private val mMultimediaComposer = MultimediaComposer(this)
     private val mVersionComposer = VersionComposer()
     private val mSoundComposer = SoundComposer(this)
-    private val mUrl = getString(R.string.url)
     private val mSoundUris = mutableMapOf<Int, String>()
     private val mNarrationUris = mutableMapOf<Int, String>()
     private val mGson = Gson()
@@ -92,6 +91,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     private var mMiniatureUpload = false
     private var mTutorialId = -1L
     private val mMiniatureId = UUID.randomUUID().toString()
+    private lateinit var mUrl: String
     private lateinit var mView: ScrollView
     private lateinit var mSoundBrowser: SoundBrowserLoader
     private lateinit var mImageBrowser: ImageBrowserLoader
@@ -163,6 +163,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         mEmail = intent.getStringExtra("email") ?: "f"
+        mUrl = getString(R.string.url)
         findViewById<Button>(R.id.creator_step_one_button).setOnClickListener {
             mInstructions = mInstructionComposer.instructions
             mMultimedia = mMultimediaComposer.multimedias

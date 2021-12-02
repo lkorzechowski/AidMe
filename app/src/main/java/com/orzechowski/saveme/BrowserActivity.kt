@@ -33,9 +33,7 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
     private lateinit var mSearchButton: Button
     private lateinit var mCategory: CategoryRecycler
     private lateinit var mRequest: RequestLiveAid
-    @SuppressLint("HardwareIds")
-    private val mId: String = Settings.Secure.getString(applicationContext.contentResolver,
-        Settings.Secure.ANDROID_ID)
+    private lateinit var mId: String
     private val mPhoneIntent = Intent(Intent.ACTION_CALL)
     private val mHelpRefusedForTag = mutableListOf<Long>()
     private val mSearch = Search(this)
@@ -88,8 +86,11 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
         }
     }
 
+    @SuppressLint("HardwareIds")
     override fun serveResults(tagId: Long)
     {
+        mId = Settings.Secure.getString(applicationContext.contentResolver,
+            Settings.Secure.ANDROID_ID)
         mRequest.getRequest(cacheDir, tagId, mId)
         supportFragmentManager.beginTransaction().remove(mCategory).commit()
         mResults.arguments = bundleOf(Pair("tagId", tagId))

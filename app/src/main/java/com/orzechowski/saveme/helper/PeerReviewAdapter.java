@@ -57,32 +57,26 @@ public class PeerReviewAdapter extends RecyclerView.Adapter<PeerReviewAdapter.Tu
         notifyDataSetChanged();
     }
 
-    public static class TutorialViewHolder extends RecyclerView.ViewHolder implements View
-            .OnClickListener
+    public static class TutorialViewHolder extends RecyclerView.ViewHolder
     {
         FragmentCallback callback;
         Tutorial tutorial;
         ImageView image;
         TextView name;
-        Button accept, reject;
+        Button accept, reject, play;
 
         public TutorialViewHolder(@NonNull View itemView, FragmentCallback activityCallback)
         {
             super(itemView);
             callback = activityCallback;
-            itemView.setOnClickListener(this);
             image = itemView.findViewById(R.id.tutorial_image);
             name = itemView.findViewById(R.id.tutorial_name);
             accept = itemView.findViewById(R.id.review_accept_button);
             reject = itemView.findViewById(R.id.review_reject_button);
+            play = itemView.findViewById(R.id.review_play_button);
             accept.setOnClickListener(v -> callback.accept(tutorial));
             reject.setOnClickListener(v -> callback.reject(tutorial));
-        }
-
-        @Override
-        public void onClick(View v)
-        {
-            callback.playTutorial(tutorial);
+            play.setOnClickListener(v -> callback.playTutorial(tutorial));
         }
     }
 
