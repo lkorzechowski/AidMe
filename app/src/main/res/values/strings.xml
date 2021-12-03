@@ -151,6 +151,7 @@
     <string name="reject">Odrzuć</string>
     <string name="accept">Zaakceptuj</string>
     <string name="play">Odtwórz</string>
+    <string name="version_text">Treść wersji: </string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>

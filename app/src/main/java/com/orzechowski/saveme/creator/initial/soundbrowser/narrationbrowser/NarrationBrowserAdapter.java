@@ -14,8 +14,7 @@ import com.orzechowski.saveme.creator.initial.soundbrowser.Sound;
 
 import java.util.List;
 
-public class NarrationBrowserAdapter
-        extends RecyclerView.Adapter<NarrationBrowserAdapter.NarrationViewHolder>
+public class NarrationBrowserAdapter extends RecyclerView.Adapter<NarrationViewHolder>
 {
     private List<Sound> mNarrations;
     private final FragmentCallback mCallback;
@@ -45,36 +44,14 @@ public class NarrationBrowserAdapter
     public void onBindViewHolder(@NonNull NarrationViewHolder holder, int position)
     {
         Sound narration = mNarrations.get(position);
-        holder.narration = narration;
-        holder.narrationNameDisplay.setText(narration.getDisplayName());
+        holder.mNarration = narration;
+        holder.mNarrationNameDisplay.setText(narration.getDisplayName());
     }
 
     @Override
     public int getItemCount()
     {
         return (mNarrations == null) ? 0 : mNarrations.size();
-    }
-
-    public static class NarrationViewHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener
-    {
-        Sound narration;
-        TextView narrationNameDisplay;
-        FragmentCallback callback;
-
-        public NarrationViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
-        {
-            super(itemView);
-            narrationNameDisplay = itemView.findViewById(R.id.sound_display_name);
-            callback = fragmentCallback;
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v)
-        {
-            callback.narrationClick(narration);
-        }
     }
 
     public interface FragmentCallback

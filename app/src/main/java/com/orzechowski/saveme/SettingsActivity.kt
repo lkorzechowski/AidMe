@@ -11,6 +11,7 @@ import androidx.fragment.app.commit
 import com.orzechowski.saveme.settings.*
 import com.orzechowski.saveme.settings.database.Preference
 import com.orzechowski.saveme.settings.database.PreferenceViewModel
+import com.orzechowski.saveme.settings.helperlist.HelperRecycler
 
 //W tej aktywności użytkownik może dostosować ustawienia aplikacji i nie tylko. Znajduje się tu nota
 //prawna do wglądu użytkowników, można stąd pobrać zawartość wszystkich poradników, ustawić motyw
@@ -79,17 +80,14 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Report.A
             if(f is Policy) {
                 handled = true
                 t.remove(mPolicy).commit()
-                if(handled) break
             }
             else if (f is HelperRecycler) {
                 handled = true
                 t.remove(mHelpers).commit()
-                if(handled) break
             }
             else if(f is Contact) {
                 handled = true
                 t.remove(mContact).commit()
-                if(handled) break
             }
             else if(f is Report) {
                 handled = true

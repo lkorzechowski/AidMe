@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
@@ -16,8 +14,7 @@ import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import java.util.List;
 
-public class VersionSoundOuterAdapter
-        extends RecyclerView.Adapter<VersionSoundOuterAdapter.SoundViewHolder>
+public class VersionSoundOuterAdapter extends RecyclerView.Adapter<SoundViewHolder>
 {
     private List<Version> mVersions;
     private List<TutorialSound> mSounds;
@@ -44,9 +41,9 @@ public class VersionSoundOuterAdapter
     public void onBindViewHolder(@NonNull SoundViewHolder holder, int position)
     {
         TutorialSound sound = mSounds.get(position);
-        holder.sound = sound;
-        holder.adapter.setElementList(mVersions);
-        holder.text.setText(sound.getFileName());
+        holder.mSound = sound;
+        holder.mAdapter.setElementList(mVersions);
+        holder.mText.setText(sound.getFileName());
     }
 
     @Override
@@ -60,41 +57,6 @@ public class VersionSoundOuterAdapter
         mSounds = sounds;
         mVersions = versions;
         notifyDataSetChanged();
-    }
-
-    public static class SoundViewHolder extends RecyclerView.ViewHolder
-            implements VersionSoundInnerAdapter.FragmentCallback
-    {
-        TutorialSound sound;
-        RecyclerView recycler;
-        TextView text;
-        VersionSoundInnerAdapter adapter;
-        FragmentCallback callback;
-
-        public SoundViewHolder(@NonNull View itemView, Activity requestActivity,
-                               FragmentCallback callbackToFragment)
-        {
-            super(itemView);
-            callback = callbackToFragment;
-            recycler = itemView.findViewById(R.id.version_sound_inner_rv);
-            recycler.setLayoutManager(new LinearLayoutManager(itemView.getContext(),
-                    LinearLayoutManager.HORIZONTAL, false));
-            adapter = new VersionSoundInnerAdapter(requestActivity, this);
-            recycler.setAdapter(adapter);
-        }
-
-
-        @Override
-        public void select(Version version)
-        {
-            callback.select(sound, version);
-        }
-
-        @Override
-        public void unselect(Version version)
-        {
-            callback.unselect(sound, version);
-        }
     }
 
     public interface FragmentCallback

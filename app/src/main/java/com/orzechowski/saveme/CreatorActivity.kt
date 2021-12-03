@@ -4,7 +4,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.NonNull
@@ -19,10 +18,10 @@ import com.google.gson.Gson
 import com.orzechowski.saveme.browser.search.database.Keyword
 import com.orzechowski.saveme.creator.GsonConverter
 import com.orzechowski.saveme.creator.categorypicker.CategoryAssignment
-import com.orzechowski.saveme.creator.initial.InstructionComposer
-import com.orzechowski.saveme.creator.initial.MultimediaComposer
-import com.orzechowski.saveme.creator.initial.SoundComposer
-import com.orzechowski.saveme.creator.initial.VersionComposer
+import com.orzechowski.saveme.creator.initial.instructioncomposer.InstructionComposer
+import com.orzechowski.saveme.creator.initial.multimediacomposer.MultimediaComposer
+import com.orzechowski.saveme.creator.initial.soundcomposer.SoundComposer
+import com.orzechowski.saveme.creator.initial.versioncomposer.VersionComposer
 import com.orzechowski.saveme.creator.initial.soundbrowser.Sound
 import com.orzechowski.saveme.creator.initial.soundbrowser.SoundBrowserLoader
 import com.orzechowski.saveme.creator.initial.soundbrowser.narrationbrowser.NarrationBrowserLoader
@@ -50,11 +49,6 @@ import net.gotev.uploadservice.UploadServiceConfig
 import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 import java.util.*
 
-//Aktywność w której tworzone są poradniki. Począwszy od wpisania tytyłu i wybrania miniaturki,
-//kończywszy na przesłaniu całej zawartości na serwer. Klasy podlegające tej aktywności znajdują
-//się w com.orzechowski.saveme.creator. Klasa korzysta z przeglądarki zdjęć z pamięci telefonu,
-//znajdującej się w com.orzechowski.saveme.imagebrowser oraz z konfiguracji kanału powiadomień
-//mieszczącej się w com.orzechowski.saveme.volley.
 class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
     VersionTreeComposer.ActivityCallback, VersionInstructionComposer.ActivityCallback,
         MultimediaComposer.ActivityCallback, ImageBrowserLoader.ActivityCallback,
@@ -462,7 +456,7 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             mTutorialLinks = tutorialLinks
         }
         supportFragmentManager.beginTransaction().remove(mTutorialLinkComposer).commit()
-        val cache = DiskBasedCache(cacheDir, 1024*1024)
+        val cache = DiskBasedCache(cacheDir, 1024 * 1024)
         val network = BasicNetwork(HurlStack())
         mQueue = RequestQueue(cache, network).apply { start() }
         mProgressThread.start()
@@ -502,7 +496,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             }, {
                 if(it.message != null) {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                    Log.e("error", it.message!!)
                 }
             }).also { it.setRequestBody(mGson.toJson(Tutorial(0, mTutorialTitle, 0,
             mMiniatureId, 0F))) })
@@ -519,7 +512,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     }, {
                         if (it.message != null) {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                            Log.e("error", it.message!!)
                         }
                     }
                 ).also { it.setRequestBody(mGson.toJson(mInstructions)) }
@@ -553,7 +545,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 }, {
                     if (it.message != null) {
                         Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                        Log.e("error", it.message!!)
                     }
                 }).also { it.setRequestBody(mGson.toJson(mMultimedia)) }
                 mQueue.add(request)
@@ -577,7 +568,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 }, {
                     if (it.message != null) {
                         Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                        Log.e("error", it.message!!)
                     }
                 }).also { it.setRequestBody(mGson.toJson(mSounds)) }
                 mQueue.add(request)
@@ -629,7 +619,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
             }, {
                 if (it.message != null) {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                    Log.e("error", it.message!!)
                 }
             }).also { it.setRequestBody(mGson.toJson(mVersions)) }
             mQueue.add(request)
@@ -647,7 +636,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     {
                         if (it.message != null) {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                            Log.e("error", it.message!!)
                         }
                     }
                 ).also { it.setRequestBody(mGson.toJson(mVersionInstructions)) }
@@ -674,7 +662,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     }, {
                         if (it.message != null) {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                            Log.e("error", it.message!!)
                         }
                     }
                 ).also { it.setRequestBody(mGson.toJson(mTutorialLinks)) })
@@ -696,7 +683,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     }, {
                         if (it.message != null) {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                            Log.e("error", it.message!!)
                         }
                     }
                 ).also { it.setRequestBody(mGson.toJson(mTutorialTags)) })
@@ -722,7 +708,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     }, {
                         if (it.message != null) {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                            Log.e("error", it.message!!)
                         }
                     }).also { it.setRequestBody(mGson.toJson(mVersionMultimedia)) }
                 )
@@ -742,7 +727,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                     }, {
                         if (it.message != null) {
                             Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                            Log.e("error", it.message!!)
                         }
                     }).also { it.setRequestBody(mGson.toJson(mVersionSounds)) }
                 )
@@ -762,7 +746,6 @@ class CreatorActivity : AppCompatActivity(R.layout.activity_creator),
                 }, {
                     if (it.message != null) {
                         Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                        Log.e("error", it.message!!)
                     }
                 }).also { it.setRequestBody(mGson.toJson(mKeywords)) })
             } else {

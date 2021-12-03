@@ -28,7 +28,8 @@ class SignInActivity : AppCompatActivity()
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
                 progress(account)
             } catch (e: Exception) {
-                Toast.makeText(this, "Couldn't sign in", Toast.LENGTH_SHORT)
+                Toast.makeText(this, getString(R.string.server_error), Toast.LENGTH_SHORT)
+                    .show()
                 startActivity(Intent(this@SignInActivity, MainActivity::class.java))
             }
         }

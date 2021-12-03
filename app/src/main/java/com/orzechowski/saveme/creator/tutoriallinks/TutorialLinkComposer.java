@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
+import com.orzechowski.saveme.creator.tutoriallinks.instructions.TutorialLinkInstructionAdapter;
+import com.orzechowski.saveme.creator.tutoriallinks.links.TutorialLinkComposerAdapter;
+import com.orzechowski.saveme.creator.tutoriallinks.tutorials.TutorialLinkTutorialListAdapter;
 import com.orzechowski.saveme.tutorial.database.Tutorial;
 import com.orzechowski.saveme.tutorial.database.TutorialLink;
 import com.orzechowski.saveme.tutorial.database.TutorialViewModel;

@@ -6,45 +6,48 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class MultimediaViewModel extends AndroidViewModel
 {
-    private final MultimediaRepository mRepository;
+    private final MultimediaDAO mDao;
 
     public MultimediaViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new MultimediaRepository(application);
+        GlobalRoomDatabase globalRoomDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalRoomDatabase.multimediaDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(Multimedia multimedia)
     {
-        mRepository.insert(multimedia);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(multimedia));
     }
 
     public void delete(Multimedia multimedia)
     {
-        mRepository.delete(multimedia);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(multimedia));
     }
 
     public void update(Multimedia multimedia)
     {
-        mRepository.update(multimedia);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(multimedia));
     }
 
     public LiveData<List<Multimedia>> getByTutorialId(long tutorialId)
     {
-        return mRepository.getByTutorialId(tutorialId);
+        return mDao.getByTutorialId(tutorialId);
     }
 
     public LiveData<Multimedia> getByMultimediaId(long multimediaId)
     {
-        return mRepository.getByMultimediaId(multimediaId);
+        return mDao.getByMultimediaId(multimediaId);
     }
 }

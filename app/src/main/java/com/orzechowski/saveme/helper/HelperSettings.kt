@@ -27,7 +27,7 @@ class HelperSettings(val mActivity: HelperActivity): Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, bundle: Bundle?):
             View
     {
-        mEmail = requireArguments().getString("email") ?: " "
+        mEmail = requireArguments().getString("email") ?: " " //posługuję się paczką
         return inflater.inflate(R.layout.fragment_helper_settings, container, false)
     }
 
@@ -40,7 +40,7 @@ class HelperSettings(val mActivity: HelperActivity): Fragment()
         val phoneEdit = view.findViewById<EditText>(R.id.phone_edit)
         val submitButton = view.findViewById<Button>(R.id.submit_helper_settings_button)
         val url = getString(R.string.url)
-        mQueue = RequestQueue(DiskBasedCache(mActivity.cacheDir, 1024*1024),
+        mQueue = RequestQueue(DiskBasedCache(mActivity.cacheDir, 1024 * 1024),
             BasicNetwork(HurlStack())).apply { start() }
         mQueue.add(JsonObjectRequest(Request.Method.GET, url +
                 "fullhelperdetailforemail/" + mEmail, null, { result ->
@@ -53,7 +53,7 @@ class HelperSettings(val mActivity: HelperActivity): Fragment()
             surnameEdit.setText(surname)
             titleEdit.setText(title)
             professionEdit.setText(profession)
-            if(phone!="null") phoneEdit.setText(phone)
+            if(phone != "null") phoneEdit.setText(phone)
             submitButton.setOnClickListener {
                 name = nameEdit.text.toString()
                 surname = nameEdit.text.toString()

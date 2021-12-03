@@ -43,12 +43,12 @@ public class CategoryListAdapter
     public void onBindViewHolder(@NonNull CategoryViewHolder categoryHolder, int rowNumber)
     {
         Category category = mCategories.get(rowNumber);
-        categoryHolder.thisCategory = category;
+        categoryHolder.mCategory = category;
         String categoryName = category.getCategoryName();
-        categoryHolder.name.setText(categoryName);
-        if(categoryName.length() > 20) categoryHolder.name.setTextSize(20);
+        categoryHolder.mName.setText(categoryName);
+        if(categoryName.length() > 20) categoryHolder.mName.setTextSize(20);
         Uri uri = Uri.parse(mPathBase + category.getMiniatureName());
-        if(uri != null) categoryHolder.image.setImageURI(uri);
+        if(uri != null) categoryHolder.mImage.setImageURI(uri);
     }
 
     @Override
@@ -66,24 +66,24 @@ public class CategoryListAdapter
     public static class CategoryViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener
     {
-        TextView name;
-        ImageView image;
-        FragmentCallback listenerForThisRow;
-        Category thisCategory;
+        TextView mName;
+        ImageView mImage;
+        FragmentCallback mListenerForThisRow;
+        Category mCategory;
 
         public CategoryViewHolder(@NonNull View itemView, FragmentCallback listener)
         {
             super(itemView);
-            name = itemView.findViewById(R.id.category_name_text);
-            image = itemView.findViewById(R.id.category_image);
-            listenerForThisRow = listener;
+            mName = itemView.findViewById(R.id.category_name_text);
+            mImage = itemView.findViewById(R.id.category_image);
+            mListenerForThisRow = listener;
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v)
         {
-            listenerForThisRow.onClick(thisCategory);
+            mListenerForThisRow.onClick(mCategory);
         }
     }
 

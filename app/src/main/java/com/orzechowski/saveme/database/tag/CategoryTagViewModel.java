@@ -6,55 +6,58 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class CategoryTagViewModel extends AndroidViewModel
 {
-    private final CategoryTagRepository mRepository;
+    private final CategoryTagDAO mDao;
 
     public CategoryTagViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new CategoryTagRepository(application);
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.categoryTagDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public LiveData<List<CategoryTag>> getAll()
     {
-        return mRepository.getAll();
+        return mDao.getAll();
     }
 
     public void insert(CategoryTag categoryTag)
     {
-        mRepository.insert(categoryTag);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(categoryTag));
     }
 
     public void delete(CategoryTag categoryTag)
     {
-        mRepository.delete(categoryTag);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(categoryTag));
     }
 
     public void update(CategoryTag categoryTag)
     {
-        mRepository.update(categoryTag);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(categoryTag));
     }
 
     public LiveData<List<CategoryTag>> getByCategoryId(long categoryId)
     {
-        return mRepository.getByCategoryId(categoryId);
+        return mDao.getByCategoryId(categoryId);
     }
 
     public LiveData<List<CategoryTag>> getByTagId(long tagId)
     {
-        return mRepository.getByTagId(tagId);
+        return mDao.getByTagId(tagId);
     }
 
     public LiveData<CategoryTag> getByCategoryTagId(long categoryTagId)
     {
-        return mRepository.getByCategoryTagId(categoryTagId);
+        return mDao.getByCategoryTagId(categoryTagId);
     }
 }

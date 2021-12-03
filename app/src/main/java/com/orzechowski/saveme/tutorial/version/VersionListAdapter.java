@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,7 @@ import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import java.util.List;
 
-public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.VersionViewHolder>
+public class VersionListAdapter extends RecyclerView.Adapter<VersionViewHolder>
 {
     private List<Version> mVersionList;
     private final LayoutInflater mInflater;
@@ -38,43 +37,20 @@ public class VersionListAdapter extends RecyclerView.Adapter<VersionListAdapter.
     @Override
     public void onBindViewHolder(@NonNull VersionViewHolder versionHolder, int rowNumber)
     {
-        versionHolder.thisVersion = mVersionList.get(rowNumber);
-        versionHolder.versionButton.setText((mVersionList.get(rowNumber).getText()));
+        versionHolder.mVersion = mVersionList.get(rowNumber);
+        versionHolder.mVersionButton.setText((mVersionList.get(rowNumber).getText()));
     }
 
     @Override
     public int getItemCount()
     {
-        return (mVersionList==null) ? 0 : mVersionList.size();
+        return (mVersionList == null) ? 0 : mVersionList.size();
     }
 
     public void setElementList(List<Version> versions)
     {
         mVersionList = versions;
         notifyDataSetChanged();
-    }
-
-    public static class VersionViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener
-    {
-        ActivityCallback callback;
-        Version thisVersion;
-        Button versionButton;
-
-        public VersionViewHolder(
-                @NonNull View viewForThisRow, ActivityCallback fragmentCallback)
-        {
-            super(viewForThisRow);
-            callback = fragmentCallback;
-            versionButton = viewForThisRow.findViewById(R.id.version_button);
-            versionButton.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v)
-        {
-            callback.onClick(thisVersion);
-        }
     }
 
     public interface ActivityCallback

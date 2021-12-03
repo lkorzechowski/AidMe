@@ -53,7 +53,7 @@ public class InstructionsRecycler
     {
         bundle = requireArguments();
         FragmentActivity activity = requireActivity();
-        mPathBase = activity.getFilesDir().getAbsolutePath()+"/";
+        mPathBase = activity.getFilesDir().getAbsolutePath() + "/";
         ViewModelProvider provider = new ViewModelProvider(this);
         VersionInstructionViewModel versionInstructionViewModel = provider
                 .get(VersionInstructionViewModel.class);
@@ -92,7 +92,7 @@ public class InstructionsRecycler
             if (mTutorialInstructions.contains(position)) {
                 getPlayer(position);
             } else if(position < mSize) {
-                if(mPlayerInstance==null) play(position+1);
+                if(mPlayerInstance == null) play(position+1);
                 else play(position);
             } else mTextDisplay.setVisibility(View.GONE);
         } else {
@@ -192,7 +192,7 @@ public class InstructionsRecycler
             mTextDisplay.setText(set.getInstructions());
             mTutorialLinkViewModel.getByOriginIdAndPosition(mTutorialId, position)
                     .observe(requireActivity(), tutorialLink-> {
-                    if(tutorialLink!=null) {
+                    if(tutorialLink != null) {
                         mTutorialViewModel.getByTutorialId(tutorialLink.getTutorialId())
                                 .observe(requireActivity(), tutorial -> {
                             mTutorialLink.setText(tutorial.getTutorialName());

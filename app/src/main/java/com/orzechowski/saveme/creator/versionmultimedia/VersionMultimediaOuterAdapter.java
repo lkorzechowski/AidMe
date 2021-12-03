@@ -5,11 +5,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
@@ -18,8 +15,7 @@ import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import java.util.List;
 
-public class VersionMultimediaOuterAdapter
-    extends RecyclerView.Adapter<VersionMultimediaOuterAdapter.MultimediaViewHolder>
+public class VersionMultimediaOuterAdapter extends RecyclerView.Adapter<MultimediaViewHolder>
 {
     private List<Version> mVersions;
     private List<Multimedia> mMultimedias;
@@ -47,15 +43,15 @@ public class VersionMultimediaOuterAdapter
     public void onBindViewHolder(@NonNull MultimediaViewHolder holder, int position)
     {
         Multimedia multimedia = mMultimedias.get(position);
-        holder.multimedia = multimedia;
+        holder.mMultimedia = multimedia;
         if(multimedia.getType()) {
-            holder.imageView.setVisibility(View.VISIBLE);
-            holder.imageView.setImageURI(Uri.parse(multimedia.getFileName()));
+            holder.mImageView.setVisibility(View.VISIBLE);
+            holder.mImageView.setImageURI(Uri.parse(multimedia.getFileName()));
         } else {
-            holder.videoView.setVisibility(View.VISIBLE);
-            holder.videoView.setVideoURI(Uri.parse(multimedia.getFileName()));
+            holder.mVideoView.setVisibility(View.VISIBLE);
+            holder.mVideoView.setVideoURI(Uri.parse(multimedia.getFileName()));
         }
-        holder.adapter.setElementList(mVersions);
+        holder.mAdapter.setElementList(mVersions);
     }
 
     @Override
@@ -69,43 +65,6 @@ public class VersionMultimediaOuterAdapter
         mMultimedias = multimedia;
         mVersions = versions;
         notifyDataSetChanged();
-    }
-
-    public static class MultimediaViewHolder extends RecyclerView.ViewHolder
-        implements VersionMultimediaInnerAdapter.FragmentCallback
-    {
-        Multimedia multimedia;
-        RecyclerView recycler;
-        ImageView imageView;
-        VideoView videoView;
-        VersionMultimediaInnerAdapter adapter;
-        FragmentCallback callback;
-
-        public MultimediaViewHolder(@NonNull View itemView, Activity requestActivity,
-                                    FragmentCallback callbackToFragment)
-        {
-            super(itemView);
-            callback = callbackToFragment;
-            recycler = itemView.findViewById(R.id.version_multimedia_inner_rv);
-            imageView = itemView.findViewById(R.id.new_image_embed);
-            videoView = itemView.findViewById(R.id.new_video_embed);
-            recycler.setLayoutManager(new LinearLayoutManager(itemView.getContext(),
-                    LinearLayoutManager.HORIZONTAL, false));
-            adapter = new VersionMultimediaInnerAdapter(requestActivity, this);
-            recycler.setAdapter(adapter);
-        }
-
-        @Override
-        public void select(Version version)
-        {
-            callback.select(multimedia, version);
-        }
-
-        @Override
-        public void unselect(Version version)
-        {
-            callback.unselect(multimedia, version);
-        }
     }
 
     public interface FragmentCallback

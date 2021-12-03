@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
-import com.orzechowski.saveme.database.tag.HelperTag;
-import com.orzechowski.saveme.database.tag.HelperTagViewModel;
 import com.orzechowski.saveme.database.tag.TutorialTag;
 import com.orzechowski.saveme.database.tag.TutorialTagViewModel;
-import com.orzechowski.saveme.helper.database.Helper;
 import com.orzechowski.saveme.helper.database.HelperViewModel;
 import com.orzechowski.saveme.tutorial.database.Tutorial;
 import com.orzechowski.saveme.tutorial.database.TutorialViewModel;
@@ -44,19 +41,12 @@ public class ResultsRecycler extends Fragment implements ResultsListAdapter.Frag
                 .get(TutorialTagViewModel.class);
         TutorialViewModel tutorialViewModel = new ViewModelProvider(this)
                 .get(TutorialViewModel.class);
-        HelperTagViewModel helperTagViewModel = new ViewModelProvider(this)
-                .get(HelperTagViewModel.class);
         HelperViewModel helperViewModel = new ViewModelProvider(this)
                 .get(HelperViewModel.class);
         mAdapter = new ResultsListAdapter(requireActivity(), this);
         tutorialTagViewModel.getByTagId(tagId).observe(requireActivity(), tutorialTags -> {
             List<Tutorial> tutorials = new LinkedList<>();
-            helperTagViewModel.getByTagId(tagId).observe(requireActivity(), helperTags -> {
-                List<Helper> helpers = new LinkedList<>();
-                for(HelperTag helperTag : helperTags) {
-                    helperViewModel.getByHelperId(helperTag.getHelperId())
-                            .observe(requireActivity(), helpers::add);
-                }
+            helperViewModel.getAll().observe(this, helpers -> {
                 for(TutorialTag tutorialTag : tutorialTags) {
                     tutorialViewModel.getByTutorialId(tutorialTag.getTutorialId())
                             .observe(requireActivity(), tutorial -> {

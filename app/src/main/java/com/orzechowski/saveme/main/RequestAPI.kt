@@ -90,7 +90,7 @@ class RequestAPI(val activity: AppCompatActivity)
 
     fun requestData(cacheDir: File, url: String)
     {
-        mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024*1024),
+        mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024 * 1024),
             BasicNetwork(HurlStack())).apply { start() }
         val imageDir = File(activity.filesDir.absolutePath).absolutePath + "/"
         thread {
@@ -105,7 +105,7 @@ class RequestAPI(val activity: AppCompatActivity)
                         row.getLong("authorId"), miniatureName,
                         row.getDouble("rating").toFloat())
                     mTutorialViewModel.getByTutorialId(tutorialId).observe(activity) {
-                        if(it!=null) {
+                        if(it != null) {
                             mTutorialViewModel.update(tutorial)
                         } else {
                             mTutorialViewModel.insert(tutorial)
@@ -141,7 +141,7 @@ class RequestAPI(val activity: AppCompatActivity)
                         row.getBoolean("hasSubcategories"), miniatureName,
                         row.getInt("categoryLevel"))
                     mCategoryViewModel.getByCategoryId(categoryId).observe(activity) {
-                        if(it!=null) {
+                        if(it != null) {
                             mCategoryViewModel.update(category)
                         } else {
                             mCategoryViewModel.insert(category)
@@ -168,7 +168,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     val tag = Tag(tagId, row.getString("tagName"),
                         row.getInt("tagLevel"))
                     mTagViewModel.getByTagId(tagId).observe(activity) {
-                        if(it!=null) {
+                        if(it != null) {
                             mTagViewModel.update(tag)
                         } else {
                             mTagViewModel.insert(tag)
@@ -184,7 +184,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     val keywordId = row.getLong("keywordId")
                     val keyword = Keyword(keywordId, row.getString("keyword"))
                     mKeywordViewModel.getByKeywordId(keywordId).observe(activity) {
-                        if(it!=null) {
+                        if(it != null) {
                             mKeywordViewModel.update(keyword)
                         } else {
                             mKeywordViewModel.insert(keyword)
@@ -202,7 +202,7 @@ class RequestAPI(val activity: AppCompatActivity)
                         row.getString("surname"), row.getString("title"),
                         row.getString("profession"))
                     mHelperViewModel.getByHelperId(helperId).observe(activity) {
-                        if(it!=null) {
+                        if(it != null) {
                             mHelperViewModel.update(helper)
                         } else {
                             mHelperViewModel.insert(helper)
@@ -219,7 +219,7 @@ class RequestAPI(val activity: AppCompatActivity)
                     val helperTag = HelperTag(helperTagId,
                         row.getLong("helperId"), row.getLong("tagId"))
                     mHelperTagViewModel.getByHelperTagId(helperTagId).observe(activity) {
-                        if(it!=null) {
+                        if(it != null) {
                             mHelperTagViewModel.update(helperTag)
                         } else {
                             mHelperTagViewModel.insert(helperTag)
@@ -237,7 +237,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getLong("tutorialId"), row.getLong("tagId"))
                         mTutorialTagViewModel.getByTutorialTagId(tutorialTagId).observe(activity)
                         {
-                            if (it!=null) {
+                            if (it != null) {
                                 mTutorialTagViewModel.update(tutorialTag)
                             } else {
                                 mTutorialTagViewModel.insert(tutorialTag)
@@ -255,7 +255,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getLong("keywordId"), row.getLong("tagId"))
                         mTagKeywordViewModel.getByTagKeywordId(tagKeywordId).observe(activity)
                         {
-                            if(it!=null) {
+                            if(it != null) {
                                 mTagKeywordViewModel.update(tagKeyword)
                             } else {
                                 mTagKeywordViewModel.insert(tagKeyword)
@@ -273,7 +273,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getLong("categoryId"), row.getLong("tagId"))
                         mCategoryTagViewModel.getByCategoryTagId(categoryTagId).observe(activity)
                         {
-                            if(it!=null) {
+                            if(it != null) {
                                 mCategoryTagViewModel.update(categoryTag)
                             } else {
                                 mCategoryTagViewModel.insert(categoryTag)
@@ -293,7 +293,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getInt("position"), row.getString("narrationFile"))
                         mInstructionSetViewModel.getByInstructionSetId(instructionSetId)
                             .observe(activity) {
-                                if(it!=null) {
+                                if(it != null) {
                                     mInstructionSetViewModel.update(instructionSet)
                                 } else {
                                     mInstructionSetViewModel.insert(instructionSet)
@@ -312,7 +312,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getInt("instructionNumber"))
                         mTutorialLinkViewModel.getByTutorialLinkId(tutorialLinkId).observe(activity)
                         {
-                            if(it!=null) {
+                            if(it != null) {
                                 mTutorialLinkViewModel.update(tutorialLink)
                             } else {
                                 mTutorialLinkViewModel.insert(tutorialLink)
@@ -331,7 +331,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getLong("tutorialId"), row.getString("fileName"))
                         mTutorialSoundViewModel.getByTutorialSoundId(soundId).observe(activity)
                         {
-                            if(it!=null) {
+                            if(it != null) {
                                 mTutorialSoundViewModel.update(tutorialSound)
                             } else {
                                 mTutorialSoundViewModel.insert(tutorialSound)
@@ -351,7 +351,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getBoolean("hasChildren"), row.getBoolean("hasParent"),
                             row.getLong("parentVersionId"))
                         mVersionViewModel.getByVersionId(versionId).observe(activity) {
-                            if(it!=null) {
+                            if(it != null) {
                                 mVersionViewModel.update(version)
                             } else {
                                 mVersionViewModel.insert(version)
@@ -369,7 +369,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getLong("versionId"), row.getInt("instructionPosition"))
                         mVersionInstructionViewModel.getByVersionInstructionId(versionInstructionId)
                             .observe(activity) {
-                                if(it!=null) {
+                                if(it != null) {
                                     mVersionInstructionViewModel.update(versionInstruction)
                                 } else {
                                     mVersionInstructionViewModel.insert(versionInstruction)
@@ -387,7 +387,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getLong("multimediaId"), row.getLong("versionId"))
                         mVersionMultimediaViewModel.getByVersionMultimediaId(versionMultimediaId)
                             .observe(activity) {
-                                if(it!=null) {
+                                if(it != null) {
                                     mVersionMultimediaViewModel.update(versionMultimedia)
                                 } else {
                                     mVersionMultimediaViewModel.insert(versionMultimedia)
@@ -405,7 +405,7 @@ class RequestAPI(val activity: AppCompatActivity)
                             row.getLong("tutorialSoundId"), row.getLong("versionId"))
                         mVersionSoundViewModel.getByVersionSoundId(versionSoundId).observe(activity)
                         {
-                            if(it!=null) {
+                            if(it != null) {
                                 mVersionSoundViewModel.update(versionSound)
                             } else {
                                 mVersionSoundViewModel.insert(versionSound)

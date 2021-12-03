@@ -9,4 +9,4 @@ data class Category(
                 val categoryName: String,
                 val hasSubcategories: Boolean,
                 val miniatureName: String,
-                val categoryLevel: Int) //level 0 = najwyższy
+                val categoryLevel: Int) //level/poziom 0 = najwyższy

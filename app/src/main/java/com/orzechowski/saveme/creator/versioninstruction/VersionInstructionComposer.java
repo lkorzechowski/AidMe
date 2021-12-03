@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
+import com.orzechowski.saveme.creator.versioninstruction.instructions.InstructionTextAdapter;
+import com.orzechowski.saveme.creator.versioninstruction.versioninstructions.VersionInstructionOuterAdapter;
 import com.orzechowski.saveme.tutorial.instructions.database.InstructionSet;
 import com.orzechowski.saveme.tutorial.version.database.Version;
 import com.orzechowski.saveme.tutorial.version.database.VersionInstruction;

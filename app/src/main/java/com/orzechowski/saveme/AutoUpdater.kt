@@ -24,7 +24,7 @@ class AutoUpdater : JobService()
 {
     override fun onStartJob(jobParameters: JobParameters): Boolean
     {
-        val cache = DiskBasedCache(cacheDir, 1024*1024)
+        val cache = DiskBasedCache(cacheDir, 1024 * 1024)
         val network = BasicNetwork(HurlStack())
         val url = getString(R.string.url)
         val database = GlobalRoomDatabase.getDatabase(applicationContext)

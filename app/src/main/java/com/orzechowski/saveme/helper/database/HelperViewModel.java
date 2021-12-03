@@ -6,45 +6,48 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class HelperViewModel extends AndroidViewModel
 {
-    private final HelperRepository mRepository;
+    private final HelperDAO mDao;
 
     public HelperViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new HelperRepository(application);
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.helperDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(Helper helper)
     {
-        mRepository.insert(helper);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(helper));
     }
 
     public void delete(Helper helper)
     {
-        mRepository.delete(helper);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(helper));
     }
 
     public void update(Helper helper)
     {
-        mRepository.update(helper);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(helper));
     }
 
     public LiveData<List<Helper>> getAll()
     {
-        return mRepository.getAll();
+        return mDao.getAll();
     }
 
     public LiveData<Helper> getByHelperId(long helperId)
     {
-        return mRepository.getByHelperId(helperId);
+        return mDao.getByHelperId(helperId);
     }
 }

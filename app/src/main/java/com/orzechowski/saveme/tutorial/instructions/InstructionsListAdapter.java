@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +13,7 @@ import com.orzechowski.saveme.tutorial.instructions.database.InstructionSet;
 
 import java.util.List;
 
-public class InstructionsListAdapter
-        extends RecyclerView.Adapter<InstructionsListAdapter.InstructionsViewHolder>
+public class InstructionsListAdapter extends RecyclerView.Adapter<InstructionsViewHolder>
 {
     private List<InstructionSet> mInstructions;
     private final LayoutInflater mInflater;
@@ -39,9 +37,9 @@ public class InstructionsListAdapter
     public void onBindViewHolder(@NonNull InstructionsViewHolder instructionsHolder, int rowNumber)
     {
         InstructionSet set = mInstructions.get(rowNumber);
-        instructionsHolder.thisInstructionSet = set;
-        instructionsHolder.title.setText(set.getTitle());
-        instructionsHolder.brief.setText(set.getInstructions());
+        instructionsHolder.mThisInstructionSet = set;
+        instructionsHolder.mTitle.setText(set.getTitle());
+        instructionsHolder.mBrief.setText(set.getInstructions());
     }
 
     @Override
@@ -54,29 +52,6 @@ public class InstructionsListAdapter
     {
         mInstructions = instructions;
         notifyDataSetChanged();
-    }
-
-    public static class InstructionsViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener
-    {
-        TextView title, brief;
-        FragmentCallback callback;
-        InstructionSet thisInstructionSet;
-
-        public InstructionsViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
-        {
-            super(itemView);
-            title = itemView.findViewById(R.id.title);
-            brief = itemView.findViewById(R.id.brief);
-            callback = fragmentCallback;
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v)
-        {
-            callback.onClick(thisInstructionSet);
-        }
     }
 
     public interface FragmentCallback

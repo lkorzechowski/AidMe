@@ -6,51 +6,53 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class VersionViewModel extends AndroidViewModel
 {
-
-    private final VersionRepository mRepository;
+    private final VersionDAO mDao;
 
     public VersionViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new VersionRepository(application);
+        GlobalRoomDatabase database = GlobalRoomDatabase.getDatabase(application);
+        mDao = database.versionDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(Version version)
     {
-        mRepository.insert(version);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(version));
     }
 
     public void delete(Version version)
     {
-        mRepository.delete(version);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(version));
     }
 
     public void update(Version version)
     {
-        mRepository.update(version);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(version));
     }
 
     public LiveData<List<Version>> getBaseByTutorialId(long tutorialId)
     {
-        return mRepository.getBaseByTutorialId(tutorialId);
+        return mDao.getBaseByTutorialId(tutorialId);
     }
 
     public LiveData<List<Version>> getByParentVersionId(long parentId)
     {
-        return mRepository.getByParentVersionId(parentId);
+        return mDao.getByParentVersionId(parentId);
     }
 
     public LiveData<Version> getByVersionId(long versionId)
     {
-        return mRepository.getByVersionId(versionId);
+        return mDao.getByVersionId(versionId);
     }
 }

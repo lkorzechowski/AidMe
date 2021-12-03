@@ -6,40 +6,43 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class RatingViewModel extends AndroidViewModel
 {
-    private final RatingRepository mRepository;
+    private final RatingDAO mDao;
 
     public RatingViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new RatingRepository(application);
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.ratingDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(Rating rating)
     {
-        mRepository.insert(rating);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(rating));
     }
 
     public void delete(Rating rating)
     {
-        mRepository.delete(rating);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(rating));
     }
 
     public void update(Rating rating)
     {
-        mRepository.update(rating);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(rating));
     }
 
     public LiveData<List<Rating>> getAll()
     {
-        return mRepository.getAll();
+        return mDao.getAll();
     }
 }

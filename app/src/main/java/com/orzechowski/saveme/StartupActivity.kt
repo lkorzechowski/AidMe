@@ -11,13 +11,6 @@ import com.orzechowski.saveme.database.GlobalRoomDatabase
 import com.orzechowski.saveme.main.RequestAPI
 import kotlin.concurrent.thread
 
-//Aktywność uruchamiająca się jedynie raz po wejściu do aplikacji. Poprzedza przejście do MainActivity
-//i służy jako bufor pozwalający aplikacji rozpocząć zaciąganie danych z chmury zanim użytkownik
-//zacznie wyświetlać treść. Aktywność sama się wyłącza po czterech sekundach. Klasy podlegające tej
-//aktywności mieszczą się w com.orzechowski.saveme.main oraz com.orzechowski.saveme.database. Podczas
-//pierwszego uruchamiania tej aktywności, czyli przy pierwszym uruchomieniu aplikacji, ustawiany jest
-//AutoUpdater, który co godzinę usiłuje pobrać najbardziej niezbędne tekstowe dane, takie jak treść
-//instrukcji poradników z serwera.
 class StartupActivity : AppCompatActivity()
 {
     private lateinit var mRequestAPI: RequestAPI

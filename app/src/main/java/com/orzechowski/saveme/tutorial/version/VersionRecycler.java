@@ -39,7 +39,7 @@ public class VersionRecycler extends Fragment
         recycler.setLayoutManager(new LinearLayoutManager(view.getContext(),
                 LinearLayoutManager.VERTICAL, false));
         mVersionViewModel.getBaseByTutorialId(tutorialId).observe(requireActivity(), versions-> {
-            if(versions.size()>1) mAdapter.setElementList(versions);
+            if(versions.size() > 1) mAdapter.setElementList(versions);
             else if(!versions.isEmpty()) mCallback.defaultVersion(versions.get(0));
         });
         recycler.setAdapter(mAdapter);

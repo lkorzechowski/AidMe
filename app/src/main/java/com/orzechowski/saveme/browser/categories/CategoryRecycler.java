@@ -78,21 +78,21 @@ public class CategoryRecycler extends Fragment implements CategoryListAdapter.Fr
                     .getCategoryId()).observe(requireActivity(), categoryTags-> {
                 for(CategoryTag categoryTag : categoryTags) {
                     mTagViewModel.getByTagId(categoryTag.getTagId()).observe(requireActivity(),
-                            tag-> {
-                        if(tag.getTagLevel() != null && tag.getTagLevel()>mLevel) {
+                            tag -> {
+                        if(tag.getTagLevel() != null && tag.getTagLevel() > mLevel) {
                             mLevel++;
                             mCategoryViewModel.getByLevel(mLevel)
                                     .observe(requireActivity(), categories-> {
                                 long finalId = categories.get(categories.size()-1).getCategoryId();
-                                for (Category cat : categories) {
-                                    mCategoryTagViewModel.getByCategoryId(cat.getCategoryId())
+                                for (Category c : categories) {
+                                    mCategoryTagViewModel.getByCategoryId(c.getCategoryId())
                                             .observe(requireActivity(), catTag-> {
                                         boolean match = false;
                                         for(CategoryTag oneTag : catTag) {
-                                            if(oneTag.getTagId()==tag.getTagId()) match = true;
+                                            if(oneTag.getTagId() == tag.getTagId()) match = true;
                                         }
-                                        if(!match) categories.remove(cat);
-                                        if(cat.getCategoryId() == finalId) {
+                                        if(!match) categories.remove(c);
+                                        if(c.getCategoryId() == finalId) {
                                             mAdapter.setElementList(categories);
                                         }
                                     });

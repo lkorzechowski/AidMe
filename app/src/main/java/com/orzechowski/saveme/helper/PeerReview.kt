@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,7 +53,7 @@ class PeerReview(val mActivity: HelperActivity): Fragment(), PeerReviewAdapter.F
             false)
         recycler.adapter = mPeerReviewAdapter
         val imageDir = File(mActivity.filesDir.absolutePath).absolutePath + "/"
-        mQueue = RequestQueue(DiskBasedCache(mActivity.cacheDir, 1024*1024),
+        mQueue = RequestQueue(DiskBasedCache(mActivity.cacheDir, 1024 * 1024),
             BasicNetwork(HurlStack())).apply { start() }
         thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, mUrl + "unverifiedtutorials/" +
@@ -82,18 +83,13 @@ class PeerReview(val mActivity: HelperActivity): Fragment(), PeerReviewAdapter.F
                                                 throw IOException()
                                             } else {
                                                 val output = FileOutputStream(file)
-                                                bitmap.compress(
-                                                    Bitmap.CompressFormat.JPEG,
-                                                    100,
-                                                    output
-                                                )
+                                                bitmap.compress(Bitmap.CompressFormat.JPEG,
+                                                    100, output)
                                                 output.close()
                                             }
-                                        } catch (e: FileNotFoundException) {
-                                            e.printStackTrace()
-                                        } catch (e: IOException) {
-                                            e.printStackTrace()
                                         }
+                                        catch (e: FileNotFoundException) {}
+                                        catch (e: IOException) {}
                                         mPeerReviewAdapter.setElementList(mTutorials)
                                     }, 160, 160, ImageView.ScaleType.FIT_CENTER,
                                     Bitmap.Config.ARGB_8888, null
@@ -119,7 +115,12 @@ class PeerReview(val mActivity: HelperActivity): Fragment(), PeerReviewAdapter.F
 
     override fun accept(tutorial: Tutorial)
     {
-        mQueue.add(StringPost(Request.Method.POST, mUrl + "approval/" + mEmail + "/t", {}, {}))
+        mQueue.add(StringPost(Request.Method.POST, mUrl + "approval/" + mEmail + "/t", {},
+            {
+                if(it.message != null) {
+                    Toast.makeText(mActivity, it.message, Toast.LENGTH_SHORT).show()
+                }
+        }))
         mTutorialViewModel.delete(tutorial)
         mTutorials.remove(tutorial)
         mPeerReviewAdapter.setElementList(mTutorials)
@@ -127,7 +128,12 @@ class PeerReview(val mActivity: HelperActivity): Fragment(), PeerReviewAdapter.F
 
     override fun reject(tutorial: Tutorial)
     {
-        mQueue.add(StringPost(Request.Method.POST, mUrl + "approval/" + mEmail + "/f", {}, {}))
+        mQueue.add(StringPost(Request.Method.POST, mUrl + "approval/" + mEmail + "/f", {},
+            {
+                if(it.message != null) {
+                    Toast.makeText(mActivity, it.message, Toast.LENGTH_SHORT).show()
+                }
+        }))
         mTutorialViewModel.delete(tutorial)
         mTutorials.remove(tutorial)
         mPeerReviewAdapter.setElementList(mTutorials)

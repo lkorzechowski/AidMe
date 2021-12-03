@@ -2,11 +2,7 @@ package com.orzechowski.saveme.helper;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +12,7 @@ import com.orzechowski.saveme.tutorial.database.Tutorial;
 
 import java.util.List;
 
-public class PeerReviewAdapter extends RecyclerView.Adapter<PeerReviewAdapter.TutorialViewHolder>
+public class PeerReviewAdapter extends RecyclerView.Adapter<TutorialViewHolder>
 {
     private List<Tutorial> mTutorials;
     private final LayoutInflater mInflater;
@@ -41,7 +37,7 @@ public class PeerReviewAdapter extends RecyclerView.Adapter<PeerReviewAdapter.Tu
     {
         Tutorial tutorial = mTutorials.get(position);
         if(tutorial != null) {
-            holder.tutorial = tutorial;
+            holder.mTutorial = tutorial;
         }
     }
 
@@ -55,29 +51,6 @@ public class PeerReviewAdapter extends RecyclerView.Adapter<PeerReviewAdapter.Tu
     {
         mTutorials = tutorials;
         notifyDataSetChanged();
-    }
-
-    public static class TutorialViewHolder extends RecyclerView.ViewHolder
-    {
-        FragmentCallback callback;
-        Tutorial tutorial;
-        ImageView image;
-        TextView name;
-        Button accept, reject, play;
-
-        public TutorialViewHolder(@NonNull View itemView, FragmentCallback activityCallback)
-        {
-            super(itemView);
-            callback = activityCallback;
-            image = itemView.findViewById(R.id.tutorial_image);
-            name = itemView.findViewById(R.id.tutorial_name);
-            accept = itemView.findViewById(R.id.review_accept_button);
-            reject = itemView.findViewById(R.id.review_reject_button);
-            play = itemView.findViewById(R.id.review_play_button);
-            accept.setOnClickListener(v -> callback.accept(tutorial));
-            reject.setOnClickListener(v -> callback.reject(tutorial));
-            play.setOnClickListener(v -> callback.playTutorial(tutorial));
-        }
     }
 
     public interface FragmentCallback

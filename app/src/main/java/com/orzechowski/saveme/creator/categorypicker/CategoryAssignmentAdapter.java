@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +13,7 @@ import com.orzechowski.saveme.browser.categories.database.Category;
 
 import java.util.List;
 
-public class CategoryAssignmentAdapter
-        extends RecyclerView.Adapter<CategoryAssignmentAdapter.CategoryViewHolder>
+public class CategoryAssignmentAdapter extends RecyclerView.Adapter<CategoryViewHolder>
 {
     private List<Category> mCategories;
     private final LayoutInflater mInflater;
@@ -39,8 +37,8 @@ public class CategoryAssignmentAdapter
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position)
     {
         Category category = mCategories.get(position);
-        holder.category = category;
-        holder.categoryName.setText(category.getCategoryName());
+        holder.mCategory = category;
+        holder.mCategoryName.setText(category.getCategoryName());
     }
 
     @Override
@@ -54,28 +52,6 @@ public class CategoryAssignmentAdapter
     {
         mCategories = categories;
         notifyDataSetChanged();
-    }
-
-    public static class CategoryViewHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener
-    {
-        TextView categoryName;
-        Category category;
-        FragmentCallback callback;
-
-        public CategoryViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
-        {
-            super(itemView);
-            categoryName = itemView.findViewById(R.id.category_name_text);
-            callback = fragmentCallback;
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v)
-        {
-            callback.pickCategory(category);
-        }
     }
 
     public interface FragmentCallback

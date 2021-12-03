@@ -6,45 +6,48 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class TagViewModel extends AndroidViewModel
 {
-    private final TagRepository mRepository;
+    private final TagDAO mDao;
 
     public TagViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new TagRepository(application);
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.tagDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteALl);
     }
 
     public LiveData<List<Tag>> getAll()
     {
-        return mRepository.getAll();
+        return mDao.getAll();
     }
 
     public void insert(Tag tag)
     {
-        mRepository.insert(tag);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(tag));
     }
 
     public void delete(Tag tag)
     {
-        mRepository.delete(tag);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(tag));
     }
 
     public void update(Tag tag)
     {
-        mRepository.update(tag);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(tag));
     }
 
     public LiveData<Tag> getByTagId(long tagId)
     {
-        return mRepository.getByTagId(tagId);
+        return mDao.getByTagId(tagId);
     }
 }

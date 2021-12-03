@@ -24,8 +24,6 @@ import com.orzechowski.saveme.browser.search.Search
 import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.tutorial.database.Tutorial
 
-//Aktywność w której zamieszczono fragmenty przeszukiwarek kategorii i wyników, oraz fragment
-//wyszukiwarki. Klasy podlegające tej aktywności znajdują się w com.orzechowski.saveme.browser.
 class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
     CategoryRecycler.CallbackToResults, ResultsRecycler.CallbackForTutorial,
     Search.CallbackForTutorial, RequestLiveAid.ActivityCallback
@@ -110,7 +108,7 @@ class BrowserActivity : AppCompatActivity(R.layout.activity_browser),
                     if (currentLevel>1) {
                         mCategory.restorePrevious()
                         handled = true
-                    } else if (currentLevel==1) {
+                    } else if (currentLevel == 1) {
                         t.remove(mCategory).commit()
                         mCategory = CategoryRecycler(this)
                         commitBrowser()

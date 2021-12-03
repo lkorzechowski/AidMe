@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".creator.initial.SoundComposer">
+    tools:context=".creator.initial.soundcomposer.SoundComposer">
 
     <TextView
         android:id="@+id/sound_creator_heading"

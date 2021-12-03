@@ -66,10 +66,10 @@ public class EmergencyNumbersRecycler extends Fragment
     }
 
     @Override
-    public void onViewClick(int position)
+    public void onViewClick(int number)
     {
         mPhoneIntent = new Intent(Intent.ACTION_CALL);
-        mPhoneIntent.setData(Uri.parse("tel:" + 123));
+        mPhoneIntent.setData(Uri.parse("tel:" + number));
         if (ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             mPermissionResult.launch(Manifest.permission.CALL_PHONE);

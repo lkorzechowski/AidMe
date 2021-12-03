@@ -46,7 +46,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         mInflater = LayoutInflater.from(activity);
         mActivity = activity;
         mCallback = onClickListener;
-        mPathBase = activity.getFilesDir().getAbsolutePath()+"/";
+        mPathBase = activity.getFilesDir().getAbsolutePath() + "/";
     }
 
     @NonNull
@@ -76,41 +76,26 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
             Uri uri = Uri.parse(mPathBase + tutorial.getMiniatureName());
             if (uri != null) holder.image.setImageURI(uri);
             float rating = tutorial.getRating();
-            if (rating > 4.75) {
-                holder.starFive.setImageResource(R.drawable.ic_full_star);
-            } else if (rating > 4.25) {
-                holder.starFive.setImageResource(R.drawable.ic_half_star);
-            } else {
-                holder.starFive.setImageResource(R.drawable.ic_empty_star);
-            }
-            if (rating > 3.75) {
-                holder.starFour.setImageResource(R.drawable.ic_full_star);
-            } else if (rating > 4.25) {
-                holder.starFour.setImageResource(R.drawable.ic_half_star);
-            } else {
-                holder.starFour.setImageResource(R.drawable.ic_empty_star);
-            }
-            if (rating > 2.75) {
-                holder.starThree.setImageResource(R.drawable.ic_full_star);
-            } else if (rating > 2.25) {
-                holder.starThree.setImageResource(R.drawable.ic_half_star);
-            } else {
-                holder.starThree.setImageResource(R.drawable.ic_empty_star);
-            }
-            if (rating > 1.75) {
-                holder.starTwo.setImageResource(R.drawable.ic_full_star);
-            } else if (rating > 1.25) {
-                holder.starTwo.setImageResource(R.drawable.ic_half_star);
-            } else {
-                holder.starTwo.setImageResource(R.drawable.ic_empty_star);
-            }
-            if (rating > 0.75) {
-                holder.starOne.setImageResource(R.drawable.ic_full_star);
-            } else if (rating > 0.25) {
-                holder.starOne.setImageResource(R.drawable.ic_half_star);
-            } else {
-                holder.starOne.setImageResource(R.drawable.ic_empty_star);
-            }
+
+            if (rating > 4.75) holder.starFive.setImageResource(R.drawable.ic_full_star);
+            else if (rating > 4.25) holder.starFive.setImageResource(R.drawable.ic_half_star);
+            else holder.starFive.setImageResource(R.drawable.ic_empty_star);
+
+            if (rating > 3.75) holder.starFour.setImageResource(R.drawable.ic_full_star);
+            else if (rating > 4.25) holder.starFour.setImageResource(R.drawable.ic_half_star);
+            else holder.starFour.setImageResource(R.drawable.ic_empty_star);
+
+            if (rating > 2.75) holder.starThree.setImageResource(R.drawable.ic_full_star);
+            else if (rating > 2.25) holder.starThree.setImageResource(R.drawable.ic_half_star);
+            else holder.starThree.setImageResource(R.drawable.ic_empty_star);
+
+            if (rating > 1.75) holder.starTwo.setImageResource(R.drawable.ic_full_star);
+            else if (rating > 1.25) holder.starTwo.setImageResource(R.drawable.ic_half_star);
+            else holder.starTwo.setImageResource(R.drawable.ic_empty_star);
+
+            if (rating > 0.75) holder.starOne.setImageResource(R.drawable.ic_full_star);
+            else if (rating > 0.25) holder.starOne.setImageResource(R.drawable.ic_half_star);
+            else holder.starOne.setImageResource(R.drawable.ic_empty_star);
         }
     }
 
@@ -144,7 +129,7 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
         {
             super(itemView);
             queue = new RequestQueue(new DiskBasedCache(activity.getCacheDir(),
-                    1024*1024), new BasicNetwork(new HurlStack()));
+                    1024 * 1024), new BasicNetwork(new HurlStack()));
             mActivity = activity;
             name = itemView.findViewById(R.id.result_name_text);
             image = itemView.findViewById(R.id.result_image);
@@ -198,10 +183,12 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
                     ratingViewModel.insert(new Rating(tutorial.getTutorialId()));
                     Toast.makeText(mActivity, R.string.tutorial_rating_submitted,
                             Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(mActivity, R.string.server_error, Toast.LENGTH_SHORT).show();
+                } else Toast.makeText(mActivity, R.string.server_error, Toast.LENGTH_SHORT).show();
+            }, e -> {
+                if(e.getMessage() != null) {
+                    Toast.makeText(mActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            }, Throwable::printStackTrace));
+            }));
         }
     }
 

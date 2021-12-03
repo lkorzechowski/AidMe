@@ -16,7 +16,7 @@ class SoundAdapter(private val mDelayGlobalSound: Boolean, private val mVersionS
 
     fun deploy()
     {
-        val pathBase = mActivity.filesDir.absolutePath+"/"
+        val pathBase = mActivity.filesDir.absolutePath + "/"
         var init = true
         for(sound in mSounds) {
             if(mVersionSounds.contains(sound.soundId)) {

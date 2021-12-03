@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +13,7 @@ import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import java.util.List;
 
-public class VersionTreeComposerAdapter
-    extends RecyclerView.Adapter<VersionTreeComposerAdapter.VersionViewHolder>
+public class VersionTreeComposerAdapter extends RecyclerView.Adapter<VersionViewHolder>
 {
     private List<Version> mVersions = null;
     private final LayoutInflater mInflater;
@@ -41,44 +39,21 @@ public class VersionTreeComposerAdapter
     public void onBindViewHolder(@NonNull VersionViewHolder holder, int position)
     {
         Version version = mVersions.get(position);
-        holder.versionButton.setText(String.valueOf(version.getVersionId()));
-        holder.version = version;
-        holder.level = mLevel;
+        holder.mVersionButton.setText(String.valueOf(version.getVersionId()));
+        holder.mVersion = version;
+        holder.mLevel = mLevel;
     }
 
     @Override
     public int getItemCount()
     {
-        return (mVersions==null) ? 0 : mVersions.size();
+        return (mVersions == null) ? 0 : mVersions.size();
     }
 
     public void setElementList(List<Version> versions)
     {
         mVersions = versions;
         notifyDataSetChanged();
-    }
-
-    public static class VersionViewHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener
-    {
-        Version version;
-        Button versionButton;
-        int level;
-        FragmentCallback callback;
-
-        public VersionViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
-        {
-            super(itemView);
-            versionButton = itemView.findViewById(R.id.version_tree_button);
-            callback = fragmentCallback;
-            versionButton.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v)
-        {
-            if(level==0) callback.callback(version);
-        }
     }
 
     public interface FragmentCallback

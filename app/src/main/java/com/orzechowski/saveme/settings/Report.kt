@@ -36,14 +36,13 @@ class Report(val mCallback: ActivityCallback) : Fragment()
                 val email = GlobalRoomDatabase.getDatabase(activity).emailDAO().get()
                 val url = if(email != null) getString(R.string.url) + "report/" + email
                 else getString(R.string.url) + "report/n"
-                RequestQueue(DiskBasedCache(activity.cacheDir, 1024*1024),
+                RequestQueue(DiskBasedCache(activity.cacheDir, 1024 * 1024),
                     BasicNetwork(HurlStack())).apply { start() }.add(StringPost(Request.Method.POST,
                     url, {
                             mCallback.reportSubmitted()
                          }, {
                             if (it.message != null) {
                                 Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
-                                Log.e("error", it.message!!)
                             }
                         }).also { it.setRequestBody(text) })
             } else {

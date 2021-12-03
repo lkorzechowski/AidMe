@@ -1,11 +1,9 @@
 package com.orzechowski.saveme.creator.versionsound;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +13,7 @@ import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import java.util.List;
 
-public class VersionSoundInnerAdapter extends RecyclerView.Adapter<VersionSoundInnerAdapter.VersionViewHolder>
+public class VersionSoundInnerAdapter extends RecyclerView.Adapter<VersionViewHolder>
 {
     private List<Version> mVersions = null;
     private final LayoutInflater mInflater;
@@ -39,8 +37,8 @@ public class VersionSoundInnerAdapter extends RecyclerView.Adapter<VersionSoundI
     public void onBindViewHolder(@NonNull VersionViewHolder holder, int position)
     {
         Version version = mVersions.get(position);
-        holder.version = version;
-        holder.versionNumberButton.setText(String.valueOf(version.getVersionId()));
+        holder.mVersion = version;
+        holder.mVersionNumberButton.setText(String.valueOf(version.getVersionId()));
     }
 
     @Override
@@ -53,40 +51,6 @@ public class VersionSoundInnerAdapter extends RecyclerView.Adapter<VersionSoundI
     {
         mVersions = versions;
         notifyDataSetChanged();
-    }
-
-    public static class VersionViewHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener
-    {
-        Version version;
-        Button versionNumberButton;
-        FragmentCallback callback;
-        boolean selected = false;
-        int green = Color.argb(100, 0, 200, 0);
-
-        public VersionViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
-        {
-            super(itemView);
-            versionNumberButton = itemView.findViewById(R.id.version_number_button);
-            versionNumberButton.setBackgroundColor(green);
-            callback = fragmentCallback;
-            versionNumberButton.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view)
-        {
-            if(!selected) {
-                versionNumberButton.setBackgroundColor(Color
-                        .argb(100, 200, 0, 0));
-                callback.select(version);
-                selected = true;
-            } else {
-                versionNumberButton.setBackgroundColor(green);
-                callback.unselect(version);
-                selected = false;
-            }
-        }
     }
 
     public interface FragmentCallback

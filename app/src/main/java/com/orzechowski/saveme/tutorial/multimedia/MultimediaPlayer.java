@@ -34,7 +34,7 @@ public class MultimediaPlayer extends Fragment
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        mPathBase = requireActivity().getFilesDir().getAbsolutePath()+"/";
+        mPathBase = requireActivity().getFilesDir().getAbsolutePath() + "/";
         return inflater.inflate(R.layout.fragment_multimedia_player, container, false);
     }
 
@@ -58,7 +58,7 @@ public class MultimediaPlayer extends Fragment
             position++;
         }
         if(!mMultimedias.isEmpty()) {
-            if(position==mMultimedias.size()) {
+            if(position == mMultimedias.size()) {
                 mPlayThread = new Play(mMultimedias.get(0));
             } else mPlayThread = new Play(mMultimedias.get(position));
             mPlayThread.start();
@@ -102,7 +102,7 @@ public class MultimediaPlayer extends Fragment
                     mImageView.setMinimumHeight(400);
                     mImageView.setImageURI(Uri.parse(mPathBase+currentMedia.getFileName()));
                 });
-                if(displayTime>0) {
+                if(displayTime > 0) {
                     try {
                         sleep(displayTime);
                         getPlayer(position);
@@ -116,10 +116,10 @@ public class MultimediaPlayer extends Fragment
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.GONE);
                     mVideoView.setVideoURI(Uri.parse(mPathBase+currentMedia.getFileName()));
-                    if(loopBool && size==1) mVideoView.setOnCompletionListener(v->
+                    if(loopBool && size == 1) mVideoView.setOnCompletionListener(v ->
                             getPlayer(-1));
                     else {
-                        if(position < size-1) mVideoView.setOnCompletionListener(v->
+                        if(position < size-1) mVideoView.setOnCompletionListener(v ->
                                 getPlayer(position));
                         else getPlayer(-1);
                     }
@@ -132,7 +132,7 @@ public class MultimediaPlayer extends Fragment
     @Override
     public void onPause()
     {
-        if(mPlayThread!=null) {
+        if(mPlayThread != null) {
             mPlayThread.interrupt();
         }
         super.onPause();

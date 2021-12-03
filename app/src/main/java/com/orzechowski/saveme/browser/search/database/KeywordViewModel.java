@@ -6,45 +6,48 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class KeywordViewModel extends AndroidViewModel
 {
-    private final KeywordRepository mRepository;
+    private final KeywordDAO mDao;
 
     public KeywordViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new KeywordRepository(application);
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.keywordDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(Keyword keyword)
     {
-        mRepository.insert(keyword);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(keyword));
     }
 
     public void delete(Keyword keyword)
     {
-        mRepository.delete(keyword);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(keyword));
     }
 
     public void update(Keyword keyword)
     {
-        mRepository.update(keyword);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(keyword));
     }
 
     public LiveData<List<Keyword>> getAll()
     {
-        return mRepository.getAll();
+        return mDao.getAll();
     }
 
     public LiveData<Keyword> getByKeywordId(long keywordId)
     {
-        return mRepository.getByKeywordId(keywordId);
+        return mDao.getByKeywordId(keywordId);
     }
 }

@@ -6,40 +6,48 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class VersionSoundViewModel extends AndroidViewModel
 {
-    private final VersionSoundRepository mRepository;
+    private final VersionSoundDAO mDao;
 
     public VersionSoundViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new VersionSoundRepository(application);
+        GlobalRoomDatabase database = GlobalRoomDatabase.getDatabase(application);
+        mDao = database.soundInVersionDAO();
     }
 
     public void insert(VersionSound versionSound)
     {
-        mRepository.insert(versionSound);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(versionSound));
     }
 
     public void delete(VersionSound versionSound)
     {
-        mRepository.delete(versionSound);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(versionSound));
+    }
+
+    public void deleteAll()
+    {
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void update(VersionSound versionSound)
     {
-        mRepository.update(versionSound);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(versionSound));
     }
 
     public LiveData<List<Long>> getByVersionId(long versionId)
     {
-        return mRepository.getByVersionId(versionId);
+        return mDao.getByVersionId(versionId);
     }
 
     public LiveData<VersionSound> getByVersionSoundId(long versionSoundId)
     {
-        return mRepository.getByVersionSoundId(versionSoundId);
+        return mDao.getByVersionSoundId(versionSoundId);
     }
 }

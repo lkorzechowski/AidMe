@@ -13,10 +13,6 @@ import com.orzechowski.saveme.main.emergencynumber.EmergencyNumbersRecycler
 import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.volley.ConfigureChannel
 
-//Główna aktywność myląco nie jest pierwszą aktywnością uruchamianą tuż po uruchomieniu aplikacji,
-//ale jest jej punktem wyjściowym. Główna aktywność to rozgałęzienie z którego użytkownik może
-//przejść do dowolnej aktywności poza StartupActivity. Posiada tylko jeden fragment, którym jest
-//Recycler z numerami telefonów alarmowych.
 class MainActivity : AppCompatActivity(R.layout.activity_main)
 {
     override fun onCreate(savedInstanceState: Bundle?)

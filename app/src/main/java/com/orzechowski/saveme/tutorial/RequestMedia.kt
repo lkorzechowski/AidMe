@@ -11,6 +11,7 @@ import com.orzechowski.saveme.tutorial.instructions.database.InstructionSetViewM
 import com.orzechowski.saveme.tutorial.multimedia.database.Multimedia
 import com.orzechowski.saveme.tutorial.multimedia.database.MultimediaViewModel
 import com.orzechowski.saveme.tutorial.sound.database.TutorialSoundViewModel
+import com.orzechowski.saveme.volley.FileRequest
 import org.json.JSONObject
 import java.io.*
 import kotlin.concurrent.thread
@@ -40,7 +41,7 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
 
     fun requestData(cacheDir: File, url: String)
     {
-        mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024*1024),
+        mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024 * 1024),
             BasicNetwork(HurlStack())).apply { start() }
         val dir = File(mActivity.filesDir.absolutePath).absolutePath + "/"
         mMultimediaThread = thread {
@@ -76,17 +77,11 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                                                                     100, output
                                                                 )
                                                                 output.close()
-                                                            } catch (e: FileNotFoundException) {
-                                                                e.printStackTrace()
-                                                            } catch (e: IOException) {
-                                                                e.printStackTrace()
-                                                            }
+                                                            } catch (e: FileNotFoundException) {}
+                                                            catch (e: IOException) {}
                                                         }, 1200, 900,
                                                         ImageView.ScaleType.FIT_CENTER,
-                                                        Bitmap.Config.ARGB_8888,
-                                                        { error ->
-                                                            error.printStackTrace()
-                                                        })
+                                                        Bitmap.Config.ARGB_8888, null)
                                                 )
                                             } else {
                                                 mQueue.add(
@@ -97,11 +92,7 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                                                             val output = FileOutputStream(file)
                                                             output.write(byteArray)
                                                             output.close()
-                                                        },
-                                                        { error ->
-                                                            error.printStackTrace()
-                                                        },
-                                                        null
+                                                        }, null, null
                                                     )
                                                 )
                                             }
@@ -118,12 +109,17 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                 for (instruction in instructions) {
                     val file = File(dir + instruction.narrationFile)
                     if(!file.exists()) {
-                        mQueue.add(FileRequest(Request.Method.GET, url + "files/narrations/" +
-                                instruction.narrationFile, { byteArray ->
-                            file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
-                        }, {
-                            it.printStackTrace()
-                        }, null))
+                        mQueue.add(
+                            FileRequest(Request.Method.GET,
+                            url + "files/narrations/" +
+                                    instruction.narrationFile,
+                            { byteArray ->
+                                file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
+                            },
+                            null,
+                            null
+                        )
+                        )
                     }
                 }
             }
@@ -133,12 +129,17 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                 for(sound in sounds) {
                     val file = File(dir + sound.fileName)
                     if(!file.exists()) {
-                        mQueue.add(FileRequest(Request.Method.GET, url + "files/sounds/" +
-                                sound.fileName, { byteArray ->
-                            file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
-                        }, {
-                            it.printStackTrace()
-                        }, null))
+                        mQueue.add(
+                            FileRequest(Request.Method.GET,
+                            url + "files/sounds/" +
+                                    sound.fileName,
+                            { byteArray ->
+                                file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
+                            },
+                            null,
+                            null
+                        )
+                        )
                     }
                 }
             }

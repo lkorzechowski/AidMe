@@ -17,7 +17,7 @@ class RequestLiveAid(private val mCallback: ActivityCallback, private val mUrl: 
     fun getRequest(cacheDir: File, tagId: Long, id: String)
     {
         mId = id
-        val cache = DiskBasedCache(cacheDir, 1024*1024)
+        val cache = DiskBasedCache(cacheDir, 1024 * 1024)
         val network = BasicNetwork(HurlStack())
         mQueue = RequestQueue(cache, network).apply {
             start()
@@ -28,17 +28,13 @@ class RequestLiveAid(private val mCallback: ActivityCallback, private val mUrl: 
                 it.getString("title") + " " + it.getString("name") + " " +
                         it.getString("surname") + ", " + it.getString("profession"))
                 mCallback.suggestHelper(helper, tagId)
-        }, {
-            it.printStackTrace()
-        }))
+        }, null))
     }
 
     fun postRequest(number: Int)
     {
         mQueue.add(StringPost(Request.Method.POST, mUrl + "switchoccupied/" + number + "/" +
-                mId, {}, {
-            it.printStackTrace()
-        }))
+                mId, null, null))
     }
 
     interface ActivityCallback

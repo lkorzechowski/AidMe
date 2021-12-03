@@ -17,10 +17,6 @@ import com.orzechowski.saveme.tutorial.sound.database.TutorialSoundViewModel
 import com.orzechowski.saveme.tutorial.sound.database.VersionSoundViewModel
 import kotlin.properties.Delegates
 
-//Aktywność w której użytkownikowi końcowemu przedstawiana jest wyselekcjonowana treść odpowiedniego
-//poradnika. Po przebiciu się przez nawigację oraz wybór wersji, użytkownik uzyskuje dostęp do
-//interaktywnego odtwarzacza z narracją, multimediami, dźwiękiem i odnośnikami do innych poradników.
-//Klasy podlegające tej aktywnośći znajdują się w com.orzechowski.saveme.tutorial.
 class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
     InstructionsRecycler.CallbackForTutorialLink
 {
@@ -67,7 +63,6 @@ class TutorialActivity : AppCompatActivity(R.layout.activity_tutorial),
                 })
         })
         supportFragmentManager.commit {
-            setReorderingAllowed(true)
             mInstructionsRecycler.arguments = bundle
             add(R.id.layout_instructions_list, mInstructionsRecycler)
         }

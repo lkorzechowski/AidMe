@@ -6,55 +6,58 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class TutorialTagViewModel extends AndroidViewModel
 {
-    private final TutorialTagRepository mRepository;
+    private final TutorialTagDAO mDao;
 
     public TutorialTagViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new TutorialTagRepository(application);
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.tutorialTagDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public LiveData<List<TutorialTag>> getAll()
     {
-        return mRepository.getAll();
+        return mDao.getAll();
     }
 
     public void insert(TutorialTag tutorialTag)
     {
-        mRepository.insert(tutorialTag);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(tutorialTag));
     }
 
     public void delete(TutorialTag tutorialTag)
     {
-        mRepository.delete(tutorialTag);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(tutorialTag));
     }
 
     public void update(TutorialTag tutorialTag)
     {
-        mRepository.update(tutorialTag);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(tutorialTag));
     }
 
     public LiveData<List<TutorialTag>> getByTutorialId(long tutorialId)
     {
-        return mRepository.getByTutorialId(tutorialId);
+        return mDao.getByTutorialId(tutorialId);
     }
 
     public LiveData<List<TutorialTag>> getByTagId(long tagId)
     {
-        return mRepository.getByTagId(tagId);
+        return mDao.getByTagId(tagId);
     }
 
     public LiveData<TutorialTag> getByTutorialTagId(long tutorialTagId)
     {
-        return mRepository.getByTutorialTagId(tutorialTagId);
+        return mDao.getByTutorialTagId(tutorialTagId);
     }
 }

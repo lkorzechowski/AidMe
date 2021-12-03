@@ -6,55 +6,53 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class HelperTagViewModel extends AndroidViewModel
 {
-    private final HelperTagRepository mRepository;
+    private final HelperTagDAO mDao;
 
     public HelperTagViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new HelperTagRepository(application);
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.helperTagDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public LiveData<List<HelperTag>> getAll()
     {
-        return mRepository.getAll();
+        return mDao.getAll();
     }
 
     public void insert(HelperTag helperTag)
     {
-        mRepository.insert(helperTag);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(helperTag));
     }
 
     public void delete(HelperTag helperTag)
     {
-        mRepository.delete(helperTag);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(helperTag));
     }
 
     public void update(HelperTag helperTag)
     {
-        mRepository.update(helperTag);
-    }
-
-    public LiveData<List<HelperTag>> getByHelperId(long helperId)
-    {
-        return mRepository.getByHelperId(helperId);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(helperTag));
     }
 
     public LiveData<List<HelperTag>> getByTagId(long tagId)
     {
-        return mRepository.getByTagId(tagId);
+        return mDao.getByTagId(tagId);
     }
 
     public LiveData<HelperTag> getByHelperTagId(long helperTagId)
     {
-        return mRepository.getByHelperTagId(helperTagId);
+        return mDao.getByHelperTagId(helperTagId);
     }
 }

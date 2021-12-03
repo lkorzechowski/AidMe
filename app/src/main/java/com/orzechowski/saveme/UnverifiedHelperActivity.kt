@@ -22,11 +22,6 @@ import net.gotev.uploadservice.protocols.multipart.MultipartUploadRequest
 import java.util.*
 import kotlin.concurrent.thread
 
-//Aktywność do której skierowani są użytkownicy którzy zalogowali się do aplikacji przez swoje konto
-//Google, ale którzy nie zostali zweryfikowani po stronie serwera, bądź odebrano im weryfikację.
-//Aktywność ta nie posiada fragmentów ani podlegających jej klas, ale korzysta z przeglądarki zdjęć
-//z pamięci telefonu, znajdującej się w com.orzechowski.saveme.imagebrowser oraz z konfiguracji
-// kanału powiadomień mieszczącej się w com.orzechowski.saveme.volley.
 class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_helper),
     ImageBrowserLoader.ActivityCallback
 {
@@ -47,11 +42,8 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
         mView = findViewById(R.id.unverified_view)
         mViewModelProvider = ViewModelProvider(this)
         mEmail = intent.getStringExtra("email")!!
-        val cache = DiskBasedCache(cacheDir, 1024*1024)
-        val network = BasicNetwork(HurlStack())
-        mQueue = RequestQueue(cache, network).apply {
-            start()
-        }
+        mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024 * 1024),
+            BasicNetwork(HurlStack())).apply { start() }
         mVerifyButton = findViewById(R.id.verify_button)
         mQueue.add(StringRequest(Request.Method.GET, mUrl + "documentexists/" + mEmail,
             {

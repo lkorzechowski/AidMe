@@ -6,50 +6,53 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class TagKeywordViewModel extends AndroidViewModel
 {
-    private final TagKeywordRepository mRepository;
+    private final TagKeywordDAO mDao;
 
     public TagKeywordViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new TagKeywordRepository(application);
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.tagKeywordDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public LiveData<List<TagKeyword>> getAll()
     {
-        return mRepository.getAll();
+        return mDao.getAll();
     }
 
     public void insert(TagKeyword tagKeyword)
     {
-        mRepository.insert(tagKeyword);
+        GlobalRoomDatabase.executor.execute(()->mDao.insert(tagKeyword));
     }
 
     public void delete(TagKeyword tagKeyword)
     {
-        mRepository.delete(tagKeyword);
+        GlobalRoomDatabase.executor.execute(()->mDao.delete(tagKeyword));
     }
 
     public void update(TagKeyword tagKeyword)
     {
-        mRepository.update(tagKeyword);
+        GlobalRoomDatabase.executor.execute(()->mDao.update(tagKeyword));
     }
 
     public LiveData<List<TagKeyword>> getByKeywordId(long keywordId)
     {
-        return mRepository.getByKeywordId(keywordId);
+        return mDao.getByKeywordId(keywordId);
     }
 
     public LiveData<TagKeyword> getByTagKeywordId(long tagKeywordId)
     {
-        return mRepository.getByTagKeywordId(tagKeywordId);
+        return mDao.getByTagKeywordId(tagKeywordId);
     }
 }

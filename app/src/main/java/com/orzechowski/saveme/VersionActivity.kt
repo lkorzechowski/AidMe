@@ -12,12 +12,6 @@ import com.orzechowski.saveme.tutorial.version.VersionRecycler
 import com.orzechowski.saveme.tutorial.version.database.Version
 import kotlin.properties.Delegates
 
-//Wersja jest to aktywność wyodrębniona z poradnika, ale stanowiąca jego integralną część. W
-//aktywności tej wybieramy wersję na podstawie której zapopulowana zostanie aktywność z samym
-//poradnikiem po przejściu przez wszystkie kroki. Na koniec tej aktywności użytkownik może również
-//poczekać na pobranie zawartości multimedialnych poradnika, bądź przejść bezpośrednio dalej,
-//co może jednak zaskutkować m. in. brakiem narracji. Klasy podlegające tej aktywności znajdują się
-//w com.orzechowski.saveme.tutorial.
 class VersionActivity : AppCompatActivity(R.layout.activity_version),
     VersionListAdapter.ActivityCallback, VersionRecycler.ActivityCallback,
     TutorialLoading.ActivityCallback

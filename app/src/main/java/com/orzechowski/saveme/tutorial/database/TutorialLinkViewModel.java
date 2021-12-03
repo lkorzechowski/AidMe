@@ -6,50 +6,53 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.orzechowski.saveme.database.GlobalRoomDatabase;
+
 import java.util.List;
 
 public class TutorialLinkViewModel extends AndroidViewModel
 {
-    private final TutorialLinkRepository mRepository;
+    private final TutorialLinkDAO mDao;
 
     public TutorialLinkViewModel(@NonNull Application application)
     {
         super(application);
-        mRepository = new TutorialLinkRepository(application);
+        GlobalRoomDatabase globalDatabase = GlobalRoomDatabase.getDatabase(application);
+        mDao = globalDatabase.tutorialLinkDAO();
     }
 
     public void deleteAll()
     {
-        mRepository.deleteAll();
+        GlobalRoomDatabase.executor.execute(mDao::deleteAll);
     }
 
     public void insert(TutorialLink tutorialLink)
     {
-        mRepository.insert(tutorialLink);
+        GlobalRoomDatabase.executor.execute(()-> mDao.insert(tutorialLink));
     }
 
     public void delete(TutorialLink tutorialLink)
     {
-        mRepository.delete(tutorialLink);
+        GlobalRoomDatabase.executor.execute(()-> mDao.delete(tutorialLink));
     }
 
     public void update(TutorialLink tutorialLink)
     {
-        mRepository.update(tutorialLink);
+        GlobalRoomDatabase.executor.execute(()-> mDao.update(tutorialLink));
     }
 
     public LiveData<List<TutorialLink>> getAll()
     {
-        return mRepository.getAll();
+        return mDao.getAll();
     }
 
     public LiveData<TutorialLink> getByOriginIdAndPosition(long tutorialId, int instructionNumber)
     {
-        return mRepository.getByOriginIdAndPosition(tutorialId, instructionNumber);
+        return mDao.getByOriginIdAndPosition(tutorialId, instructionNumber);
     }
 
     public LiveData<TutorialLink> getByTutorialLinkId(long tutorialLinkId)
     {
-        return mRepository.getByTutorialLinkId(tutorialLinkId);
+        return mDao.getByTutorialLinkId(tutorialLinkId);
     }
 }

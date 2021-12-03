@@ -20,15 +20,11 @@ import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.tutorial.database.Tutorial
 import com.orzechowski.saveme.volley.BooleanRequest
 
-//Aktywność w której po zweryfikowaniu wolontariusza uzyskuje on dostęp do kokpitu z którego może
-//zarządzać swoim profilem bądź utworzyć poradnik. W przypadku, gdy wolontariusz nie jest
-//zweryfikowany, następuje przekierowanie do aktywności UnverifiedHelperActivity. Klasy podlegające
-//tej aktywności znajdują się w com.orzechowski.saveme.helper.
 class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettings.ActivityCallback,
     PeerReview.ActivityCallback
 {
-    private val mRed = ColorStateList.valueOf(Color.argb(100, 255, 0, 0))
-    private val mGreen = ColorStateList.valueOf(Color.argb(100, 0, 255, 0))
+    private val mRed = ColorStateList.valueOf(Color.RED)
+    private val mGreen = ColorStateList.valueOf(Color.GREEN)
     private val mSettings = HelperSettings(this)
     private val mPeerReview = PeerReview(this)
     private lateinit var mViewModelProvider: ViewModelProvider
@@ -47,11 +43,8 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
         mSettings.arguments = argument
         mPeerReview.arguments = argument
         val url = getString(R.string.url)
-        val cache = DiskBasedCache(cacheDir, 1024*1024)
-        val network = BasicNetwork(HurlStack())
-        mQueue = RequestQueue(cache, network).apply {
-            start()
-        }
+        mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024 * 1024),
+            BasicNetwork(HurlStack())).apply { start() }
         mQueue.add(
             JsonObjectRequest(Request.Method.GET, url + "login/" + email, null,
             { array ->
@@ -79,7 +72,7 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
                             helping = false
                             mQueue.add(BooleanRequest(
                                 Request.Method.GET, url + "help/" + email + "/f",
-                                null, {}, {})
+                                null, null, null)
                             )
                             helperToggleButton.backgroundTintList = mRed
                             helperToggleButton.setIconResource(R.drawable.ic_cross)
@@ -112,7 +105,6 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
                     startActivity(intent)
                 }
             }, {
-                it.printStackTrace()
                 startActivity(Intent(this@HelperActivity, HelperActivity::class.java))
             })
         )

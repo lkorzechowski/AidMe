@@ -88,7 +88,7 @@ public abstract class GlobalRoomDatabase extends RoomDatabase
     {
         if(INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                    GlobalRoomDatabase.class, "AidMe")
+                    GlobalRoomDatabase.class, "SaveMe")
                     .addCallback(sRoomDatabaseCallback).fallbackToDestructiveMigration().build();
         }
         return INSTANCE;

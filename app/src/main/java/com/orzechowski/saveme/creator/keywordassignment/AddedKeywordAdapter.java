@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +13,7 @@ import com.orzechowski.saveme.browser.search.database.Keyword;
 
 import java.util.List;
 
-public class AddedKeywordAdapter
-        extends RecyclerView.Adapter<AddedKeywordAdapter.KeywordViewHolder>
+public class AddedKeywordAdapter extends RecyclerView.Adapter<KeywordViewHolder>
 {
     private List<Keyword> mKeywords;
     private final LayoutInflater mInflater;
@@ -39,8 +37,8 @@ public class AddedKeywordAdapter
     public void onBindViewHolder(@NonNull KeywordViewHolder holder, int position)
     {
         Keyword keyword = mKeywords.get(position);
-        holder.keyword = keyword;
-        holder.keywordButton.setText(keyword.getKeyword());
+        holder.mKeyword = keyword;
+        holder.mKeywordButton.setText(keyword.getKeyword());
     }
 
     @Override
@@ -53,28 +51,6 @@ public class AddedKeywordAdapter
     {
         mKeywords = keywords;
         notifyDataSetChanged();
-    }
-
-    public static class KeywordViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener
-    {
-        Keyword keyword;
-        Button keywordButton;
-        FragmentCallback callback;
-
-        public KeywordViewHolder(@NonNull View itemView, FragmentCallback fragmentCallback)
-        {
-            super(itemView);
-            keywordButton = itemView.findViewById(R.id.added_keyword_button);
-            callback = fragmentCallback;
-            keywordButton.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v)
-        {
-            callback.remove(keyword);
-        }
     }
 
     public interface FragmentCallback
