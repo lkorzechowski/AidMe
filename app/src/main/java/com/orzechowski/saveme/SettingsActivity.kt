@@ -13,11 +13,6 @@ import com.orzechowski.saveme.settings.database.Preference
 import com.orzechowski.saveme.settings.database.PreferenceViewModel
 import com.orzechowski.saveme.settings.helperlist.HelperRecycler
 
-//W tej aktywności użytkownik może dostosować ustawienia aplikacji i nie tylko. Znajduje się tu nota
-//prawna do wglądu użytkowników, można stąd pobrać zawartość wszystkich poradników, ustawić motyw
-//(dostępny również motyw dla użytkowników ze ślepotą barw), wyświetlić listę wszystkich
-//wolontariuszy, skontaktować się bezpośrednio z administratorem i wyczyścić pamięć aplikacji.
-//Klasy podlegające tej aktywności znajdują się w com.orzechowski.saveme.settings
 class SettingsActivity : AppCompatActivity(R.layout.activity_settings), Report.ActivityCallback
 {
     private val mPolicy = Policy()

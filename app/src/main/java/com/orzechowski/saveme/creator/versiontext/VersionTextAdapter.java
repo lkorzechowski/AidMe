@@ -1,4 +1,4 @@
-package com.orzechowski.saveme.creator.initial.versiontext;
+package com.orzechowski.saveme.creator.versiontext;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

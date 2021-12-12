@@ -31,11 +31,12 @@ class UnverifiedHelperActivity : AppCompatActivity(R.layout.activity_unverified_
     private lateinit var mVerifyButton: Button
     private lateinit var mView: View
     private lateinit var mEmail: String
-    private val mUrl = getString(R.string.url)
+    private lateinit var mUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         supportActionBar?.hide()
+        mUrl = getString(R.string.url)
         super.onCreate(savedInstanceState)
         UploadServiceConfig.initialize(application,
             getString(R.string.default_notification_channel_id), true)

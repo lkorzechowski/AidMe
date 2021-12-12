@@ -128,7 +128,7 @@
     <string name="miniature_bad_format">Niewłaściwy format miniaturki.</string>
     <string name="multimedia_bad_format">Niewłaściwy format multimediów.</string>
     <string name="tutorial_name_not_set">Nie nadano tytułu!</string>
-    <string name="client_id" tools:ignore="TypographyDashes">1042713587768-9vkkkc28hiobfm84otfmtkd84rsanqf7.apps.googleusercontent.com</string>
+    <string name="client_id" tools:ignore="TypographyDashes">1042713587768-2pk21idihc6mbijp2squmr2ekdv65rac.apps.googleusercontent.com</string>
     <string name="login_failed">Nie udało się zalogować</string>
     <string name="interrupted_upload">Przerwano wysyłanie plików</string>
     <string name="unexpected_missing_instructions">Brak instrukcji!?</string>

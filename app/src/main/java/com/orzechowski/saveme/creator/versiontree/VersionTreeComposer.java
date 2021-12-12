@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orzechowski.saveme.R;
-import com.orzechowski.saveme.creator.initial.versiontext.VersionTextAdapter;
+import com.orzechowski.saveme.creator.versiontext.VersionTextAdapter;
 import com.orzechowski.saveme.tutorial.version.database.Version;
 
 import java.util.LinkedList;
@@ -50,7 +50,7 @@ public class VersionTreeComposer extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle bundle)
     {
-        if(mAllVersions.size()==1) {
+        if(mAllVersions.size() == 1) {
             mCallback.finalizeVersionTree(mAllVersions);
         }
         FragmentActivity activity = requireActivity();
@@ -58,13 +58,13 @@ public class VersionTreeComposer extends Fragment
                 .inflate(R.layout.fragment_version_tree_composer, container, false);
         Button cancelAddingParent = view.findViewById(R.id.parent_assignment_cancel);
         cancelAddingParent.setOnClickListener(v -> {
-            if(mMovedFromLevel==1) {
+            if(mMovedFromLevel == 1) {
                 mLevelTwoVersions.remove(mCurrentlyMovedVersion);
                 mLevelOneVersions.add(mCurrentlyMovedVersion);
-            } else if(mMovedFromLevel==2) {
+            } else if(mMovedFromLevel == 2) {
                 mLevelThreeVersions.remove(mCurrentlyMovedVersion);
                 mLevelTwoVersions.add(mCurrentlyMovedVersion);
-            } else if(mMovedFromLevel==3) {
+            } else if(mMovedFromLevel == 3) {
                 mLevelFourVersions.remove(mCurrentlyMovedVersion);
                 mLevelTwoVersions.add(mCurrentlyMovedVersion);
             }
@@ -73,12 +73,12 @@ public class VersionTreeComposer extends Fragment
         });
         Button moveFurtherDown = view.findViewById(R.id.parent_assignment_move_further_down);
         moveFurtherDown.setOnClickListener(v -> {
-            if(mMovedFromLevel==1 && mLevelTwoVersions.size()>1) {
+            if(mMovedFromLevel == 1 && mLevelTwoVersions.size()>1) {
                 mLevelTwoVersions.remove(mCurrentlyMovedVersion);
                 mLevelThreeVersions.add(mCurrentlyMovedVersion);
                 pickParent(2);
                 mLevelThreeAdapter.setElementList(mLevelThreeVersions);
-            } else if(mMovedFromLevel==2 && mLevelThreeVersions.size()>1) {
+            } else if(mMovedFromLevel == 2 && mLevelThreeVersions.size() > 1) {
                 mLevelThreeVersions.remove(mCurrentlyMovedVersion);
                 mLevelFourVersions.add(mCurrentlyMovedVersion);
                 pickParent(3);
@@ -264,10 +264,10 @@ public class VersionTreeComposer extends Fragment
     {
         mPrimaryLayout.setVisibility(View.GONE);
         mSecondaryLayout.setVisibility(View.VISIBLE);
-        if(level==1) {
+        if(level == 1) {
             mParentPickingAdapter.setElementList(mLevelOneVersions);
             mMovedFromLevel = 1;
-        } else if(level==2) {
+        } else if(level == 2) {
             mParentPickingAdapter.setElementList(mLevelTwoVersions);
             mMovedFromLevel = 2;
         } else {
@@ -283,11 +283,11 @@ public class VersionTreeComposer extends Fragment
         mSecondaryLayout.setVisibility(View.GONE);
         mPrimaryLayout.setVisibility(View.VISIBLE);
         version.setHasChildren(true);
-        if(mMovedFromLevel==1) {
+        if(mMovedFromLevel == 1) {
             index = mLevelTwoVersions.size()-1;
             mLevelTwoVersions.get(index).setHasParent(true);
             mLevelTwoVersions.get(index).setParentVersionId(version.getVersionId());
-        } else if(mMovedFromLevel==2) {
+        } else if(mMovedFromLevel == 2) {
             index = mLevelThreeVersions.size()-1;
             mLevelThreeVersions.get(index).setHasParent(true);
             mLevelThreeVersions.get(index).setParentVersionId(version.getVersionId());

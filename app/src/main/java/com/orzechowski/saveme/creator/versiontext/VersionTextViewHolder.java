@@ -1,4 +1,4 @@
-package com.orzechowski.saveme.creator.initial.versiontext;
+package com.orzechowski.saveme.creator.versiontext;
 
 import android.view.View;
 import android.widget.TextView;

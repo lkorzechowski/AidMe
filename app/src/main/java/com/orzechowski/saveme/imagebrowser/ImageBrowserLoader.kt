@@ -24,22 +24,13 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
 {
     private lateinit var mImageBrowserAdapter: ImageBrowserAdapter
     private lateinit var mContentObserver: ContentObserver
+    private lateinit var mView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, bundle: Bundle?):
             View
     {
-        val activity: FragmentActivity = requireActivity()
-        val view = inflater.inflate(R.layout.fragment_image_browser, container, false)
-        if(ActivityCompat.checkSelfPermission(activity, Manifest.permission
-                .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(activity,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 121)
-        } else {
-            conditionalSetup(view, activity)
-            setAdapterImages()
-        }
-        return view
+        mView = inflater.inflate(R.layout.fragment_image_browser, container, false)
+        return mView
     }
 
     private fun conditionalSetup(view: View, activity: FragmentActivity)
@@ -72,7 +63,16 @@ class ImageBrowserLoader(val mCallback: ActivityCallback) : Fragment(),
 
     override fun onResume()
     {
-        setAdapterImages()
+        val activity = requireActivity()
+        if(ActivityCompat.checkSelfPermission(activity, Manifest.permission
+                .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(activity,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 121)
+        } else {
+            conditionalSetup(mView, activity)
+            setAdapterImages()
+        }
         super.onResume()
     }
 

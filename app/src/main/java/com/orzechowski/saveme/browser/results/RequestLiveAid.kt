@@ -17,11 +17,8 @@ class RequestLiveAid(private val mCallback: ActivityCallback, private val mUrl: 
     fun getRequest(cacheDir: File, tagId: Long, id: String)
     {
         mId = id
-        val cache = DiskBasedCache(cacheDir, 1024 * 1024)
-        val network = BasicNetwork(HurlStack())
-        mQueue = RequestQueue(cache, network).apply {
-            start()
-        }
+        mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024 * 1024),
+            BasicNetwork(HurlStack())).apply { start() }
         mQueue.add(JsonObjectRequest(Request.Method.GET, mUrl + "number/" + tagId + "/" + mId,
             null, {
             val helper = HelperFull(it.getInt("phone"),

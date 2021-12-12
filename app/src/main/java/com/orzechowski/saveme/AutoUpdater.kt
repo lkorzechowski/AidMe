@@ -24,13 +24,10 @@ class AutoUpdater : JobService()
 {
     override fun onStartJob(jobParameters: JobParameters): Boolean
     {
-        val cache = DiskBasedCache(cacheDir, 1024 * 1024)
-        val network = BasicNetwork(HurlStack())
         val url = getString(R.string.url)
         val database = GlobalRoomDatabase.getDatabase(applicationContext)
-        val queue = RequestQueue(cache, network).apply {
-            start()
-        }
+        val queue = RequestQueue(DiskBasedCache(cacheDir, 1024 * 1024),
+            BasicNetwork(HurlStack())).apply { start() }
         queue.add(JsonArrayRequest(Request.Method.GET, url + "tutorials", null,
             { array ->
                 for(i in 0 until array.length()) {

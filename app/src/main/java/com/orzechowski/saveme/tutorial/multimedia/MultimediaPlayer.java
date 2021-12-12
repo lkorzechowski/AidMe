@@ -115,7 +115,7 @@ public class MultimediaPlayer extends Fragment
                 activity.runOnUiThread(() -> {
                     mVideoView.setVisibility(View.VISIBLE);
                     mImageView.setVisibility(View.GONE);
-                    mVideoView.setVideoURI(Uri.parse(mPathBase+currentMedia.getFileName()));
+                    mVideoView.setVideoURI(Uri.parse(mPathBase + currentMedia.getFileName()));
                     if(loopBool && size == 1) mVideoView.setOnCompletionListener(v ->
                             getPlayer(-1));
                     else {
