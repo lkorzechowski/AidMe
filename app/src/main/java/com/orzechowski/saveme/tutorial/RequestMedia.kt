@@ -24,19 +24,11 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
         .get(InstructionSetViewModel::class.java)
     private val mSoundViewModel = mViewModelProvider.get(TutorialSoundViewModel::class.java)
     private lateinit var mQueue: RequestQueue
-    private lateinit var mMultimediaThread: Thread
-    private lateinit var mNarrationThread: Thread
-    private lateinit var mSoundThread: Thread
     private var mMultimediaResponse: Boolean = false
 
     fun end()
     {
-        thread {
-            mQueue.stop()
-            mMultimediaThread.interrupt()
-            mNarrationThread.interrupt()
-            mSoundThread.interrupt()
-        }
+        mQueue.stop()
     }
 
     fun requestData(cacheDir: File, url: String)
@@ -44,7 +36,7 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
         mQueue = RequestQueue(DiskBasedCache(cacheDir, 1024 * 1024),
             BasicNetwork(HurlStack())).apply { start() }
         val dir = File(mActivity.filesDir.absolutePath).absolutePath + "/"
-        mMultimediaThread = thread {
+        thread {
             mQueue.add(JsonArrayRequest(Request.Method.GET, url + "multimedia/" + mTutorialId,
                 null, { array ->
                         for(i in 0 until array.length()) {
@@ -92,8 +84,7 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                                                             val output = FileOutputStream(file)
                                                             output.write(byteArray)
                                                             output.close()
-                                                        }, null, null
-                                                    )
+                                                        }, null, null)
                                                 )
                                             }
                                         }
@@ -105,40 +96,32 @@ class RequestMedia(private val mActivity: VersionActivity, private val mTutorial
                 }))
         }
         mInstructionSetViewModel.getByTutorialId(mTutorialId).observe(mActivity) { instructions ->
-            mNarrationThread = thread {
+            thread {
                 for (instruction in instructions) {
                     val file = File(dir + instruction.narrationFile)
                     if(!file.exists()) {
                         mQueue.add(
                             FileRequest(Request.Method.GET,
-                            url + "files/narrations/" +
-                                    instruction.narrationFile,
+                            url + "files/narrations/" + instruction.narrationFile,
                             { byteArray ->
                                 file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
-                            },
-                            null,
-                            null
-                        )
+                            }, null, null)
                         )
                     }
                 }
             }
         }
         mSoundViewModel.getByTutorialId(mTutorialId).observe(mActivity) { sounds ->
-            mSoundThread = thread {
+            thread {
                 for(sound in sounds) {
                     val file = File(dir + sound.fileName)
                     if(!file.exists()) {
                         mQueue.add(
-                            FileRequest(Request.Method.GET,
-                            url + "files/sounds/" +
+                            FileRequest(Request.Method.GET, url + "files/sounds/" +
                                     sound.fileName,
                             { byteArray ->
                                 file.writeBytes(ByteArrayInputStream(byteArray).readBytes())
-                            },
-                            null,
-                            null
-                        )
+                            }, null, null)
                         )
                     }
                 }

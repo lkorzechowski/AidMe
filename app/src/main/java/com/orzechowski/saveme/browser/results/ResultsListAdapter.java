@@ -144,22 +144,24 @@ public class ResultsListAdapter extends RecyclerView.Adapter<ResultsListAdapter.
                     .get(RatingViewModel.class);
             ratingViewModel.getAll().observe((LifecycleOwner) activity, ratings -> {
                 boolean match = false;
-                long tutorialId = tutorial.getTutorialId();
-                for(Rating rating : ratings) {
-                    if(rating.getTutorialId() == tutorialId) {
-                        match = true;
+                if(tutorial != null) {
+                    long tutorialId = tutorial.getTutorialId();
+                    for (Rating rating : ratings) {
+                        if (rating.getTutorialId() == tutorialId) {
+                            match = true;
+                        }
                     }
-                }
-                if(match) {
-                    starLayout.setOnClickListener(v -> Toast.makeText(activity,
-                            activity.getString(R.string.tutorial_already_rated),
-                            Toast.LENGTH_SHORT).show());
-                } else {
-                    starOne.setOnClickListener(v -> sendRating(1));
-                    starTwo.setOnClickListener(v -> sendRating(2));
-                    starThree.setOnClickListener(v -> sendRating(3));
-                    starFour.setOnClickListener(v -> sendRating(4));
-                    starFive.setOnClickListener(v -> sendRating(5));
+                    if (match) {
+                        starLayout.setOnClickListener(v -> Toast.makeText(activity,
+                                activity.getString(R.string.tutorial_already_rated),
+                                Toast.LENGTH_SHORT).show());
+                    } else {
+                        starOne.setOnClickListener(v -> sendRating(1));
+                        starTwo.setOnClickListener(v -> sendRating(2));
+                        starThree.setOnClickListener(v -> sendRating(3));
+                        starFour.setOnClickListener(v -> sendRating(4));
+                        starFive.setOnClickListener(v -> sendRating(5));
+                    }
                 }
             });
             callback = fragmentCallback;

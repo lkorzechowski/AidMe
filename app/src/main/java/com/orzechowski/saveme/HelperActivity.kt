@@ -72,7 +72,7 @@ class HelperActivity : AppCompatActivity(R.layout.activity_helper), HelperSettin
                             helping = false
                             mQueue.add(BooleanRequest(
                                 Request.Method.GET, url + "help/" + email + "/f",
-                                null, null, null)
+                                null, {}, {})
                             )
                             helperToggleButton.backgroundTintList = mRed
                             helperToggleButton.setIconResource(R.drawable.ic_cross)

@@ -3,7 +3,6 @@ package com.orzechowski.saveme.settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -17,6 +16,7 @@ import com.android.volley.toolbox.HurlStack
 import com.orzechowski.saveme.R
 import com.orzechowski.saveme.database.GlobalRoomDatabase
 import com.orzechowski.saveme.volley.StringPost
+import kotlin.concurrent.thread
 
 class Report(val mCallback: ActivityCallback) : Fragment()
 {
@@ -33,18 +33,22 @@ class Report(val mCallback: ActivityCallback) : Fragment()
         view.findViewById<Button>(R.id.report_submit_button).setOnClickListener {
             val text = input.text.toString()
             if(text.length > 8) {
-                val email = GlobalRoomDatabase.getDatabase(activity).emailDAO().get()
-                val url = if(email != null) getString(R.string.url) + "report/" + email
-                else getString(R.string.url) + "report/n"
-                RequestQueue(DiskBasedCache(activity.cacheDir, 1024 * 1024),
-                    BasicNetwork(HurlStack())).apply { start() }.add(StringPost(Request.Method.POST,
-                    url, {
+                thread {
+                    val email = GlobalRoomDatabase.getDatabase(activity).emailDAO().get()
+                    val url = if (email != null) getString(R.string.url) + "report/" +
+                            email
+                    else getString(R.string.url) + "report/n"
+                    RequestQueue(DiskBasedCache(activity.cacheDir, 1024 * 1024),
+                        BasicNetwork(HurlStack())
+                    ).apply { start() }.add(StringPost(Request.Method.POST,
+                        url, {
                             mCallback.reportSubmitted()
-                         }, {
+                        }, {
                             if (it.message != null) {
                                 Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
                             }
                         }).also { it.setRequestBody(text) })
+                }
             } else {
                 input.error = getString(R.string.number_too_short)
             }

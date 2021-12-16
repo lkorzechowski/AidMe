@@ -152,6 +152,8 @@
     <string name="accept">Zaakceptuj</string>
     <string name="play">Odtwórz</string>
     <string name="version_text">Treść wersji: </string>
+    <string name="pollub_logo">Logo Politechniki Lubelskiej</string>
+    <string name="pollub_signature">Praca inżynierska studenta Politechniki Lubelskiej.</string>
     <string-array name="services">
         <item>Numer alarmowy</item>
         <item>Policja</item>
