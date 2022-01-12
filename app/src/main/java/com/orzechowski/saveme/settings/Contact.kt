@@ -1,5 +1,6 @@
 package com.orzechowski.saveme.settings
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -22,6 +23,7 @@ class Contact : Fragment()
         return inflater.inflate(R.layout.fragment_contact, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         view.findViewById<Button>(R.id.contact_write_email_button).setOnClickListener {
@@ -43,5 +45,9 @@ class Contact : Fragment()
                     Toast.LENGTH_SHORT).show()
             }
         }
+        view.findViewById<TextView>(R.id.pollub_signature).text =
+                resources.getString(R.string.pollub_signature) + "\n" +
+                resources.getString(R.string.promotor) + "\n" +
+                resources.getString(R.string.me)
     }
 }
